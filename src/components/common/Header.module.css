@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+a, a:visited , a:link{
+  text-decoration: none;
+  color: inherit;
+}
+
+li{
+  list-style: none;
+}
+
+#wrap{
+  display: flex;
+}
+
+header{
+  padding: 5px;
+  height: 100vh;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  font-family: 'Noto Sans KR', sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+header h1{
+  padding: 30px 0;
+  text-align: center;
+  font-size: 14px;
+  height: 110px;
+  transform: translateX(-2px);
+
+}
+
+h1 span{
+  color: #415CBE;
+}
+
+header h1 img{
+  width: 80px;
+
+}
+
+#main_list_icon div{
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  font-size: 20px;
+}
+
+#main_list_icon a{
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+#main_list_icon img{
+  padding: 5px;
+  margin: 0 15px;
+  width: 40px;
+  height: 40px;
+}
+
+#main_list_icon span{
+  line-height: 55px;
+  font-size: 20px;
+  text-indent: 10px;
+  transition: 200ms ease;
+  position: absolute;
+  left: 80px;
+  display: none;
+}
+
+#main_list_icon div:hover a img{
+  filter: invert(1);
+}
+
+#main_list_icon div:hover a{
+  background-color: #415CBE;
+  border-radius: 6px;
+}
+
+
+
+
