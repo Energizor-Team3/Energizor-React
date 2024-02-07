@@ -3,6 +3,7 @@ import Layout from './layouts/Layout';
 import Login from './pages/user/Login';
 import Error from './pages/Error';
 import Main from './pages/main/Main'
+import AddDetailSchedule from './pages/calendar/cal_addsch_detail'
 
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
 
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
+        <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
+
       </Routes>
     </BrowserRouter>
   );
