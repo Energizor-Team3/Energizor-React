@@ -9,6 +9,7 @@ import AddDetailSchedule from './pages/calendar/cal_addsch_detail'
 import Message from "./pages/message/Message";
 import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
+import GeneralDraft from './pages/approval/GeneralDraft'
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
           
+          <Route path="/generaldraft" element={ <GeneralDraft/> } />
         </Route>
       
       </Routes>
