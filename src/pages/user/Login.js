@@ -56,37 +56,39 @@ function Login() {
     };
 
     return (
-        <div className={LoginCSS.login_wrap}>
-            <img src={process.env.PUBLIC_URL + '/common/Logo.png'} alt="로고" />
-            <input 
-                className={LoginCSS.login} 
-                name='userId'
-                type="text" 
-                placeholder="  ID"
-                onChange={ onChangeHandler }
-            />
-            <input 
-                className={LoginCSS.login}
-                name='userPw'
-                type="password" 
-                placeholder="  Password" 
-                onChange={ onChangeHandler }
-            />
-            <button 
-                onClick={ onClickLoginHandler }
-                className={LoginCSS.login_btn}
-            >
-                로그인
-            </button>
-            <div className={LoginCSS.additional_options}>
+        <body className={LoginCSS.body}>
+            <div className={LoginCSS.login_wrap}>
+                <img src={process.env.PUBLIC_URL + '/common/Logo.png'} alt="로고" />
                 <input 
-                    type="checkbox" 
-                    className={LoginCSS.save_id_check} 
+                    className={LoginCSS.login} 
+                    name='userId'
+                    type="text" 
+                    placeholder="  ID"
+                    onChange={ onChangeHandler }
                 />
-                <span className="save_id">ID 저장</span>
-                <span className="find_pw">비밀번호 찾기</span>
+                <input 
+                    className={LoginCSS.login}
+                    name='userPw'
+                    type="password" 
+                    placeholder="  Password" 
+                    onChange={ onChangeHandler }
+                />
+                <button 
+                    onClick={ onClickLoginHandler }
+                    className={LoginCSS.login_btn}
+                >
+                    로그인
+                </button>
+                <div className={LoginCSS.additional_options}>
+                    <input 
+                        type="checkbox" 
+                        className={LoginCSS.save_id_check} 
+                    />
+                    <span className="save_id">ID 저장</span>
+                    <span className="find_pw">비밀번호 찾기</span>
+                </div>
             </div>
-        </div>
+        </body>
     );
 }
 
