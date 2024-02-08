@@ -1,5 +1,7 @@
-import GeneralDraftCss from './GeneralDraft.css';
-import NewApprovalingCss from './NewApprovaling.css';
+import  './GeneralDraft.css';
+import  './NewApprovaling.css';
+
+
 
 // import { useNavigate } from 'react-router-dom';
 // import { useEffect, useState, useRef } from 'react';
@@ -12,7 +14,7 @@ import NewApprovalingCss from './NewApprovaling.css';
 function GeneralDraft(){
 
     return(<div id="wrap">
-    <header>
+    {/* <header>
       <h1>
         <img src="/resources/images/Logo.png" alt="" />
       </h1>
@@ -80,7 +82,11 @@ function GeneralDraft(){
           </div>
         </div>
       </nav>
-    </header>
+    </header> */}
+
+
+
+
     <section>
       <article>
         <h2>전자결재</h2>
@@ -89,18 +95,18 @@ function GeneralDraft(){
             <button className="btn">신규기안</button>
           </a>
         </div>
-        <ul className="sub_list">
+        <ul className="subList">
           <li>
             <div>
-              <img src="/resources/images/Approval.png" alt="" />
+              <img src="/common/Approval.png" alt="" />
               <span>
                 <a href="/views/approval/approvalMain.html">결재할 문서</a>
               </span>
             </div>
           </li>
-          <li className="sub_list_text">
+          <li className="subListText">
             <div>
-              <img src="/resources/images/Approval.png" alt="" />
+              <img src="/common/Approval.png" alt="" />
               <span>
                 <a href="/views/approval/approvaling.html">진행중인 문서</a>
               </span>
@@ -108,7 +114,7 @@ function GeneralDraft(){
           </li>
           <li>
             <div>
-              <img src="/resources/images/Mydocumentbox.png" alt="" />
+              <img src="/common/Mydocumentbox.png" alt="" />
               <span>
                 <a href="/views/approval/mydocument.html">내 문서함</a>
               </span>
@@ -116,7 +122,7 @@ function GeneralDraft(){
           </li>
           <li>
             <div>
-              <img src="/resources//images/Temporarystoragebox.png" alt="" />
+              <img src="/common/Temporarystoragebox.png" alt="" />
               <span>
                 <a href="/views/approval/temporarystorage.html">임시보관함</a>
               </span>
@@ -124,7 +130,7 @@ function GeneralDraft(){
           </li>
           <li>
             <div>
-              <img src="/resources/images/Shareddocumentbox.png" alt="" />
+              <img src="/common/Shareddocumentbox.png" alt="" />
               <span>
                 <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
               </span>

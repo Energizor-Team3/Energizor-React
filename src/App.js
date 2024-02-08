@@ -17,11 +17,11 @@ function App() {
 
         <Route path="/main" element={ <Main /> } />
         <Route path="/login" element={ <Login/> } />
-        <Route path="/generaldraft" element={ <GeneralDraft/> } />
         <Route path="*" element={ <Error/> }/>
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
+          <Route path="/generaldraft" element={ <GeneralDraft/> } />
         </Route>
       
       </Routes>
