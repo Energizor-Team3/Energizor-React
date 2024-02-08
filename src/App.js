@@ -32,13 +32,13 @@ function App() {
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 
-        <Route path="/reservationmain" element={ <ReservationMain/> } />
+       
         <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
 
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
-          
+          <Route path="/reservationmain" element={ <ReservationMain/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
         </Route>
       
