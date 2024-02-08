@@ -3,6 +3,7 @@ import Layout from './layouts/Layout';
 import Login from './pages/user/Login';
 import Error from './pages/Error';
 import Main from './pages/main/Main'
+import ReservationMain from './pages/Reservation/ReservationMain'
 
 
 function App() {
@@ -19,8 +20,11 @@ function App() {
 
         <Route path="/main" element={ <Main /> } />
 
+
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
+
+        <Route path="/reservationmain" element={ <ReservationMain/> } />
       </Routes>
     </BrowserRouter>
   );
