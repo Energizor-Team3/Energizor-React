@@ -20,6 +20,7 @@ function App() {
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
+          
         </Route>
       
       </Routes>
