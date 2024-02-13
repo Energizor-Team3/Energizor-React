@@ -36,16 +36,18 @@ function App() {
         <Route path="*" element={ <Error/> }/>
 
         <Route path="/reservationmain" element={ <ReservationMain/> } />
-        <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
+
 
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
           
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+
+          <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
+          <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
         </Route>
-      
-        <Route path="/project/:proNo" element={ <ProjectDetail/> }/>
+       
 
       </Routes>
     </BrowserRouter>

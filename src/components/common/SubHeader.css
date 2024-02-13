@@ -265,14 +265,14 @@ article .subList .subListText > a:hover {
 
 /* 테이블 */
 
-table {
+.subtable {
   width: 1400px;
   border-collapse: collapse;
   margin-top: 20px;
   /* text-align: center; */
 }
 
-table thead {
+.subtable  thead {
   background-color: rgb(235, 235, 235);
   margin: 0;
   border-top: 1px solid rgb(156, 156, 156);
@@ -280,22 +280,22 @@ table thead {
   /* text-align: center; */
 }
 
-table thead th,
-table tbody tr td {
+.subtable  thead th,
+.subtable  tbody tr td {
   padding: 8px 5px;
 }
 
-table tbody td:first-child,
-table thead tr th:first-child {
+.subtable  tbody td:first-child,
+.subtable  thead tr th:first-child {
   max-width: 15px;
   min-width: 15px;
 }
 
-table tbody thead th {
+.subtable  tbody thead th {
   max-width: 150px;
 }
 
-table tbody tr {
+.subtable  tbody tr {
   border-bottom: 1px solid rgb(156, 156, 156);
 }
 
