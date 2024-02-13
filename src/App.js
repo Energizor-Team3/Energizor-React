@@ -11,7 +11,7 @@ import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
 import ProjectDetail from './pages/project/project_detail';
-
+ 
 
 
 
@@ -36,6 +36,7 @@ function App() {
         <Route path="*" element={ <Error/> }/>
 
         <Route path="/reservationmain" element={ <ReservationMain/> } />
+        
 
 
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
           <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
         </Route>
+ 
        
 
       </Routes>

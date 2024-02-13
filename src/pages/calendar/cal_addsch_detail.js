@@ -78,7 +78,7 @@ function AddDetailSchedule(){
             </nav>
             </article>
            </section>
-           <main>
+           <main className='calendarmain'>
             <div className="add_detail_box">
              <h2 className="h222"> 일정 상세 등록 </h2>
              <div className="addbox">

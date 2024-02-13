@@ -51,7 +51,7 @@ console.log('project',project);
             </article>
         </section>
         
-        <main>
+        <main className="projectmain">
             <div className="project_detail_box">
                 <h1 className="back_btn"> &lt; </h1>
                 <div className="pro_detail">
