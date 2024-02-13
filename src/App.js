@@ -5,7 +5,8 @@ import Login from './pages/user/Login';
 import Error from './pages/Error';
 import Main from './pages/main/Main'
 import Message from "./pages/message/Message";
-// import Group from './pages/group/Group';
+import Group from './pages/group/Group';
+
 
 
 function App() {
@@ -20,9 +21,8 @@ function App() {
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
-          
+          <Route path='group' element={ <Group/>}/>
         </Route>
-      
       </Routes>
     </BrowserRouter>
   );

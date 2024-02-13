@@ -19,7 +19,7 @@ function Header() {
     };
 
     const spanStyle = {
-        display: hover ? "inline-block" : "none",
+        display: hover ? "inline-block" : "none"
     };
 
     return (

@@ -8,7 +8,7 @@ function Message() {
                 <article>
                 <h2>쪽지</h2>
                 <div>
-                    <a href="#group" className="btn">
+                    <a href="#message" className="btn">
                     쪽지쓰기
                     </a>
                 </div>
@@ -56,7 +56,7 @@ function Message() {
                                         </div> --> */}
                 </div>
 
-                <table>
+                <table className="subTable">
                     <thead>
                     <th>
                         <input type="checkbox" />
