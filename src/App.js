@@ -10,6 +10,8 @@ import Message from "./pages/message/Message";
 import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
+import ReservationDetails from './pages/Reservation/ReservationDetails';
+import ReservationApply from './pages/Reservation/ReservationApply';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
           <Route path="message" element={ <Message/> } />
           <Route path="/reservationmain" element={ <ReservationMain/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/reservationdetails" element={ <ReservationDetails/> } />
+          <Route path="/reservationapply" element={ <ReservationApply/> } />
         </Route>
       
       </Routes>
