@@ -67,28 +67,10 @@ li{
 }
 
 
-.cal_ul ul {
-  display: none;
+ 
 
-}
-
-/* 클릭 시 중첩된 목록 표시 또는 숨김 */
-.cal_ul li.cal_menu > ul {
-  display: block;
-}
-
-/* ">" 아이콘 스타일링 */
-.cal_ul li > a::before {
-  content: ">";
-  display: inline-block;
-  margin-right: 5px;
-
-}
-
-/* 클릭 시 ">" 아이콘 회전 */
-.cal_ul li.cal_menu > a::before {
-  transform: rotate(90deg);
-}
+ 
+ 
 .cal_ul li.cal_menu .dot{
   width: 10px;
   height: 10px;
