@@ -286,11 +286,11 @@ article .subList .subListText > a:hover {
   min-width: 15px;
 }
 
-table tbody thead th {
+.subTable tbody thead th {
   max-width: 150px;
 }
 
-table tbody tr {
+.subTable tbody tr {
   border-bottom: 1px solid rgb(156, 156, 156);
 }
 

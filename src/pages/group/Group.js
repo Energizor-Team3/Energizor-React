@@ -103,11 +103,11 @@ function Group() {
       </section>
 
       <main className="subMain">
-        <div class="content">
-          <div class="subject">
+        <div className="content">
+          <div className="subject">
             <strong>조직도</strong>
-            <div class="line">
-              <div class="search_box">
+            <div className="line">
+              <div className="search_box">
                 <input
                   type="search"
                   placeholder="보낸사람, 제목을 입력하세요."
@@ -116,13 +116,13 @@ function Group() {
             </div>
           </div>
 
-          <div class="group_wrap">
-            <div class="group">
+          <div className="group_wrap">
+            <div className="group">
               {/* <!-- <div class="group">&lt;조직&gt;</div> --> */}
 
-              <div class="group_content">
-                <div class="group_list">
-                  <div class="group_search">
+              <div className="group_content">
+                <div className="group_list">
+                  <div className="group_search">
                     <input
                       type="search"
                       id="group_search"
@@ -145,7 +145,7 @@ function Group() {
               </div>
             </div>
 
-            <div class="group_info_wrap">
+            <div className="group_info_wrap">
               <div class="group_member_info_wrap">
                 <a class="note_btn" href="#home">
                   쪽지

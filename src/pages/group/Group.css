@@ -1,4 +1,12 @@
+.tree-line {
+  position: absolute;
+  border-left: 2px solid #000; /* 선의 색상과 스타일을 설정합니다. */
+}
 
+.tree-node {
+  position: relative;
+  padding-left: 20px; /* 노드 간의 간격을 조절합니다. */
+}
 
 .group_wrap{
   display: flex;
