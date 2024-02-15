@@ -1,21 +1,55 @@
 import cmp from "./CalendarMain.css"
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
+
 import FullCalendar from '@fullcalendar/react'; // FullCalendar React 래퍼 import
 import dayGridPlugin from '@fullcalendar/daygrid'; // DayGrid 플러그인 import
- 
 import interactionPlugin from '@fullcalendar/interaction'; // Interaction 플러그인 import
 
+
+import {
+    callCalendarListAPI
+} from '../../apis/CalendarAPICalls'
+
+import calendarReducer from '../../modules/CalendarModule';
+
+
 function CalendarMainPage(){
+
+    const dispatch = useDispatch();
+    const calendar = useSelector(state => state.calendarReducer);  
+    const calendarList = calendar.data;
+    const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+
+    const [calNo, setcalNo] = useState(0);
+    const [userCode, setuserCode] = useState(0);
+
     const calendarRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false); 
     const [allCalChecked, setAllCalChecked] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    useEffect(() => {
-      if (calendarRef.current) {
-        calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
-      }
-    }, []);
+    
+
+    useEffect(
+        () => {
+                
+    console.log("useEffect의 token---->", token);
+    console.log("useEffect의 token.userCode--->", token.userCode);
+
+            if (calendarRef.current) {
+                calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
+            }
+            if(token !== null) {
+                dispatch(callCalendarListAPI({	// 캘린더 정보 조회 
+                    userCode : token.userCode
+                }));            
+            }
+
+        }
+        , []
+    );
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded); // 클릭 시 토글 상태 변경
@@ -52,30 +86,33 @@ function CalendarMainPage(){
             <nav className="cal_nav">
                 <ul className="cal_ul">
                 <li>
-                    <input type="checkbox" id="allcal_checkbox" onChange={handleAllCalChange} />
+                    <input type="checkbox" id="allcal_checkbox" />
                     <label htmlFor="allcal_checkbox">전체일정</label>
                 </li>
                 <li className="cal_menu">
-                <a href="#내캘린더">  > 내 캘린더</a>
+                    <a href="#내캘린더">내 캘린더</a>
+
                     <ul>
-                    <li>
-                        <input type="checkbox" id="cal_checkbox_1" />
-                        <label htmlFor="cal_checkbox_1">
-                        개인일정
-                        <span className="dot" style={{ backgroundColor: "red" }} />
-                        </label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cal_checkbox_2" />
-                        <label htmlFor="cal_checkbox_2">
-                        외부일정
-                        <span className="dot" style={{ backgroundColor: "blue" }} />
-                        </label>
-                    </li>
-                    </ul>
+                     {calendarList && calendarList.map((calendar) => (
+                           <li key={ calendar.calNo }>
+                           <input type="checkbox" id="cal_checkbox_1"/>
+                           <label>
+                               {calendar.calName}
+                            <span className="dot" style={{ backgroundColor: "red" }} />
+                           </label>
+                       </li>
+                   ))}
+                        <li>
+                            <input type="checkbox" id="cal_checkbox_2" />
+                            <label htmlFor="cal_checkbox_2">
+                            외부일정
+                            <span className="dot" style={{ backgroundColor: "blue" }} />
+                            </label>
+                        </li>
+                        </ul>
                 </li>
                 <li className="cal_menu">
-                    <a href="#내캘린더"> > 공유 캘린더</a>
+                    <a href="#내캘린더">공유 캘린더</a>
                     <ul>
                     <li>
                         <input type="checkbox" id="companysch_cb" />
