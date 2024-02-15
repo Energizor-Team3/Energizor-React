@@ -7,7 +7,7 @@ import Main from './pages/main/Main'
 import ReservationMain from './pages/Reservation/ReservationMain'
 import AddDetailSchedule from './pages/calendar/cal_addsch_detail'
 import Message from "./pages/message/Message";
-import Layout from './layouts/SubLayout';
+import Layout from './layouts/Layout';
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
 import ApprovalMain from './pages/approval/ApprovalMain'
@@ -18,11 +18,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* <Route path="/" element={ <Layout/> }>
-          <Route index element={ <Main/> }/>  
-
-        </Route> */}
 
         <Route path="/main" element={ <Main /> } />
 
