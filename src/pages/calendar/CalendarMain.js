@@ -3,13 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
 
-import FullCalendar from '@fullcalendar/react'; // FullCalendar React 래퍼 import
-import dayGridPlugin from '@fullcalendar/daygrid'; // DayGrid 플러그인 import
-import interactionPlugin from '@fullcalendar/interaction'; // Interaction 플러그인 import
+import FullCalendar from '@fullcalendar/react'; 
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction'; 
 
 
 import {
-    callCalendarListAPI
+    callCalendarListAPI,
+    callScheduleAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';
@@ -90,50 +91,36 @@ function CalendarMainPage(){
                     <label htmlFor="allcal_checkbox">전체일정</label>
                 </li>
                 <li className="cal_menu">
-                    <a href="#내캘린더">내 캘린더</a>
+                    개인 캘린더
 
                     <ul>
-                     {calendarList && calendarList.map((calendar) => (
-                           <li key={ calendar.calNo }>
-                           <input type="checkbox" id="cal_checkbox_1"/>
-                           <label>
-                               {calendar.calName}
-                            <span className="dot" style={{ backgroundColor: "red" }} />
-                           </label>
-                       </li>
-                   ))}
-                        <li>
-                            <input type="checkbox" id="cal_checkbox_2" />
-                            <label htmlFor="cal_checkbox_2">
-                            외부일정
-                            <span className="dot" style={{ backgroundColor: "blue" }} />
-                            </label>
-                        </li>
-                        </ul>
+                    {calendarList && calendarList.map((calendar) => (
+                    calendar.calType === "개인 캘린더" && // calType이 개인 캘린더인 경우에만 해당
+                    <li key={calendar.calNo}>
+                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
+                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
+                            {calendar.calName}
+                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
+                        </label>
+                    </li>
+                        ))}
+     
+                    </ul>
                 </li>
                 <li className="cal_menu">
-                    <a href="#내캘린더">공유 캘린더</a>
+                    공유 캘린더
                     <ul>
-                    <li>
-                        <input type="checkbox" id="companysch_cb" />
-                        <label htmlFor="companysch_cb">
-                        회사일정
-                        <span
-                            className="dot_2"
-                            style={{ backgroundColor: "orange" }}
-                        />
+                    {calendarList && calendarList.map((calendar) => (
+                    calendar.calType === "공유 캘린더" && 
+                    <li key={calendar.calNo}>
+                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
+                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
+                            {calendar.calName}
+                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
                         </label>
                     </li>
-                    <li>
-                        <input type="checkbox" id="departsch_cb" />
-                        <label htmlFor="departsch_cb">
-                        부서일정
-                        <span
-                            className="dot_2"
-                            style={{ backgroundColor: "green" }}
-                        />
-                        </label>
-                    </li>
+                        ))}
+ 
                     </ul>
                 </li>
                 </ul>
