@@ -26,9 +26,10 @@ function App() {
         <Route path="/main" element={ <Main /> } />
 
 
-      <Route path="/main" element={ <Layout/> }>
-        <Route index element={ <Main /> } />
-      </Route>
+        <Route path="/main" element={ <Layout/> }>
+          <Route index element={ <Main /> } />
+        </Route>
+        
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 

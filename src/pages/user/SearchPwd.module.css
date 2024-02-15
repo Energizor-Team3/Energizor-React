@@ -26,7 +26,13 @@
     margin-bottom: 20px;
 }
 
-.login {
+.find_pw_title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.find_pw {
     width: 343px; 
     height: 62px; 
     background: white; 
@@ -34,11 +40,9 @@
     border-radius: 6px;
     border: transparent;
     margin-top: 10px;
-    padding-left: 10px;
-    font-size: 16px;
 }
 
-.login_btn {
+.find_pw_btn {
     background: #94A9FF;
     border-radius: 6px; 
     border: transparent;
@@ -52,20 +56,4 @@
     letter-spacing: 0.1em;
     margin-top: 40px;
     margin-bottom: 10px;
-}
-
-.additional_options {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.save_id_check {
-    margin-right: -180px;
-}
-
-.save_id,
-.find_pw {
-    font-size: 14px;
-    cursor: pointer;
 }

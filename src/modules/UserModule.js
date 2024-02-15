@@ -6,12 +6,12 @@ const initialState = [];
 /* 액션 */
 export const GET_USER     = 'user/GET_USER';
 export const POST_LOGIN     = 'user/POST_LOGIN';
-export const POST_REGISTER  = 'user/POST_REGISTER';
+export const POST_SEARCHPWD  = 'user/POST_SEARCHPWD';
 
 const actions = createActions({
     [GET_USER]: () => {},
     [POST_LOGIN]: () => {},
-    [POST_REGISTER]: () => {}
+    [POST_SEARCHPWD]: () => {}
 });
 
 /* 리듀서 */
@@ -25,7 +25,7 @@ const userReducer = handleActions(
             
             return payload;
         },
-        [POST_REGISTER]: (state, { payload }) => {
+        [POST_SEARCHPWD]: (state, { payload }) => {
             
             return payload;
         },
