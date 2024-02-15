@@ -3,90 +3,13 @@ import  './NewApprovaling.css';
 
 
 
-// import { useNavigate } from 'react-router-dom';
-// import { useEffect, useState, useRef } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { Navigate } from 'react-router-dom';
 
-// import { call } from '../../apis/ApprovalAPICalls';
 
 
 function GeneralDraft(){
 
     return(<div id="wrap">
-    {/* <header>
-      <h1>
-        <img src="/resources/images/Logo.png" alt="" />
-      </h1>
-      <nav>
-        <div id="main_list_icon">
-          <div>
-            <a href="#">
-              <img src="/resources/images/Home.png" alt="" />
-            </a>
-            <span>홈</span>
-          </div>
-          <div>
-            <a href="/views/approval/approvalMain.html">
-              <img src="/resources/images/Approval.png" alt="" />
-            </a>
-            <span>전자결재</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/Attendance.png" alt="" />
-            </a>
-            <span>근태관리</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/calendar.png" alt="" />
-            </a>
-            <span>일정관리</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/Address.png" alt="" />
-            </a>
-            <span>주소록</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/Organization.png" alt="" />
-            </a>
-            <span>조직도</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/Mail.png" alt="" />
-            </a>
-            <span>쪽지</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/Messanger.png" alt="" />
-            </a>
-            <span>메신저</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/reservation.png" alt="" />
-            </a>
-            <span>자원예약</span>
-          </div>
-          <div>
-            <a href="#">
-              <img src="/resources/images/board.png" alt="" />
-            </a>
-            <span>게시판</span>
-          </div>
-        </div>
-      </nav>
-    </header> */}
-
-
-
-
+  
     <section>
       <article>
         <h2>전자결재</h2>

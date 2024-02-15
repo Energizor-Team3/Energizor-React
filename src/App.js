@@ -7,6 +7,7 @@ import Main from './pages/main/Main'
 import Message from "./pages/message/Message";
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
+import ApprovalMain from './pages/approval/ApprovalMain'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/approvalmain" element={ <ApprovalMain/> } />
         </Route>
       
       </Routes>
