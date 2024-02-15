@@ -1,12 +1,61 @@
 import  './GeneralDraft.css';
 import  './NewApprovaling.css';
 
+import {
+  callInsertGeneralDraftAPI
+} from '../../apis/ApprovalAPICalls';
+
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import queryString from 'query-string';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
 
 
 
 function GeneralDraft(){
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const approvalingstate  = useSelector((state) => state.approvalReducer);
+  const approvalingstateList = approvalingstate?.data?.content;
+
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState();
+  const imageInput = useRef();
+
+  const [form, setForm] = useState({
+    productName: '',
+    productPrice: 0,
+    productOrderable: '',
+    categoryCode: '',
+    productStock: 0, 
+    productDescription: '',
+
+
+
+    gdTitle: '',
+    gdContent: '',
+    rfUser: '',
+    lineUser: '',
+    file: '',
+
+});
+  
+
+
+  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  useEffect(()=>{
+      dispatch(callInsertGeneralDraftAPI());
+  },[])
+
+  console.log('approvalingstate',  approvalingstate );
+  console.log('approvalingstateList',  approvalingstateList);
+
+
+  
 
     return(<div id="wrap">
   
