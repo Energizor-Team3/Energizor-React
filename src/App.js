@@ -10,6 +10,7 @@ import Message from "./pages/message/Message";
 import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
+import ApprovalMain from './pages/approval/ApprovalMain'
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="message" element={ <Message/> } />
           
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/approvalmain" element={ <ApprovalMain/> } />
         </Route>
       
       </Routes>
