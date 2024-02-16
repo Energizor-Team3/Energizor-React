@@ -6,9 +6,13 @@ import Main from './pages/main/Main'
 import ReservationMain from './pages/Reservation/ReservationMain'
 import AddDetailSchedule from './pages/calendar/cal_addsch_detail'
 import Message from "./pages/message/Message";
+// import Group from './pages/group/Group';
+import GeneralDraft from './pages/approval/GeneralDraft';
+import ApprovalMain from './pages/approval/ApprovalMain';
+import SharedInBox from './pages/approval/SharedInBox';
+import Approvaling from './pages/approval/Approvaling';
+import NewApproval from './pages/approval/NewApproval';
 import Layout from './layouts/Layout';
-import GeneralDraft from './pages/approval/GeneralDraft'
-import ApprovalMain from './pages/approval/ApprovalMain'
 import SearchPwd from './pages/user/SearchPwd';
 import SearchPwdEmail from './pages/user/SearchPwdEmail';
 
@@ -33,13 +37,13 @@ function App() {
         <Route path="/reservationmain" element={<ReservationMain />} />
         <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
 
-        <Route
-          path="/"
-          element={<Sublayout />}
-        >
-          <Route path="message" element={<Message />} />
-          <Route path="/generaldraft" element={<GeneralDraft />} />
-          <Route path="/approvalmain" element={<ApprovalMain />} />
+        <Route path="/" element={ <Sublayout/> }>
+          <Route path="message" element={ <Message/> } />
+          <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/approvalmain" element={ <ApprovalMain/> } />
+          <Route path="/sharedinbox" element={ <SharedInBox/> } />
+          <Route path="/approvaling" element={ <Approvaling/> } />
+          <Route path="/newapproval" element={ <NewApproval/> } />
         </Route>
 
         <Route path="*" element={<Error />} />

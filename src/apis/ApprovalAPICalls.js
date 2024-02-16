@@ -1,6 +1,9 @@
 
 import { 
-    GET_APPROVAL_InboxApproval
+    GET_APPROVAL_InboxApproval,
+    GET_APPROVAL_SHAREDINBOX,
+    GET_APPROVAL_Progress,
+    POST_APPROVAL_INSERTGENERALDRAFT
    
 } from '../modules/ApprovalMainModule';
 
@@ -115,6 +118,76 @@ export const callInboxApprovalAPI = () => {
     };
 }
 
+export const callSharedInBoxAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectSharedDocument`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSharedInBoxAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_SHAREDINBOX,  payload: result.data });
+        
+    };
+}
+
+export const callApprovalingAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalProgress`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callApprovalingAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_Progress,  payload: result.data });
+        
+    };
+}
+
+
+
+export const callInsertGeneralDraftAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/generalDraft`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInsertGeneralDraftAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTGENERALDRAFT,  payload: result });
+        
+    };
+}
 
 
 
