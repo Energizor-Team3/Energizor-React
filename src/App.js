@@ -35,6 +35,9 @@ function App() {
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
+          <Route path="/reservationdetails" element={<ReservationDetails />} />
+          <Route path="/reservationapply" element={<ReservationApply />} />
+          <Route path="/reservationmain" element={<ReservationMain />} />
         <Route path="/main" element={<Main />} />
 
         <Route path="/main" element={<Layout />}>
@@ -45,13 +48,9 @@ function App() {
 
         <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
 
-        <Route path="/" element={<Sublayout />}>
-          <Route path="message" element={<Message />} />
-          <Route path="/reservationmain" element={<ReservationMain />} />
-          <Route path="/generaldraft" element={<GeneralDraft />} />
-          <Route path="/approvalmain" element={<ApprovalMain />} />
-          <Route path="/reservationdetails" element={<ReservationDetails />} />
-          <Route path="/reservationapply" element={<ReservationApply />} />
+
+
+        
         </Route>
       </Routes>
     </BrowserRouter>

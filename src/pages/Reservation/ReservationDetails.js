@@ -6,9 +6,9 @@ import queryString from "query-string";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { decodeJwt } from "../../utils/tokenUtils";
-import reservationReducer from "./../../modules/ReservationModules";
 
 function ReservationDetails() {
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reservation = useSelector((state) => state.reservationReducer);
@@ -22,9 +22,7 @@ function ReservationDetails() {
   console.log("reservation", reservation);
   console.log("reservationList", reservationList);
 
-  const doubleClickHandler = () => {
-
-  }
+  const doubleClickHandler = () => {};
 
   return (
     <div id="wrap">
@@ -78,15 +76,19 @@ function ReservationDetails() {
             </thead>
             <tbody>
               {Array.isArray(reservation) &&
-                reservation.map((reservation, index) => (
-                  <tr key={index}>
+                reservation.map((reservation) => (
+                  <tr key={reservation?.reservationCode}>
                     <td>
-                      <input type="radio" name="resRadio" />
+                      <input
+                        type="checkbox"
+                        value={reservation?.reservationCodeCode}
+                      />
                     </td>
-                    <td>{reservation.meet.meetName}</td>
-                    <td>{reservation.reservationContent}</td>
-                    <td>{reservation.startDate}</td>
-                    <td>{reservation.endDate}</td>
+
+                    <td>{reservation?.meetCode?.meetName}</td>
+                    <td>{reservation?.reservationContent}</td>
+                    <td>{reservation?.reservationDate}</td>
+                    <td>{reservation?.reservationDate}</td>
                     <td>{reservation.status}</td>
                   </tr>
                 ))}

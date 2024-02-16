@@ -22,7 +22,7 @@ console.log('내예약내역 확인하기');
             console.log('[ReservationAPICall] callResevationDetailAPI RESULT : ', result);
        
             
-            dispatch({ type: GET_RESERVATION_DETAILS,  payload: result.data });
+            dispatch({ type: 'reservation/GET_RESERVATION_DETAILS',  payload: result.data });
         
         };
     }
