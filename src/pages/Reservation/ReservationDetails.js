@@ -1,6 +1,7 @@
 import "./ReservationDetails.css";
 
 import { callResevationDetailAPI } from "./../../apis/ReservationAPICalls";
+import { callAttendeeDetailAPI } from "./../../apis/ReservationAPICalls";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import queryString from "query-string";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +9,6 @@ import { useEffect, useState } from "react";
 import { decodeJwt } from "../../utils/tokenUtils";
 
 function ReservationDetails() {
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reservation = useSelector((state) => state.reservationReducer);
@@ -22,8 +22,18 @@ function ReservationDetails() {
   console.log("reservation", reservation);
   console.log("reservationList", reservationList);
 
+
   const doubleClickHandler = () => {};
 
+  const showAttendees = (reservationCode) => { // 수정: 참석자 보기 함수
+    console.log('2222222222222222222',reservationCode);
+    
+    
+    dispatch(callAttendeeDetailAPI({
+      reservationCode: reservationCode
+        })); // 수정: 해당 예약 코드의 참석자 정보 호출
+  };
+  
   return (
     <div id="wrap">
       <section>
@@ -81,7 +91,7 @@ function ReservationDetails() {
                     <td>
                       <input
                         type="checkbox"
-                        value={reservation?.reservationCodeCode}
+                        value={reservation?.reservationCode}
                       />
                     </td>
 
@@ -89,6 +99,16 @@ function ReservationDetails() {
                     <td>{reservation?.reservationContent}</td>
                     <td>{reservation?.reservationDate}</td>
                     <td>{reservation?.reservationDate}</td>
+                    <td>
+                      {/* 수정: 참석자 버튼 클릭 시 해당 예약 코드를 인자로 전달 */}
+                      <button
+                        className="btnStatus"
+                        onClick={() => showAttendees(reservation?.reservationCode)}
+                      >
+                        참석자
+                      </button>
+                    </td>
+
                     <td>{reservation.status}</td>
                   </tr>
                 ))}
