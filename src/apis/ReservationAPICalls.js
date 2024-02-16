@@ -1,24 +1,28 @@
 import{
-    GET_PROJECT
-} from '../modules/ReservationModules.js';
+    GET_RESERVATION_DETAILS
 
-export const callProjectDetailAPI = ({ proNo }) => {
+} from '../modules/ReservationModules';
+
+export const callResevationDetailAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/all`;
 
     return async (dispatch, getState) => {
+console.log('내예약내역 확인하기');
+
         const result = await fetch( requestURL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-            },
-        }).then((response) => response.json());
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken')
+            }
+        })
+        .then((response) => response.json());
 
-            console.log('[ProjectAPICalls] callProjectDetailAPI RESULT : ',
-         result);
+            console.log('[ReservationAPICall] callResevationDetailAPI RESULT : ', result);
        
             
-        };
+            dispatch({ type: GET_RESERVATION_DETAILS,  payload: result.data });
         
-    };
+        };
+    }
