@@ -1,5 +1,6 @@
 import  './GeneralDraft.css';
 import  './NewApprovaling.css';
+import CurrentTime from './Time';
 
 import {
   callInsertGeneralDraftAPI
@@ -16,46 +17,103 @@ import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function GeneralDraft(){
-
+  
+  const currentTimeString = CurrentTime();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = decodeJwt(window.localStorage.getItem("accessToken"));
   const approvalingstate  = useSelector((state) => state.approvalReducer);
   const approvalingstateList = approvalingstate?.data?.content;
 
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState();
   const imageInput = useRef();
+  // const [titleValue,setTitleValue] = useState('');
 
   const [form, setForm] = useState({
-    productName: '',
-    productPrice: 0,
-    productOrderable: '',
-    categoryCode: '',
-    productStock: 0, 
-    productDescription: '',
-
-
-
     gdTitle: '',
     gdContent: '',
     rfUser: '',
     lineUser: '',
-    file: '',
+    apFileNameOrigin: '',
 
-});
-  
+  });
+  // const onChangeImageUpload = (e) => {
 
+  //   const image = e.target.files[0];
 
-  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  //   setImage(image);
+  // };
+  // const onClickImageUpload = () => {
+  //   imageInput.current.click();
+  // };
+
+  // form 데이터 세팅    
+  const onChangeHandler = (e) => {
+    setForm({
+        ...form,
+        [e.target.name]: e.target.value
+    });
+  };
+
   useEffect(()=>{
-      dispatch(callInsertGeneralDraftAPI());
-  },[])
+    console.log('실제로 값이 변하는지',form);
+  },[form])
+
+  
+   
+
+    const onClickInsertDocumentHandler = () => {
+
+      console.log('[Approval] onClickInsertDocumentHandler');
+
+      const formData = new FormData();
+
+      formData.append("gdTitle", form.gdTitle);
+    formData.append("gdContent", form.gdContent);
+    formData.append("rfUser", form.rfUser);
+    formData.append("lineUser", form.lineUser);
+    formData.append("apFileNameOrigin", form.apFileNameOrigin);
+
+      if(image){
+          formData.append("productImage", image);
+      }
+      console.log('[Approval] formData : ', formData.get("gdTitle"));
+      console.log('[Approval] formData : ', formData.get("gdContent"));
+      console.log('[Approval] formData : ', formData.get("rfUser"));
+      console.log('[Approval] formData : ', formData.get("lineUser"));
+      console.log('[Approval] formData : ', formData.get("apFileNameOrigin"));
+      
+    }
+
+      // dispatch(callProductRegistAPI({	// 상품 상세 정보 조회
+      //     form: formData
+      // }));        
+      
+      
+      // alert('상품 리스트로 이동합니다.');
+      // navigate('/product-management', { replace: true });
+      // window.location.reload();
+  // }
+
+
+
+
+  // const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  // useEffect(()=>{
+  //     dispatch(callInsertGeneralDraftAPI());
+  // },[])
 
   console.log('approvalingstate',  approvalingstate );
   console.log('approvalingstateList',  approvalingstateList);
 
 
-  
+  // const titleValueHandler = (e)=>{
+  //   setTitleValue(e.target.value);
+  // }
+  // useEffect(()=>{
+  //   console.log('실제로 값이 변하는지',titleValue);
+  // },[titleValue])
 
     return(<div id="wrap">
   
@@ -149,12 +207,12 @@ function GeneralDraft(){
           <div className="approval">
             <span className="texttitle">기 안</span>
             <ul className="approvalul">
-              <li className="one">운영 이사/팀원</li>
+              <input type='text' className="one" value={token.userRole[0].authority.authName}/>
               <li className="two">
                 <img src="" alt="" />
                 도장
               </li>
-              <li className="three">축온청</li>
+              <input type="text" className="three" placeholder='축온청'/>
               <li className="four">날짜</li>
             </ul>
             <span className="texttitle">결 재</span>
@@ -200,6 +258,9 @@ function GeneralDraft(){
                     type="text"
                     placeholder="제목을 입력하세요"
                     className="inputtext"
+                    name='gdTitle'
+                    value={form.gdTitle}
+                    onChange={onChangeHandler}
                   />
                 </td>
               </tr>
@@ -210,6 +271,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="에브리웨어"
                     className="inputtext"
+                    value={token.userName}
                   />
                 </td>
               </tr>
@@ -220,6 +282,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="직위/ 직책 자동으로 입력됩니다."
                     className="inputtext"
+                    value={token.userName}
                   />
                 </td>
               </tr>
@@ -230,6 +293,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="기안자명 자동으로 입력됩니다."
                     className="inputtext"
+                    value={token.userName}
                   />
                 </td>
               </tr>
@@ -240,6 +304,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="조직원이 기안하는 날짜가 자동으로 입력됩니다."
                     className="inputtext"
+                    value={currentTimeString}
                   />
                 </td>
               </tr>

@@ -39,7 +39,7 @@ li {
       width: 130px;
       
   }
-  .approvalul li{
+  .approvalul input{
       font-size: 14px;
       display: flex;
       justify-content: center;
