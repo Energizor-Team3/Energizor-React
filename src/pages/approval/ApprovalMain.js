@@ -29,6 +29,12 @@ function ApprovalMain(){
     const doubleClickHandler= () =>{
 
     }
+
+    // 컨텐츠 박스 표시/숨김 토글 함수
+    const toggleContent =() =>{
+  var contentBox = document.getElementById("contentBox");
+  contentBox.classList.toggle("active");
+  }
  
 
 
@@ -136,7 +142,7 @@ function ApprovalMain(){
               <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
               <td>{document?.userDTO?.userName}</td>
               <td>{document?.draftDay}</td>
-              <td ><button className="btnStatus" onclick="toggleContent()">진행중</button></td>
+              <td ><button className="btnStatus" onClick={toggleContent}>진행중</button></td>
             </tr>
                     ))}
           </tbody>
