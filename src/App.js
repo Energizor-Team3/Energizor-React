@@ -12,6 +12,7 @@ import Layout from './layouts/SubLayout';
 import GeneralDraft from './pages/approval/GeneralDraft'
 import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
+import CalendarSetting from './pages/calendar/CalendarSetting';
 
 
 
@@ -46,8 +47,9 @@ function App() {
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
 
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
-          <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
+          <Route path="/schedule/add/detail" element={ <AddDetailSchedule/> }/>
           <Route path="/calendar" element={ <CalendarMainPage/> } />
+          <Route path="/calendar/setting" element={ <CalendarSetting/>}/>
         </Route>
  
        

@@ -10,7 +10,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import {
     callCalendarListAPI,
-    callScheduleAPI
+    callAddScheduleAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';
@@ -130,37 +130,13 @@ function CalendarMainPage(){
            <div className="cmpmain">
                 <div id="calendar">
                     <FullCalendar
-                    ref={calendarRef}
-                    plugins={[dayGridPlugin,interactionPlugin]}
-                    events={[
-                        { title: 'event 1', date: '2024-02-01' },
-                        { title: 'event 1', date: '2024-02-01' },
-                        { title: 'event 1', date: '2024-02-01' },
-
-                        { title: 'event 1', date: '2024-02-11' },
-                        { title: 'event 1', date: '2024-02-11' },
-                        { title: 'event 1', date: '2024-02-11' },
-                        { title: 'event 1', date: '2024-02-11' },
-
-                        
-                        { title: 'event 2', start: '2024-02-23',
-                        end: '2024-02-26'},
-                        { title: 'event 1', date: '2024-02-11' },
-                        { title: 'event 1', date: '2024-02-11' },
-                        { title: 'event 1', date: '2024-02-23' },
-
-                        {
-                            groupId: 999,
-                            title: '회의',
-                            start: '2024-02-01T16:00:00'
-                          }
-                    ]}
-
-                     
-                    selectable={true}
-                    select={handleSelect}
-                    dayMaxEventRows={3} // 한 칸에 표시할 최대 이벤트 행 수
-                    eventLimit={true} // 더 많은 이벤트가 있을 때 +n more 링크 표시
+                        ref={calendarRef}
+                        plugins={[dayGridPlugin, interactionPlugin]}
+                        events={calendar.events} // 일정 데이터 바인딩
+                        selectable={true}
+                        select={handleSelect}
+                        dayMaxEventRows={3}
+                        eventLimit={true}
                 
                     />
                 

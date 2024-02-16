@@ -1,7 +1,8 @@
 
 import {
     GET_CALENDAR,
-    POST_SCHEDULE
+    POST_SCHEDULE,
+    GET_SCHEDULE
 } from '../modules/CalendarModule.js';
 
 export const callCalendarListAPI = ({ userCode }) => { 
@@ -22,7 +23,11 @@ export const callCalendarListAPI = ({ userCode }) => {
     };
   }
 
-  export const callScheduleAPI = ({form}) => {
+  export const callScheduleAPI = ({})
+
+  
+
+  export const callAddScheduleAPI = ({form}) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/insert`; 
     
     return async (dispatch, getState) => {

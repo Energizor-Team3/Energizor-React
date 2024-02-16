@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
 
 import {
-    callCalendarListAPI, callScheduleAPI
+    callCalendarListAPI, callAddScheduleAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';
@@ -60,7 +60,7 @@ function AddDetailSchedule(){
                 return ;
         }
 
-        dispatch(callScheduleAPI({	
+        dispatch(callAddScheduleAPI({	
             form: form
         }));      
         
