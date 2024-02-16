@@ -1,11 +1,26 @@
 import MainCSS from './Main.module.css';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { callLogoutAPI } from '../../apis/UserAPICalls';
 
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
     console.log('---------------',window.localStorage.getItem('accessToken'));
+
+    const navigate = useNavigate();
+
+    const onClickLogoutHandler = () => {
+        window.localStorage.removeItem('accessToken');  
+        //로그아웃
+        dispatch(callLogoutAPI());
+        
+        alert('로그아웃이 되어 메인화면으로 이동합니다.');
+        navigate("/", { replace: true })
+        window.location.reload();
+    }
+
     return (
         <>
             <main>
@@ -21,7 +36,8 @@ function Main() {
                             <p>김뫄뫄</p>
                             <br />
                             <h4>관리본부/인사팀</h4>
-                            <button className={MainCSS.go_mypage}>마이페이지</button>
+                            <button className={MainCSS.go_mypage}
+                            >마이페이지</button>
                         </div>
                     </div>
 

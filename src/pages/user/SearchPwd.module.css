@@ -40,9 +40,34 @@
     border-radius: 6px;
     border: transparent;
     margin-top: 10px;
+    padding-left: 10px;
+    font-size: 16px;
 }
 
 .find_pw_btn {
+    background: #94A9FF;
+    border-radius: 6px; 
+    border: transparent;
+    width: 343px;
+    height: 55px;
+    font-weight: 550;
+    font-size: 16px;
+    color:#353535;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.send_email {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+.back_login_btn {
     background: #94A9FF;
     border-radius: 6px; 
     border: transparent;

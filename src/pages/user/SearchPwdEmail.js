@@ -4,9 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
-import { callSearchPwdAPI } from '../../apis/UserAPICalls';
 
-function SearchPwd() {
+function SearchPwdEmail() {
     const navigate = useNavigate();
 
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
@@ -19,34 +18,34 @@ function SearchPwd() {
         email: '',
     });
 
-    const onChangeHandler = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
-    };
+    useEffect(() => {
+        if (loginUser.status === 200) {
+            console.log('[Login] Login SUCCESS {}', loginUser);
+            navigate('/', { replace: true });
+        }
+    }, [loginUser]);
 
-    const onClickSearchPwdHandler = () => {
-        dispatch(
-            callSearchPwdAPI({
-                form: form,
-            })
-        );
-        navigate("/searchpwdemail", { replace: true })
+    // 로그인 상태일 시 로그인페이지로 접근 방지
+    if (loginUser.length > 0) {
+        console.log('[Login] Login is already authenticated by the server');
+        return <Navigate to="/" />;
+    }
+
+    const onClickBackLoginHandler = () => {
+        navigate("/login", { replace: true })
     };
 
     return (
-        <div className={SearchPwdCSS.body}>
+        <body className={SearchPwdCSS.body}>
             <div className={SearchPwdCSS.login_wrap}>
                 <img src={process.env.PUBLIC_URL + '/common/Logo.png'} alt="로고" />
                 <span className={SearchPwdCSS.find_pw_title}>비밀번호 찾기</span>
-                <input className={SearchPwdCSS.find_pw} name='userId' type="text" onChange={ onChangeHandler } placeholder="ID" />
-                <input className={SearchPwdCSS.find_pw} name='email' type="text" onChange={ onChangeHandler } placeholder="Email" />
-                <button type="submit" className={SearchPwdCSS.find_pw_btn} onClick={ onClickSearchPwdHandler }>인증메일 발송</button>
+                <span className={SearchPwdCSS.send_email}>인증메일이 발송되었습니다.</span>
+                <button type="submit" className={SearchPwdCSS.back_login_btn} onClick={onClickBackLoginHandler}>로그인 화면 돌아가기</button>
             </div>
-        </div>
+        </body>
 
     );
 }
 
-export default SearchPwd;
+export default SearchPwdEmail;

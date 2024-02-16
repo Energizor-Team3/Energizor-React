@@ -42,8 +42,8 @@ function Login() {
         });
     };
 
-    const onClickRegisterHandler = () => {
-        navigate('/register', { replace: true });
+    const onClickSearchPwdHandler = () => {
+        navigate('/searchpwd', { replace: true });
     };
 
     // 로그인 버튼 클릭시 디스패처 실행 및 메인 페이지로 이동
@@ -65,14 +65,14 @@ function Login() {
                     className={LoginCSS.login} 
                     name='userId'
                     type="text" 
-                    placeholder="  ID"
+                    placeholder="ID"
                     onChange={ onChangeHandler }
                 />
                 <input 
                     className={LoginCSS.login}
                     name='userPw'
                     type="password" 
-                    placeholder="  Password" 
+                    placeholder="Password" 
                     onChange={ onChangeHandler }
                 />
                 <button 
@@ -86,8 +86,8 @@ function Login() {
                         type="checkbox" 
                         className={LoginCSS.save_id_check} 
                     />
-                    <span className="save_id">ID 저장</span>
-                    <span className="find_pw">비밀번호 찾기</span>
+                    <span className={LoginCSS.save_id}>ID 저장</span>
+                    <span className={LoginCSS.find_pw} onClick={ onClickSearchPwdHandler }>비밀번호 찾기</span>
                 </div>
             </div>
         </body>
