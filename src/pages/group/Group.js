@@ -15,35 +15,44 @@ import { decodeJwt } from '../../utils/tokenUtils';
     function TreeNode({ name, children, depth }) {
         const [isOpen, setIsOpen] = useState(false);
       
-        const toggleOpen = () => {
+    
+    const toggleOpen = () => {
+        // 자식이 있을 때만 토글 기능이 작동하도록 합니다.
+        if (children && children.length > 0) {
           setIsOpen(!isOpen);
-        };
-      
-        const hasChildren = children && children.length > 0;
-      
-        return (
-          <>
+        }
+      };
+    
+      const hasChildren = children && children.length > 0;
+    
+      return (
+        <>
+          <div style={{ paddingLeft: `${depth * 20}px`, cursor: hasChildren ? "pointer" : "default" }}>
+            {/* 자식이 있을 때만 토글 아이콘을 표시합니다. */}
+            {hasChildren && (
+              <span onClick={toggleOpen}>
+                {isOpen ? "▼" : "▶"}
+              </span>
+            )}
+            <span>{name}</span>
+          </div>
+    
+          {isOpen && hasChildren && (
             <div>
-              <div onClick={toggleOpen} style={{ cursor: "pointer" }}>
-                {children ? (isOpen ? "▼" : "▶") : null} {name}
-              </div>
-      
-              {isOpen && children && (
-                <div style={{ paddingLeft: `${depth * 20}px` }}>
-                  {children.map((child, index) => (
-                    <TreeNode
-                      key={index}
-                      name={child.name}
-                      children={child.children}
-                      depth={1}
-                    />
-                  ))}
-                </div>
-              )}
+              {children.map((child, index) => (
+                <TreeNode
+                  key={index}
+                  name={child.name}
+                  children={child.children}
+                  // depth 값을 증가시켜 자식에게 전달합니다.
+                  depth={depth + 1}
+                />
+              ))}
             </div>
-          </>
-        );
-      }
+          )}
+        </>
+      );
+    }
       
       function Group() {
 
@@ -56,41 +65,37 @@ import { decodeJwt } from '../../utils/tokenUtils';
     useEffect(()=>{
         dispatch(callOrganizationAPI());
     },[])
-        const data = [
-          {
-            name: "EveryWare",
-            children: [
-              {
-                name: "관리본부",
-                children: [
-                  { name: "총무팀", children: [{ name: "박서준팀장" }] },
-                  { name: "회계팀", children: [{ name: "강동원팀장" }] },
-                ],
-              },
-              { name: "영업본부", children: [{ name: "영업팀" }] },
-              {
-                name: "개발본부",
-                children: [
-                  { name: "IT운영팀", children: [{ name: "차은우팀장" }] },
-                  {
-                    name: "개발팀",
-                    children: [
-                      { name: "유승제팀장" },
-                      { name: "우지선" },
-                      { name: "박다희" },
-                      { name: "김수연" },
-                      { name: "김다혜" },
-                      { name: "축온청" },
-                      { name: "장재영" },
-                      { name: "이준희" },
-                    ],
-                  },
-                ],
-              },
-              { name: "마케팅본부", children: [{ name: "지창욱 마케팅본부장" }] },
-            ],
-          },
-        ];
+
+   // teamList 안의 userList를 순회하여 children을 생성하는 함수
+const createUserListStructure = (userList) => {
+    return userList.map(user => ({
+      name: user.userName, // userList의 userName을 name으로 할당
+      children: [] // 추가적인 하위 구조가 있다면 여기에 재귀적으로 추가
+    }));
+  };
+  
+  // teamList를 순회하여 children을 생성하는 함수
+  const createTeamListStructure = (teamList) => {
+    return teamList.map(team => ({
+      name: team.teamName, // teamList의 deptName을 name으로 할당
+      children: team.userList ? createUserListStructure(team.userList) : [] // userList가 있으면 해당 함수 호출
+    }));
+  };
+  
+  // 최상위 데이터 구조를 만드는 함수
+  const data = [
+    {
+      name: "EveryWare",
+      children: groupAndTeam.map(group => ({
+        name: group.deptName,
+        children: createTeamListStructure(group.teamList),
+      })),
+    },
+  ];
+  
+  console.log(data);
+
+        
       
         return (
           <div id="wrap">
