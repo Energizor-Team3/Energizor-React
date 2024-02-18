@@ -158,7 +158,7 @@ const createUserListStructure = (userList) => {
                           </label>
                         </div>
       
-                        <div className="Group"> 조직도부분
+                        <div className="Group"> 
                           <TreeNode
                             name={data[0].name}
                             children={data[0].children}
