@@ -3,7 +3,8 @@ import  './NewApprovaling.css';
 import CurrentTime from './Time';
 
 import {
-  callInsertGeneralDraftAPI
+  callInsertGeneralDraftAPI,
+  callSelectUserDetailAPI
 } from '../../apis/ApprovalAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -22,13 +23,20 @@ function GeneralDraft(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
-  const approvalingstate  = useSelector((state) => state.approvalReducer);
-  const approvalingstateList = approvalingstate?.data?.content;
+  const userdetail  = useSelector((state) => state.approvalReducer);
+
+  console.log('userdetail',  userdetail );
+  
+  
 
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState();
   const imageInput = useRef();
   // const [titleValue,setTitleValue] = useState('');
+
+  useEffect(() => {
+    dispatch(callSelectUserDetailAPI());
+  }, []);
 
   const [form, setForm] = useState({
     gdTitle: '',
@@ -76,7 +84,7 @@ function GeneralDraft(){
     formData.append("apFileNameOrigin", form.apFileNameOrigin);
 
       if(image){
-          formData.append("productImage", image);
+          formData.append("apFileNameOrigin", image);
       }
       console.log('[Approval] formData : ', formData.get("gdTitle"));
       console.log('[Approval] formData : ', formData.get("gdContent"));
@@ -104,8 +112,7 @@ function GeneralDraft(){
   //     dispatch(callInsertGeneralDraftAPI());
   // },[])
 
-  console.log('approvalingstate',  approvalingstate );
-  console.log('approvalingstateList',  approvalingstateList);
+  
 
 
   // const titleValueHandler = (e)=>{
@@ -351,7 +358,7 @@ function GeneralDraft(){
             </tbody>
           </table>
           <div className="btn1">
-            <button className="btn">기안</button>
+            <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
           </div>
         </div>
       </div>

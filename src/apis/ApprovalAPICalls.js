@@ -3,7 +3,8 @@ import {
     GET_APPROVAL_InboxApproval,
     GET_APPROVAL_SHAREDINBOX,
     GET_APPROVAL_Progress,
-    POST_APPROVAL_INSERTGENERALDRAFT
+    POST_APPROVAL_INSERTGENERALDRAFT,
+    GET_APPROVAL_FINDUSERDETAIL
    
 } from '../modules/ApprovalMainModule';
 
@@ -185,6 +186,30 @@ export const callInsertGeneralDraftAPI = ({form}) => {
         console.log('[ApprovalAPICalls] callInsertGeneralDraftAPI RESULT : ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTGENERALDRAFT,  payload: result });
+        
+    };
+}
+
+
+export const callSelectUserDetailAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/user`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT : ', result);
+
+        dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result.data });
         
     };
 }

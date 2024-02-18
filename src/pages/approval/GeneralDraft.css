@@ -39,13 +39,17 @@ li {
       width: 130px;
       
   }
-  .approvalul input{
+  .approvalul li, input{
       font-size: 14px;
       display: flex;
       justify-content: center;
       align-items: center;
       border: 1px solid #dcdcdc;
       color: #696868;
+      background-color: #F2F6FF;
+      text-align: center;
+      width: 130px;
+
   }
   .one{
       height: 40px;
@@ -185,6 +189,8 @@ li {
   
       overflow-y: auto; /* 세로 스크롤바 활성화 */
   }
+
+  
   
   
   
