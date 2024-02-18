@@ -4,22 +4,21 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const GET_GROUP_Organization  = 'group/GET_GROUP_Organization';
-
+export const GET_GROUP_User  = 'group/GET_GROUP_User';
 
 
 
 
 const actions = createActions({
-    [GET_GROUP_Organization]: () => {}
+    [GET_GROUP_User]: () => {}
     
     
 });
 
 /* 리듀서 */
-export const groupReducer = handleActions(
+export const groupUserReducer = handleActions(
     {
-        [GET_GROUP_Organization]: (state, { payload }) => {
+        [GET_GROUP_User]: (state, { payload }) => {
             
             return payload;
         }
@@ -28,4 +27,4 @@ export const groupReducer = handleActions(
     initialState
 );
 
-export default groupReducer;
+export default groupUserReducer;

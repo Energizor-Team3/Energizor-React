@@ -2,57 +2,62 @@ import  "./Group.css";
 import "../../components/common/SubHeader.css";
 
 import {
-    callOrganizationAPI
+    callOrganizationAPI,
+    callGetuserDetailAPI
 } from '../../apis/GroupAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
 
 
-    function TreeNode({ name, children, depth }) {
+
+    function TreeNode({ name, children, depth, onUserSelect, userCode }) {
         const [isOpen, setIsOpen] = useState(false);
+        const hasChildren = children && children.length > 0;
       
     
-    const toggleOpen = () => {
-        // 자식이 있을 때만 토글 기능이 작동하도록 합니다.
-        if (children && children.length > 0) {
-          setIsOpen(!isOpen);
-        }
-      };
+        const toggleOpen = () => {
+            if (hasChildren) {
+              setIsOpen(!isOpen);
+            }
+          };
+
+          // 유저이름 클릭했을때 유저코드 가져오는거
+          const handleUserClick = (e) => {
+            e.stopPropagation();
+            if (!hasChildren && onUserSelect) {
+              onUserSelect(userCode); // 유저 코드를 onUserSelect를 통해 상위 컴포넌트로 전달
+            }
+          };
     
-      const hasChildren = children && children.length > 0;
     
-      return (
-        <>
-          <div style={{ paddingLeft: `${depth * 20}px`, cursor: hasChildren ? "pointer" : "default" }}>
-            {/* 자식이 있을 때만 토글 아이콘을 표시합니다. */}
+          return (
+            <div style={{ paddingLeft: `${depth * 20}px` }}>
             {hasChildren && (
               <span onClick={toggleOpen}>
                 {isOpen ? "▼" : "▶"}
               </span>
             )}
-            <span>{name}</span>
+            <span onClick={handleUserClick}>{name}</span>
+            {isOpen && hasChildren && (
+              <div>
+                {children.map((child, index) => (
+                  <TreeNode
+                    key={index}
+                    name={child.name}
+                    children={child.children}
+                    depth={depth + 1}
+                    onUserSelect={onUserSelect}
+                    userCode={child.userCode} // userCode를 자식 컴포넌트로 전달합니다.
+                  />
+                ))}
+              </div>
+            )}
           </div>
-    
-          {isOpen && hasChildren && (
-            <div>
-              {children.map((child, index) => (
-                <TreeNode
-                  key={index}
-                  name={child.name}
-                  children={child.children}
-                  // depth 값을 증가시켜 자식에게 전달합니다.
-                  depth={depth + 1}
-                />
-              ))}
-            </div>
-          )}
-        </>
-      );
-    }
+        );
+      }
       
       function Group() {
 
@@ -60,16 +65,27 @@ import { decodeJwt } from '../../utils/tokenUtils';
     const dispatch = useDispatch();
     const groupAndTeam  = useSelector((state) => state.groupReducer); 
     console.log('groupAndTeam',groupAndTeam )
+    const [selectedUserCode, setSelectedUserCode] = useState(null);
+    
+    const user = useSelector((state) => state.groupUserReducer)
+    console.log('user',user )
 
 
     useEffect(()=>{
         dispatch(callOrganizationAPI());
     },[])
 
+    const handleUserSelect = (code) => {
+        // 선택된 유저의 코드를 상태로 설정합니다.
+        setSelectedUserCode(code);
+        dispatch(callGetuserDetailAPI(code));
+      };
+
    // teamList 안의 userList를 순회하여 children을 생성하는 함수
 const createUserListStructure = (userList) => {
     return userList.map(user => ({
       name: user.userName, // userList의 userName을 name으로 할당
+      userCode: user.userCode,
       children: [] // 추가적인 하위 구조가 있다면 여기에 재귀적으로 추가
     }));
   };
@@ -83,7 +99,7 @@ const createUserListStructure = (userList) => {
   };
   
   // 최상위 데이터 구조를 만드는 함수
-  const data = [
+  const data = Array.isArray(groupAndTeam) ? [
     {
       name: "EveryWare",
       children: groupAndTeam.map(group => ({
@@ -91,9 +107,8 @@ const createUserListStructure = (userList) => {
         children: createTeamListStructure(group.teamList),
       })),
     },
-  ];
+  ] : [];
   
-  console.log(data);
 
         
       
@@ -163,6 +178,7 @@ const createUserListStructure = (userList) => {
                             name={data[0].name}
                             children={data[0].children}
                             depth={1}
+                            onUserSelect={handleUserSelect}
                           />
                         </div>
                       </div>
@@ -179,30 +195,30 @@ const createUserListStructure = (userList) => {
                         <ul class="group_member_info">
                           <li>
                             <strong>사용자 ID</strong>
-                            <span>45454</span>
+                            <span>{user?.userId}</span>
                           </li>
                           <li>
                             <strong>이름</strong>
-                            <span>홍길동</span>
+                            <span>{user?.userName}</span>
                           </li>
                           <li>
                             <strong>소속 부서</strong>
-                            <span>개발 1팀</span>
+                            <span>{user?.team.teamName}</span>
                           </li>
                           <li>
                             <strong>직급</strong>
-                            <span>대리</span>
+                            <span>{user?.userRank}</span>
                           </li>
                           <li>
                             <strong>휴대폰 번호</strong>
-                            <span>010-1234-4567</span>
+                            <span>{user?.phone}</span>
                           </li>
                           <li>
                             <strong>이메일</strong>
-                            <span></span>
+                            <span>{user?.email}</span>
                           </li>
                         </ul>
-                        <img src="/resources/images/personSample.png" alt="" />
+                        <img src="/common/personSample.png" alt="" />
                       </div>
                     </div>
       
@@ -210,15 +226,15 @@ const createUserListStructure = (userList) => {
                       <ul class="group_department_info">
                         <li>
                           <strong>그룹명</strong>
-                          <span>개발1팀</span>
+                          <span>{user?.team.teamName}</span>
                         </li>
-                        <li class="department_member">
+                        {/* <li class="department_member">
                           <strong>소속 직원</strong>
                           <div>
                             <img src="/resources/images/person.png" alt="" />
                             <span>홍길동1</span>
                           </div>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </div>
