@@ -1,6 +1,7 @@
 import  './GeneralDraft.css';
 import  './NewApprovaling.css';
 import CurrentTime from './Time';
+import ApprovalGroup from './ApprovalGroup';
 
 import {
   callInsertGeneralDraftAPI,
@@ -12,7 +13,6 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
-import { group } from '../group/Group'
 
 
 
@@ -352,7 +352,8 @@ function GeneralDraft(){
             <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
           </div>
         </div>
-        <div className='og' id='og' >asdasd
+        <div className='og' id='og' >
+        <ApprovalGroup />
         </div>
         </div>
         </div>

@@ -199,11 +199,12 @@ li {
   .og{
     padding-left: 30px;
     width: 350px;
-    color: red;
     display: none; /* 기본적으로 보이지 않음 */
-    border: 1px solid #94A9FF;
     margin-top: 20px; /* 상단 여백 */
     border-radius: 6px;
+    max-width: 300px;
+    max-height: 700px;
+    
     
   }
 
