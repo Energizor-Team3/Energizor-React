@@ -1,7 +1,27 @@
 import GroupCSS from "./Group.module.css";
+import {
+    callOrganizationAPI
+} from '../../apis/GroupAPICalls';
+
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import queryString from 'query-string';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { decodeJwt } from '../../utils/tokenUtils';
 
 
 function Group() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const groupAndTeam  = useSelector((state) => state.groupReducer); 
+    console.log(groupAndTeam ,'groupAndTeam')
+
+
+    useEffect(()=>{
+        dispatch(callOrganizationAPI());
+    },[])
+
+
     return (
         <>
         <section>
@@ -15,13 +35,13 @@ function Group() {
             <ul class="sub_list">
                 <li>
                 <div>
-                    <img src="/resources/images/organization.png" alt="" />
+                    <img src="/common/organization.png" alt="" />
                     <a href="/views/organization/organization.html">조직도</a>
                 </div>
                 </li>
                 <li className={GroupCSS.sub_list_text}>
                 <div>
-                    <img src="/resources/images/file2.png" alt="" />
+                    <img src="/common/file2.png" alt="" />
                     <a href="/views/organization/organizationManagement.html">
                     그룹관리
                     </a>
@@ -58,7 +78,7 @@ function Group() {
                         />
                         {/* <!-- <button id="search_button">검색</button> --> */}
                         <label for="group_search">
-                        <img src="/resources/images/search.png" alt="" />
+                        <img src="/common/search.png" alt="" />
                         </label>
                     </div>
                     <div>
@@ -101,7 +121,7 @@ function Group() {
                         <span></span>
                         </li>
                     </ul>
-                    <img src="/resources/images/personSample.png" alt="" />
+                    <img src="/common/personSample.png" alt="" />
                     </div>
                 </div>
 
@@ -114,7 +134,7 @@ function Group() {
                     <li className={GroupCSS.department_member}>
                         <strong>소속 직원</strong>
                         <div>
-                        <img src="/resources/images/person.png" alt="" />
+                        <img src="/common/person.png" alt="" />
                         <span>홍길동1</span>
                         </div>
                     </li>

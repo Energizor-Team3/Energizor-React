@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
+import { group } from '../group/Group'
 
 
 
@@ -34,9 +35,12 @@ function GeneralDraft(){
   const imageInput = useRef();
   // const [titleValue,setTitleValue] = useState('');
 
+  
   useEffect(() => {
     dispatch(callSelectUserDetailAPI());
-  }, []);
+  }, []); // 의존성 배열에 dispatch를 넣어주어야 합니다.
+
+  
 
   const [form, setForm] = useState({
     gdTitle: '',
@@ -68,6 +72,11 @@ function GeneralDraft(){
     console.log('실제로 값이 변하는지',form);
   },[form])
 
+  // 결재 조직도 오픈
+  const toggleContent =() =>{
+    var og = document.getElementById("og");
+    og.classList.toggle("active");
+    }
   
    
 
@@ -183,7 +192,7 @@ function GeneralDraft(){
           <div className="line">
             <div className="search_box">
               <span>
-                <button>결재</button>
+                <button onClick={toggleContent}>결재</button>
               </span>
               <span>
                 <button>참조</button>
@@ -210,42 +219,24 @@ function GeneralDraft(){
           <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
         </div> */}
         </div>
+        <div className='side'>
         <div className="wrap2">
           <div className="approval">
             <span className="texttitle">기 안</span>
             <ul className="approvalul">
-              <input type='text' className="one" value={token.userRole[0].authority.authName}/>
+              <input type='text' className="one" value={userdetail?.team?.dept?.deptName + "/" + userdetail?.team?.teamName}/>
               <li className="two">
                 <img src="" alt="" />
-                도장
               </li>
               <input type="text" className="three" placeholder='축온청'/>
               <li className="four">날짜</li>
             </ul>
             <span className="texttitle">결 재</span>
             <ul className="approvalul">
-              <li className="one">운영 이사/팀원</li>
-              <li className="two">도장</li>
-              <li className="three">축온청</li>
-              <li className="four">날짜</li>
-            </ul>
-            <ul className="approvalul">
-              <li className="one">운영 이사/팀원</li>
-              <li className="two">도장</li>
-              <li className="three">축온청</li>
-              <li className="four">날짜</li>
-            </ul>
-            <ul className="approvalul">
-              <li className="one">운영 이사/팀원</li>
-              <li className="two">도장</li>
-              <li className="three">축온청</li>
-              <li className="four">날짜</li>
-            </ul>
-            <ul className="approvalul">
-              <li className="one">운영 이사/팀원</li>
-              <li className="two">도장</li>
-              <li className="three">축온청</li>
-              <li className="four">날짜</li>
+              <input className="one" value={0}/>
+              <input className="two"/>
+              <input className="three" value={0}/>
+              <input className="four" value={0}/>
             </ul>
           </div>
           <table>
@@ -361,7 +352,10 @@ function GeneralDraft(){
             <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
           </div>
         </div>
-      </div>
+        <div className='og' id='og' >asdasd
+        </div>
+        </div>
+        </div>
     </main>
     </div>
        );

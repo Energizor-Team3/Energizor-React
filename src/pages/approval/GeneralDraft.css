@@ -186,9 +186,32 @@ li {
       margin: 20px;
       max-height: 700px; /* 원하는 최대 높이 설정 */
       max-width: 1000px;
+      width: 1000px;
   
       overflow-y: auto; /* 세로 스크롤바 활성화 */
   }
+
+  .side{
+    display:flex;
+    
+    
+  }
+  .og{
+    padding-left: 30px;
+    width: 350px;
+    color: red;
+    display: none; /* 기본적으로 보이지 않음 */
+    border: 1px solid #94A9FF;
+    margin-top: 20px; /* 상단 여백 */
+    border-radius: 6px;
+    
+  }
+
+    
+/* 활성화된 컨텐츠 박스 스타일 */
+.active {
+    display: block; /* 보이도록 설정 */
+}
 
   
   
