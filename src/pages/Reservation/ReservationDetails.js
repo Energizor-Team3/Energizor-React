@@ -11,16 +11,13 @@ function ReservationDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reservation = useSelector((state) => state.reservationReducer);
-  const reservationAttendee = useSelector(
-    (state) => state.reservationAttendeeReducer
-  );
+  const reservationAttendee = useSelector((state) => state.reservationAttendeeReducer);
   console.log("----------------", reservationAttendee);
 
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
 
   useEffect(() => {
     dispatch(callResevationDetailAPI());
-   
   }, []);
 
   console.log("reservation", reservation);
@@ -36,17 +33,26 @@ function ReservationDetails() {
     try {
       // 참석자 정보를 불러오는 API 호출
       await dispatch(callAttendeeDetailAPI({ reservationCode }));
-      // API 호출 후에 reservationAttendee 상태 업데이트
-      if (reservationAttendee) {
-        setAttendeesInfo(reservationAttendee); // API 호출 결과를 상태에 설정
-        setShowPopup(true); // 팝업 열기
-      } else {
-        console.error("xxxxxxxxxx");
-      }
     } catch (error) {
       console.error("Error fetching attendees:", error);
+      return;
     }
   };
+
+  useEffect(() => {
+    if (reservationAttendee) {
+      setAttendeesInfo(reservationAttendee); // API 호출 결과를 상태에 설정
+      setShowPopup(true); // 팝업 열기
+    } else {
+      // 참석자가 없는 경우 알림창 표시
+      alert("참석자가 없습니다.");
+    }
+  }, [reservationAttendee]);
+
+  useEffect(() => {
+    // 페이지 로드 시 빈 팝업이 나타나지 않도록 팝업 상태 초기화
+    setShowPopup(false);
+  }, []);
 
   const closePopup = () => {
     setShowPopup(false); // 팝업 닫기
@@ -91,9 +97,7 @@ function ReservationDetails() {
           <table>
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" />
-                </th>
+                <th><input type="checkbox" /></th>
                 <th>장소</th>
                 <th>신청사유</th>
                 <th>사용시작일시</th>
@@ -106,30 +110,18 @@ function ReservationDetails() {
               {Array.isArray(reservation) &&
                 reservation.map((reservation) => (
                   <tr key={reservation?.reservationCode}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        value={reservation?.reservationCode}
-                      />
-                    </td>
-
+                    <td><input type="checkbox" value={reservation?.reservationCode} /></td>
                     <td>{reservation?.meetCode?.meetName}</td>
                     <td>{reservation?.reservationContent}</td>
                     <td>{reservation?.reservationDate}</td>
                     <td>{reservation?.reservationDate}</td>
                     <td>
                       {/* 수정: 참석자 버튼 클릭 시 해당 예약 코드를 인자로 전달 */}
-                      <button
-                        className="btnStatus"
-                        onClick={() => {
-                          console.log("참석자 불러");
-                          showAttendees(reservation?.reservationCode);
-                        }}
-                      >
-                        참석자
-                      </button>
+                      <button className="btnStatus" onClick={() => {
+                        console.log("참석자 불러");
+                        showAttendees(reservation?.reservationCode);
+                      }}>참석자</button>
                     </td>
-
                     <td>{reservation.status}</td>
                   </tr>
                 ))}
