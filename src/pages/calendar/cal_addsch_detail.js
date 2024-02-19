@@ -117,7 +117,7 @@ function AddDetailSchedule(){
             <nav className="cal_nav">
                 <ul className="cal_ul">
                 <li>
-                    <input type="checkbox" id="allcal_checkbox" />
+                    <input type="checkbox" class="allcal_checkbox" />
                     <label htmlFor="allcal_checkbox">전체일정</label>
                 </li>
                 <li className="cal_menu">
