@@ -11,7 +11,9 @@ function ReservationDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reservation = useSelector((state) => state.reservationReducer); // Redux 스토어에서 예약 상태 가져오기
-  const reservationAttendee = useSelector((state) => state.reservationAttendeeReducer); // Redux 스토어에서 참석자 상태 가져오기
+  const reservationAttendee = useSelector(
+    (state) => state.reservationAttendeeReducer
+  ); // Redux 스토어에서 참석자 상태 가져오기
   console.log("----------------", reservationAttendee);
 
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
@@ -27,7 +29,8 @@ function ReservationDetails() {
 
   const doubleClickHandler = () => {};
 
-  const showAttendees = async (reservationCode) => { // 참석자 정보 표시 함수
+  const showAttendees = async (reservationCode) => {
+    // 참석자 정보 표시 함수
     console.log("showAttendees 호출", reservationCode); // 콘솔에 함수 호출 확인
 
     try {
@@ -39,8 +42,10 @@ function ReservationDetails() {
     }
   };
 
-  useEffect(() => { // 참석자 상태 변경 시 실행되는 효과
-    if (reservationAttendee) { // 참석자 정보가 존재하는 경우
+  useEffect(() => {
+    // 참석자 상태 변경 시 실행되는 효과
+    if (reservationAttendee) {
+      // 참석자 정보가 존재하는 경우
       setAttendeesInfo(reservationAttendee); // 참석자 정보 설정
       setShowPopup(true); // 팝업 노출
     } else {
@@ -92,12 +97,30 @@ function ReservationDetails() {
             <strong>내 예약내역</strong>
             <div className="line"></div>
           </div>
-          <div className="select_line"></div>
+
+          <div className="select_line">
+            <div className="MDbutton">
+              <button
+                className="btnStatus"
+                onClick={() => navigate("/reservationmodify")}
+              >
+                예약수정
+              </button>
+              <button
+                className="btnStatus"
+                onClick={() => navigate("/reservationcancel")}
+              >
+                예약취소
+              </button>
+            </div>
+          </div>
           {/* 예약 목록을 렌더링하는 부분 */}
           <table>
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
+                <th>
+                  <input type="checkbox" />
+                </th>
                 <th>장소</th>
                 <th>신청사유</th>
                 <th>사용시작일시</th>
@@ -108,23 +131,37 @@ function ReservationDetails() {
             </thead>
             <tbody>
               {Array.isArray(reservation) &&
-                reservation.map((reservation) => (  // 예약 정보 배열이 존재하는 경우 배열 순회
-                  <tr key={reservation?.reservationCode}> 
-                    <td><input type="checkbox" value={reservation?.reservationCode} /></td>
-                    <td>{reservation?.meetCode?.meetName}</td>
-                    <td>{reservation?.reservationContent}</td>
-                    <td>{reservation?.reservationDate}</td>
-                    <td>{reservation?.reservationDate}</td>
-                    <td>
-                      {/* 참석자 버튼: 클릭 시 해당 예약 코드를 인자로 전달하여 참석자 정보 호출 */}
-                      <button className="btnStatus" onClick={() => {
-                        console.log("참석자 불러");
-                        showAttendees(reservation?.reservationCode);
-                      }}>참석자</button>
-                    </td>
-                    <td>{reservation.status}</td>
-                  </tr>
-                ))}
+                reservation.map(
+                  (
+                    reservation // 예약 정보 배열이 존재하는 경우 배열 순회
+                  ) => (
+                    <tr key={reservation?.reservationCode}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          value={reservation?.reservationCode}
+                        />
+                      </td>
+                      <td>{reservation?.meetCode?.meetName}</td>
+                      <td>{reservation?.reservationContent}</td>
+                      <td>{reservation?.reservationDate}</td>
+                      <td>{reservation?.reservationDate}</td>
+                      <td>
+                        {/* 참석자 버튼: 클릭 시 해당 예약 코드를 인자로 전달하여 참석자 정보 호출 */}
+                        <button
+                          className="btnStatus"
+                          onClick={() => {
+                            console.log("참석자 불러");
+                            showAttendees(reservation?.reservationCode);
+                          }}
+                        >
+                          참석자
+                        </button>
+                      </td>
+                      <td>{reservation.status}</td>
+                    </tr>
+                  )
+                )}
             </tbody>
           </table>
         </div>
@@ -134,7 +171,9 @@ function ReservationDetails() {
           <div className="popup_inner">
             <h2>참석자 정보</h2>
             <button onClick={closePopup}>Close</button>
-            <table className="attendeeTable"> {/* 참석자 정보 테이블 */}
+            <table className="attendeeTable">
+              {" "}
+              {/* 참석자 정보 테이블 */}
               <thead>
                 <tr>
                   <th>이름</th>
@@ -143,16 +182,21 @@ function ReservationDetails() {
                 </tr>
               </thead>
               <tbody>
-                {attendeesInfo.map((attendee, index) => ( //참석자 정보 배열 순회
-                  <tr key={index}>
-                    <td>{attendee?.userCode?.userName}</td>
-                    <td>{attendee?.userCode?.email}</td>
-                    <td>{attendee?.userCode?.phone}</td>
-                  </tr>
-                ))}
+                {attendeesInfo.map(
+                  (
+                    attendee,
+                    index //참석자 정보 배열 순회
+                  ) => (
+                    <tr key={index}>
+                      <td>{attendee?.userCode?.userName}</td>
+                      <td>{attendee?.userCode?.email}</td>
+                      <td>{attendee?.userCode?.phone}</td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
-            </div>
+          </div>
         </div>
       )}
     </div>
