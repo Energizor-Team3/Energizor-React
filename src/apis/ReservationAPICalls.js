@@ -1,7 +1,6 @@
-import {
-  GET_RESERVATION_DETAILS,
-  GET_ATTENDEE_DETAILS,
-} from "../modules/ReservationModules";
+import { GET_RESERVATION_DETAILS } from "../modules/ReservationModules";
+
+import { GET_RESERVATION_ATTENDEE } from "../modules/ReservationAttendeeModule";
 
 export const callResevationDetailAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/all`;
@@ -49,9 +48,6 @@ export const callAttendeeDetailAPI = ({ reservationCode }) => {
 
     console.log("[ReservationAPICall] callAttendeeDetailAPI RESULT : ", result);
 
-    dispatch({
-      type: "reservation/GET_ATTENDEE_DETAILS",
-      payload: result.data,
-    });
+    dispatch({ type: GET_RESERVATION_ATTENDEE, payload: result.data });
   };
 };
