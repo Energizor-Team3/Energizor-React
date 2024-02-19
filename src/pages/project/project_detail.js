@@ -9,6 +9,8 @@ import {
     callProjectDetailAPI
 } from '../../apis/ProjectAPICalls'
 
+import projectReducer from '../../modules/ProjectModule';
+
 
 
 function ProjectDetail(){
@@ -17,13 +19,17 @@ function ProjectDetail(){
     const navigate = useNavigate();
     const params = useParams();
  
-    const project = useSelector(state => state.projectReducer.projects.find(item => item.proNo === Number(params.proNo)));
+    const project  = useSelector(state => state.projectReducer);
 
 
-
-    useEffect(() => {
-        dispatch(callProjectDetailAPI({ proNo: params.proNo }));
-    }, [dispatch, params.proNo]);
+    useEffect(
+        () => {
+            dispatch(callProjectDetailAPI({	// 상품 상세 정보 조회
+                proNo: params.proNo
+            }));            
+        }
+        ,[]
+    );
 
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);

@@ -1,7 +1,7 @@
 
 import{
+    GET_PROJECTS,
     GET_PROJECT,
-    GET_PROJECTS
 } from '../modules/ProjectModule.js';
 
 export const callProjectListAPI = () => {
@@ -17,17 +17,20 @@ export const callProjectListAPI = () => {
             },
           }).then((response) => response.json());
 
-          console.log('[CalendarAPICalls] callCalendarListAPI RESULT : ', result);
+          console.log('[ProjectAPICalls] callProjectListAPI RESULT : ', result);
           dispatch({ type: GET_PROJECTS, payload:result});
     };
 
-}
 
+};
+
+
+        
 export const callProjectDetailAPI = ({ proNo }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/project/${ proNo }`;
 
     return async (dispatch, getState) => {
-        const result = await fetch( requestURL, {
+        const result = await fetch(requestURL, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -36,10 +39,11 @@ export const callProjectDetailAPI = ({ proNo }) => {
             },
         }).then((response) => response.json());
 
-            console.log('[ProjectAPICalls] callProjectDetailAPI RESULT : ',
-         result);
-         dispatch({ type: GET_PROJECT, payload: result.data});
-            
-        };
-        
+        console.log('[ProjectAPICalls] callProjectDetailAPI RESULT : ', result);
+        if (result.status === 200) {
+            console.log('[ProduceAPICalls] callProductDetailAPI SUCCESS');
+            dispatch({ type: GET_PROJECT, payload: result.data });
+        }
     };
+};
+

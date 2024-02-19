@@ -2,21 +2,17 @@ import { createActions, handleActions } from "redux-actions";
 
 
 /*초기값*/
-
-const initialState = {
-    projects: []
-};
+const initialState = [];
 
 
 /*액션*/
 
-export const GET_PROJECT='project/GET_PROJECT';
-export const GET_PROJECTS='projects/GET_PROJECTS';
-
+export const GET_PROJECTS         ='projects/GET_PROJECTS';
+export const GET_PROJECT          ='project/GET_PROJECT';
 
 const actions = createActions ( {
-    [GET_PROJECT]: () => {} ,
-    [GET_PROJECTS]:() => {}
+    [GET_PROJECTS]:() => {},
+    [GET_PROJECT]: () => {}
 });
 
 /*리듀서*/
@@ -24,12 +20,14 @@ const actions = createActions ( {
 const projectReducer = handleActions(
     {
         [GET_PROJECTS]: (state, { payload }) => {
-            return { ...state, data: payload.data }; // 전체 프로젝트 목록 업데이트
+            
+            return payload;
         },
         [GET_PROJECT]: (state, { payload }) => {
-
-            return { ...state, data: payload };
+            
+            return payload;
         }
+
     },
     initialState
 );

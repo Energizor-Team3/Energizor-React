@@ -15,7 +15,7 @@ import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
 import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
-import GeneralDraft from './pages/approval/GeneralDraft';
+
 import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
 import CalendarSetting from './pages/calendar/CalendarSetting';
