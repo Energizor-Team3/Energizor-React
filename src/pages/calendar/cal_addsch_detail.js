@@ -33,6 +33,8 @@ function AddDetailSchedule(){
             calNo: selectedCal.calNo
         }));
     };
+
+
     const [form, setForm] = useState({
         schTitle : '',
         schDetail : '',

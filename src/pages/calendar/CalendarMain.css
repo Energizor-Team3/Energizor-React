@@ -135,8 +135,22 @@ body{
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events{
      left: 0px;
     position: absolute;
-    right: 0px;
+    right: 0px;}
+  
+.fc-h-event{
+      border: 2px solid;
+      border-radius: 8px;
+      padding: 2px;
+      margin:3px;
+      
+    }
+
+
+
+.fc-event-time {
+  display: none;
 }
+
 
 /* 일정 부분 */
 .schedule{

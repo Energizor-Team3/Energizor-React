@@ -10,47 +10,87 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import {
     callCalendarListAPI,
-    callAddScheduleAPI
+    callSchedulesAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';
+import scheduleReducer from '../../modules/ScheduleModule';
 
 
 function CalendarMainPage(){
 
     const dispatch = useDispatch();
     const calendar = useSelector(state => state.calendarReducer);  
+    const schedule = useSelector(state => state.scheduleReducer);
+    const scheduleList = schedule.data;
     const calendarList = calendar.data;
+         
     const token = decodeJwt(window.localStorage.getItem("accessToken"));  
 
     const [calNo, setcalNo] = useState(0);
+    
     const [userCode, setuserCode] = useState(0);
+    const [events, setEvents] = useState([]);
 
     const calendarRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false); 
     const [allCalChecked, setAllCalChecked] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
 
+
+
+    useEffect(() => {
+        console.log("scheduleList:", scheduleList); // scheduleList 값 확인
+        if (scheduleList && scheduleList.length > 0) {
+            const scheduleEvents = scheduleList.map(schedule => {
+                // 배열 형태의 시작일과 종료일을 JavaScript Date 객체로 변환
+                const startDateTimeArray = schedule.schStartDate;
+                const endDateTimeArray = schedule.schEndDate;
     
-
-    useEffect(
-        () => {
+                // 초 정보가 없는 경우에도 정상적으로 처리
+                const startDateTime = new Date(startDateTimeArray[0], startDateTimeArray[1] - 1, startDateTimeArray[2], startDateTimeArray[3], startDateTimeArray[4], startDateTimeArray[5] || 0);
                 
-    console.log("useEffect의 token---->", token);
-    console.log("useEffect의 token.userCode--->", token.userCode);
+                let endDateTime = null;
+                if (endDateTimeArray) {
+                    // 초 정보가 없는 경우에도 정상적으로 처리
+                    endDateTime = new Date(endDateTimeArray[0], endDateTimeArray[1] - 1, endDateTimeArray[2], endDateTimeArray[3], endDateTimeArray[4], endDateTimeArray[5] || 0);
+                }
+    
+                const event = {
+                    title: schedule.schTitle,
+                    start: startDateTime,
+                    backgroundColor: schedule.calColor,
+                    borderColor: schedule.calColor
+                    
 
-            if (calendarRef.current) {
-                calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
-            }
-            if(token !== null) {
-                dispatch(callCalendarListAPI({	// 캘린더 정보 조회 
-                    userCode : token.userCode
-                }));            
-            }
-
+                };
+    
+                // 종료일이 있는 경우에만 설정
+                if (endDateTime) {
+                    event.end = endDateTime;
+                }
+    
+                return event;
+            });
+            setEvents(scheduleEvents);
         }
-        , []
-    );
+    }, [scheduleList]);
+
+
+
+    useEffect(() => {
+        console.log("useEffect의 token---->", token);
+        console.log("useEffect의 token.userCode--->", token.userCode);
+    
+        if (calendarRef.current) {
+            calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
+        }
+    
+        if (token !== null) {
+            dispatch(callCalendarListAPI({ userCode: token.userCode }));
+            dispatch(callSchedulesAPI({ userCode: token.userCode }));
+        }
+    }, []);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded); // 클릭 시 토글 상태 변경
@@ -69,6 +109,16 @@ function CalendarMainPage(){
         // 선택된 날짜 업데이트
         setSelectedDate(selectionInfo.start);
     };
+
+    // useEffect(() => {
+    //     document.querySelectorAll('.fc-h-event').forEach(element => {
+    //         const backgroundColor = window.getComputedStyle(element).backgroundColor;
+    //         const rgbaColor = backgroundColor.replace(')', ', 0.7)').replace('rgb', 'rgba');
+    //         element.style.backgroundColor = rgbaColor;
+    //         element.style.borderColor = backgroundColor;
+    //     });
+    // }, [events]); 
+
     return(
         <div id="wrap">
         <section>
@@ -129,17 +179,18 @@ function CalendarMainPage(){
            </section>
            <div className="cmpmain">
                 <div id="calendar">
-                    <FullCalendar
-                        ref={calendarRef}
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        events={calendar.events} // 일정 데이터 바인딩
-                        selectable={true}
-                        select={handleSelect}
-                        dayMaxEventRows={3}
-                        eventLimit={true}
-                
-                    />
-                
+                <FullCalendar
+                    ref={calendarRef}
+                    plugins={[dayGridPlugin, interactionPlugin]}
+                    events={events} 
+                    selectable={true}
+                    select={handleSelect}
+                    dayMaxEventRows={2} 
+                    editable={true}
+                    
+                   
+                />
+                                
                 </div>
                 <div className="schedule">
                     <span className="selected_date">    {selectedDate ? 
