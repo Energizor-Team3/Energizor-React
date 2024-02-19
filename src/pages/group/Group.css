@@ -1,11 +1,16 @@
-#wrap {
+.tree-line {
+  position: absolute;
+  border-left: 2px solid #000; /* 선의 색상과 스타일을 설정합니다. */
+}
+
+.tree-node {
+  position: relative;
+  padding-left: 20px; /* 노드 간의 간격을 조절합니다. */
 }
 
 .group_wrap {
   display: flex;
   margin-top: 80px;
-  justify-content: space-between;
-  width: 100%;
 }
 
 .group {
@@ -16,27 +21,35 @@
   margin-right: 50px;
 }
 
-.subMain {
+
+.Group{
+  width: 370px;
+  height: 510px;
+  overflow-y: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border: 1px solid rgb(177, 177, 177);
+  padding: 10px 0;
+
 }
 
-.subMain .group_search {
+main .group_search {
   position: relative;
 }
 
-.subMain .group_search input[type="search"] {
-  width: 360px;
+main .group_search input[type="search"] {
+  width: 370px;
   height: 32px;
   margin-bottom: 20px;
 }
 
-.subMain .group_search label img {
+main .group_search label img {
   position: absolute;
-  top: 5px;
-  right: 10px;
-  width: 22px;
+  top: 4px;
+  right: 4px;
 }
 
-.subMain .group_list label {
+main .group_list label {
   cursor: pointer;
 }
 
@@ -45,10 +58,6 @@
 .group_info {
   width: 100%;
   display: flex;
-}
-
-.group_info_wrap {
-  margin-right: 120px;
 }
 
 .group_info_wrap .note_btn {
@@ -88,7 +97,6 @@
 /* 조직도 부서 정보 */
 
 .group_department_info_wrap {
-  display: none;
 }
 
 .group_department_info {
@@ -131,51 +139,4 @@
   display: inline-block;
 }
 
-.group_wrap {
-  display: flex;
-  margin-top: 80px;
-  justify-content: space-between;
-  width: 100%;
-}
 
-.group {
-  width: 800px;
-  height: 600px;
-  border: 1px solid black;
-  padding: 16px;
-  margin-right: 50px;
-  background-color: rgb(165, 113, 113);
-  width: 800px;
-}
-
-.group_content{
-  width: 600px;
-  background-color: gray;
-}
-
-.group_list {
-  border: 1px solid rgb(136, 136, 136);
-  padding: 10px 20px;
-  font-size: 20px;
-  font-weight: bold;
-  width: 600px;
-  height: 500px;
-  background-color: aqua;
-}
-
-.group_list div {
-  text-indent: 30px;
-  font-size: 16px;
-  font-weight: initial;
-  padding-top: 5px;
-}
-
-.group_list div ul {
-  text-indent: 60px;
-  padding-top: 5px;
-}
-
-.group_list div ul li {
-  text-indent: 90px;
-  padding: 5px 0;
-}

@@ -1,5 +1,6 @@
-import { GET_GROUP_Organization } from "../modules/groupModule";
-import { GET_GROUP_User } from "../modules/groupUserModule";
+import { GET_GROUP_Organization } from "../modules/GroupModule";
+import { GET_GROUP_User } from "../modules/GroupUserModule";
+import { GET_GROUP_TEAM } from "../modules/GroupTeamModule";
 
 export const callOrganizationAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/groupList`;
@@ -40,5 +41,26 @@ export const callGetuserDetailAPI = (userCode) => {
     console.log("[ApprovalAPICalls] callGetuserDetailAPI RESULT : ", result);
 
     dispatch({ type: GET_GROUP_User, payload: result.data });
+  };
+};
+
+export const callGetTeamDetailAPI = (teamCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/team/${teamCode}`;
+
+  return async (dispatch, getState) => {
+    console.log("팀코드들옴?====?", teamCode);
+
+    const result = await fetch(requestURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+      },
+    }).then((response) => response.json());
+
+    console.log("[ApprovalAPICalls] callGetTeamDetailAPI RESULT : ", result);
+
+    dispatch({ type: GET_GROUP_TEAM, payload: result.data });
   };
 };
