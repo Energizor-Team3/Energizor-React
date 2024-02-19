@@ -50,7 +50,6 @@ function App() {
 
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
-          
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />

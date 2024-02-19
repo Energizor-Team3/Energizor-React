@@ -1,287 +1,287 @@
 
 body{
-    font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 .menu_schedule{
-    margin-top: -20px;
-    font-weight: 800;
+  margin-top: -20px;
+  font-weight: 800;
 }
 .cmpmain{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top:30px;
-    /* padding: 50px 0; */
-    /* margin: 0 10px; */
-    /* background-color:rgb(249, 249, 249); */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top:30px;
+  /* padding: 50px 0; */
+  /* margin: 0 10px; */
+  /* background-color:rgb(249, 249, 249); */
 }
 
 #menu_1{
-    margin-top: 30px;
-    margin-bottom: 5px;
-    display: flex;
-    /* align-items: center; */
+  margin-top: 30px;
+  margin-bottom: 5px;
+  display: flex;
+  /* align-items: center; */
 }
 
 #menu_1 span{ 
-    /* vertical-align: middle; */
-    margin-top: -2px;
-    margin-left: 10px;
-    font-size: 23px;
-    color:#415CBE;
-    font-weight: bold;
+  /* vertical-align: middle; */
+  margin-top: -2px;
+  margin-left: 10px;
+  font-size: 23px;
+  color:#415CBE;
+  font-weight: bold;
 
 }
 .cal_btn{
-    margin: 5px 0;
-    font-size: 16px;
-    padding: 15px;
-    background-color: #94A9FF;
-    border-radius: 6px;
-    border: none;
-    color: white;
-    width: 140px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+  margin: 5px 0;
+  font-size: 16px;
+  padding: 15px;
+  background-color: #94A9FF;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  width: 140px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
 .cal_nav{
-    margin-top: 20px;
+  margin-top: 20px;
 
 }
 .cal_nav li{
-    margin-left: 20px;
-    margin-top: 10px;
+  margin-left: 20px;
+  margin-top: 10px;
 }
 
- 
- 
-  .cal_ul li.cal_menu .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
 
-    display: inline-block;
-    margin-left: 5px;
-  }
-  .cal_ul li.cal_menu .dot_2 {
-    width: 15px;
-    height: 11px;
-    border-radius: 40%;
 
-    display: inline-block;
-    margin-left: 5px;
-  }
+.cal_ul li.cal_menu .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+
+  display: inline-block;
+  margin-left: 5px;
+}
+.cal_ul li.cal_menu .dot_2 {
+  width: 15px;
+  height: 11px;
+  border-radius: 40%;
+
+  display: inline-block;
+  margin-left: 5px;
+}
 
 
 
 /* 달력부분 */
 
 #calendar {
-  margin:10px;
-  width: 70%;
-  padding: 10px;
-  height: 900px;
-  
-   
+margin:10px;
+width: 70%;
+padding: 10px;
+height: 900px;
+
+ 
 }
 .fc .fc-button-primary {
-  background-color: white;
-  border: none;
-  color: #415CBE;
-  font-weight: bold;
+background-color: white;
+border: none;
+color: #415CBE;
+font-weight: bold;
 }
 .fc .fc-button-primary:hover{
-  background-color: #415CBE;
+background-color: #415CBE;
 }
 .fc .fc-highlight{
-  background-color: #e8ecfa;
-  
+background-color: #e8ecfa;
+
 }
 .fc .fc-daygrid-day.fc-day-today {
-  background-color:white;
-  color: #415CBE;
-  font-weight: bold;
-  text-decoration:overline 2px;
-   
-}
+background-color:white;
+color: #415CBE;
+font-weight: bold;
+text-decoration:overline 2px;
  
+}
+
 .fc .fc-button-primary:disabled{
-  background-color: #c9c9c9;
-  color: #696868;
-   
+background-color: #c9c9c9;
+color: #696868;
+ 
 }
 .fc-day{
-  color: rgb(95, 102, 134);
+color: rgb(95, 102, 134);
 }
 .fc-day-sun{
-  color: red;
+color: red;
 }
 .fc-day-sat{
-  color: #415CBE;
+color: #415CBE;
 }
 
 #fc-dom-1{
-  color: #42414a;
+color: #42414a;
 }
 /* .fc-non-business{
-  background-color: #F8F8F8;
+background-color: #F8F8F8;
 } */
-/* .fc .fc-toolbar.fc-header-toolbar{ */
-/* background-color: #415CBE; */
-/* margin-bottom: 0px; */
-/* margin-top: -10px; */
-/* }  */
+ /* .fc .fc-toolbar.fc-header-toolbar{ 
+   background-color: #415CBE; 
+  margin-bottom: 0px; 
+  margin-top: -10px; 
+}    */
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events{
-     left: 0px;
-    position: absolute;
-    right: 0px;
+   left: 0px;
+  position: absolute;
+  right: 0px;
 }
 
 /* 일정 부분 */
 .schedule{
-  width: 30%;
-  
-  margin: 10px;
- 
-  padding: 10px;
-  max-height: 800px; 
-  overflow-y: auto;
+width: 30%;
+
+margin: 10px;
+
+padding: 10px;
+max-height: 800px; 
+overflow-y: auto;
 
 
 }
 
 .schedule_count {
-  font-size: 12px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 5px;
+font-size: 12px;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+display: inline-block;
+margin-left: 5px;
 
-  padding-top: 2px;
-  text-align: center;
-  background-color: #415CBE;
-  color: white;
+padding-top: 2px;
+text-align: center;
+background-color: #415CBE;
+color: white;
 }
 .selected_date{
-  font-weight: bold;
-  display: inline-block;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  margin-left: 5PX;
+font-weight: bold;
+display: inline-block;
+margin-top: 15px;
+margin-bottom: 20px;
+margin-left: 5PX;
 }
 .sch_time{
-  display: flex;
-  color: #696868;
-  font-size: 13px;
-  
+display: flex;
+color: #696868;
+font-size: 13px;
+
 
 }
 .schedule_box{
-  border: 1px solid rgb(214, 213, 213);
-  border-radius: 6px;
-  padding: 10px;
-  margin-top: 5px;
-  cursor: pointer;
+border: 1px solid rgb(214, 213, 213);
+border-radius: 6px;
+padding: 10px;
+margin-top: 5px;
+cursor: pointer;
 
-  
+
 }
 .schbox_top{
-  display: flex;
-  justify-content: space-between;
+display: flex;
+justify-content: space-between;
 }
 
 
 .schbox_mid,
 .schbox_bot {
-  /* display: none; */
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.25;
-  
+/* display: none; */
+margin-top: 10px;
+font-size: 14px;
+line-height: 1.25;
+
 }
 
 .schbox_mid span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-left: 5px;
-  margin-top: 3px;
-  margin-right: 5px;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+margin-left: 5px;
+margin-top: 3px;
+margin-right: 5px;
 }
 
 .sch_title {
-  font-size: 16px;
-  margin: 10px;
-  /* margin-top: 0px; */
+font-size: 16px;
+margin: 10px;
+/* margin-top: 0px; */
 }
 
 .cal_dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 5px;
+width: 10px;
+height: 10px;
+border-radius: 50%;
+display: inline-block;
+margin-left: 5px;
 }
 
 .calNameTitle,
 .locationTitle,
 .att_listTitle,
 .schDetailTitle {
-  margin: 10px;
-  font-size: 15px;
+margin: 10px;
+font-size: 15px;
 }
 
 .cal_name,
 .location,
 .att_list,
 .sch_datail {
-  font-size: 14px;
+font-size: 14px;
 }
 
 .sch_datail {
-  margin-top: -9px;
-  margin-left: 60px;
-  padding: 5px;
+margin-top: -9px;
+margin-left: 60px;
+padding: 5px;
 }
 
 .delete_popup {
-  margin: auto;
-  position: relative;
-  /* display: none; */
-  padding: 50px;
-  width: 250px;
-  height: 150px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  text-align: center;
-  border-radius: 6px;
-  /* margin-top: 100px; */
+margin: auto;
+position: relative;
+/* display: none; */
+padding: 50px;
+width: 250px;
+height: 150px;
+background-color: white;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+z-index: 1000;
+text-align: center;
+border-radius: 6px;
+/* margin-top: 100px; */
 }
 
 .delete_popup button{
-  border:none;
-  padding: 3px;
-  border-radius: 6px;
-  /* border: 1px solid #94A9FF  ; */
-  /* background-color: #94A9FF; */
-  background-color:white;
-  margin: 15px;
-  
+border:none;
+padding: 3px;
+border-radius: 6px;
+/* border: 1px solid #94A9FF  ; */
+/* background-color: #94A9FF; */
+background-color:white;
+margin: 15px;
+
 
 }
 
 .dpop_overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.01);
-  z-index: 999;
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.01);
+z-index: 999;
 }
 
 
