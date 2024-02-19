@@ -15,11 +15,12 @@ function ReservationDetails() {
     (state) => state.reservationAttendeeReducer
   );
   console.log("----------------", reservationAttendee);
-  const reservationList = reservation?.data?.content;
 
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
+
   useEffect(() => {
     dispatch(callResevationDetailAPI());
+   
   }, []);
 
   console.log("reservation", reservation);
@@ -29,11 +30,13 @@ function ReservationDetails() {
 
   const doubleClickHandler = () => {};
 
-  const showAttendees = (reservationCode) => {
+  const showAttendees = async (reservationCode) => {
     console.log("showAttendees 호출", reservationCode); // 콘솔에 함수 호출 확인
 
     try {
-      dispatch(callAttendeeDetailAPI({ reservationCode }));
+      // 참석자 정보를 불러오는 API 호출
+      await dispatch(callAttendeeDetailAPI({ reservationCode }));
+      // API 호출 후에 reservationAttendee 상태 업데이트
       if (reservationAttendee) {
         setAttendeesInfo(reservationAttendee); // API 호출 결과를 상태에 설정
         setShowPopup(true); // 팝업 열기
@@ -48,6 +51,7 @@ function ReservationDetails() {
   const closePopup = () => {
     setShowPopup(false); // 팝업 닫기
   };
+
   return (
     <div id="wrap">
       <section>
@@ -138,7 +142,7 @@ function ReservationDetails() {
           <div className="popup_inner">
             <h2>참석자 정보</h2>
             <button onClick={closePopup}>Close</button>
-            <table>
+            <table className="attendeeTable">
               <thead>
                 <tr>
                   <th>이름</th>
