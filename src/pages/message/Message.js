@@ -3,7 +3,10 @@ import "../../components/common/SubHeader.css";
 
 function Message() {
     return (
+        
         <div id="wrap">
+
+
             <section>
                 <article>
                 <h2>쪽지</h2>
