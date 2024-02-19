@@ -1,4 +1,4 @@
-import { POST_LOGIN } from '../modules/UserModule';
+import { GET_USER_LIST, POST_LOGIN } from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -22,36 +22,71 @@ export const callLoginAPI = ({ form }) => {
         }).then((response) => response.json());
 
         console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
-        if (result.status === 200) {
+        if (result.failType) {
+            alert(result.failType)
+        } else if (result.status === 200) {
             window.localStorage.setItem('accessToken', result.userInfo.accessToken);
         }
         dispatch({ type: POST_LOGIN, payload: result });
     };
 };
 
+// export const callSearchPwdAPI = ({ form }) => {
+//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/searchpwd`;
+
+//     return async (dispatch, getState) => {
+
+//         const result = await fetch(requestURL, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 Accept: '*/*',
+//                 'Access-Control-Allow-Origin': '*',
+//             },
+//             body: JSON.stringify({
+//                 userId: form.userId,
+//                 email: form.email,
+//             }),
+//         }).then((response) => response.json());
+
+//         console.log('[UserAPICalls] callSearchPwdAPI RESULT : ', result);
+
+//         dispatch({ type: POST_SEARCHPWD, payload: result });
+        
+//     };
+// };
+
+// UserAPICalls.js 내 callSearchPwdAPI 수정 예
 export const callSearchPwdAPI = ({ form }) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/searchpwd`;
+    return async (dispatch) => {
+        try {
+            const response = await fetch(`http://${process.env.REACT_APP_RESTAPI_IP}/auth/searchpwd`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                body: JSON.stringify({
+                    userId: form.userId,
+                    email: form.email,
+                }),
+            });
 
-    return async (dispatch, getState) => {
+            const result = await response.json();
 
-        const result = await fetch(requestURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: '*/*',
-                'Access-Control-Allow-Origin': '*',
-            },
-            body: JSON.stringify({
-                userId: form.userId,
-                email: form.email,
-            }),
-        }).then((response) => response.json());
+            // 여기에서 액션을 디스패치
+            dispatch({ type: POST_SEARCHPWD, payload: result });
 
-        console.log('[UserAPICalls] callSearchPwdAPI RESULT : ', result);
-
-        dispatch({ type: POST_SEARCHPWD, payload: result });
+            // 프로미스를 이용해 결과 객체 반환
+            return result;
+        } catch (error) {
+            console.error('API 호출 중 에러 발생:', error);
+            throw error;
+        }
     };
 };
+
 
 export const callLogoutAPI = () => {
     return async (dispatch, getState) => {
@@ -59,3 +94,26 @@ export const callLogoutAPI = () => {
         console.log('[UserAPICalls] callLogoutAPI RESULT : SUCCESS');
     };
 };
+
+export const callUserListAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
+
+    return async (dispatch, getState) => {
+        console.log('확인!!!!!');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[UserAPICalls] callUserListAPI RESULT : ', result);
+
+        dispatch({ type: GET_USER_LIST,  payload: result.data });
+        
+    };
+}

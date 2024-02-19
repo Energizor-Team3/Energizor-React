@@ -11,7 +11,7 @@ function SearchPwd() {
 
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
-    const loginUser = useSelector((state) => state.userReducer); // API 요청하여 가져온 loginUser 정보
+
 
     // 폼 데이터 한번에 변경 및 State에 저장
     const [form, setForm] = useState({
@@ -26,14 +26,22 @@ function SearchPwd() {
         });
     };
 
-    const onClickSearchPwdHandler = () => {
-        dispatch(
-            callSearchPwdAPI({
-                form: form,
-            })
-        );
-        navigate("/searchpwdemail", { replace: true })
+    const onClickSearchPwdHandler = async () => {
+        try {
+            const result = await dispatch(callSearchPwdAPI({ form: form }));
+
+            if (result.data === 'Update') {
+                navigate("/searchpwdemail", { replace: true });
+            } else {
+                alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+            }
+        } catch (error) {
+            console.error('인증메일 발송에 실패했습니다.', error);
+            alert("인증메일 발송에 실패했습니다. 다시 시도해주세요.");
+        }
     };
+    
+
 
     return (
         <div className={SearchPwdCSS.body}>

@@ -23,16 +23,19 @@ function Login() {
     });
 
     useEffect(() => {
-        if (loginUser.status === 200) {
+
+        if (loginUser.message === 'Login Success') {
             console.log('[Login] Login SUCCESS {}', loginUser);
-            navigate('/', { replace: true });
+            navigate('/main', { replace: true });
+        } else if (loginUser.status === 500) {
+            alert('ID와 비밀번호가 일치하지 않습니다.')
         }
-    }, [loginUser]);
+    }, [loginUser, navigate]);
 
     // 로그인 상태일 시 로그인페이지로 접근 방지
     if (loginUser.length > 0) {
         console.log('[Login] Login is already authenticated by the server');
-        return <Navigate to="/" />;
+        return <Navigate to="/main" />;
     }
 
     const onChangeHandler = (e) => {
@@ -46,6 +49,13 @@ function Login() {
         navigate('/searchpwd', { replace: true });
     };
 
+    const onKeyPressHandler = (e) => {
+        if (e.key === 'Enter') {
+            // 엔터 키를 눌렀을 때 로그인 버튼 클릭
+            onClickLoginHandler();
+        }
+    };
+
     // 로그인 버튼 클릭시 디스패처 실행 및 메인 페이지로 이동
     const onClickLoginHandler = () => {
         dispatch(
@@ -54,7 +64,6 @@ function Login() {
                 form: form,
             })
         );
-        navigate("/main", { replace: true })
     };
 
     return (
@@ -74,6 +83,7 @@ function Login() {
                     type="password" 
                     placeholder="Password" 
                     onChange={ onChangeHandler }
+                    onKeyPress={onKeyPressHandler}
                 />
                 <button 
                     onClick={ onClickLoginHandler }
@@ -82,11 +92,6 @@ function Login() {
                     로그인
                 </button>
                 <div className={LoginCSS.additional_options}>
-                    <input 
-                        type="checkbox" 
-                        className={LoginCSS.save_id_check} 
-                    />
-                    <span className={LoginCSS.save_id}>ID 저장</span>
                     <span className={LoginCSS.find_pw} onClick={ onClickSearchPwdHandler }>비밀번호 찾기</span>
                 </div>
             </div>

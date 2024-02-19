@@ -15,6 +15,7 @@ import NewApproval from './pages/approval/NewApproval';
 import Layout from './layouts/Layout';
 import SearchPwd from './pages/user/SearchPwd';
 import SearchPwdEmail from './pages/user/SearchPwdEmail';
+import UserList from './pages/admin/UserList';
 
 
 function App() {
@@ -44,6 +45,8 @@ function App() {
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
+
+          <Route path="/userlist" element={ <UserList/> } />
         </Route>
 
         <Route path="*" element={<Error />} />

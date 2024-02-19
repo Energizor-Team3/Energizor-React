@@ -4,12 +4,12 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const GET_USER     = 'user/GET_USER';
+export const GET_USER_LIST     = 'user/GET_USER_LIST';
 export const POST_LOGIN     = 'user/POST_LOGIN';
 export const POST_SEARCHPWD  = 'user/POST_SEARCHPWD';
 
 const actions = createActions({
-    [GET_USER]: () => {},
+    [GET_USER_LIST]: () => {},
     [POST_LOGIN]: () => {},
     [POST_SEARCHPWD]: () => {}
 });
@@ -17,7 +17,7 @@ const actions = createActions({
 /* 리듀서 */
 const userReducer = handleActions(
     {
-        [GET_USER]: (state, { payload }) => {
+        [GET_USER_LIST]: (state, { payload }) => {
             
             return payload;
         },

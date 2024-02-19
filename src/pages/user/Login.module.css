@@ -64,8 +64,11 @@
     margin-right: -180px;
 }
 
-.save_id,
 .find_pw {
     font-size: 14px;
     cursor: pointer;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    color: gray;
 }
