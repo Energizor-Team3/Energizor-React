@@ -5,8 +5,12 @@ import ApprovalGroup from './ApprovalGroup';
 
 import {
   callInsertGeneralDraftAPI,
-  callSelectUserDetailAPI
+  callSelectUserDetailAPI,
 } from '../../apis/ApprovalAPICalls';
+import {
+  callGetuserDetailAPI
+  
+} from '../../apis/GroupAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import queryString from 'query-string';
@@ -25,21 +29,35 @@ function GeneralDraft(){
   const dispatch = useDispatch();
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
   const userdetail  = useSelector((state) => state.approvalReducer);
+  const approvallineuser = useSelector((state) => state.groupUserReducer);
 
   console.log('userdetail',  userdetail );
-  
-  
-
+  console.log('approvallineuser',  approvallineuser );
+  const [list, setList] = useState([]);
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState();
   const imageInput = useRef();
+  const approvalList = useRef([]);
+  
   // const [titleValue,setTitleValue] = useState('');
-
+  console.log('load List ----> ', list);
+  
+  
   
   useEffect(() => {
     dispatch(callSelectUserDetailAPI());
-  }, []); // 의존성 배열에 dispatch를 넣어주어야 합니다.
+    
+    console.log('--------------', approvalList);
+    approvalList.current.push(approvallineuser);
+    setList(approvalList.current.filter(approval => approval?.userName !== undefined));
+  },[approvallineuser]); // 의존성 배열에 dispatch를 넣어주어야 합니다.
 
+  // ApprovalGroup에서 userCode를 업데이트하는 함수
+  const handleUserSelect = (code) => {
+    
+    dispatch(callGetuserDetailAPI(code));
+    
+  };
   
 
   const [form, setForm] = useState({
@@ -228,12 +246,14 @@ function GeneralDraft(){
               <li className="two">
                 <img src="" alt="" />
               </li>
-              <input type="text" className="three" placeholder='축온청'/>
+              <input type="text" className="three" value={userdetail?.userName}/>
               <li className="four">날짜</li>
             </ul>
             <span className="texttitle">결 재</span>
+
+            
             <ul className="approvalul">
-              <input className="one" value={0}/>
+              <input className="one" value={approvallineuser?.team?.dept?.deptName + '/'}/>
               <input className="two"/>
               <input className="three" value={0}/>
               <input className="four" value={0}/>
@@ -269,7 +289,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="에브리웨어"
                     className="inputtext"
-                    value={token.userName}
+                    value={userdetail?.team?.dept?.deptName + '/' + userdetail?.team?.teamName}
                   />
                 </td>
               </tr>
@@ -280,7 +300,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="직위/ 직책 자동으로 입력됩니다."
                     className="inputtext"
-                    value={token.userName}
+                    value={userdetail?.userRank}
                   />
                 </td>
               </tr>
@@ -291,7 +311,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="기안자명 자동으로 입력됩니다."
                     className="inputtext"
-                    value={token.userName}
+                    value={userdetail?.userName}
                   />
                 </td>
               </tr>
@@ -309,22 +329,7 @@ function GeneralDraft(){
             </tbody>
           </table>
           <table className="selectdetail">
-            <thead>
-              <tr>
-                <th colSpan={2}>제목</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={2}>
-                  <input
-                    type="text"
-                    className="inputbox2"
-                    placeholder="제목을 입력하세요"
-                  />
-                </td>
-              </tr>
-            </tbody>
+            
             <thead className="contenttitle">
               <tr>
                 <th colSpan={2} className="contenttitle">
@@ -353,7 +358,7 @@ function GeneralDraft(){
           </div>
         </div>
         <div className='og' id='og' >
-        <ApprovalGroup />
+        <ApprovalGroup onUserSelect={handleUserSelect} />
         </div>
         </div>
         </div>

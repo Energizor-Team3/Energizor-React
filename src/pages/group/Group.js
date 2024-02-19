@@ -63,18 +63,19 @@ import { useEffect, useState } from 'react';
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const groupAndTeam  = useSelector((state) => state.groupReducer); 
-    console.log('groupAndTeam',groupAndTeam )
     const [selectedUserCode, setSelectedUserCode] = useState(null);
     
-    const user = useSelector((state) => state.groupUserReducer)
-    console.log('user',user )
 
 
     useEffect(()=>{
         dispatch(callOrganizationAPI());
     },[])
 
+    const groupAndTeam  = useSelector((state) => state.groupReducer); 
+    console.log('groupAndTeam',groupAndTeam )
+    const user = useSelector((state) => state.groupUserReducer)
+    console.log('user',user )
+    
     const handleUserSelect = (code) => {
         // 선택된 유저의 코드를 상태로 설정합니다.
         setSelectedUserCode(code);
@@ -203,7 +204,7 @@ const createUserListStructure = (userList) => {
                           </li>
                           <li>
                             <strong>소속 부서</strong>
-                            <span>{user?.team.teamName}</span>
+                            <span>{user?.team?.teamName}</span>
                           </li>
                           <li>
                             <strong>직급</strong>
@@ -226,7 +227,7 @@ const createUserListStructure = (userList) => {
                       <ul class="group_department_info">
                         <li>
                           <strong>그룹명</strong>
-                          <span>{user?.team.teamName}</span>
+                          <span>{user?.team?.teamName}</span>
                         </li>
                         {/* <li class="department_member">
                           <strong>소속 직원</strong>

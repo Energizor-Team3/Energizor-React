@@ -207,7 +207,7 @@ export const callSelectUserDetailAPI = () => {
         })
         .then(response => response.json());
 
-        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT : ', result);
+        console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT 111: ', result);
 
         dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result.data });
         

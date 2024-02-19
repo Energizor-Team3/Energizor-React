@@ -1,7 +1,7 @@
 import  "./ApprovalGroup.css";
 import {
     callOrganizationAPI,
-    callGetuserDetailAPI
+
 } from '../../apis/GroupAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -59,27 +59,22 @@ function TreeNode({ name, children, depth, onUserSelect, userCode }) {
     );
   }
   
-  function ApprovalGroup() {
+  function ApprovalGroup({onUserSelect}) {
 
 const navigate = useNavigate();
 const dispatch = useDispatch();
 const groupAndTeam  = useSelector((state) => state.groupReducer); 
 console.log('groupAndTeam',groupAndTeam )
-const [selectedUserCode, setSelectedUserCode] = useState(null);
 
-const user = useSelector((state) => state.groupUserReducer)
-console.log('user',user )
+
+
 
 
 useEffect(()=>{
     dispatch(callOrganizationAPI());
 },[])
 
-const handleUserSelect = (code) => {
-    // 선택된 유저의 코드를 상태로 설정합니다.
-    setSelectedUserCode(code);
-    dispatch(callGetuserDetailAPI(code));
-  };
+
 
 // teamList 안의 userList를 순회하여 children을 생성하는 함수
 const createUserListStructure = (userList) => {
@@ -135,7 +130,7 @@ const data = Array.isArray(groupAndTeam) ? [
                 name={data[0].name}
                 children={data[0].children}
                 depth={1}
-                onUserSelect={handleUserSelect}
+                onUserSelect={onUserSelect}
               />
             </div>
 
