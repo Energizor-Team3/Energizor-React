@@ -10,8 +10,8 @@ import { decodeJwt } from "../../utils/tokenUtils";
 function ReservationDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const reservation = useSelector((state) => state.reservationReducer);
-  const reservationAttendee = useSelector((state) => state.reservationAttendeeReducer);
+  const reservation = useSelector((state) => state.reservationReducer); // Redux 스토어에서 예약 상태 가져오기
+  const reservationAttendee = useSelector((state) => state.reservationAttendeeReducer); // Redux 스토어에서 참석자 상태 가져오기
   console.log("----------------", reservationAttendee);
 
   const token = decodeJwt(window.localStorage.getItem("accessToken"));
@@ -22,12 +22,12 @@ function ReservationDetails() {
 
   console.log("reservation", reservation);
 
-  const [showPopup, setShowPopup] = useState(false); // 팝업 상태 추가
-  const [attendeesInfo, setAttendeesInfo] = useState([]); // 참석자 정보 상태 추가
+  const [showPopup, setShowPopup] = useState(false); // 팝업 노출 상태를 관리하는 상태 변수
+  const [attendeesInfo, setAttendeesInfo] = useState([]); // 참석자 정보를 관리하는 상태 변수
 
   const doubleClickHandler = () => {};
 
-  const showAttendees = async (reservationCode) => {
+  const showAttendees = async (reservationCode) => { // 참석자 정보 표시 함수
     console.log("showAttendees 호출", reservationCode); // 콘솔에 함수 호출 확인
 
     try {
@@ -39,10 +39,10 @@ function ReservationDetails() {
     }
   };
 
-  useEffect(() => {
-    if (reservationAttendee) {
-      setAttendeesInfo(reservationAttendee); // API 호출 결과를 상태에 설정
-      setShowPopup(true); // 팝업 열기
+  useEffect(() => { // 참석자 상태 변경 시 실행되는 효과
+    if (reservationAttendee) { // 참석자 정보가 존재하는 경우
+      setAttendeesInfo(reservationAttendee); // 참석자 정보 설정
+      setShowPopup(true); // 팝업 노출
     } else {
       // 참석자가 없는 경우 알림창 표시
       alert("참석자가 없습니다.");
@@ -108,15 +108,15 @@ function ReservationDetails() {
             </thead>
             <tbody>
               {Array.isArray(reservation) &&
-                reservation.map((reservation) => (
-                  <tr key={reservation?.reservationCode}>
+                reservation.map((reservation) => (  // 예약 정보 배열이 존재하는 경우 배열 순회
+                  <tr key={reservation?.reservationCode}> 
                     <td><input type="checkbox" value={reservation?.reservationCode} /></td>
                     <td>{reservation?.meetCode?.meetName}</td>
                     <td>{reservation?.reservationContent}</td>
                     <td>{reservation?.reservationDate}</td>
                     <td>{reservation?.reservationDate}</td>
                     <td>
-                      {/* 수정: 참석자 버튼 클릭 시 해당 예약 코드를 인자로 전달 */}
+                      {/* 참석자 버튼: 클릭 시 해당 예약 코드를 인자로 전달하여 참석자 정보 호출 */}
                       <button className="btnStatus" onClick={() => {
                         console.log("참석자 불러");
                         showAttendees(reservation?.reservationCode);
@@ -129,12 +129,12 @@ function ReservationDetails() {
           </table>
         </div>
       </main>
-      {showPopup && (
+      {showPopup && ( //팝업 노출 상태가 true인 경우에만 팝업 표시
         <div className="popup">
           <div className="popup_inner">
             <h2>참석자 정보</h2>
             <button onClick={closePopup}>Close</button>
-            <table className="attendeeTable">
+            <table className="attendeeTable"> {/* 참석자 정보 테이블 */}
               <thead>
                 <tr>
                   <th>이름</th>
@@ -143,7 +143,7 @@ function ReservationDetails() {
                 </tr>
               </thead>
               <tbody>
-                {attendeesInfo.map((attendee, index) => (
+                {attendeesInfo.map((attendee, index) => ( //참석자 정보 배열 순회
                   <tr key={index}>
                     <td>{attendee?.userCode?.userName}</td>
                     <td>{attendee?.userCode?.email}</td>
@@ -152,12 +152,7 @@ function ReservationDetails() {
                 ))}
               </tbody>
             </table>
-            <ul>
-              {attendeesInfo.map((attendee, index) => (
-                <li key={index}>{attendee.name}</li>
-              ))}
-            </ul>
-          </div>
+            </div>
         </div>
       )}
     </div>
