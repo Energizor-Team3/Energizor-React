@@ -15,38 +15,41 @@ function GeneralDraft() {
   const [approvalLine, setApprovalLine] = useState([]); // 결재 라인 상태
   const [referenceLine, setReferenceLine] = useState([]); // 참조 라인 상태
   const [selectedAction, setSelectedAction] = useState(null); // 'approval' 또는 'reference' 액션 선택 상태
-        console.log(approvalLine, '결재라인');
-        console.log(referenceLine, '참조라인');
-  const approvalList = useRef([]); 
-  const approvalList2 = useRef([]); 
-
-   const [clickType, setClickType ] = useState("");    
+  const [clickType, setClickType] = useState("")  
+  console.log(approvalLine, "결재자")   
+  console.log(referenceLine, "참조자")   
   useEffect(() => {
     dispatch(callSelectUserDetailAPI());
-    console.log(clickType, 'clickTypeaaaaaaaaaaaa');
-    
-    console.log('--------------', approvalList);
-    if(clickType == 'approval'){
-      if (approvalLine.length <= 3) {
-    approvalList.current.push(approvallineuser);
+  }, [dispatch]);
 
-    setApprovalLine(approvalList.current.filter(approval => approval?.userName !== undefined));
-      }else{
-        if(approvalLine.length > 3)
-        alert('결재라인에는 최대 4명까지 추가할 수 있습니다.');
+  useEffect(() => {
+  // approvallineuser가 유효한지 확인 (userCode가 존재하는지)
+  if (approvallineuser && approvallineuser.userCode){
+  switch(clickType){
+    case 'approval': 
+    if(approvalLine.length < 4){
+      if (!approvalLine.some(user => user.userCode === approvallineuser.userCode)) {
+        setApprovalLine(prevLine => [...prevLine, approvallineuser]);
       }
-    }else if(clickType == 'reference'){
-            if (referenceLine.length <= 3) {
-              approvalList2.current.push(approvallineuser);
-              setReferenceLine(approvalList2.current.filter(approval => approval?.userName !== undefined));
-            }
-    }else {
-      if(referenceLine.length > 3){
-        alert('참조라인에는 최대 4명까지 추가할 수 있습니다.');
-      }
+    }else{
+      alert('결재라인에는 최대 4명까지 추가할 수 있습니다.');
     }
-  }, [approvallineuser]);
+    break;
+    case 'reference': if(referenceLine.length < 4){
+      if (!referenceLine.some(user => user.userCode === approvallineuser.userCode)) {
+        setReferenceLine(prevLine => [...prevLine, approvallineuser]);
+      } 
+    } else{
+      alert('참조라인에는 최대 4명까지 추가할 수 있습니다.');
+    }
+    break;
+    default: break;
+
+  }
+}
+
   
+}, [approvallineuser, clickType, approvalLine, referenceLine]);
 
   const handleUserSelect = (code, actionType) => {
     // 로그인 사용자와 선택된 사용자가 동일한지 검사
@@ -78,8 +81,7 @@ function GeneralDraft() {
       }
     
   };
-  
-
+    
   const [form, setForm] = useState({
     gdTitle: '',
     gdContent: '',
@@ -116,14 +118,14 @@ function GeneralDraft() {
     og.classList.toggle("active");
     }
     //결재 참조자 제거
-    const deleteline = (userName) => {
-      console.log(userName,'userName222222222222222222222222')
-      setApprovalLine(approvalLine => approvalLine.filter(user => user.userName !== userName));      
+    const deleteline = (userCode) => {
+      console.log(userCode,'userName222222222222222222222222')
+      setApprovalLine(approvalLine => approvalLine.filter(user => user.userCode !== userCode));      
     }
     
-    const deleteline2 = (userName) => {
-      console.log(userName,'userName111111111111111111111111111')
-      setReferenceLine(referenceLine => referenceLine.filter(user => user.userName !== userName));
+    const deleteline2 = (userCode) => {
+      console.log(userCode,'userName111111111111111111111111111')
+      setReferenceLine(referenceLine => referenceLine.filter(user => user.userCode !== userCode));
       }
    
 
@@ -139,9 +141,9 @@ function GeneralDraft() {
     // formData.append("lineUser", form.lineUser);
     // formData.append("apFileNameOrigin", form.apFileNameOrigin);
 
-    //   if(image){
-    //       formData.append("apFileNameOrigin", image);
-    //   }
+      // if(image){
+      //     formData.append("apFileNameOrigin", image);
+      // }
     //   console.log('[Approval] formData : ', formData.get("gdTitle"));
     //   console.log('[Approval] formData : ', formData.get("gdContent"));
     //   console.log('[Approval] formData : ', formData.get("rfUser"));
@@ -268,7 +270,7 @@ function GeneralDraft() {
               {approvalLine.map((approval, index) => (
                 <ul className="approvalul" key={index}>
                   <input className="one" value={approval.team?.dept?.deptName + '/' + approval.team?.teamName} readOnly />
-                  <input className="two"  onClick={() => deleteline(approval?.userName)} placeholder='결재자 제거'/>
+                  <input className="two"  onClick={() => deleteline(approval?.userCode)} placeholder='결재자 제거'/>
                     <input className="three" value={approval.userName} readOnly />
                     <input className="four" readOnly />
                 </ul>
@@ -279,7 +281,7 @@ function GeneralDraft() {
                 {referenceLine.map((reference, index) => (
                 <ul className='approvalul' key={index}>                
                   <input className='one' value={reference.team?.dept?.deptName + '/' + reference.team?.teamName} readOnly />
-                  <input className='two'  onClick={() => deleteline2(reference?.userName)} placeholder='참조자 제거'/>
+                  <input className='two'  onClick={() => deleteline2(reference?.userCode)} placeholder='참조자 제거'/>
                   <input className='three' value={reference.userName} readOnly />
                   <input className='four' readOnly />                    
                 </ul>
@@ -303,7 +305,7 @@ function GeneralDraft() {
                     placeholder="제목을 입력하세요"
                     className="inputtext"
                     name='gdTitle'
-                    value={form.gdTitle}
+                    defaultValue={form.gdTitle}
                     onChange={onChangeHandler}
                   />
                 </td>
@@ -367,13 +369,13 @@ function GeneralDraft() {
               <tr>
                 <td colSpan={2} className="hihi">
                   <textarea
-                    name=""
-                    id=""
+                    name="gdContent"
                     cols={30}
                     rows={10}
                     placeholder="기안 목적 및 내용을 입력하세요"
                     className="inputbox3"
-                    defaultValue={""}
+                    defaultValue={form.gdContent}
+                    onChange={onChangeHandler}
                   />
                 </td>
               </tr>
