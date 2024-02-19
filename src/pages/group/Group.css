@@ -131,15 +131,36 @@
   display: inline-block;
 }
 
+.group_wrap {
+  display: flex;
+  margin-top: 80px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.group {
+  width: 800px;
+  height: 600px;
+  border: 1px solid black;
+  padding: 16px;
+  margin-right: 50px;
+  background-color: rgb(165, 113, 113);
+  width: 800px;
+}
+
+.group_content{
+  width: 600px;
+  background-color: gray;
+}
+
 .group_list {
   border: 1px solid rgb(136, 136, 136);
   padding: 10px 20px;
   font-size: 20px;
   font-weight: bold;
-  width: 360px;
+  width: 600px;
   height: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  background-color: aqua;
 }
 
 .group_list div {

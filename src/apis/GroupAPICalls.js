@@ -1,9 +1,12 @@
-import { GET_GROUP } from "../modules/GroupModule.js";
+import { GET_GROUP_Organization } from "../modules/groupModule";
+import { GET_GROUP_User } from "../modules/groupUserModule";
 
-export const callGetGroupAPI = () => {
+export const callOrganizationAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/groupList`;
 
   return async (dispatch, getState) => {
+    console.log("들옴?");
+
     const result = await fetch(requestURL, {
       method: "GET",
       headers: {
@@ -13,13 +16,29 @@ export const callGetGroupAPI = () => {
       },
     }).then((response) => response.json());
 
-    console.log("callGetGroupAPI RESULT========== : ", result);
+    console.log("[ApprovalAPICalls] callOrganizationAPI RESULT : ", result);
 
-    if (result.status === 200) {
-      console.log(" callGetGroupAPI SUCCESS==========");
-      dispatch({ type: GET_GROUP, payload: result.data });
+    dispatch({ type: GET_GROUP_Organization, payload: result.data });
+  };
+};
 
-      console.log(" data==========", result.data);
-    }
+export const callGetuserDetailAPI = (userCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/user/${userCode}`;
+
+  return async (dispatch, getState) => {
+    console.log("들옴?");
+
+    const result = await fetch(requestURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+      },
+    }).then((response) => response.json());
+
+    console.log("[ApprovalAPICalls] callGetuserDetailAPI RESULT : ", result);
+
+    dispatch({ type: GET_GROUP_User, payload: result.data });
   };
 };

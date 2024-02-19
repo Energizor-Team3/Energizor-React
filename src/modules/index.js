@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 import userReducer from './UserModule';
-import projectReducer from './ProjectModule';
-import groupReducer from './GroupModule';
+import approvalReducer from './ApprovalMainModule'
+import groupReducer from './groupModule'
+import groupUserReducer from './groupUserModule'
 
 const rootReducer = combineReducers({
     userReducer,
-    projectReducer,
-    groupReducer
-
+    approvalReducer,
+    groupReducer,
+    groupUserReducer,
 });
 
 export default rootReducer;

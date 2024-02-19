@@ -1,4 +1,4 @@
-import  "./Group.css";
+import "./Group.css"
 import "../../components/common/SubHeader.css";
 
 import {
@@ -203,7 +203,7 @@ const createUserListStructure = (userList) => {
                           </li>
                           <li>
                             <strong>소속 부서</strong>
-                            <span>{user?.team.teamName}</span>
+                            <span>{user?.team?.teamName}</span>
                           </li>
                           <li>
                             <strong>직급</strong>
@@ -226,7 +226,7 @@ const createUserListStructure = (userList) => {
                       <ul class="group_department_info">
                         <li>
                           <strong>그룹명</strong>
-                          <span>{user?.team.teamName}</span>
+                          <span>{user?.team?.teamName}</span>
                         </li>
                         {/* <li class="department_member">
                           <strong>소속 직원</strong>
