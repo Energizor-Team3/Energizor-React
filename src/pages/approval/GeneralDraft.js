@@ -55,6 +55,13 @@ function GeneralDraft() {
       return;
     }
 
+    // 이미 결재자 또는 참조자로 지정된 사용자인지 검사
+  const isAlreadySelected = [...approvalLine, ...referenceLine].some(user => user.userCode === code);
+  if (isAlreadySelected) {
+    alert('이미 지정된 사용자입니다.');
+    return;
+  }
+
     // 선택된 액션 타입을 상태로 저장
     setSelectedAction(actionType);
 
@@ -108,7 +115,16 @@ function GeneralDraft() {
     var og = document.getElementById("og");
     og.classList.toggle("active");
     }
-  
+    //결재 참조자 제거
+    const deleteline = (userName) => {
+      console.log(userName,'userName222222222222222222222222')
+      setApprovalLine(approvalLine => approvalLine.filter(user => user.userName !== userName));      
+    }
+    
+    const deleteline2 = (userName) => {
+      console.log(userName,'userName111111111111111111111111111')
+      setReferenceLine(referenceLine => referenceLine.filter(user => user.userName !== userName));
+      }
    
 
     // const onClickInsertDocumentHandler = () => {
@@ -223,10 +239,7 @@ function GeneralDraft() {
           <div className="line">
             <div className="search_box">
               <span>
-                <button onClick={toggleContent}>결재</button>
-              </span>
-              <span>
-                <button>참조</button>
+                <button onClick={toggleContent}>결재지정</button>
               </span>
               <span>
                 <button>임시저장</button>
@@ -238,17 +251,6 @@ function GeneralDraft() {
           </div>
         </div>
         <div className="select_line">
-          {/* 셀렉트 문*/}
-          {/* <select name="messageLead">
-            <option value="전체">전체</option>
-            <option value="결재함">결재함</option>
-            <option value="참조함">참조함</option>
-            <option value="반려함">반려함</option>
-        </select> */}
-          {/* <div class="attention_Text">
-          <img src="/resources/images/Exclamation.png" alt="">
-          <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
-        </div> */}
         </div>
         <div className='side'>
         <div className="wrap2">
@@ -260,18 +262,29 @@ function GeneralDraft() {
                 <img src="" alt="" />
               </li>
               <input type="text" className="three" value={userDetail?.userName}/>
-              <li className="four">날짜</li>
+              <input className="four" value={currentTimeString}/>
             </ul>
             <span className="texttitle">결 재</span>
-
-            
-            <ul className="approvalul">
-              <input className="one" value={approvalLine?.team?.dept?.deptName + '/'}/>
-              <input className="two"/>
-              <input className="three" value={0}/>
-              <input className="four" value={0}/>
-            </ul>
-          </div>
+              {approvalLine.map((approval, index) => (
+                <ul className="approvalul" key={index}>
+                  <input className="one" value={approval.team?.dept?.deptName + '/' + approval.team?.teamName} readOnly />
+                  <input className="two"  onClick={() => deleteline(approval?.userName)} placeholder='결재자 제거'/>
+                    <input className="three" value={approval.userName} readOnly />
+                    <input className="four" readOnly />
+                </ul>
+              ))}
+              </div>
+              <div className='approval'>
+                <span className="texttitle">참 조</span>
+                {referenceLine.map((reference, index) => (
+                <ul className='approvalul' key={index}>                
+                  <input className='one' value={reference.team?.dept?.deptName + '/' + reference.team?.teamName} readOnly />
+                  <input className='two'  onClick={() => deleteline2(reference?.userName)} placeholder='참조자 제거'/>
+                  <input className='three' value={reference.userName} readOnly />
+                  <input className='four' readOnly />                    
+                </ul>
+                  ))}
+              </div>
           <table>
             <thead>
               <tr>
