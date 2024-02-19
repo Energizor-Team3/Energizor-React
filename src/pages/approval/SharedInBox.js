@@ -111,10 +111,10 @@ function SharedInBox() {
         <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
       </div> */}
       </div>
-      <table>
+      <div className='approvaltables'>
         <thead>
           <tr>
-            <th>
+            <th className='check'>
               <input type="checkbox" />
             </th>
             <th>분류</th>
@@ -135,7 +135,7 @@ function SharedInBox() {
             </tr>
                     ))}
           </tbody>
-        </table>
+        </div>
       <div id="contentBox" className="content-box">
         <div className="statustitle">
           <span>결재 현황</span>

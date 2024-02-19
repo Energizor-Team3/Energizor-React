@@ -16,6 +16,18 @@ import {
 import calendarReducer from '../../modules/CalendarModule';
 import scheduleReducer from '../../modules/ScheduleModule';
 
+              {/* 
+                
+                
+                
+                캘린더 잔잔바리 빼고 완료 
+                잔잔바리 : 공휴일 띄우기, 페이지 들어올때 전체일정 기본적으로 체크되어 모든 일정 보이게, ㅇ
+                
+                
+            
+                
+                */}
+
 
 function CalendarMainPage(){
 
@@ -26,6 +38,14 @@ function CalendarMainPage(){
     const calendarList = calendar.data;
          
     const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+    const [selectedCalendars, setSelectedCalendars] = useState([]);
+    const handleCalendarCheckboxChange = (calNo, isChecked) => {
+        if (isChecked) {
+            setSelectedCalendars([...selectedCalendars, calNo]); // 체크된 캘린더를 추가
+        } else {
+            setSelectedCalendars(selectedCalendars.filter(id => id !== calNo)); // 체크가 해제된 캘린더를 제거
+        }
+    };
 
     const [calNo, setcalNo] = useState(0);
     
@@ -34,47 +54,72 @@ function CalendarMainPage(){
 
     const calendarRef = useRef(null);
     const [isExpanded, setIsExpanded] = useState(false); 
-    const [allCalChecked, setAllCalChecked] = useState(false);
+ 
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [allCalChecked, setAllCalChecked] = useState(true); 
+
+    const filteredSchedules = scheduleList && scheduleList.length > 0 ? 
+    scheduleList.filter(schedule => {
+        const startDate = new Date(schedule.schStartDate[0], schedule.schStartDate[1] - 1, schedule.schStartDate[2]);
+        const endDate = schedule.schEndDate ? new Date(schedule.schEndDate[0], schedule.schEndDate[1] - 1, schedule.schEndDate[2]) : null;
+        // 종료일이 존재하면 선택된 날짜는 시작일과 종료일 사이에 포함되게
+        // 종료일이 존재하지 않으면 선택된 날짜는 시작일과 동일하게
+        return (!endDate && selectedDate.getTime() === startDate.getTime()) ||
+               (endDate && selectedDate >= startDate && selectedDate <= endDate);
+    }) : [];
 
 
+
+    const handleAllCalChange = (event) => {
+        const isChecked = event.target.checked;
+        setAllCalChecked(isChecked);
+        const updatedCalendars = [];
+        const checkboxes = document.querySelectorAll('.cal_nav input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = isChecked;
+            const calNo = parseInt(checkbox.id.split('_')[2]);
+            if (isChecked) {
+                updatedCalendars.push(calNo);
+            }
+        });
+        setSelectedCalendars(updatedCalendars);
+    };
 
     useEffect(() => {
         console.log("scheduleList:", scheduleList); // scheduleList 값 확인
         if (scheduleList && scheduleList.length > 0) {
-            const scheduleEvents = scheduleList.map(schedule => {
-                // 배열 형태의 시작일과 종료일을 JavaScript Date 객체로 변환
-                const startDateTimeArray = schedule.schStartDate;
-                const endDateTimeArray = schedule.schEndDate;
-    
-                // 초 정보가 없는 경우에도 정상적으로 처리
-                const startDateTime = new Date(startDateTimeArray[0], startDateTimeArray[1] - 1, startDateTimeArray[2], startDateTimeArray[3], startDateTimeArray[4], startDateTimeArray[5] || 0);
-                
-                let endDateTime = null;
-                if (endDateTimeArray) {
+            const scheduleEvents = scheduleList
+                .filter(schedule => selectedCalendars.includes(schedule.calNo)) // 선택된 캘린더에 속한 스케줄 필터링
+                .map(schedule => {
+                    // 배열 형태의 시작일과 종료일을 JavaScript Date 객체로 변환
+                    const startDateTimeArray = schedule.schStartDate;
+                    const endDateTimeArray = schedule.schEndDate;
                     // 초 정보가 없는 경우에도 정상적으로 처리
-                    endDateTime = new Date(endDateTimeArray[0], endDateTimeArray[1] - 1, endDateTimeArray[2], endDateTimeArray[3], endDateTimeArray[4], endDateTimeArray[5] || 0);
-                }
-    
-                const event = {
-                    title: schedule.schTitle,
-                    start: startDateTime,
-                    backgroundColor: schedule.calColor,
-                    borderColor: schedule.calColor
+                    const startDateTime = new Date(startDateTimeArray[0], startDateTimeArray[1] - 1, startDateTimeArray[2], startDateTimeArray[3], startDateTimeArray[4], startDateTimeArray[5] || 0);
                     
-
-                };
+                    let endDateTime = null;
+                    if (endDateTimeArray) {
+                        // 초 정보가 없는 경우에도 정상적으로 처리
+                        endDateTime = new Date(endDateTimeArray[0], endDateTimeArray[1] - 1, endDateTimeArray[2], endDateTimeArray[3], endDateTimeArray[4], endDateTimeArray[5] || 0);
+                    }
     
-                // 종료일이 있는 경우에만 설정
-                if (endDateTime) {
-                    event.end = endDateTime;
-                }
+                    const event = {
+                        title: schedule.schTitle,
+                        start: startDateTime,
+                        backgroundColor: `${schedule.calColor}B3`, // 투명도 추가
+                        borderColor: schedule.calColor
+                    };
     
-                return event;
-            });
+                    // 종료일이 있는 경우에만 설정
+                    if (endDateTime) {
+                        event.end = endDateTime;
+                    }
+    
+                    return event;
+                });
             setEvents(scheduleEvents);
         }
-    }, [scheduleList]);
+    }, [scheduleList, selectedCalendars]);
 
 
 
@@ -95,29 +140,18 @@ function CalendarMainPage(){
     const toggleExpand = () => {
         setIsExpanded(!isExpanded); // 클릭 시 토글 상태 변경
       };
-    const handleAllCalChange = (event) => {
-        const isChecked = event.target.checked;
-        setAllCalChecked(isChecked); // 전체일정 체크박스 상태 변경
-  
-        // 모든 서브 체크박스 상태 변경
-        const checkboxes = document.querySelectorAll('.cal_nav input[type="checkbox"]');
-        checkboxes.forEach((checkbox) => {
-          checkbox.checked = isChecked;
-        });
-      };
+ 
       const handleSelect = (selectionInfo) => {
         // 선택된 날짜 업데이트
         setSelectedDate(selectionInfo.start);
     };
-
-    // useEffect(() => {
-    //     document.querySelectorAll('.fc-h-event').forEach(element => {
-    //         const backgroundColor = window.getComputedStyle(element).backgroundColor;
-    //         const rgbaColor = backgroundColor.replace(')', ', 0.7)').replace('rgb', 'rgba');
-    //         element.style.backgroundColor = rgbaColor;
-    //         element.style.borderColor = backgroundColor;
-    //     });
-    // }, [events]); 
+    const formatDateTime = (dateTimeArray) => {
+        const [year, month, day, hour, minute] = dateTimeArray;
+        const formattedDate = new Date(year, month - 1, day, hour, minute).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour12: true, hour: '2-digit', minute: '2-digit' }).replace('.', '년 ').replace('.', '월 ').replace('.', '일');
+        return formattedDate;
+    };
+    
+ 
 
     return(
         <div id="wrap">
@@ -136,43 +170,51 @@ function CalendarMainPage(){
             </div>
             <nav className="cal_nav">
                 <ul className="cal_ul">
-                <li>
-                    <input type="checkbox" id="allcal_checkbox" />
-                    <label htmlFor="allcal_checkbox">전체일정</label>
-                </li>
-                <li className="cal_menu">
-                    개인 캘린더
-
-                    <ul>
-                    {calendarList && calendarList.map((calendar) => (
-                    calendar.calType === "개인 캘린더" && // calType이 개인 캘린더인 경우에만 해당
-                    <li key={calendar.calNo}>
-                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
-                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
-                            {calendar.calName}
-                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
-                        </label>
+                    <li>
+                        <input type="checkbox" id="allcal_checkbox"
+                        onChange={handleAllCalChange} />
+                        <label htmlFor="allcal_checkbox">전체일정</label>
                     </li>
-                        ))}
-     
-                    </ul>
-                </li>
-                <li className="cal_menu">
-                    공유 캘린더
-                    <ul>
-                    {calendarList && calendarList.map((calendar) => (
-                    calendar.calType === "공유 캘린더" && 
-                    <li key={calendar.calNo}>
-                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
-                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
-                            {calendar.calName}
-                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
-                        </label>
+                    <li className="cal_menu">
+                        개인 캘린더
+                        <ul>
+                            {calendarList && calendarList.map((calendar) => (
+                                calendar.calType === "개인 캘린더" && // calType이 개인 캘린더인 경우에만 해당
+                                <li key={calendar.calNo}>
+                                    <input 
+                                        type="checkbox" 
+                                        id={`cal_checkbox_${calendar.calNo}`} 
+                                        onChange={(e) => handleCalendarCheckboxChange(calendar.calNo, e.target.checked)} // 체크박스 변경 핸들러
+                                        checked={selectedCalendars.includes(calendar.calNo)} // 체크 여부 확인
+                                    />
+                                    <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
+                                        {calendar.calName}
+                                        <span className="dot" style={{ backgroundColor: calendar.calColor }} />
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
                     </li>
-                        ))}
- 
-                    </ul>
-                </li>
+                    <li className="cal_menu">
+                        공유 캘린더
+                        <ul>
+                            {calendarList && calendarList.map((calendar) => (
+                                calendar.calType === "공유 캘린더" && 
+                                <li key={calendar.calNo}>
+                                    <input 
+                                        type="checkbox" 
+                                        id={`cal_checkbox_${calendar.calNo}`} 
+                                        onChange={(e) => handleCalendarCheckboxChange(calendar.calNo, e.target.checked)} // 체크박스 변경 핸들러
+                                        checked={selectedCalendars.includes(calendar.calNo)} // 체크 여부 확인
+                                    />
+                                    <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
+                                        {calendar.calName}
+                                        <span className="dot" style={{ backgroundColor: calendar.calColor }} />
+                                    </label>
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             </article>
@@ -185,23 +227,39 @@ function CalendarMainPage(){
                     events={events} 
                     selectable={true}
                     select={handleSelect}
-                    dayMaxEventRows={2} 
-                    editable={true}
+                    dayMaxEventRows={3} 
+                    // editable={true}
                     
                    
                 />
                                 
                 </div>
+
+                {/* 
+                
+                
+                
+                일정 다 띄움, 이제 클릭했을때 토글 하나씩 만 나와야함 지금은 다나옴 
+                
+                
+            
+                
+                */}
                 <div className="schedule">
-                    <span className="selected_date">    {selectedDate ? 
-                    `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`  : ''}</span>
-                    <span className="schedule_count">1</span>
-                    <div className={`schedule_box ${isExpanded ? 'expanded' : ''}`} onClick={toggleExpand}>
-                    <div className="schbox_top">
+                    <span className="selected_date">    {/* 선택 된 날짜 */}
+                     {selectedDate ? 
+                    `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`  : ''}
+                    </span>
+                    <span className="schedule_count">{filteredSchedules.length}</span>    {/* 일정개수 */}
+                   
+                    
+                    {filteredSchedules.map(schedule => (
+                    <div  key={schedule.schNo} className={`schedule_box ${isExpanded ? 'expanded' : ''}`}>
+                    <div className="schbox_top" onClick={toggleExpand}>
                         <div className="sch_time">
-                        <div className="sch_start_date">1월3일 10:00</div>
-                        <span>~</span>
-                        <div className="sch_end_date">1월3일 11:00</div>
+                        <div className="sch_start_date">{formatDateTime(schedule.schStartDate)}</div>
+                {schedule.schEndDate && <span>~</span>}
+                {schedule.schEndDate && <div className="sch_end_date">{formatDateTime(schedule.schEndDate)}</div>}
                         </div>
                         <div className="sch_btns">
                         <img
@@ -216,43 +274,29 @@ function CalendarMainPage(){
                         />
                         </div>
                     </div>
-                    <div className="sch_title">외부미팅</div>
+                    <div className="sch_title">{schedule.schTitle}</div>
                 {isExpanded && (
                     <div className="schbox_mid">
                         <div className="calNameTitle">
-                        캘린더 :{" "}
-                        <span className="cal_dot" style={{ backgroundColor: "blue" }} />
-                        <span className="cal_name">외부일정</span>
+                            캘린더 :{" "}
+                            <span className="cal_dot" style={{ backgroundColor: calendarList.find(calendar => calendar.calNo === schedule.calNo)?.calColor }} />
+                            <span className="cal_name">{calendarList.find(calendar => calendar.calNo === schedule.calNo)?.calName}</span>
                         </div>
-                        <div className="locationTitle">
-                        장소 &nbsp;&nbsp;&nbsp;:{" "}
-                        <span className="location">서울시 강남구 무슨동 협력사 사무실</span>
-                        </div>
+
+                        {schedule.schLocal && <div className="locationTitle">
+                        장소 &nbsp;&nbsp;&nbsp;:{" "}<span className="location">{schedule.schLocal}</span>
+                        </div>}
+ 
                         <div className="att_listTitle">
                         참석자 : <span className="att_list">박보검</span>
                         </div>
-                        <div className="schDetailTitle">
-                        내용&nbsp;&nbsp;&nbsp; :
-                        <br />
-                        <p className="sch_datail">
-                            협력사 B와의 새로운 프로젝트에 대한 기획 및 협의.
-                            <br />
-                            우리 회사 담당자: 김매니저, 이팀장
-                            <br />
-                            협력사 B 담당자: 박팀장, 최개발자
-                            <br />
-                            기술적인 요구사항 및 일정 조율.
-                        </p>
-                        </div>
+                        {schedule.schDetail && <div className="schDetailTitle">
+                        내용 &nbsp;&nbsp;&nbsp;:{" "} <p className="sch_datail">{schedule.schDetail}</p>
+                        </div>}
+ 
                     </div>)}
                     </div>
- 
-                    {/* <div className="delete_popup">
-                    <p>삭제하시겠습니까?</p>
-                    <button onclick="deleteSchedule()">확인</button>
-                    <button onclick="hideConfirmationPopup()">취소</button>
-                    </div>
-                    <div className="dpop_overlay" /> */}
+ ))}
                 </div>
                 </div>
         </div>
@@ -260,3 +304,4 @@ function CalendarMainPage(){
     );
 }
 export default CalendarMainPage;
+
