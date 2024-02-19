@@ -1,61 +1,74 @@
-import  './GeneralDraft.css';
-import  './NewApprovaling.css';
+import React, { useEffect, useRef, useState } from 'react';
+import './GeneralDraft.css';
+import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
-
-import {
-  callInsertGeneralDraftAPI,
-  callSelectUserDetailAPI,
-} from '../../apis/ApprovalAPICalls';
-import {
-  callGetuserDetailAPI
-  
-} from '../../apis/GroupAPICalls';
-
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
+import { callSelectUserDetailAPI } from '../../apis/ApprovalAPICalls';
+import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 
-
-
-
-
-function GeneralDraft(){
-  
-  const currentTimeString = CurrentTime();
-  const navigate = useNavigate();
+function GeneralDraft() {
   const dispatch = useDispatch();
-  const token = decodeJwt(window.localStorage.getItem("accessToken"));
-  const userdetail  = useSelector((state) => state.approvalReducer);
-  const approvallineuser = useSelector((state) => state.groupUserReducer);
+  const currentTimeString = CurrentTime();
+  const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
+  const approvallineuser = useSelector((state) => state.groupUserReducer); // 로그인한 사용자 정보
+  const [approvalLine, setApprovalLine] = useState([]); // 결재 라인 상태
+  const [referenceLine, setReferenceLine] = useState([]); // 참조 라인 상태
+  const [selectedAction, setSelectedAction] = useState(null); // 'approval' 또는 'reference' 액션 선택 상태
+        console.log(approvalLine, '결재라인');
+        console.log(referenceLine, '참조라인');
+  const approvalList = useRef([]); 
+  const approvalList2 = useRef([]); 
 
-  console.log('userdetail',  userdetail );
-  console.log('approvallineuser',  approvallineuser );
-  const [list, setList] = useState([]);
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState();
-  const imageInput = useRef();
-  const approvalList = useRef([]);
-  
-  // const [titleValue,setTitleValue] = useState('');
-  console.log('load List ----> ', list);
-  
-  
-  
+   const [clickType, setClickType ] = useState("");    
   useEffect(() => {
     dispatch(callSelectUserDetailAPI());
+    console.log(clickType, 'clickTypeaaaaaaaaaaaa');
     
     console.log('--------------', approvalList);
+    if(clickType == 'approval'){
+      if (approvalLine.length <= 3) {
     approvalList.current.push(approvallineuser);
-    setList(approvalList.current.filter(approval => approval?.userName !== undefined));
-  },[approvallineuser]); // 의존성 배열에 dispatch를 넣어주어야 합니다.
 
-  // ApprovalGroup에서 userCode를 업데이트하는 함수
-  const handleUserSelect = (code) => {
-    
+    setApprovalLine(approvalList.current.filter(approval => approval?.userName !== undefined));
+      }else{
+        if(approvalLine.length > 3)
+        alert('결재라인에는 최대 4명까지 추가할 수 있습니다.');
+      }
+    }else if(clickType == 'reference'){
+            if (referenceLine.length <= 3) {
+              approvalList2.current.push(approvallineuser);
+              setReferenceLine(approvalList2.current.filter(approval => approval?.userName !== undefined));
+            }
+    }else {
+      if(referenceLine.length > 3){
+        alert('참조라인에는 최대 4명까지 추가할 수 있습니다.');
+      }
+    }
+  }, [approvallineuser]);
+  
+
+  const handleUserSelect = (code, actionType) => {
+    // 로그인 사용자와 선택된 사용자가 동일한지 검사
+    if (userDetail.userCode === code) {
+      alert('기안자와 결재/참조자는 같을 수 없습니다.');
+      return;
+    }
+
+    // 선택된 액션 타입을 상태로 저장
+    setSelectedAction(actionType);
+
+    // 사용자 상세 정보 조회
     dispatch(callGetuserDetailAPI(code));
+      console.log(approvallineuser);
+      
+      if (actionType === 'approval') {
+          setClickType('approval')
+        } 
+      if (actionType === 'reference') {
+          setClickType('reference')
+        
+      }
     
   };
   
@@ -98,28 +111,28 @@ function GeneralDraft(){
   
    
 
-    const onClickInsertDocumentHandler = () => {
+    // const onClickInsertDocumentHandler = () => {
 
-      console.log('[Approval] onClickInsertDocumentHandler');
+    //   console.log('[Approval] onClickInsertDocumentHandler');
 
-      const formData = new FormData();
+    //   const formData = new FormData();
 
-      formData.append("gdTitle", form.gdTitle);
-    formData.append("gdContent", form.gdContent);
-    formData.append("rfUser", form.rfUser);
-    formData.append("lineUser", form.lineUser);
-    formData.append("apFileNameOrigin", form.apFileNameOrigin);
+    //   formData.append("gdTitle", form.gdTitle);
+    // formData.append("gdContent", form.gdContent);
+    // formData.append("rfUser", form.rfUser);
+    // formData.append("lineUser", form.lineUser);
+    // formData.append("apFileNameOrigin", form.apFileNameOrigin);
 
-      if(image){
-          formData.append("apFileNameOrigin", image);
-      }
-      console.log('[Approval] formData : ', formData.get("gdTitle"));
-      console.log('[Approval] formData : ', formData.get("gdContent"));
-      console.log('[Approval] formData : ', formData.get("rfUser"));
-      console.log('[Approval] formData : ', formData.get("lineUser"));
-      console.log('[Approval] formData : ', formData.get("apFileNameOrigin"));
+    //   if(image){
+    //       formData.append("apFileNameOrigin", image);
+    //   }
+    //   console.log('[Approval] formData : ', formData.get("gdTitle"));
+    //   console.log('[Approval] formData : ', formData.get("gdContent"));
+    //   console.log('[Approval] formData : ', formData.get("rfUser"));
+    //   console.log('[Approval] formData : ', formData.get("lineUser"));
+    //   console.log('[Approval] formData : ', formData.get("apFileNameOrigin"));
       
-    }
+    // }
 
       // dispatch(callProductRegistAPI({	// 상품 상세 정보 조회
       //     form: formData
@@ -242,18 +255,18 @@ function GeneralDraft(){
           <div className="approval">
             <span className="texttitle">기 안</span>
             <ul className="approvalul">
-              <input type='text' className="one" value={userdetail?.team?.dept?.deptName + "/" + userdetail?.team?.teamName}/>
+              <input type='text' className="one" value={userDetail?.team?.dept?.deptName + "/" + userDetail?.team?.teamName}/>
               <li className="two">
                 <img src="" alt="" />
               </li>
-              <input type="text" className="three" value={userdetail?.userName}/>
+              <input type="text" className="three" value={userDetail?.userName}/>
               <li className="four">날짜</li>
             </ul>
             <span className="texttitle">결 재</span>
 
             
             <ul className="approvalul">
-              <input className="one" value={approvallineuser?.team?.dept?.deptName + '/'}/>
+              <input className="one" value={approvalLine?.team?.dept?.deptName + '/'}/>
               <input className="two"/>
               <input className="three" value={0}/>
               <input className="four" value={0}/>
@@ -289,7 +302,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="에브리웨어"
                     className="inputtext"
-                    value={userdetail?.team?.dept?.deptName + '/' + userdetail?.team?.teamName}
+                    value={userDetail?.team?.dept?.deptName + '/' + userDetail?.team?.teamName}
                   />
                 </td>
               </tr>
@@ -300,7 +313,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="직위/ 직책 자동으로 입력됩니다."
                     className="inputtext"
-                    value={userdetail?.userRank}
+                    value={userDetail?.userRank}
                   />
                 </td>
               </tr>
@@ -311,7 +324,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="기안자명 자동으로 입력됩니다."
                     className="inputtext"
-                    value={userdetail?.userName}
+                    value={userDetail?.userName}
                   />
                 </td>
               </tr>
@@ -354,7 +367,7 @@ function GeneralDraft(){
             </tbody>
           </table>
           <div className="btn1">
-            <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
+             <button className="btn" >기안</button> {/*onClick={onClickInsertDocumentHandler} */}
           </div>
         </div>
         <div className='og' id='og' >
