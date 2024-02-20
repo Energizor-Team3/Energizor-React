@@ -1,7 +1,7 @@
 import  './SaveInBox.css';
 import {
   callSaveInBoxAPI,
-  callSelectTempDocumentDetailAPI
+  callInsertBySelectTempDocumentAPI
 } from '../../apis/ApprovalAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -18,7 +18,6 @@ function SaveInBox() {
   const dispatch = useDispatch();
   const SaveInBoxState  = useSelector((state) => state.approvalReducer);
   const SaveInBoxStateList = SaveInBoxState?.data?.content;
-  const documentData = useSelector((state) => state.approvalSubReducer);
    
   useEffect(()=>{
       dispatch(callSaveInBoxAPI());
@@ -29,39 +28,21 @@ function SaveInBox() {
   console.log('shared123',  SaveInBoxStateList);
   
 
-  const doubleClickHandler = (documentCode, form) => {
-    console.log(documentCode,form,'11111111111111111111111111111111111')
-    dispatch(callSelectTempDocumentDetailAPI(documentCode)).then(() => {
-        // 비동기 작업이 완료된 후에 navigate 실행
-        // 여기서 documentData는 최신 상태를 반영하지 않을 수 있으므로, 상태 업데이트 로직 필요
-        switch(form) {
-            case "휴가신청서":
-                console.log(documentData,'11111111111111111111111111111111111')
-                navigate('/vacation', { state: { document: documentData } });
-                break;
-            case "교육신청서":
-                console.log(documentData,'11111111111111111111111111111111111')
-                navigate('/education', { state: { document: documentData } });
-                break;
-            case "출장신청서":
-                console.log(documentData,'11111111111111111111111111111111111')
-                navigate('/businesstrip', { state: { document: documentData } });
-                break;
-            case "기안신청서":
-              console.log(documentData,'11111111111111111111111111111111111')
-                navigate('/generaldraft', { state: { document: documentData } });
-              
-                break;
-            // 기타 케이스 처리
-            default:
-                // 기본 경로 또는 에러 처리
-                break;
-        }
-    }).catch(error => {
-        // 비동기 작업 중 에러 처리
-        console.error("Document fetch error:", error);
-    });
-};
+  const doubleClickHandler= (documentCode,form) =>{
+
+    console.log(documentCode,'documentCode')
+
+    switch(form){
+      case"휴가신청서": navigate('/vacation', { state: { documentCode } });
+      break;
+      case"교육신청서": navigate('/businesstrip', { state: { documentCode } });
+      break;
+      case"출장신청서": navigate('/education', { state: { documentCode } });
+      break;
+      case"기안신청서": navigate('/generaldraft', { state: { documentCode } });
+      break;
+    }
+  }
 
 
     return (
@@ -142,11 +123,12 @@ function SaveInBox() {
           </tr>
         </thead>
         <tbody>
-        {Array.isArray(SaveInBoxStateList) &&
+  {Array.isArray(SaveInBoxStateList) &&
     SaveInBoxStateList.map((document) => (
       <tr key={document?.documentCode}>
         <td><input type="checkbox" value={document?.documentCode}/></td>
         <td>{document?.form}</td>
+        
         <td><a href="#" onClick={(e) => { 
           e.preventDefault(); // 기본 이벤트를 방지합니다.
           doubleClickHandler(document?.documentCode, document?.form);
@@ -154,7 +136,7 @@ function SaveInBox() {
         <td>{document?.draftDay}</td>
       </tr>
     ))}
-          </tbody>
+</tbody>
         </div>
       <div id="contentBox" className="content-box">
         <div className="statustitle">

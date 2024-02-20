@@ -13,9 +13,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 function Vacation(){
   const location = useLocation();
-  const documentData = location.state?.document;
+  const documentCodeData = location.state?.documentCode;
 
-  console.log(documentData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
+  console.log(documentCodeData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
