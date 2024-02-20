@@ -30,17 +30,14 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        {/* <Route path="/" element={ <Layout/> }>
-          <Route index element={ <Main/> }/>  
-
-        </Route> */}
+        
 
         <Route path="/main" element={ <Main /> } />
 
 
-      <Route path="/main" element={ <Layout/> }>
+      {/* <Route path="/main" element={ <Layout/> }>
         <Route index element={ <Main /> } />
-      </Route>
+      </Route> */}
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 
@@ -49,7 +46,7 @@ function App() {
 
 
         <Route path="/" element={ <Sublayout/> }>
-        <Route path="/reservationmain" element={ <ReservationMain/> } />
+          <Route path="/reservationmain" element={ <ReservationMain/> } />
           <Route path="message" element={ <Message/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
           <Route path="/businesstrip" element={ <BusinessTrip/> } />

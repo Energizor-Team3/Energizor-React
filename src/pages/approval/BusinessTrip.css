@@ -22,7 +22,7 @@ li {
       text-align: center;
       border: 1px solid #dcdcdc;
       background-color: #F2F6FF;
-      
+      height: 210px;
   }
   
   .approval{
@@ -128,7 +128,7 @@ li {
   }
   
   .inputbox1{
-      width: 205px;
+      width: 430px;
       padding: 10px;
       margin-bottom: 10px;
       border: 1px solid #ccc;

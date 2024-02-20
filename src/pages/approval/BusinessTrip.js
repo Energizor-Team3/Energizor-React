@@ -360,7 +360,7 @@ useEffect(() => {
                 </ul>
                   ))}
               </div>
-        <table>
+        <div className='businesstable'>
           <thead>
             <tr>
               <th className="title">
@@ -434,7 +434,7 @@ useEffect(() => {
               </td>
             </tr>
           </tbody>
-        </table>
+        </div>
         <table className="selectdetail">
           <thead>
             <tr>
