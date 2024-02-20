@@ -2,6 +2,7 @@ import { GET_RESERVATION_DETAILS } from "../modules/ReservationModules";
 import { PUT_RESERVATION_MODIFY } from "../modules/ReservationModifyModule";
 import { GET_RESERVATION_ATTENDEE } from "../modules/ReservationAttendeeModule";
 
+// 내 예약내역 전체 조회
 export const callResevationDetailAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/all`;
 
@@ -29,6 +30,34 @@ export const callResevationDetailAPI = () => {
   };
 };
 
+// 내 예약내역 상세 조회 
+export const callResevationCodeDetailAPI = ({ reservationCode }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/${reservationCode}`;
+
+  return async (dispatch, getState) => {
+    console.log("내 예약내역 상세조회");
+
+    const result = await fetch(requestURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+      },
+    }).then((response) => response.json());
+
+    console.log('[ReservationAPICalls] callResevationCodeDetailAPI RESULT : ', result);
+        if(result.status === 200){
+            console.log('[ReservationAPICalls] callResevationCodeDetailAPI SUCCESS');
+            dispatch({ type: 'reservation/GET_RESERVATION_CODE_DETAILS',  payload: result });
+        }
+
+        
+    };
+}
+
+
+// 예약코드내 참석자 조회
 export const callAttendeeDetailAPI = ({ reservationCode }) => {
   console.log(reservationCode, "sssssssssssssssssssssssssssss");
 
@@ -52,6 +81,7 @@ export const callAttendeeDetailAPI = ({ reservationCode }) => {
   };
 };
 
+// 예약수정
 export const callResevationModifyAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/modify`;
 

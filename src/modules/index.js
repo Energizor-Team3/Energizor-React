@@ -4,6 +4,7 @@ import approvalReducer from "./ApprovalMainModule";
 import reservationReducer from "./ReservationModules";
 import reservationAttendeeReducer from "./ReservationAttendeeModule";
 import reservationModifyReducer from "./ReservationModifyModule";
+import reservationCodeReducer from "./ReservationCodeDetailsModule";
 
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   reservationReducer,
   reservationAttendeeReducer,
   reservationModifyReducer,
+  reservationCodeReducer,
 });
 
 export default rootReducer;
