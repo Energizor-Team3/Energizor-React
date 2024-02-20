@@ -1,0 +1,96 @@
+.detailCotentHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  padding-bottom: 30px;
+  
+  margin-bottom: 20px;
+}
+.headerItemWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.headerItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerItem > div:first-child {
+  font-weight: 700;
+  width: 100px;
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.saveButton {
+  background-color: #94A9FF;
+  color: white;
+  border: 1px solid #94A9FF;
+}
+
+.commentHeader {
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.commentItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+}
+
+.commentContent {
+  flex: 1;
+}
+.commentContent > div:first-child {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.commentFooter > div:first-child {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.commentFooter > div:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+.commentWriteWrapper > div:last-child {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.commentWrite {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.commentWrite > textarea {
+  width: 1300px;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  resize: none;
+}
