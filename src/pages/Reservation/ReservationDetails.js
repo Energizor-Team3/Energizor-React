@@ -26,6 +26,7 @@ function ReservationDetails() {
 
   const [showPopup, setShowPopup] = useState(false); // 팝업 노출 상태를 관리하는 상태 변수
   const [attendeesInfo, setAttendeesInfo] = useState([]); // 참석자 정보를 관리하는 상태 변수
+  const [selectedReservationCode, setSelectedReservationCode] = useState("");
 
   const doubleClickHandler = () => {};
 
@@ -61,6 +62,30 @@ function ReservationDetails() {
 
   const closePopup = () => {
     setShowPopup(false); // 팝업 닫기
+  };
+
+  // 체크박스 선택 시 호출되는 함수
+  const handleCheckboxChange = (e, reservationCode) => {
+    const isChecked = e.target.checked; // 체크박스의 선택 여부
+    if (isChecked) {
+      // 체크박스가 선택된 경우
+      setSelectedReservationCode(reservationCode); // 선택된 예약 코드 업데이트
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", reservationCode);
+    } else {
+      // 체크박스가 선택 해제된 경우
+      setSelectedReservationCode(""); // 선택된 예약 코드 초기화
+    }
+  };
+
+  // 예약 수정 버튼 클릭 시 호출되는 함수
+  const handleReservationModifyClick = () => {
+    if (selectedReservationCode) {
+      // 선택된 예약 코드가 있는 경우에만 예약 수정 페이지로 이동합니다.
+      navigate(`/reservationmodify?reservationCode=${selectedReservationCode}`);
+    } else {
+      // 선택된 예약 코드가 없는 경우 알림창을 띄웁니다.
+      alert("하나의 예약을 선택하세요.");
+    }
   };
 
   return (
@@ -102,7 +127,7 @@ function ReservationDetails() {
             <div className="MDbutton">
               <button
                 className="btnStatus"
-                onClick={() => navigate("/reservationmodify")}
+                onClick={handleReservationModifyClick}
               >
                 예약수정
               </button>
@@ -118,9 +143,7 @@ function ReservationDetails() {
           <table>
             <thead>
               <tr>
-                <th>
-                  <input type="checkbox" />
-                </th>
+                <th></th>
                 <th>장소</th>
                 <th>신청사유</th>
                 <th>사용시작일시</th>
@@ -138,8 +161,15 @@ function ReservationDetails() {
                     <tr key={reservation?.reservationCode}>
                       <td>
                         <input
-                          type="checkbox"
+                          type="radio"
+                          name="selectedReservations"
                           value={reservation?.reservationCode}
+                          onChange={(e) =>
+                            handleCheckboxChange(
+                              e,
+                              reservation?.reservationCode
+                            )
+                          }
                         />
                       </td>
                       <td>{reservation?.meetCode?.meetName}</td>

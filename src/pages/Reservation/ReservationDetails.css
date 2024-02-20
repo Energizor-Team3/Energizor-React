@@ -118,8 +118,6 @@ input#attendees {
   background-color: #314b94;
 }
 
-
-
 /* 팝업 컨테이너 */
 .popup {
   position: fixed;
@@ -135,10 +133,7 @@ input#attendees {
   padding: 20px;
 }
 
-
-
 /* 팝업 내용 */
-
 
 .popup_inner {
   background-color: #ffffff;
@@ -169,28 +164,37 @@ input#attendees {
 
 /* 팝업 닫기 버튼 */
 .popup_inner button {
-    position: absolute; /* 절대 위치 지정 */
-    top: 36px;
-    right: 34px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #415cbe; /* 텍스트 색상 */
-    font-size: 20px;
-    padding: 5px; /* 버튼 패딩 추가 */
-  
-    transition: background-color 0.3s ease; /* 배경 색상 변화에 애니메이션 추가 */
+  position: absolute; /* 절대 위치 지정 */
+  top: 36px;
+  right: 34px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #415cbe; /* 텍스트 색상 */
+  font-size: 20px;
+  padding: 5px; /* 버튼 패딩 추가 */
+
+  transition: background-color 0.3s ease; /* 배경 색상 변화에 애니메이션 추가 */
 }
 
 /* 팝업 닫기 버튼 호버 상태 */
 .popup_inner button:hover {
-    background-color: rgba(255, 255, 255, 0.3); /* 호버 상태 배경 색상 변경 */
+  background-color: rgba(255, 255, 255, 0.3); /* 호버 상태 배경 색상 변경 */
 }
 
 /* 특정 테이블에만 적용되는 스타일 */
 .attendeeTable tbody td:first-child,
 .attendeeTable thead tr th:first-child {
-   
-    min-width: 92px;
+  min-width: 92px;
+}
+
+/* 라디오 버튼 스타일 */
+input[type="radio"] {
+  width: 16px; /* 라디오 버튼 크기 */
+  height: 16px;
+  border-radius: 50%; /* 원형 모양으로 만듦 */
+  border: 2px solid #415cbe; /* 외곽선 스타일 및 메인 컬러 설정 */
+  outline: none;
+  cursor: pointer;
 }
 
