@@ -12,6 +12,8 @@ export const GET_APPROVAL_FINDUSERDETAIL = 'approval/GET_APPROVAL_FINDUSERDETAIL
 export const POST_APPROVAL_SAVEGENERALDRAFT = 'approval/POST_APPROVAL_SAVEGENERALDRAFT';
 export const POST_APPROVAL_INSERTBUSINESSTRIP = 'approval/POST_APPROVAL_INSERTBUSINESSTRIP';
 export const POST_APPROVAL_SAVEBUSINESSTRIP = 'approval/POST_APPROVAL_SAVEBUSINESSTRIP';
+export const POST_APPROVAL_INSERTEDUCATION = 'approval/POST_APPROVAL_INSERTEDUCATION';
+export const POST_APPROVAL_SAVEEDUCATION = 'approval/POST_APPROVAL_SAVEEDUCATION';
 
 
 
@@ -25,7 +27,9 @@ const actions = createActions({
     [GET_APPROVAL_FINDUSERDETAIL]: () => {},
     [POST_APPROVAL_SAVEGENERALDRAFT]: () => {},
     [POST_APPROVAL_INSERTBUSINESSTRIP]: () => {},
-    [POST_APPROVAL_SAVEBUSINESSTRIP]: () => {}
+    [POST_APPROVAL_SAVEBUSINESSTRIP]: () => {},
+    [POST_APPROVAL_INSERTEDUCATION]: () => {},
+    [POST_APPROVAL_SAVEEDUCATION]: () => {}
     
 });
 
@@ -61,6 +65,14 @@ export const approvalReducer = handleActions(
             return payload;
         },
         [POST_APPROVAL_SAVEBUSINESSTRIP]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_APPROVAL_INSERTEDUCATION]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_APPROVAL_SAVEEDUCATION]: (state, { payload }) => {
             
             return payload;
         }

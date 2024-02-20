@@ -7,7 +7,9 @@ import {
     GET_APPROVAL_FINDUSERDETAIL,
     POST_APPROVAL_SAVEGENERALDRAFT,
     POST_APPROVAL_INSERTBUSINESSTRIP,
-    POST_APPROVAL_SAVEBUSINESSTRIP
+    POST_APPROVAL_SAVEBUSINESSTRIP,
+    POST_APPROVAL_INSERTEDUCATION,
+    POST_APPROVAL_SAVEEDUCATION
    
 } from '../modules/ApprovalMainModule';
 
@@ -183,6 +185,58 @@ export const callInsertBusinessTripAPI = ({form}) => {
         console.log('[ApprovalAPICalls] callInsertBusinessTripAPI RESULT : ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTBUSINESSTRIP,  payload: result });
+        
+    };
+}
+
+// 교육 임시저장 및 기안등록
+
+export const callSaveEducationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalEducation`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveEducationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEEDUCATION,  payload: result });
+        
+    };
+}
+
+export const callInsertEducationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/education`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertEducationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTEDUCATION,  payload: result });
         
     };
 }

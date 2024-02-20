@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+// import Layout from './layouts/Layout';
 import Sublayout from "./layouts/SubLayout"
 import Login from './pages/user/Login';
 import Error from './pages/Error';
@@ -10,12 +10,13 @@ import Message from "./pages/message/Message";
 import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft';
 import ApprovalMain from './pages/approval/ApprovalMain';
+import BusinessTrip from './pages/approval/BusinessTrip';
+import Education from './pages/approval/Education';
 import SharedInBox from './pages/approval/SharedInBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
-import BusinessTrip from './pages/approval/BusinessTrip';
-
-
+import Layout from './layouts/SubLayout';
+// import Group from './pages/group/Group';
 
 import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
@@ -30,14 +31,17 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        
+        {/* <Route path="/" element={ <Layout/> }>
+          <Route index element={ <Main/> }/>  
+
+        </Route> */}
 
         <Route path="/main" element={ <Main /> } />
 
 
-      {/* <Route path="/main" element={ <Layout/> }>
+      <Route path="/main" element={ <Layout/> }>
         <Route index element={ <Main /> } />
-      </Route> */}
+      </Route>
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 
@@ -46,9 +50,10 @@ function App() {
 
 
         <Route path="/" element={ <Sublayout/> }>
-          <Route path="/reservationmain" element={ <ReservationMain/> } />
+        <Route path="/reservationmain" element={ <ReservationMain/> } />
           <Route path="message" element={ <Message/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/education" element={ <Education/> } />
           <Route path="/businesstrip" element={ <BusinessTrip/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
@@ -71,3 +76,5 @@ function App() {
 }
 
 export default App;
+
+

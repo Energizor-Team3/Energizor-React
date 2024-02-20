@@ -192,9 +192,9 @@ useEffect(() => {
           formData.append("file", image);
       }
     
-      if(form.gdTitle === '' || form.gdContent === '' 
+      if(form.btTitle === '' || form.btContent === '' || form.btPhone === ''|| form.btStart === ''|| form.btPlace === ''|| form.btFinish === ''
             || form.lineUser === ''){
-                alert('정보를 다 입력해주세요.');
+                alert('공란을 입력해주세요.');
                 return ;
         }
       
@@ -218,12 +218,18 @@ useEffect(() => {
 
     const formData = new FormData();
 
-    formData.append("gdTitle", form.gdTitle);
-    formData.append("gdContent", form.gdContent);
+    formData.append("btPhone", form.btPhone);
+    formData.append("btStart", form.btStart);
+    formData.append("btFinish", form.btFinish);
+    formData.append("btPlace", form.btPlace);
+    formData.append("btContent", form.btContent);
+    formData.append("btTitle", form.btTitle);
+    
   
 
   
-    if(form.gdTitle === '' || form.gdContent === '' 
+    if(form.btTitle === '' || form.btContent === '' || form.btPhone === ''|| form.btStart === ''|| form.btPlace === ''|| form.btFinish === ''
+     
           ){
               alert('최소 하나의 정보를 입력해주세요.');
               return ;

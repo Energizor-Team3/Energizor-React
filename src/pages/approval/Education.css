@@ -1,0 +1,207 @@
+li {
+    list-style: none;
+  }
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  a,
+  a:visited,
+  a:link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  
+  
+  .texttitle{
+      vertical-align: middle;
+      writing-mode: vertical-rl;
+      text-align: center;
+      border: 1px solid #dcdcdc;
+      background-color: #F2F6FF;
+      
+  }
+  
+  .approval{
+      display: flex;
+      justify-content: flex-end;
+      
+      padding-top: 20px;
+      padding-bottom: 50px;
+  
+      
+  }
+  .approvalul{
+      
+      width: 130px;
+      
+  }
+  .approvalul li{
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #dcdcdc;
+      color: #696868;
+  }
+  .one{
+      height: 40px;
+  }
+  .two{
+      height: 100px;
+  }
+  .three{
+      height: 40px;
+  }
+  .four{
+      height: 30px;
+  }
+  
+  .text{
+       padding: 20px 80px ;
+      background-color: #F2F6FF;
+  }
+  
+  .inputtext{
+      
+      border: none;
+      color: gray;
+      padding: 10px;
+      width: 700px;
+      
+  }
+  
+  .tbtb td{
+      
+      border-bottom: 1px solid #dcdcdc;
+  
+  }
+  
+  .title{
+      padding-bottom: 100px;
+      border-bottom: 1px solid #dcdcdc;
+  }
+  
+  .inputtext1{
+      padding: 10px;
+      width: 700px;
+      border: none;
+  }
+  
+  .selectdetail th{
+      background-color: #F2F6FF;
+      padding: 20px 80px;
+      border-top:1px solid #dcdcdc;
+      
+  
+      border-bottom:1px solid #dcdcdc;
+  
+  }
+  .selectdetail{
+      padding-top: 30px;
+      
+  }
+  
+  .selectdetail td{
+      
+      
+      padding: 20px;
+      width: 484px;
+  }
+  .hihi{
+      border-bottom:1px solid #dcdcdc;
+  
+  }
+  
+  .inputbox{
+      width: 430px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  
+  .inputbox1{
+      width: 430px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+  }
+  
+  .inputbox2{
+      width: 915px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;  /* 크기 조정 비활성화 */
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  .btn1{
+      padding-top: 80px;
+      display: flex;
+      justify-content: center;
+  }
+  
+  .btn{
+      padding: 20px;
+      border-radius: 6px;
+      border: none;
+      background-color: #F2F6FF;
+  }
+  
+  .btn:hover{
+      background-color: #94A9FF;
+      color: white;
+  }
+  
+  
+  .wrap2{
+      margin: 20px;
+      max-height: 700px; /* 원하는 최대 높이 설정 */
+      max-width: 1000px;
+  
+      overflow-y: auto; /* 세로 스크롤바 활성화 */
+  }
+
+  .side{
+    display:flex;
+    
+    
+  }
+  .og{
+    padding-left: 30px;
+    width: 350px;
+    display: none; /* 기본적으로 보이지 않음 */
+    margin-top: 20px; /* 상단 여백 */
+    border-radius: 6px;
+    max-width: 300px;
+    max-height: 700px;
+    
+    
+  }
+
+    
+/* 활성화된 컨텐츠 박스 스타일 */
+.active {
+    display: block; /* 보이도록 설정 */
+}
+  
+  
+  
+  
+  
+  
+  
+  
