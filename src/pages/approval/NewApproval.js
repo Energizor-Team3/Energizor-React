@@ -91,7 +91,7 @@ function NewApproval(){
         <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
       </div> */}
       </div>
-      <div className='approvaltable'>
+      <div className='newapprovaltable'>
         <thead>
           <tr>
             <th>양식구분</th>

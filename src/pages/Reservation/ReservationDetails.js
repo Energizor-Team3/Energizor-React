@@ -140,7 +140,7 @@ function ReservationDetails() {
             </div>
           </div>
           {/* 예약 목록을 렌더링하는 부분 */}
-          <table>
+          <table className="resdetailtable">
             <thead>
               <tr>
                 <th></th>
@@ -163,6 +163,7 @@ function ReservationDetails() {
                         <input
                           type="radio"
                           name="selectedReservations"
+
                           value={reservation?.reservationCode}
                           onChange={(e) =>
                             handleCheckboxChange(

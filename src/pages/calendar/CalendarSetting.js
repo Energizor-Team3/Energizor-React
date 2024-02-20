@@ -1,7 +1,33 @@
 import './CalendarSetting.css'
 import { NavLink } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
+import {
+  callCalendarListAPI
+} from '../../apis/CalendarAPICalls'
+import calendarReducer from '../../modules/CalendarModule';
 
 function CalendarSetting(){
+  const dispatch = useDispatch();
+  const calendar = useSelector(state => state.calendarReducer); 
+  const calendarList = calendar.data;
+  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  const [calNo, setcalNo] = useState(0);
+  const [userCode, setuserCode] = useState(0);
+  const calendarRef = useRef(null);
+
+  useEffect(() => {
+    console.log("useEffect의 token---->", token);
+    console.log("useEffect의 token.userCode--->", token.userCode);
+
+    if (token !== null) {
+        dispatch(callCalendarListAPI({ userCode: token.userCode }));
+
+    }
+}, []);
+
+
     return(
         <div id="wrap">
 
@@ -40,19 +66,21 @@ function CalendarSetting(){
                 <div className="cal_listdiv">
                   <span className="cal-header1">개인 캘린더</span>
                   <ul>
-                    <li >
- 
-                      캘린더 1
+                  {calendarList && calendarList.map((calendar) => (
+                                calendar.calType === "개인 캘린더" &&
+                    <li  key={calendar.calNo}>
+                        {calendar.calName}
                     </li>
-                    <li>캘린더 2</li>
-                    <li>캘린더 3</li>
-                    <li>캘린더 4</li>
+                    ))}
                   </ul>
                   <span className="cal-header2">공유 캘린더</span>
                   <ul className="shared-cal-list">
-                    <li>캘린더 5</li>
-                    <li>캘린더 6</li>
-                    {/* Add more shared calendars as needed */}
+                  {calendarList && calendarList.map((calendar) => (
+                                calendar.calType === "공유 캘린더" &&
+                    <li  key={calendar.calNo}>
+                        {calendar.calName}
+                    </li>
+                    ))}
                   </ul>
                   <ul className='block'>
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
