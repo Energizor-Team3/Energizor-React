@@ -4,12 +4,12 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 // 액션
-export const GET_GROUP_Organization = 'group/GET_GROUP';
+export const GET_GROUP = 'group/GET_GROUP';
 
 
 // 액션생성자 생성
 const actions = createActions( {
-  [GET_GROUP_Organization]: () => {}
+  [GET_GROUP]: () => {}
 });
 
 
@@ -18,7 +18,7 @@ const actions = createActions( {
 
 const groupReducer = handleActions(
   {
-    [GET_GROUP_Organization]: (state, { payload }) => {
+    [GET_GROUP]: (state, { payload }) => {
 
 
       return payload;
