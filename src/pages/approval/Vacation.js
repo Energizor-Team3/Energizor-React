@@ -7,11 +7,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { callSelectUserDetailAPI, callSaveVacationAPI, callInsertVacationAPI} from '../../apis/ApprovalAPICalls';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 
 function Vacation(){
+  const location = useLocation();
+  const documentData = location.state?.document;
+
+  console.log(documentData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -142,6 +146,15 @@ function Vacation(){
           [e.target.name]: e.target.value
       });
     };
+    // 휴가일수 계산해서 넣어주기
+    useEffect(() => {
+      if (form.offStart && form.offEnd) { // offStart와 offEnd가 모두 유효한 경우에만 실행
+        setForm(prevForm => ({
+          ...prevForm,
+          offDay: getDaysDifference(form.offStart, form.offEnd) + 1,
+        }));
+      }
+    }, [form.offStart, form.offEnd]);
   
     useEffect(()=>{
       console.log('실제로 값이 변하는지',form);
@@ -182,7 +195,6 @@ function Vacation(){
     };
         // 기안하기
       const onClickInsertDocumentHandler = () => {
-  
         console.log('[Approval] onClickInsertDocumentHandler');
   
         const formData = new FormData();
@@ -488,9 +500,7 @@ function Vacation(){
                   type="text"
                   className="inputbox"
                   placeholder="휴가 일수를 입력하세요"
-                  name='offDay' 
                   value={(getDaysDifference(form.offStart,form.offEnd) + 1)}
-                  onChange={onChangeHandler}
                 />
               </td>
               <td className="hihi">

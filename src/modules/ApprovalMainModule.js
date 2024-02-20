@@ -16,6 +16,9 @@ export const POST_APPROVAL_INSERTEDUCATION = 'approval/POST_APPROVAL_INSERTEDUCA
 export const POST_APPROVAL_SAVEEDUCATION = 'approval/POST_APPROVAL_SAVEEDUCATION';
 export const POST_APPROVAL_INSERTVACATION = 'approval/POST_APPROVAL_INSERTVACATION';
 export const POST_APPROVAL_SAVEVACATION = 'approval/POST_APPROVAL_SAVEVACATION';
+export const GET_APPROVAL_SAVEINBOX = 'approval/GET_APPROVAL_SAVEINBOX';
+
+
 
 
 
@@ -33,7 +36,8 @@ const actions = createActions({
     [POST_APPROVAL_INSERTEDUCATION]: () => {},
     [POST_APPROVAL_SAVEEDUCATION]: () => {},
     [POST_APPROVAL_SAVEVACATION]: () => {},
-    [POST_APPROVAL_INSERTVACATION]: () => {}
+    [POST_APPROVAL_INSERTVACATION]: () => {},
+    [GET_APPROVAL_SAVEINBOX]: () => {}
     
 });
 
@@ -85,6 +89,10 @@ export const approvalReducer = handleActions(
             return payload;
         },
         [POST_APPROVAL_INSERTVACATION]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [GET_APPROVAL_SAVEINBOX]: (state, { payload }) => {
             
             return payload;
         }

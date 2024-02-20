@@ -16,6 +16,7 @@ import SharedInBox from './pages/approval/SharedInBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
 import Vacation from './pages/approval/Vacation';
+import SaveInBox from './pages/approval/SaveInBox';
 import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
 
@@ -56,6 +57,7 @@ function App() {
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
           <Route path="/education" element={ <Education/> } />
           <Route path="/businesstrip" element={ <BusinessTrip/> } />
+          <Route path="/saveinbox" element={ <SaveInBox/> } />
           <Route path="/vacation" element={ <Vacation/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
