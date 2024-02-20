@@ -4,21 +4,21 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const GET_GROUP_TEAM  = 'group/GET_GROUP_TEAM';
+export const GET_GROUP_DEPT  = 'group/GET_GROUP_DEPT';
 
 
 
 
 const actions = createActions({
-    [GET_GROUP_TEAM]: () => {}
+    [GET_GROUP_DEPT]: () => {}
     
     
 });
 
 /* 리듀서 */
- const groupTeamReducer = handleActions(
+const groupDeptReducer = handleActions(
     {
-        [GET_GROUP_TEAM]: (state, { payload }) => {
+        [GET_GROUP_DEPT]: (state, { payload }) => {
             
             return payload;
         }
@@ -27,4 +27,4 @@ const actions = createActions({
     initialState
 );
 
-export default groupTeamReducer;
+export default groupDeptReducer;

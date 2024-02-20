@@ -5,6 +5,7 @@ import {
   callOrganizationAPI,
   callGetuserDetailAPI,
   callGetTeamDetailAPI,
+  callGetDeptDetailAPI,
 } from "../../apis/GroupAPICalls";
 
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
@@ -18,8 +19,12 @@ function TreeNode({
   onUserSelect,
   userCode,
   teamCode,
+  deptCode,
   onTeamSelect,
+  onDeptSelect,
 }) {
+  const dispatch = useDispatch();
+
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = children && children.length > 0;
 
@@ -29,43 +34,48 @@ function TreeNode({
     }
   };
 
-  // 유저이름 클릭했을때 유저코드 가져오는거
+  // 조직도 클릭시 클릭한 정보 가져오기 & 클릭한 요소 정보 출력하기
+
   const handleUserClick = (e) => {
     e.stopPropagation();
-    if (!hasChildren && onUserSelect) {
-      console.log("=======유저코드", userCode)
-      onUserSelect(userCode); // 유저 코드를 onUserSelect를 통해 상위 컴포넌트로 전달
 
+    if (userCode !== undefined && !teamCode && !deptCode) {
+      onUserSelect(userCode);
+    }
+
+    if (teamCode !== undefined && !userCode && !deptCode) {
+      onTeamSelect(teamCode);
+    }
+
+    if (deptCode !== undefined && !userCode && !teamCode) {
+      onDeptSelect(deptCode);
     }
   };
-  const handleTeamClick = (e) => {
-    e.stopPropagation();
-    if (!hasChildren && onTeamSelect) {
-
-      console.log("=======팀코드", teamCode)
-      onTeamSelect(teamCode); 
-    }
-  };
-
-
 
   return (
     <div style={{ paddingLeft: `${depth * 20}px` }}>
-      {hasChildren && <span onClick={toggleOpen}>{isOpen ? "▼" : "▶"}</span>}
-      <span onClick={handleUserClick}>{name}</span>
-      <span onClick={handleTeamClick}>{teamCode}</span>
+      {hasChildren && (
+        <span style={{ cursor: "pointer" }} onClick={toggleOpen}>
+          {isOpen ? "▼" : "▶"}
+        </span>
+      )}
+      <span onClick={handleUserClick} style={{ cursor: "pointer" }}>
+        {name}
+      </span>
       {isOpen && hasChildren && (
         <div>
           {children.map((child, index) => (
             <TreeNode
-              key={child.id}
+              key={index}
               name={child.name}
               children={child.children}
               depth={depth + 1}
               onUserSelect={onUserSelect}
               onTeamSelect={onTeamSelect}
-              userCode={child.userCode} // userCode를 자식 컴포넌트로 전달합니다.
+              onDeptSelect={onDeptSelect}
+              userCode={child.userCode}
               teamCode={child.teamCode}
+              deptCode={child.deptCode}
             />
           ))}
         </div>
@@ -78,63 +88,113 @@ function Group() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedUserCode, setSelectedUserCode] = useState(null);
-  const [selectedTeamCode, setSelectedTeamCode] = useState(null); // 선택된 팀의 코드를 저장할 상태 변수
-  const user = useSelector((state) => state.groupUserReducer);
+  const [selectedTeamCode, setSelectedTeamCode] = useState(null);
+  const [selectedDeptCode, setSelectedDeptCode] = useState(null);
+
+  const GroupUser = useSelector((state) => state.groupUserReducer);
   const groupAndTeam = useSelector((state) => state.groupReducer);
   const team = useSelector((state) => state.groupTeamReducer);
+  const dept = useSelector((state) => state.groupDeptReducer);
+  const user = useSelector((state) => state.user);
 
-  const selectedCodes = useSelector((state) => state.selectedCodes);
+  const [showTeamInfo, setShowTeamInfo] = useState(false);
+  const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showDeptInfo, setShowDeptInfo] = useState(false);
+
+  const isAdmin = user && user.isAdmin;
 
   useEffect(() => {
     dispatch(callOrganizationAPI());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      const clickedElement = event.target;
+      const isOrganizationClicked = clickedElement.closest(".group_list");
+
+      if (!isOrganizationClicked) {
+        setShowUserInfo(false);
+        setShowTeamInfo(false);
+        setShowDeptInfo(false);
+      }
+    };
+
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
   }, []);
 
-  console.log("user=======", user);
+  console.log("클릭한유저코드=======", GroupUser);
   console.log("groupAndTeam=============", groupAndTeam);
-  console.log("TEAM=============", team);
+  console.log("클릭한팀코드=============", team);
+  console.log("클릭한부서코드=============", dept);
 
-  const handleUserSelect = (code) => {
-    // 선택된 유저의 코드를 상태로 설정합니다.
-    setSelectedUserCode(code);
-    dispatch(callGetuserDetailAPI(code));
+  const handleUserSelect = (userCode) => {
+    console.log("핸들유저셀렉트===", userCode);
+    setSelectedUserCode(userCode);
+    dispatch(callGetuserDetailAPI(userCode));
+    setShowUserInfo(true);
+    setShowTeamInfo(false);
+    setShowDeptInfo(false);
   };
 
   const handleTeamSelect = (teamCode) => {
+    console.log("핸들팀셀렉트===", teamCode);
     setSelectedTeamCode(teamCode);
     dispatch(callGetTeamDetailAPI(teamCode));
+    setShowTeamInfo(true);
+    setShowUserInfo(false);
+    setShowDeptInfo(false);
   };
 
+  const handleDeptSelect = (deptCode) => {
+    console.log("핸들부서셀렉트===", deptCode);
+    setSelectedDeptCode(deptCode);
+    dispatch(callGetDeptDetailAPI(deptCode));
 
-  // teamList 안의 userList를 순회하여 children을 생성하는 함수
+    setShowDeptInfo(true);
+    setShowTeamInfo(false);
+    setShowUserInfo(false);
+  };
+
   const createUserListStructure = (userList) => {
-    return userList.map((user) => ({
-      name: user.userName, // userList의 userName을 name으로 할당
+    console.log("유저코드확인===", userList);
+
+    return userList.map((user, index) => ({
+      key: index,
+      name: user.userName,
       userCode: user.userCode,
-      
-      children: [], // 추가적인 하위 구조가 있다면 여기에 재귀적으로 추가
+      children: [],
     }));
   };
 
-  // teamList를 순회하여 children을 생성하는 함수
   const createTeamListStructure = (teamList) => {
-    return teamList.map((team) => ({
+    console.log("팀코드확인===", teamList);
+
+    return teamList.map((team, index) => ({
+      key: index,
       name: team.teamName,
-      teamCode: team.teamCode, // teamList의 deptName을 name으로 할당
-      children: team.userList ? createUserListStructure(team.userList) : [], // userList가 있으면 해당 함수 호출
-      
+      teamCode: team.teamCode,
+      children: team.userList ? createUserListStructure(team.userList) : [],
     }));
   };
 
-  // 최상위 데이터 구조를 만드는 함수
   const data = Array.isArray(groupAndTeam)
     ? [
         {
           name: "EveryWare",
-          children: groupAndTeam.map((group) => ({
+          children: groupAndTeam.map((group, index) => ({
+            key: index,
             name: group.deptName,
-            children: createTeamListStructure(group.teamList),
+            deptCode: group.deptCode,
+            children: group.teamList
+              ? createTeamListStructure(group.teamList)
+              : [],
           })),
         },
+        console.log("부서코드확인===", groupAndTeam), //들어옴
       ]
     : [];
 
@@ -167,7 +227,7 @@ function Group() {
         </article>
       </section>
 
-      <main className="subMain">
+      <main className="group_list">
         <div className="content">
           <div className="subject">
             <strong>조직도</strong>
@@ -200,97 +260,109 @@ function Group() {
                   </div>
 
                   <div className="Group">
-                    dddd
-                    <TreeNode
-                      name={data[0].name}
-                      children={data[0].children}
-                      depth={1}
-                      onUserSelect={handleUserSelect}
-                      onTeamSelect={handleTeamSelect}
-                    />
+                    {data.length > 0 && (
+                      <TreeNode
+                        key={data[0].index}
+                        name={data[0].name}
+                        children={data[0].children}
+                        depth={1}
+                        onUserSelect={handleUserSelect}
+                        onTeamSelect={handleTeamSelect}
+                        onDeptSelect={handleDeptSelect}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="group_info_wrap">
-              <div className="group_member_info_wrap">
-                <a className="note_btn" href="#home">
-                  쪽지
-                </a>
-                <hr />
-                <div className="group_info">
-                  <ul className="group_member_info">
-                    <li>
-                      <strong>사용자 ID</strong>
-                      <span>{user?.userId}</span>
-                    </li>
-                    <li>
-                      <strong>이름</strong>
-                      <span>{user?.userName}</span>
-                    </li>
-                    <li>
-                      <strong>소속 부서</strong>
-                      <span>{user?.team?.teamName}</span>
-                    </li>
-                    <li>
-                      <strong>직급</strong>
-                      <span>{user?.userRank}</span>
-                    </li>
-                    <li>
-                      <strong>휴대폰 번호</strong>
-                      <span>{user?.phone}</span>
-                    </li>
-                    <li>
-                      <strong>이메일</strong>
-                      <span>{user?.email}</span>
-                    </li>
-                    {/* <li>
-                      <strong>팀명dd</strong>
-                      {user?.team?.teamName}
-                      {groupAndTeam?.teamList?.map((team) => (
-                        <span key={team.teamCode}>
-                          {team.teamName}
-                          {team.teamCode === user?.team?.teamCode && team.userList.map((user) => (
-                            <span key={user.userId}>{user.userName}</span>
-                          ))}
-                        </span>
-                        ))}
-                    </li> */}
+              {/* 관리자만 보이는 버튼 */}
+              {isAdmin && (
+                <div className="admin_btn">
+                  <button type="button">그룹추가</button>
+                  <button type="button">그룹수정</button>
+                  <button type="button">그룹삭제</button>
+                </div>
+              )}
+              {showUserInfo && (
+                <div className="group_member_info_wrap  ">
+                  <a className="note_btn" href="#home">
+                    쪽지
+                  </a>
+                  <hr />
+                  <div className="group_info">
+                    <ul className="group_member_info">
+                      <li>
+                        <strong>사용자 ID</strong>
+                        <span>{GroupUser?.userId}</span>
+                      </li>
+                      <li>
+                        <strong>이름</strong>
+                        <span>{GroupUser?.userName}</span>
+                      </li>
+                      <li>
+                        <strong>소속 부서</strong>
+                        <span>{GroupUser?.team?.teamName}</span>
+                      </li>
+                      <li>
+                        <strong>직급</strong>
+                        <span>{GroupUser?.userRank}</span>
+                      </li>
+                      <li>
+                        <strong>휴대폰 번호</strong>
+                        <span>{GroupUser?.phone}</span>
+                      </li>
+                      <li>
+                        <strong>이메일</strong>
+                        <span>{GroupUser?.email}</span>
+                      </li>
+                    </ul>
+                    <img src="/common/personSample.png" alt="" />
+                  </div>
+                </div>
+              )}
 
+              {showTeamInfo && (
+                <div className="group_team_info_wrap ">
+                  <ul className="group_team_dept_info">
                     <li>
                       <strong>팀명</strong>
-                      {user?.team?.teamName}
-                      {groupAndTeam?.map((group) =>
-                        group.teamList.map((team) => (
-                          <span key={team.teamCode}>
-                            {team.teamName}
-                            {team.teamCode === user?.team?.teamCode &&
-                              team.userList.map((user) => (
-                                <span key={user.userId}>{user.userName}</span>
-                              ))}
+                      <span>{team?.teamName}</span>
+                    </li>
+                    <li>
+                      <strong>사원리스트</strong>
+                      <div>
+                        {team?.userList?.map((userList) => (
+                          <span key={userList.userCode}>
+                            {userList?.userName}
                           </span>
-                        ))
-                      )}
+                        ))}
+                      </div>
                     </li>
                   </ul>
-                  <img src="/common/personSample.png" alt="" />
                 </div>
-              </div>
-
-              <div className="group_department_info_wrap">
-                <ul className="group_department_info">
-                  <li>
-                    <strong>팀명</strong>
-                    <span>{team?.teamName}</span>
-                    {/* <ul>
-                      {team?.userList.map((user) => (
-                        <li key={user.userCode}>{user.userName}</li>
-                      ))}
-                    </ul> */}
-                  </li>
-                </ul>
-              </div>
+              )}
+              {showDeptInfo && (
+                <div className="group_department_info_wrap ">
+                  <ul className="group_team_dept_info">
+                    <li>
+                      <strong>부서명</strong>
+                      <span>{dept?.deptName}</span>
+                    </li>
+                    <li>
+                      <strong>팀리스트</strong>
+                      <div>
+                        {dept?.teamList?.map((teamList) => (
+                          <span key={teamList.teamCode}>
+                            {teamList?.teamName}
+                          </span>
+                        ))}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

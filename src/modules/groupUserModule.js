@@ -16,7 +16,7 @@ const actions = createActions({
 });
 
 /* 리듀서 */
-export const groupUserReducer = handleActions(
+ const groupUserReducer = handleActions(
     {
         [GET_GROUP_User]: (state, { payload }) => {
             
