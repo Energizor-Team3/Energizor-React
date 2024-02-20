@@ -109,6 +109,8 @@ section {
 article {
   padding: 100px 30px;
   width: 280px;
+  background-color: #F2F6FF;
+    height: 100vh;
 }
 
 article h2 {

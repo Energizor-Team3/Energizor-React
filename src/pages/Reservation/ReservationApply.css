@@ -1,0 +1,121 @@
+.action-buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #94A9FF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.subject strong {
+    color: #415CBE;
+}
+
+.reservation-container {
+    width: 70%;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.reservation-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+textarea,
+select {
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="datetime-local"] {
+    width: 100%;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #415CBE;
+    outline: none;
+}
+
+button {
+    padding: 12px 20px; /* 높이와 너비 조절 */
+    background-color: #415CBE;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #314b94;
+  }
+  
+  button#cancelButton {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  button#cancelEditButton:hover {
+    background-color: #999;
+  }
+  
+
+/* 수정된 스타일 */
+.additional-info {
+    width: 70%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.attendee-box {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    margin-right: 10px;
+}
+
+label[for="attendees"] {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input.attendees-input {
+    flex: 2;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button.org-chart-button {
+    margin-left: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #415CBE;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.org-chart-button:hover {
+    background-color: #314b94;
+}
