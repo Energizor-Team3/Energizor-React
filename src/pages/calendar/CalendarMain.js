@@ -1,22 +1,6 @@
-import cmp from "./CalendarMain.css"
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { decodeJwt } from '../../utils/tokenUtils';
-
-import FullCalendar from '@fullcalendar/react'; 
-import dayGridPlugin from '@fullcalendar/daygrid'; 
-import interactionPlugin from '@fullcalendar/interaction'; 
 
 
-import {
-    callCalendarListAPI,
-    callSchedulesAPI
-} from '../../apis/CalendarAPICalls'
-
-import calendarReducer from '../../modules/CalendarModule';
-import scheduleReducer from '../../modules/ScheduleModule';
-
-              {/* 
+              /* 
                 
                 
                 
@@ -26,7 +10,38 @@ import scheduleReducer from '../../modules/ScheduleModule';
                 
             
                 
-                */}
+                */
+
+            /* 
+                
+                
+                
+                일정 다 띄움, 이제 클릭했을때 토글 하나씩 만 나와야함 지금은 다나옴 
+                
+                
+            
+                
+                */
+import  "./CalendarMain.css"
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
+
+import FullCalendar from '@fullcalendar/react'; 
+import dayGridPlugin from '@fullcalendar/daygrid'; 
+import interactionPlugin from '@fullcalendar/interaction'; 
+import { NavLink } from 'react-router-dom';
+
+
+import {
+    callCalendarListAPI,
+    callSchedulesAPI,
+    callDeleteScheduleAPI
+} from '../../apis/CalendarAPICalls'
+
+import calendarReducer from '../../modules/CalendarModule';
+import scheduleReducer from '../../modules/ScheduleModule';
+
 
 
 function CalendarMainPage(){
@@ -150,23 +165,39 @@ function CalendarMainPage(){
         const formattedDate = new Date(year, month - 1, day, hour, minute).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour12: true, hour: '2-digit', minute: '2-digit' }).replace('.', '년 ').replace('.', '월 ').replace('.', '일');
         return formattedDate;
     };
+
+    const handleDeleteButtonClick = async (schNo) => {
+        const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
+      
+        if (isConfirmed) {
+          try {
+            await dispatch(callDeleteScheduleAPI({ schNo }));
+            window.location.reload(); 
+          } catch (error) {
+            console.error('일정 삭제 중 오류가 발생했습니다:', error);
+          }
+        } else {
+          console.log('삭제가 취소되었습니다.');
+        }
+      };
+      
     
  
-
     return(
         <div id="wrap">
         <section>
             <article>
             <h2 className="menu_schedule">일정관리</h2>
             <div id="menu_1">
-                <a href="#">
-                <img src="/resources/images/calendarIcon.png" alt="" />
-                </a>
-                <span>캘린더</span>
+
+                <img src="/calendar/calendarIcon.png" alt="" />
+                <NavLink to='/calendar'>
+                <span>캘린더</span></NavLink>
             </div>
             <div>
-                <button className="cal_btn">일정추가</button>
-                <button className="cal_btn">캘린더 설정</button>
+               
+                <NavLink to='/schedule/add/detail'> <button className="cal_btn">일정추가</button></NavLink>
+                <NavLink to='/calendar/setting'> <button className="cal_btn">캘린더 설정</button></NavLink>
             </div>
             <nav className="cal_nav">
                 <ul className="cal_ul">
@@ -217,6 +248,12 @@ function CalendarMainPage(){
                     </li>
                 </ul>
             </nav>
+            <div id="menu_2">
+
+                <img src="/project/projectIcon.png" alt="" />
+
+                <NavLink to='/project/main'>  <span>프로젝트</span></NavLink>
+            </div>
             </article>
            </section>
            <div className="cmpmain">
@@ -235,16 +272,7 @@ function CalendarMainPage(){
                                 
                 </div>
 
-                {/* 
-                
-                
-                
-                일정 다 띄움, 이제 클릭했을때 토글 하나씩 만 나와야함 지금은 다나옴 
-                
-                
-            
-                
-                */}
+
                 <div className="schedule">
                     <span className="selected_date">    {/* 선택 된 날짜 */}
                      {selectedDate ? 
@@ -271,6 +299,7 @@ function CalendarMainPage(){
                             src="/calendar/trash 1.png"
                             alt="editIcon"
                             className="deletebtn"
+                            onClick={() => handleDeleteButtonClick(schedule.schNo)}
                         />
                         </div>
                     </div>
@@ -287,9 +316,7 @@ function CalendarMainPage(){
                         장소 &nbsp;&nbsp;&nbsp;:{" "}<span className="location">{schedule.schLocal}</span>
                         </div>}
  
-                        <div className="att_listTitle">
-                        참석자 : <span className="att_list">박보검</span>
-                        </div>
+  
                         {schedule.schDetail && <div className="schDetailTitle">
                         내용 &nbsp;&nbsp;&nbsp;:{" "} <p className="sch_datail">{schedule.schDetail}</p>
                         </div>}

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
+import { NavLink } from 'react-router-dom';
  
 import'./projectMain.css';
 
@@ -56,12 +57,12 @@ function ProjectMain(){
             <div id="menu_1">
                      
                      <img src="/project/projectIcon.png" alt="" />
-                     <span>프로젝트</span>           
-                  
+                     <NavLink to='/project/main'>  <span>프로젝트</span></NavLink>                          
              </div>
              <div id="menu_2">                  
                      <img src="/project/calendarIcon.png" alt="" />
-                     <span>캘린더</span>                                       
+                     <NavLink to='/calendar'>
+                <span>캘린더</span></NavLink>                                  
              </div>
             </article>
         </section>
@@ -76,18 +77,21 @@ function ProjectMain(){
 
             <div className="container_2" id="projectContainer" >    
             {projectList && projectList.sort(sortByStartDate).map((projects, index) => (
+                
                                 
-                <div
-                className="project"
-                style={{ backgroundColor: backgroundColors[index % backgroundColors.length] }}
-                key= { projects.proNo }
+                <NavLink to={`/project/${projects.proNo}`} key={projects.proNo}>
+                    <div
+                        className="project"
+                        style={{ backgroundColor: backgroundColors[index % backgroundColors.length] }}
+                        key= { projects.proNo }
                 >
                 <h3 className="project_title">{ projects.proTitle }</h3>
                 <div className='pjdate'>
                 <h5 className="project_startdate">{ projects? formatDate(projects.proStartDate) : ''}</h5>
                 ~
                 <h5 className="project_enddate">{ projects? formatDate(projects.proEndDate) : ''}</h5></div>
-                </div>
+                              </div> </NavLink> 
+
                         ) )}
             </div>
             </div>

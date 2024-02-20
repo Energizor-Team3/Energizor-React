@@ -20,6 +20,7 @@ import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
 import CalendarSetting from './pages/calendar/CalendarSetting';
 import ProjectMain from './pages/project/projectMain';
+import EditSchedule from './pages/calendar/editSchedule';
 
 
 
@@ -59,9 +60,12 @@ function App() {
 
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
           <Route path="/schedule/add/detail" element={ <AddDetailSchedule/> }/>
+          <Route path="/schedule/edit" element={ <EditSchedule/> }/>
+
           <Route path="/calendar" element={ <CalendarMainPage/> } />
           <Route path="/calendar/setting" element={ <CalendarSetting/>}/>
           <Route path='/project/main' element={ <ProjectMain/>}/>
+
         </Route>
  
        

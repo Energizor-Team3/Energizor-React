@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
+import { NavLink } from 'react-router-dom';
 
 import {
     callCalendarListAPI, callAddScheduleAPI
@@ -102,62 +103,31 @@ function AddDetailSchedule(){
     return(
       <div id="wrap">
         <section>
-            <article>
+        <article>
             <h2 className="menu_schedule">일정관리</h2>
             <div id="menu_1">
-                <a href="#">
-                <img src="/resources/images/calendarIcon.png" alt="" />
-                </a>
-                <span>캘린더</span>
+
+                <img src="/calendar/calendarIcon.png" alt="" />
+                <NavLink to='/calendar'>
+                <span>캘린더</span></NavLink>
             </div>
             <div>
-                <button className="cal_btn">일정추가</button>
-                <button className="cal_btn">캘린더 설정</button>
+               
+            <NavLink to='/schedule/add/detail'> <button className="cal_btn">일정추가</button></NavLink>
+                <NavLink to='/calendar/setting'> <button className="cal_btn">캘린더 설정</button></NavLink>
             </div>
-            <nav className="cal_nav">
-                <ul className="cal_ul">
-                <li>
-                    <input type="checkbox" class="allcal_checkbox" />
-                    <label htmlFor="allcal_checkbox">전체일정</label>
-                </li>
-                <li className="cal_menu">
-                    개인 캘린더
+ 
+            <div id="menu_2">
 
-                    <ul>
-                    {calendarList && calendarList.map((calendar) => (
-                    calendar.calType === "개인 캘린더" && 
-                    <li key={calendar.calNo}>
-                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
-                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
-                            {calendar.calName}
-                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
-                        </label>
-                    </li>
-                        ))}
-                    </ul>
-                </li>
-                <li className="cal_menu">
-                    공유 캘린더
-                    <ul>
-                    {calendarList && calendarList.map((calendar) => (
-                    calendar.calType === "공유 캘린더" && 
-                    <li key={calendar.calNo}>
-                        <input type="checkbox" id={`cal_checkbox_${calendar.calNo}`} />
-                        <label htmlFor={`cal_checkbox_${calendar.calNo}`}>
-                            {calendar.calName}
-                            <span className="dot" style={{ backgroundColor: calendar.calColor }} />
-                        </label>
-                    </li>
-                        ))}
-                    </ul>
-                </li>
-                </ul>
-            </nav>
+                <img src="/project/projectIcon.png" alt="" />
+
+                <NavLink to='/project/main'>  <span>프로젝트</span></NavLink>
+            </div>
             </article>
            </section>
            <main className='calendarmain'>
             <div className="add_detail_box">
-             <h2 className="h222"> 일정 상세 등록 </h2>
+             <h2 className="h222"> <NavLink to='/calendar'> &lt;</NavLink> &nbsp; &nbsp;일정 상세 등록 </h2>
              <div className="addbox">
                 <table className="inputtb">
                 <tbody>

@@ -4,7 +4,8 @@ import {
 } from '../modules/CalendarModule.js';
 import {
 POST_SCHEDULE,
-GET_SCHEDULES
+GET_SCHEDULES,
+DELETE_SCHEDULE
 } from '../modules/ScheduleModule.js';
 
 
@@ -75,6 +76,33 @@ export const callAddScheduleAPI = ({form}) => {
     dispatch({ type: POST_SCHEDULE, payload: result});
   };
 }
+
+
+export const callDeleteScheduleAPI = ({ schNo }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/delete/${ schNo }`; // 스케줄을 삭제하기 위한 API 엔드포인트
+
+  return async (dispatch, getState) => {
+    const result = 
+      await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+      })
+      .then(response => response.json());
+
+      console.log('[CalendarAPICalls] callDeleteScheduleAPI RESULT : ', result);
+      dispatch({ type: DELETE_SCHEDULE, payload: result});
+    };
+}
+
+
+
+
+
+
 
 // export const callCalendarListAPI = ({ userCode }) => { 
 //     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/calendarsByUserCode/${ userCode }`;
