@@ -11,6 +11,7 @@ import ApprovalMain from './pages/approval/ApprovalMain';
 import SharedInBox from './pages/approval/SharedInBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
+import BusinessTrip from './pages/approval/BusinessTrip';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={ <Sublayout/> }>
           <Route path="message" element={ <Message/> } />
           <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/businesstrip" element={ <BusinessTrip/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
