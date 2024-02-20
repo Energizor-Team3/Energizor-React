@@ -14,6 +14,8 @@ export const POST_APPROVAL_INSERTBUSINESSTRIP = 'approval/POST_APPROVAL_INSERTBU
 export const POST_APPROVAL_SAVEBUSINESSTRIP = 'approval/POST_APPROVAL_SAVEBUSINESSTRIP';
 export const POST_APPROVAL_INSERTEDUCATION = 'approval/POST_APPROVAL_INSERTEDUCATION';
 export const POST_APPROVAL_SAVEEDUCATION = 'approval/POST_APPROVAL_SAVEEDUCATION';
+export const POST_APPROVAL_INSERTVACATION = 'approval/POST_APPROVAL_INSERTVACATION';
+export const POST_APPROVAL_SAVEVACATION = 'approval/POST_APPROVAL_SAVEVACATION';
 
 
 
@@ -29,7 +31,9 @@ const actions = createActions({
     [POST_APPROVAL_INSERTBUSINESSTRIP]: () => {},
     [POST_APPROVAL_SAVEBUSINESSTRIP]: () => {},
     [POST_APPROVAL_INSERTEDUCATION]: () => {},
-    [POST_APPROVAL_SAVEEDUCATION]: () => {}
+    [POST_APPROVAL_SAVEEDUCATION]: () => {},
+    [POST_APPROVAL_SAVEVACATION]: () => {},
+    [POST_APPROVAL_INSERTVACATION]: () => {}
     
 });
 
@@ -73,6 +77,14 @@ export const approvalReducer = handleActions(
             return payload;
         },
         [POST_APPROVAL_SAVEEDUCATION]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_APPROVAL_SAVEVACATION]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_APPROVAL_INSERTVACATION]: (state, { payload }) => {
             
             return payload;
         }

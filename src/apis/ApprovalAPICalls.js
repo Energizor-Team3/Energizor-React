@@ -9,7 +9,9 @@ import {
     POST_APPROVAL_INSERTBUSINESSTRIP,
     POST_APPROVAL_SAVEBUSINESSTRIP,
     POST_APPROVAL_INSERTEDUCATION,
-    POST_APPROVAL_SAVEEDUCATION
+    POST_APPROVAL_SAVEEDUCATION,
+    POST_APPROVAL_INSERTVACATION,
+    POST_APPROVAL_SAVEEVACATION
    
 } from '../modules/ApprovalMainModule';
 
@@ -235,6 +237,58 @@ export const callInsertEducationAPI = ({form}) => {
         
 
         console.log('[ApprovalAPICalls] callInsertEducationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTEDUCATION,  payload: result });
+        
+    };
+}
+
+// 휴가 임시저장 및 기안등록
+
+export const callSaveVacationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalDayOff`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveVacationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEEDUCATION,  payload: result });
+        
+    };
+}
+
+export const callInsertVacationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/dayOffApply`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertVacationAPI RESULT : ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTEDUCATION,  payload: result });
         
