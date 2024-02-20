@@ -39,7 +39,20 @@ li {
       width: 130px;
       
   }
-  .approvalul li, input{
+  
+  .one,.two,.three,.four,.inputtext{
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dcdcdc;
+    color: #696868;
+    background-color: #F2F6FF;
+    text-align: center;
+    width: 130px;
+
+}
+  /* .approvalul li, input{
       font-size: 14px;
       display: flex;
       justify-content: center;
@@ -50,7 +63,7 @@ li {
       text-align: center;
       width: 130px;
 
-  }
+  } */
   .one{
       height: 40px;
   }

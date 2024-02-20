@@ -1,4 +1,4 @@
-import './Approvaling.css';
+import './NewApproval.css';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 
@@ -91,7 +91,7 @@ function NewApproval(){
         <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
       </div> */}
       </div>
-      <table>
+      <div className='approvaltable'>
         <thead>
           <tr>
             <th>양식구분</th>
@@ -129,7 +129,7 @@ function NewApproval(){
             <td />
           </tr>
         </tbody>
-      </table>
+      </div>
       <div id="contentBox" className="content-box">
         <div className="statustitle">
           <span>결재 현황</span>
