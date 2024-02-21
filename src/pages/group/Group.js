@@ -104,33 +104,24 @@ function Group() {
 
   const isAdmin = userInfo && userInfo.isAdmin;
 
-  const [userId, setUserId] = useState("");
-  const [userPw, setUserPw] = useState("");
-
   console.log("유저정보 존재 여부===", !!userInfo); // userInfo 객체가 존재하는지 확인
-  console.log("관리자유무===", isAdmin);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(callLoginAPI({ form: { userId, userPw } }));
-  };
 
   useEffect(() => {
-    console.log("아이디정보===", userId);
-    console.log("패스워드정보===", userPw);
-  }, [userId, userPw]);
 
-  // 로그인 api 호출
-  useEffect(() => {
-    dispatch(
-      callLoginAPI({ form: { userId: "user_id", userPw: "user_password" } })
-    );
-  }, [dispatch]);
-
-  // 로그인 후 사용자 정보 확인
-  useEffect(() => {
     console.log("로그인한 사용자 정보:", userInfo);
-  }, [userInfo]);
+
+    if (userInfo.message === 'Login Success') {
+      console.log('[Login] Login SUCCESS {}', userInfo);
+      navigate('/main', { replace: true });
+  } else if (userInfo.status === 500) {
+      alert('ID와 비밀번호가 일치하지 않습니다.')
+  }
+
+  }, [userInfo, navigate]);
+
+
+
 
   // 그룹 전체 정보 api 호출
   useEffect(() => {
