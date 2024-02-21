@@ -1,21 +1,19 @@
-
-
-article .sub_list li div img {
+.sub_list li div img {
     padding-right: 10px;
     width: 30px;
     height: 20px;
 }
 
-table tbody tr td:first-child{
+.user_table tbody tr td:first-child{
     max-width: 80px;
     min-width: 80px;
 }
 
-table thead {
+.user_table thead {
     text-align: center;
 }
 
-table tbody tr td{
+.user_table tbody tr td{
     max-width: 90px;
     min-width: 90px;
     overflow: hidden;
@@ -25,12 +23,12 @@ table tbody tr td{
     text-align: center;
 }
 
-table thead tr th:first-child {
+.user_table thead tr th:first-child {
     max-width: 10px;
     min-width: 50px;
 }
 
-table thead th:nth-child(3){
+.user_table thead th:nth-child(3){
     min-width: 10px;
     max-width: 100px;
     overflow: hidden;
@@ -38,7 +36,7 @@ table thead th:nth-child(3){
     white-space: nowrap;
 }
 
-table tbody tr td:nth-child(3){
+.user_table tbody tr td:nth-child(3){
     min-width: 10px;
     max-width: 80px;
     overflow: hidden;
@@ -46,17 +44,17 @@ table tbody tr td:nth-child(3){
     white-space: nowrap;
 }
 
-table thead th:nth-child(2), table tbody tr td:nth-child(2) {
+.user_table thead th:nth-child(2), .user_table tbody tr td:nth-child(2) {
     min-width: 10px; 
     max-width: 80px; 
 }
 
-table thead th:nth-child(5), table tbody tr td:nth-child(5) {
+.user_table thead th:nth-child(5), .user_table tbody tr td:nth-child(5) {
     min-width: 10px; 
     max-width: 160px; 
 }
 
-table thead th:nth-child(7), table tbody tr td:nth-child(7), table thead th:nth-child(8), table tbody tr td:nth-child(8), table thead th:nth-child(9), table tbody tr td:nth-child(9) {
+.user_table thead th:nth-child(7), .user_table tbody tr td:nth-child(7), .user_table thead th:nth-child(8), .user_table tbody tr td:nth-child(8), .user_table thead th:nth-child(9), .user_table tbody tr td:nth-child(9) {
     min-width: 10px; 
     max-width: 50px; 
 }

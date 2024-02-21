@@ -16,6 +16,8 @@ import Layout from './layouts/Layout';
 import SearchPwd from './pages/user/SearchPwd';
 import SearchPwdEmail from './pages/user/SearchPwdEmail';
 import UserList from './pages/admin/UserList';
+import MyPage from './pages/user/MyPage';
+import UserRegist from './pages/admin/UserRegist';
 
 
 function App() {
@@ -47,6 +49,8 @@ function App() {
           <Route path="/newapproval" element={ <NewApproval/> } />
 
           <Route path="/userlist" element={ <UserList/> } />
+          <Route path="/my-page" element={ <MyPage/> } />
+          <Route path="/userregist" element={ <UserRegist/> } />
         </Route>
 
         <Route path="*" element={<Error />} />

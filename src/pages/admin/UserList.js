@@ -1,4 +1,4 @@
-import  './UserList.css';
+import './UserList.css';
 import { callUserListAPI } from '../../apis/UserAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -12,7 +12,6 @@ function UserList() {
     const userList = useSelector((state) => state.userReducer);
     const userListContent = userList?.data?.content;
 
-    const token = decodeJwt(window.localStorage.getItem('accessToken'));
     useEffect(() => {
         dispatch(callUserListAPI());
     }, []);
@@ -20,13 +19,27 @@ function UserList() {
     console.log('userList', userList);
     console.log('userListContent', userListContent);
 
+    const onClickUserRegisterHandler = () => {
+        console.log('직원 등록 클릭');
+        if (window.location.pathname !== '/userregist') {
+            navigate('/userregist', { replace: true });
+        }
+    };
+
+    const onClickUserListHandler = () => {
+        console.log('전직원 목록 클릭');
+        if (window.location.pathname !== '/userlist') {
+            navigate('/userlist', { replace: true });
+        }
+    };
+
     return (
         <div id="wrap">
             <section>
                 <article>
                     <h2 style={{ marginBottom: 50 }}>인사관리</h2>
                     <ul className="sub_list">
-                        <li>
+                        <li onClick={onClickUserRegisterHandler}>
                             <div>
                                 <img
                                     src="/mypage/regist_user.png"
@@ -35,7 +48,10 @@ function UserList() {
                                 <span>직원 등록</span>
                             </div>
                         </li>
-                        <li className="sub_list_text">
+                        <li
+                            className="sub_list_text"
+                            onClick={onClickUserListHandler}
+                        >
                             <div>
                                 <img
                                     src="/mypage/user_list.png"
@@ -47,6 +63,7 @@ function UserList() {
                     </ul>
                 </article>
             </section>
+
             <main style={{ background: 'white' }}>
                 <div className="content">
                     <div className="subject">
@@ -60,7 +77,7 @@ function UserList() {
                             </div>
                         </div>
                     </div>
-                    <table>
+                    <table className="user_table">
                         <thead>
                             <tr>
                                 <th>사번</th>
@@ -78,7 +95,10 @@ function UserList() {
                         <tbody>
                             {Array.isArray(userListContent) &&
                                 userListContent.map((user) => (
-                                    <tr key={user?.userCode} className="user-row">
+                                    <tr
+                                        key={user?.userCode}
+                                        className="user-row"
+                                    >
                                         <td>{user?.userId}</td>
                                         <td>{user?.userName}</td>
                                         <td>{user?.teamDTO?.teamName}</td>
@@ -87,11 +107,10 @@ function UserList() {
                                         <td>{user?.entDate}</td>
                                         <td>{user?.dayoff?.offCount}</td>
                                         <td>{user?.dayoff?.offUsed}</td>
-                                        <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td> {/* 잔여연차 계산 */}
+                                        <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
                                         <td>{user?.resignDate === '9999-12-30' ? '재직 중' : user?.resignDate}</td>
                                     </tr>
-                                ))
-                            }
+                                ))}
                         </tbody>
                     </table>
                     <select

@@ -1,4 +1,4 @@
-import { GET_USER_LIST, POST_LOGIN } from '../modules/UserModule';
+import { GET_MYPAGE, GET_USER_LIST, POST_LOGIN, POST_SIGNUP } from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -31,32 +31,7 @@ export const callLoginAPI = ({ form }) => {
     };
 };
 
-// export const callSearchPwdAPI = ({ form }) => {
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/searchpwd`;
 
-//     return async (dispatch, getState) => {
-
-//         const result = await fetch(requestURL, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Accept: '*/*',
-//                 'Access-Control-Allow-Origin': '*',
-//             },
-//             body: JSON.stringify({
-//                 userId: form.userId,
-//                 email: form.email,
-//             }),
-//         }).then((response) => response.json());
-
-//         console.log('[UserAPICalls] callSearchPwdAPI RESULT : ', result);
-
-//         dispatch({ type: POST_SEARCHPWD, payload: result });
-        
-//     };
-// };
-
-// UserAPICalls.js 내 callSearchPwdAPI 수정 예
 export const callSearchPwdAPI = ({ form }) => {
     return async (dispatch) => {
         try {
@@ -95,6 +70,7 @@ export const callLogoutAPI = () => {
     };
 };
 
+
 export const callUserListAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
 
@@ -113,7 +89,133 @@ export const callUserListAPI = () => {
 
         console.log('[UserAPICalls] callUserListAPI RESULT : ', result);
 
+        if(result.status === 403) {
+            alert('관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.')
+        }
+
         dispatch({ type: GET_USER_LIST,  payload: result.data });
         
     };
 }
+
+
+export const callMyPageAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/mypage`;
+
+    return async (dispatch, getState) => {
+        console.log('확인!!!!!');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[UserAPICalls] callMyPageAPI RESULT : ', result);
+
+        dispatch({ type: GET_MYPAGE,  payload: result.data });
+    };
+}
+
+// export const callUserRegistAPI = ({ form }) => {
+
+//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/signup`;
+
+//     return async (dispatch, getState) => {
+//         const result = await fetch(requestURL, {
+//             method: 'POST',
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "*/*",
+//                 "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+//             },
+//             body: form,
+//         }).then((response) => response.json());
+
+//         console.log('[UserAPICalls] callUserRegistAPI RESULT : ', result);
+
+//         dispatch({ type: POST_SIGNUP, payload: result });
+//     };
+// };
+
+// UserAPICalls.js
+
+// UserAPICalls.js 파일 내 callUserRegistAPI 함수 수정
+export const callUserRegistAPI = (requestData, navigate) => async (dispatch) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/signup`;
+
+    try {
+        const response = await fetch(requestURL, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            // 서버에서 에러 메시지를 반환한 경우, 직접 에러 처리
+            throw new Error(data.message || '직원 등록에 실패했습니다.');
+        }
+
+        // 성공 처리 로직 (예: 상태 업데이트, 성공 메시지 표시 등)
+        alert('직원 등록에 성공했습니다.');
+        // 성공 액션 디스패치 (필요한 경우)
+        dispatch({
+            type: 'REGISTRATION_SUCCESS',
+            payload: data
+        });
+        navigate('/userlist', { replace: true });
+    } catch (error) {
+        // 에러 처리 (예: 오류 메시지 표시)
+        alert(error.message);
+        // 오류 액션 디스패치 (필요한 경우)
+        dispatch({
+            type: 'REGISTRATION_ERROR',
+            payload: error.message
+        });
+    }
+};
+
+
+
+
+export const callTeamListAPI = async () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/teams`;
+
+    try {
+        const response = await fetch(requestURL, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        });
+
+        if (response.status === 403) {
+            // 관리자 권한이 필요한 경우
+            alert('관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.');
+            throw new Error('관리자 권한이 필요합니다.');
+            
+        } else if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+
+        const teams = await response.json();
+        console.log('[UserAPICalls] callTeamListAPI RESULT : ', teams);
+
+        return teams; // 함수 호출 결과로 팀 목록 반환
+    } catch (error) {
+        console.error('callTeamListAPI 호출 중 에러 발생:', error);
+        throw error;
+    }
+};

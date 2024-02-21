@@ -7,11 +7,15 @@ const initialState = [];
 export const GET_USER_LIST     = 'user/GET_USER_LIST';
 export const POST_LOGIN     = 'user/POST_LOGIN';
 export const POST_SEARCHPWD  = 'user/POST_SEARCHPWD';
+export const GET_MYPAGE = 'user/GET_MYPAGE';
+export const POST_SIGNUP = 'user/GET_MYPAGE';
 
 const actions = createActions({
     [GET_USER_LIST]: () => {},
     [POST_LOGIN]: () => {},
-    [POST_SEARCHPWD]: () => {}
+    [POST_SEARCHPWD]: () => {},
+    [GET_MYPAGE]: () => {},
+    [POST_SIGNUP]: () => {},
 });
 
 /* 리듀서 */
@@ -26,6 +30,14 @@ const userReducer = handleActions(
             return payload;
         },
         [POST_SEARCHPWD]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [GET_MYPAGE]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_SIGNUP]: (state, { payload }) => {
             
             return payload;
         },
