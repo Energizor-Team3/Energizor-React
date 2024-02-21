@@ -45,7 +45,7 @@ function App() {
           <Route path="/message" element={ <Message/> } />
 
 {/* 결재 */}
-          <Route path="/generaldraft" element={ <GeneralDraft/> } />
+
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
