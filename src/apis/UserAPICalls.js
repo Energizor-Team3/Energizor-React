@@ -34,5 +34,3 @@ export const callLogoutAPI = () => {
         console.log('[UserAPICalls] callLogoutAPI RESULT : SUCCESS');
     };
 };
-
-
