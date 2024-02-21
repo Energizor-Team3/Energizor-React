@@ -42,7 +42,15 @@ export const callGetuserDetailAPI = (userCode) => {
 
     console.log("callGetuserDetailAPI RESULT : ", result);
 
+    if (result.failType) {
+      alert(result.failType)
+    } else if (result.status === 200) {
+        window.localStorage.setItem('accessToken', result.userInfo.accessToken);
+    }
+
     dispatch({ type: GET_GROUP_User, payload: result.data });
+
+    console.log("리절트결과값==== ", result)
   };
 };
 
