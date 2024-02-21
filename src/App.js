@@ -30,11 +30,6 @@ function App() {
       <Routes>
 
 
-           {/*메인 전용 헤더 붙히기 전  */}
-        <Route path="/main" element={ <Main /> } />
-
-
-
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 
@@ -43,7 +38,9 @@ function App() {
 
 
 
-        <Route path="/" element={ <Sublayout/> }>
+        <Route path="/" element={ <Sublayout/> }>       
+{/*메인 전용 헤더 붙히기 전  */}
+       <Route path="/main" element={ <Main /> } />
 {/* 쪽지 */}
           <Route path="/message" element={ <Message/> } />
 
@@ -67,11 +64,10 @@ function App() {
 
           <Route path='/project/main' element={ <ProjectMain/>}/>
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
-
           <Route path="/calendar" element={ <CalendarMainPage/> } />
           <Route path="/calendar/setting" element={ <CalendarSetting/>}/>
           <Route path="/schedule/add/detail" element={ <AddDetailSchedule/> }/>
-          <Route path="/schedule/edit" element={ <EditSchedule/> }/>
+          <Route path="/schedule/edit/:schNo" element={ <EditSchedule/> }/>
 
 
 
