@@ -19,7 +19,7 @@ export const callOrganizationAPI = () => {
       },
     }).then((response) => response.json());
 
-    console.log("[ApprovalAPICalls] callOrganizationAPI RESULT : ", result);
+    console.log("callOrganizationAPI RESULT : ", result);
 
     dispatch({ type: GET_GROUP_Organization, payload: result.data });
   };

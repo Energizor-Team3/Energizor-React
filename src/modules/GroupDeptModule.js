@@ -7,8 +7,6 @@ const initialState = [];
 export const GET_GROUP_DEPT  = 'group/GET_GROUP_DEPT';
 
 
-
-
 const actions = createActions({
     [GET_GROUP_DEPT]: () => {}
     
@@ -22,7 +20,7 @@ const groupDeptReducer = handleActions(
             
             return payload;
         }
-      
+
     },
     initialState
 );

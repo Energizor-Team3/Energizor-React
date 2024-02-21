@@ -95,13 +95,18 @@ function Group() {
   const groupAndTeam = useSelector((state) => state.groupReducer);
   const team = useSelector((state) => state.groupTeamReducer);
   const dept = useSelector((state) => state.groupDeptReducer);
-  const user = useSelector((state) => state.user);
 
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [showDeptInfo, setShowDeptInfo] = useState(false);
 
-  const isAdmin = user && user.isAdmin;
+  const userInfo = useSelector((state) => state.userReducer);
+
+  const isAdmin = userInfo && userInfo.isAdmin;
+
+  console.log("관리자유무===", isAdmin)
+  console.log("유저정보===", userInfo)
+
 
   useEffect(() => {
     dispatch(callOrganizationAPI());
@@ -194,7 +199,7 @@ function Group() {
               : [],
           })),
         },
-        console.log("부서코드확인===", groupAndTeam), //들어옴
+        console.log("부서코드확인===", groupAndTeam),
       ]
     : [];
 
