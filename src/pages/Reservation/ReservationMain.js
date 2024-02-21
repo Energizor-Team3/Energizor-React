@@ -122,6 +122,14 @@ function ReservationMain() {
                   title: "PROJECT ROOM",
                   backgroundColor: "lavender", // 보라색
                 },
+                {
+                  id: "event4",
+                  resourceId: "room3",
+                  start: "2024-02-21T13:00:00",
+                  end: "2024-02-21T15:00:00",
+                  title: "PROJECT ROOM",
+                  backgroundColor: "lavender", // 보라색
+                }
                 // 추가적인 이벤트 데이터 추가 가능
               ]}
             />
