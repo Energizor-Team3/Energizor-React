@@ -2,7 +2,11 @@ import { GET_GROUP_Organization } from "../modules/GroupModule";
 import { GET_GROUP_User } from "../modules/GroupUserModule";
 import { GET_GROUP_TEAM } from "../modules/GroupTeamModule";
 import { GET_GROUP_DEPT } from "../modules/GroupDeptModule";
-
+import {
+  POST_DEPT_INSERT,
+  POST_TEAM_INSERT,
+  POST_DEPT_UPDATE,
+} from "../modules/GroupAdminModule";
 
 export const callOrganizationAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/groupList`;
@@ -42,15 +46,9 @@ export const callGetuserDetailAPI = (userCode) => {
 
     console.log("callGetuserDetailAPI RESULT : ", result);
 
-    if (result.failType) {
-      alert(result.failType)
-    } else if (result.status === 200) {
-        window.localStorage.setItem('accessToken', result.userInfo.accessToken);
-    }
-
     dispatch({ type: GET_GROUP_User, payload: result.data });
 
-    console.log("리절트결과값==== ", result)
+    console.log("리절트결과값==== ", result);
   };
 };
 
@@ -93,6 +91,114 @@ export const callGetDeptDetailAPI = (deptCode) => {
     console.log("callGetDeptDetailAPI RESULT : ", result);
 
     dispatch({ type: GET_GROUP_DEPT, payload: result.data });
+  };
+};
 
+// 부서 추가
+export const callDeptInsertAPI = (deptName) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/dept-insert`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("부서추가 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ deptName }),
+      }).then((response) => response.json());
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`새로운 부서 "` + deptName + `" 가 생성되었어요!`);
+      }
+      dispatch({ type: POST_DEPT_INSERT, payload: result });
+      console.log("부서추가 결과???? ", result);
+    } catch (error) {
+      console.error("DETP_INSERT_API 호출 중 에러 발생:", error);
+      alert(`부서추가 실패..`);
+      throw error;
+    }
+  };
+};
+
+// 팀 추가
+export const callTeamInsertAPI = (TeamName, deptCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/team-insert`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("팀추가 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ deptCode: deptCode, TeamName: TeamName }),
+      }).then((response) => {
+        if (!response.ok) {
+          throw new Error('패치실패!!!!');
+        }
+        return response.json();
+      });
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`새로운 팀 "` + TeamName + `" 이 생성되었어요!`);
+      }
+      dispatch({ type: POST_TEAM_INSERT, payload: result });
+      console.log("팀추가 결과???? ", result);
+    } catch (error) {
+      console.error("TEAM_INSERT_API 호출 중 에러 발생:", error);
+      alert(`팀추가 실패..`);
+      throw error;
+    }
+  };
+};
+
+// 부서 수정
+export const callDeptUpdateAPI = (deptName) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/dept-update`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("부서추가 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ deptName }),
+      }).then((response) => response.json());
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`"` + deptName + `"로 부서명이 수정되었어요!`);
+      }
+      dispatch({ type: POST_DEPT_UPDATE, payload: result });
+      console.log("부서수정 결과=== ", result);
+    } catch (error) {
+      console.error("DETP_UPDATE_API 호출 중 에러 발생:", error);
+      throw error;
+    }
   };
 };

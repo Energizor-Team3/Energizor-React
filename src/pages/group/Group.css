@@ -1,9 +1,6 @@
-
-
-.group_list{
+.group_list {
   background-color: #fff !important;
 }
-
 
 .group_wrap {
   display: flex;
@@ -163,4 +160,67 @@ main .group_list label {
 
 .admin_btn button:active {
   box-shadow: none;
+}
+
+/* 그룹 추가 */
+
+.group_insert_wrap {
+  margin-top: 50px;
+}
+
+.group_insert {
+  display: flex;
+  flex-direction: column;
+}
+
+.group_insert li {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.group_insert li label {
+  width: 100px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.group_insert li input {
+  width: 400px;
+  height: 30px;
+  border: 1px solid rgb(141, 141, 141);
+  background-color: white;
+}
+
+.group_insert hr {
+  margin-bottom: 50px;
+}
+
+.teamInsert {
+  display: flex;
+  flex-direction: column;
+}
+
+.teamInsert div {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.group_insert li button {
+  margin: 0 10px;
+  padding: 6px 0;
+  width: 70px;
+  border-radius: 6px;
+  border: 1px solid rgb(129, 129, 129);
+  background-color: white;
+  cursor: pointer;
+  background-color: #94a9ff;
+}
+
+.group_insert li button:hover {
+  box-shadow: 0 -3px 10px #335cff inset;
+  color: white;
+}
+
+.group_insert li button:active {
+  box-shadow: none;
+  border: none;
 }

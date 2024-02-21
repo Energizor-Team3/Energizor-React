@@ -7,6 +7,7 @@ const initialState = [];
 export const GET_GROUP_Organization = 'group/GET_GROUP_Organization';
 
 
+
 // 액션생성자 생성
 const actions = createActions( {
   [GET_GROUP_Organization]: () => {}

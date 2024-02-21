@@ -117,6 +117,3 @@ export const callUserListAPI = () => {
         
     };
 }
-
-
-
