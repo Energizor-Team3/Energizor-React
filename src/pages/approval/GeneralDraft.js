@@ -4,13 +4,34 @@ import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectUserDetailAPI, callInsertGeneralDraftAPI, callSaveGeneralDraftAPI } from '../../apis/ApprovalAPICalls';
-import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
+import { callSelectUserDetailAPI, callInsertGeneralDraftAPI, callSaveGeneralDraftAPI, callSelectTempDocumentDetailAPI} from '../../apis/ApprovalAPICalls';
 
-import { useNavigate } from 'react-router-dom';
+import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 function GeneralDraft() {
+
+  const location = useLocation();
+  const documentCodeData = location.state?.documentCode;
+ 
+  const tempDocument = useSelector((state) => state.approvalSubReducer); 
+  
+
+ 
+  
+
+  // 조회해온 임시저장문서 가 있을경우 진행
+  useEffect(() => {
+    if (tempDocument !== undefined) { 
+      setForm(prevForm => ({
+        ...prevForm,
+        gdTitle: tempDocument.gdTitle,
+        gdContent: tempDocument.gdContent,
+    }));
+    }
+  }, [tempDocument]);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentTimeString = CurrentTime();
@@ -37,6 +58,10 @@ function GeneralDraft() {
   // 로그인한 정보 불러옴
   useEffect(() => {
     dispatch(callSelectUserDetailAPI());
+    if(documentCodeData !== undefined){  
+      dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+    }
+    
   }, [dispatch]);
 
   useEffect(() => {

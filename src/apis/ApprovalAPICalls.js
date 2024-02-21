@@ -364,7 +364,7 @@ export const callSelectTempDocumentDetailAPI = (documentCode) => {
         })
         .then(response => response.json());
 
-        console.log('[ApprovalAPICalls] callInsertBySelectTempDocumentAPI RESULT 111: ', result);
+        console.log('[ApprovalAPICalls] callSelectTempDocumentDetailAPI RESULT 111: ', result);
 
         dispatch({ type: GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,  payload: result.data });
         

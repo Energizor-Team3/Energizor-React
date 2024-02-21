@@ -4,18 +4,56 @@ import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectUserDetailAPI, callSaveVacationAPI, callInsertVacationAPI} from '../../apis/ApprovalAPICalls';
+import { callSelectUserDetailAPI, callSaveVacationAPI, callInsertVacationAPI, callSelectTempDocumentDetailAPI} from '../../apis/ApprovalAPICalls';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
 
+
 function Vacation(){
   const location = useLocation();
   const documentCodeData = location.state?.documentCode;
+  let formatdate, formatdate2;
 
   console.log(documentCodeData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
+  const tempDocument = useSelector((state) => state.approvalSubReducer); // 로그인한 사용자 정보
+  console.log(tempDocument, 'tempDocument');
+
+ 
+  if (tempDocument && Array.isArray(tempDocument.offStart)) {
+
+    const formattedDate = tempDocument.offStart.map(num => String(num).padStart(2, '0'));
+    const formattedDate2 = tempDocument.offEnd.map(num => String(num).padStart(2, '0'));
+    // 배열이 정의되어 있고, 배열인 경우에만 join을 실행합니다.
+    formatdate = formattedDate.join('-');
+    formatdate2 = formattedDate2.join('-');
+
+    console.log(formatdate);
+    console.log(formatdate2);
+  } 
+
+
+  // 조회해온 임시저장문서 가 있을경우 진행
+  useEffect(() => {
+    
+
+    if (tempDocument !== undefined) { 
+      setForm(prevForm => ({
+        ...prevForm,
+        offApplyTitle: tempDocument?.offApplyTitle,
+        offStart: formatdate,
+        offEnd: formatdate2,
+        
+        offReason: tempDocument.offReason,
+        
+        
+        
+    }));
+    }
+  }, [tempDocument]);
+  
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,6 +93,9 @@ function Vacation(){
     // 로그인한 정보 불러옴
     useEffect(() => {
       dispatch(callSelectUserDetailAPI());
+      if(documentCodeData !== undefined){  
+        dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+      }
     }, [dispatch]);
   
     useEffect(() => {

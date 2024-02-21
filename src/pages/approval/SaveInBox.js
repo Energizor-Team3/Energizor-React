@@ -1,7 +1,6 @@
 import  './SaveInBox.css';
 import {
-  callSaveInBoxAPI,
-  callInsertBySelectTempDocumentAPI
+  callSaveInBoxAPI
 } from '../../apis/ApprovalAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -21,6 +20,7 @@ function SaveInBox() {
    
   useEffect(()=>{
       dispatch(callSaveInBoxAPI());
+      
   },[])
   
 
@@ -35,9 +35,9 @@ function SaveInBox() {
     switch(form){
       case"휴가신청서": navigate('/vacation', { state: { documentCode } });
       break;
-      case"교육신청서": navigate('/businesstrip', { state: { documentCode } });
+      case"교육신청서": navigate('/education', { state: { documentCode } });
       break;
-      case"출장신청서": navigate('/education', { state: { documentCode } });
+      case"출장신청서": navigate('/businesstrip', { state: { documentCode } });
       break;
       case"기안신청서": navigate('/generaldraft', { state: { documentCode } });
       break;

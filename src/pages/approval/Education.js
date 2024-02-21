@@ -4,12 +4,53 @@ import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectUserDetailAPI, callSaveEducationAPI, callInsertEducationAPI} from '../../apis/ApprovalAPICalls';
+import { callSelectUserDetailAPI, callSaveEducationAPI, callInsertEducationAPI, callSelectTempDocumentDetailAPI} from '../../apis/ApprovalAPICalls';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Education(){
+  const location = useLocation();
+  const documentCodeData = location.state?.documentCode;
+  let formatdate, formatdate2;
+
+  console.log(documentCodeData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
+  const tempDocument = useSelector((state) => state.approvalSubReducer); // 로그인한 사용자 정보
+  console.log(tempDocument, 'tempDocument');
+
+ 
+  if (tempDocument && Array.isArray(tempDocument.eduStart)) {
+
+    const formattedDate = tempDocument.eduStart.map(num => String(num).padStart(2, '0'));
+    const formattedDate2 = tempDocument.eduFinish.map(num => String(num).padStart(2, '0'));
+    // 배열이 정의되어 있고, 배열인 경우에만 join을 실행합니다.
+    formatdate = formattedDate.join('-');
+    formatdate2 = formattedDate2.join('-');
+
+    console.log(formatdate);
+    console.log(formatdate2);
+  } 
+
+
+  // 조회해온 임시저장문서 가 있을경우 진행
+  useEffect(() => {
+    
+
+    if (tempDocument !== undefined) { 
+      setForm(prevForm => ({
+        ...prevForm,
+        eduTitle: tempDocument.eduContent,
+        eduName: tempDocument.eduName,
+        eduStart: formatdate,
+        eduFinish: formatdate2,
+        eduInstitution: tempDocument.eduInstitution,
+        eduPrice: tempDocument.eduPrice,
+        eduContent: tempDocument.eduContent,
+        
+    }));
+    }
+  }, [tempDocument]);
+
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -50,6 +91,9 @@ function Education(){
     // 로그인한 정보 불러옴
     useEffect(() => {
       dispatch(callSelectUserDetailAPI());
+      if(documentCodeData !== undefined){  
+        dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+      }
     }, [dispatch]);
   
     useEffect(() => {
@@ -474,9 +518,9 @@ function Education(){
                 />
               </td>
               <td>
-                <input type="date" id="start-date" className="inputbox1"  onChange={onChangeHandler} name="eduStart" Value={form.eduStart} />
+                <input type="date" id="start-date" className="inputbox44"  onChange={onChangeHandler} name="eduStart" Value={form.eduStart} />
                 <label htmlFor="">~</label>
-                <input type="date" id="end-date" className="inputbox1" onChange={onChangeHandler} name="eduFinish" Value={form.eduFinish} />
+                <input type="date" id="end-date" className="inputbox44" onChange={onChangeHandler} name="eduFinish" Value={form.eduFinish} />
               </td>
             </tr>
           </tbody>
