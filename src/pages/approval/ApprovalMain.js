@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
+import EducationForm from './EducationForm';
 
 
 function ApprovalMain(){
@@ -18,6 +19,37 @@ function ApprovalMain(){
     const inboxDocumentList = inboxDocument?.data?.content;  
 
 
+    const onClickHandler = (documentCode, form) => {
+      // baseURL은 애플리케이션의 기본 URL로 설정해야 합니다.
+      // 예를 들어, 애플리케이션의 호스트가 'http://localhost:3000'라면 baseURL도 그것을 반영해야 합니다.
+      const baseURL = window.location.origin;
+    
+      let path = '';
+      switch(form){
+        case "휴가신청서":
+          path = '/vacationform';
+          break;
+        case "교육신청서":
+          path = '/educationform';
+          break;
+        case "출장신청서":
+          path = '/businesstripform';
+          break;
+        case "기안신청서":
+          path = '/generaldraftfrom';
+          break;
+        // ... 다른 경우에 대한 path 설정 ...
+        default:
+          return;
+      }
+    
+      // 새 창에서 열 문서에 대한 URL을 구성합니다.
+      const urlToOpen = `${baseURL}${path}?documentCode=${documentCode}`;
+    
+      // 새 창(또는 탭)을 엽니다.
+      window.open(urlToOpen, '_blank');
+    }
+
     const token = decodeJwt(window.localStorage.getItem("accessToken"));  
     useEffect(()=>{
         dispatch(callInboxApprovalAPI());
@@ -26,9 +58,8 @@ function ApprovalMain(){
     console.log('inbox',  inboxDocument );
     console.log('inbox list', inboxDocumentList);
 
-    const doubleClickHandler= () =>{
+   
 
-    }
 
     // 컨텐츠 박스 표시/숨김 토글 함수
     const toggleContent =() =>{
@@ -108,17 +139,6 @@ function ApprovalMain(){
           </div>
         </div>
         <div className="select_line">
-          {/* 셀렉트 문*/}
-          {/* <select name="messageLead">
-            <option value="전체">전체</option>
-            <option value="결재함">결재함</option>
-            <option value="참조함">참조함</option>
-            <option value="반려함">반려함</option>
-        </select> */}
-          {/* <div class="attention_Text">
-          <img src="/common/Exclamation.png" alt="">
-          <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
-        </div> */}
         </div>
         <div className='approvaltable'>
           <thead>
@@ -139,7 +159,10 @@ function ApprovalMain(){
                         <tr key={document?.documentCode} >
                             <td><input type="checkbox" value={document?.documentCode}/></td>
               <td >{document?.form}</td>
-              <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
+              <td><a href="#" onClick={(e) => { 
+          e.preventDefault(); // 기본 이벤트를 방지합니다.
+          onClickHandler(document?.documentCode, document?.form);
+        }}>{document?.documentTitle}</a></td>
               <td>{document?.userDTO?.userName}</td>
               <td>{document?.draftDay}</td>
               <td ><button className="btnStatus" onClick={toggleContent}>진행중</button></td>

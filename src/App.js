@@ -12,6 +12,10 @@ import GeneralDraft from './pages/approval/GeneralDraft';
 import ApprovalMain from './pages/approval/ApprovalMain';
 import BusinessTrip from './pages/approval/BusinessTrip';
 import Education from './pages/approval/Education';
+import GeneraldraftForm from './pages/approval/GeneraldraftForm';
+import EducationForm from './pages/approval/EducationForm';
+import VacationForm from './pages/approval/VacationForm';
+import BusinesstripForm from './pages/approval/BusinesstripForm';
 import SharedInBox from './pages/approval/SharedInBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
@@ -63,6 +67,10 @@ function App() {
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
+          <Route path="/generaldraftform" element={ <GeneraldraftForm/> } />
+          <Route path="/educationform" element={ <EducationForm/> } />
+          <Route path="/businesstripform" element={ <BusinesstripForm/> } />
+          <Route path="/vacationform" element={ <VacationForm/> } />
           <Route path="/group" element={ <Group/> } />
 
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
