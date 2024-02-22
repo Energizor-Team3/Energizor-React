@@ -52,7 +52,7 @@ li {
     width: 130px;
 
 }
-  /* .approvalul li, input{
+.approvalul li, .approvalul input{
       font-size: 14px;
       display: flex;
       justify-content: center;
@@ -63,7 +63,7 @@ li {
       text-align: center;
       width: 130px;
 
-  } */
+  }
   .one{
       height: 40px;
   }

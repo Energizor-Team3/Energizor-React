@@ -8,7 +8,7 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
-import EducationForm from './EducationForm';
+
 
 
 function ApprovalMain(){
@@ -20,35 +20,24 @@ function ApprovalMain(){
 
 
     const onClickHandler = (documentCode, form) => {
-      // baseURL은 애플리케이션의 기본 URL로 설정해야 합니다.
-      // 예를 들어, 애플리케이션의 호스트가 'http://localhost:3000'라면 baseURL도 그것을 반영해야 합니다.
-      const baseURL = window.location.origin;
-    
-      let path = '';
       switch(form){
-        case "휴가신청서":
-          path = '/vacationform';
-          break;
-        case "교육신청서":
-          path = '/educationform';
-          break;
-        case "출장신청서":
-          path = '/businesstripform';
-          break;
-        case "기안신청서":
-          path = '/generaldraftfrom';
-          break;
-        // ... 다른 경우에 대한 path 설정 ...
-        default:
-          return;
+        case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+        break;
+        case"교육신청서": navigate('/educationform', { state: { documentCode } });
+        break;
+        case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+        break;
+        case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+        break;
+      }
       }
     
-      // 새 창에서 열 문서에 대한 URL을 구성합니다.
-      const urlToOpen = `${baseURL}${path}?documentCode=${documentCode}`;
+    //   // 새 창에서 열 문서에 대한 URL을 구성합니다.
+    //   const urlToOpen = `${baseURL}${path}?documentCode=${documentCode}`;
     
-      // 새 창(또는 탭)을 엽니다.
-      window.open(urlToOpen, '_blank');
-    }
+    //   // 새 창(또는 탭)을 엽니다.
+    //   window.open(urlToOpen, '_blank');
+    // }
 
     const token = decodeJwt(window.localStorage.getItem("accessToken"));  
     useEffect(()=>{

@@ -17,6 +17,8 @@ import groupUserReducer from './groupUserModule'
 import projectReducer from './ProjectModule';
 import calendarReducer from './CalendarModule';
 import scheduleReducer from './ScheduleModule';
+import approvalLineReducer from './ApprovalLineModule';
+import approvalRfReducer from './ApprovalRfModule';
 import reservationTotalReducer from './ReservationTotalModules ';
 import contactReducer from './ContactModule';
 
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     calendarReducer,
     scheduleReducer,
     approvalSubReducer,
+    approvalLineReducer,
+    approvalRfReducer,
 
 
     userReducer,
