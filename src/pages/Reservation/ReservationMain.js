@@ -1,109 +1,56 @@
-import React, { useEffect, useRef } from 'react';
-import './ReservationMain.css'; // CSS 파일을 import하여 스타일 적용
-import FullCalendar from '@fullcalendar/react'; // FullCalendar React 래퍼 import
-import dayGridPlugin from '@fullcalendar/daygrid'; // DayGrid 플러그인 import
-import timeGridPlugin from '@fullcalendar/timegrid'; // TimeGrid 플러그인 import
-import interactionPlugin from '@fullcalendar/interaction'; // Interaction 플러그인 import
+import "./ReservationMain.css";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import { useDispatch, useSelector } from "react-redux";
+import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
+import { useEffect, useState } from "react";
+import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
 
 function ReservationMain() {
-  const calendarRef = useRef(null);
-
+  const dispatch = useDispatch();
+  const reservationTotal = useSelector(
+    (state) => state.reservationTotalReducer
+  ); // Redux 스토어에서 예약 상태 가져오기
+  console.log("자자자전체내역들어갑니다", reservationTotal);
   useEffect(() => {
-    if (calendarRef.current) {
-      calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
+    // 페이지가 마운트될 때 예약 내역 가져오는 API 호출
+    dispatch(callResevationTotalDetailAPI());
+  }, [dispatch]);
+
+  function getColorForMeetCode(meetCode) {
+    switch (meetCode) {
+      case 1:
+        return "#b2fab4"; // 연한 초록색
+      case 2:
+        return "#b2dffb"; // 연한 파란색
+      case 3:
+        return "#dcb2f9"; // 연한 보라색
     }
-  }, []);
+  }
 
   return (
     <div id="wrap">
-      <header>
-        <h1>
-          <img src="/resources/images/Logo.png" alt="" />
-        </h1>
-        <nav>
-          <div id="main_list_icon">
-            <div>
-              <a href="#">
-                <img src="/resources/images/Home.png" alt="" />
-              </a>
-              <span>홈</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Approval.png" alt="" />
-              </a>
-              <span>전자결재</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Attendance.png" alt="" />
-              </a>
-              <span>근태관리</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/calendar.png" alt="" />
-              </a>
-              <span>일정관리</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Address.png" alt="" />
-              </a>
-              <span>주소록</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Organization.png" alt="" />
-              </a>
-              <span>조직도</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Mail.png" alt="" />
-              </a>
-              <span>쪽지</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/Messanger.png" alt="" />
-              </a>
-              <span>메신저</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/reservation.png" alt="" />
-              </a>
-              <span>자원예약</span>
-            </div>
-            <div>
-              <a href="#">
-                <img src="/resources/images/board.png" alt="" />
-              </a>
-              <span>게시판</span>
-            </div>
-          </div>
-        </nav>
-      </header>
       <section>
         <article>
           <h2>자원예약</h2>
           <div>
-            <a href="/views/reservation/reservationApply.html">
+            <a href="/reservationapply">
               <button className="btn">예약신청</button>
             </a>
           </div>
           <ul className="sub_list">
             <li>
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
-                <span className="textcolor">예약현황</span>
+                <img src="/common/Approval.png" alt="" />
+                <span> 예약현황</span>
               </div>
             </li>
             <li className="sub_list_text">
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
-                <a href="/views/reservation/reservationDetails.html">
+                <img src="/common/Approval.png" alt="" />
+                <a href="/reservationdetails">
+                  {" "}
                   <span>내예약내역</span>
                 </a>
               </div>
@@ -115,39 +62,70 @@ function ReservationMain() {
         <div className="content">
           <div className="subject">
             <strong>예약현황</strong>
-            <div className="line" />
+            <div className="line"></div>
           </div>
           <div className="meeting-room-container">
             <div className="meeting-room-box">
-            <img src={process.env.PUBLIC_URL + '/reservation/meetingRoom (1).jpg'} alt="로고" />
+              <img
+                src="/reservation/meetingRoom (1).jpg"
+                alt="Meeting Room 1"
+                className="meeting-room-image"
+              />
               <div className="meeting-room-text">GREEN ROOM (6F)</div>
+              <button className="threebtn">예약하기</button>
             </div>
             <div className="meeting-room-box">
-            <img src={process.env.PUBLIC_URL + '/reservation/meetingRoom (2).jpg'} alt="로고" />
-
+              <img
+                src="/reservation/meetingRoom (2).jpg"
+                alt="Meeting Room 2"
+                className="meeting-room-image"
+              />
               <div className="meeting-room-text">BLUE ROOM (5F)</div>
+              <button className="threebtn">예약하기</button>
             </div>
             <div className="meeting-room-box">
-            <img src={process.env.PUBLIC_URL + '/reservation/meetingRoom (3).jpg'} alt="로고" />
-
+              <img
+                src="/reservation/meetingRoom (3).jpg"
+                alt="Meeting Room 3"
+                className="meeting-room-image"
+              />
               <div className="meeting-room-text">PROJECT ROOM (4F)</div>
+              <button className="threebtn">예약하기</button>
             </div>
           </div>
-          <div id="calendars" className="calendar-column">
-            <div id="calendar1" className="calendar-column">
-              <FullCalendar
-                ref={calendarRef}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="timeGridWeek"
-                selectable={true}
-                select={(selectionInfo) => {
-                  // 선택된 시간 처리
-                  console.log('선택된 시간:', selectionInfo.startStr, '부터', selectionInfo.endStr, '까지');
-                }}
-              />
-            </div>
-            <div id="calendar2" className="calendar-column" />
-            <div id="calendar3" className="calendar-column" />
+          <div className="time-grid">
+            <FullCalendar
+              allDaySlot={false}
+              plugins={[timeGridPlugin, interactionPlugin]}
+              initialView="timeGridDay"
+              headerToolbar={{
+                left: "prev,next today",
+                center: "title",
+                right: "timeGridDay,timeGridWeek",
+              }}
+              slotDuration="00:30:00"
+              selectable={true}
+              selectMirror={true}
+              slotMinTime="08:00:00"
+              slotMaxTime="19:30:00"
+              contentHeight="auto"
+              slotLabelFormat={{
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+              }}
+              events={reservationTotal.map((event) => {
+                console.log("199191919191919", event.userCode.userName);
+                return {
+                  title: event.userCode.userName + ' - ' + event.reservationContent,
+                  start: event.reservationDate + "T08:00:00",
+                  end: event.reservationDate + "T10:00:00",
+                  color: getColorForMeetCode(event.meetCode.meetCode),
+                  textColor: 'black', // 이벤트의 텍스트 색상을 파란색으로 지정
+
+                };
+              })}
+            />
           </div>
         </div>
       </main>

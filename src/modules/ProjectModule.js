@@ -26,8 +26,7 @@ const projectReducer = handleActions(
         [GET_PROJECT]: (state, { payload }) => {
             
             return payload;
-        }
-
+        },
     },
     initialState
 );

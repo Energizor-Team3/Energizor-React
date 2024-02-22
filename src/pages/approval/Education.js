@@ -424,7 +424,7 @@ function Education(){
                 </ul>
                   ))}
               </div>
-        <table>
+        <table className='ed'>
           <thead>
             <tr>
               <th className="title">

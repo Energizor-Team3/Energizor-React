@@ -1,0 +1,225 @@
+.mainArea {
+    text-align: center;
+}
+
+.sub_list li div img {
+    padding-right: 10px;
+    width: 30px;
+    height: 20px;
+}
+
+.subject .search_box::after {
+    background-image: none;
+}
+
+.modify_user_wrap {
+    display: flex;
+    gap: 50px;
+}
+
+.regist_user_wrap {
+    text-align: center;
+}
+
+.regist_user_section {
+    position: relative;
+    width: 675px;
+    height: 740px;
+    background: #F2F6FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    /* 수평 가운데 정렬 */
+    margin-top: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    justify-content: center;
+}
+
+.regist_user_section_leave {
+    position: relative;
+    width: 675px;
+    height: 300px;
+    background: #F2F6FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    /* 수평 가운데 정렬 */
+    margin-top: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    justify-content: center;
+    margin-bottom: 70px;
+}
+
+.regist_user_section_resign {
+    position: relative;
+    width: 675px;
+    height: 150px;
+    background: #F2F6FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    /* 수평 가운데 정렬 */
+    margin-top: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    justify-content: center;
+    margin-bottom: 70px;
+}
+
+.regist_user_section_admin {
+    position: relative;
+    width: 675px;
+    height: 150px;
+    background: #F2F6FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    /* 수평 가운데 정렬 */
+    margin-top: 60px;
+    font-size: 20px;
+    font-weight: 700;
+    justify-content: center;
+}
+
+.modify_title {
+    width: 255px;
+    height: 50px;
+    background: #415CBE;
+    border-radius: 6px;
+    position: absolute;
+    left: 20px;
+    top: -35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    letter-spacing: 0.1em;
+}
+
+.regist_user {
+    display: flex;
+    min-width: 350px;
+    min-height: 31px;
+    line-height: 31px;
+    padding: 3px;
+    font-weight: 540;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+.regist_user_label {
+    width: 180px;
+    height: 50px;
+    text-align: left;
+}
+
+.auth_admin {
+    width: 180px;
+    height: 50px;
+    font-weight: bold;
+}
+
+.regist_user_input {
+    width: 336px;
+    height: 39px;
+    background: white;
+    border-radius: 6px;
+    border: 1px #696868 solid;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+.regist_user_id {
+    width: 336px;
+    height: 39px;
+    text-align: left;
+}
+
+.id_comment {
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 80px;
+    margin-top: -10px;
+}
+
+.regist_user_btn {
+    background: #94A9FF;
+    border-radius: 6px;
+    border: transparent;
+    width: 180px;
+    height: 55px;
+    font-weight: 550;
+    font-size: 16px;
+    color: #353535;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin: 60px 10px 0 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 16px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 16px;
+}
+
+input:checked+.slider {
+    background-color: #94A9FF;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #94A9FF;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}

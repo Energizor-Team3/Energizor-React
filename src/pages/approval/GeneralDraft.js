@@ -484,8 +484,10 @@ useEffect(() => {
         </div>
         </div>
     </main>
+
+
     </div>
-       );
+        );
     }
     
     export default GeneralDraft;

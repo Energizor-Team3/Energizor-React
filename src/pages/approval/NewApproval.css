@@ -97,54 +97,7 @@ main{
     margin-right: 5px;
 }
 
-/* 테이블 */
-/* 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
 
-table thead{
-    background-color: rgb(235, 235, 235);
-    text-align: left;
-    margin: 0;
-    border-top: 1px solid rgb(156, 156, 156);
-    border-bottom: 1px solid rgb(156, 156, 156);
-}
-
-table thead th , table tbody tr td{
-    padding: 8px 5px;
-}
-
-
-
-table thead th:nth-child(1) {
-    width: 500px;
-    
-    
-    
-}
-table thead th:nth-child(1) {
-    padding-left: 100px;
-    
-    
-    
-}
-table tbody td:nth-child(1) {
-    padding-left: 100px;
-    
-    
-    
-}
-
-
-
-
-
-table tbody tr{
-    border-bottom: 1px solid rgb(156, 156, 156);
-} */
 
  
 .newapprovaltable thead th {

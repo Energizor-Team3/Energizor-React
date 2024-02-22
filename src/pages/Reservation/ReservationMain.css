@@ -1,52 +1,100 @@
 .body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .meeting-room-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
 }
 
 .meeting-room-box {
-    flex: 1;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
+  flex: 1;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .meeting-room-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 }
 
 .meeting-room-text {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.threebtn {
+  background-color: #94a9ff;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition-duration: 0.4s;
 }
 /* ===============================================================================여기서 부터 달력============================================================== */
-#calendars {
-    display: flex;
-    gap: 20px;
-    overflow: auto;
+/* ReservationMain.css */
+
+/* FullCalendar 헤더 스타일 조정 */
+.time-grid .fc-header-toolbar {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ddd;
 }
 
-.calendar-column {
-    flex: 1;
+.time-grid .fc-header-toolbar h2 {
+  font-size: 20px;
+  margin: 0;
 }
 
+/* FullCalendar 이벤트 스타일 조정 */
+.time-grid .fc-event-container {
+  border: none;
+  width: 100%;
+}
+
+.time-grid .fc-event {
+  background-color: #337ab7;
+  color: #fff;
+  border: none;
+}
+
+.time-grid .fc-event-resizer {
+  background-color: #337ab7;
+}
+
+/* 선택된 영역 스타일 조정 */
+.time-grid .fc-highlight {
+  background-color: rgba(51, 122, 183, 0.3);
+}
+.time-grid .presentation {
+  display: none;
+}
+.time-grid .fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: -1.3em;
+}
 .fc-header-toolbar {
-    display: none;
+  padding: 6px;
+  background-color: #fafafa;
+  border-bottom: 0px solid #ddd;
 }
 
-.fc-scroller {
-    overflow: hidden !important;
+.time-grid .fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 0 10px; /* 수정된 패딩 값 */
 }

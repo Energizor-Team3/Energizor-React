@@ -265,11 +265,9 @@ function ApprovalMain(){
         <label className="page_number_choice_text" htmlFor="page_number_choice">
           페이지당 항목수
         </label> */}
-      </div>
-    </main>
-  </div>
-  
-        
+                </div>
+            </main>
+        </div>
     );
 }
 

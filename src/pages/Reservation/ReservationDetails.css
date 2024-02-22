@@ -1,0 +1,254 @@
+.action-buttons button {
+  padding: 10px 20px; /* 버튼 내부 여백 조절 */
+  font-size: 16px; /* 폰트 크기 조절 */
+  background-color: #94a9ff; /* 버튼 배경색 조절 */
+  color: #fff; /* 버튼 텍스트 색상 조절 */
+  border: none; /* 버튼 테두리 제거 */
+  cursor: pointer; /* 마우스 오버 시 커서 모양 변경 */
+}
+
+.subject strong {
+  color: #415cbe; /* 내 예약내역의 기본 색상 */
+}
+
+#reservationEditContainer {
+  width: 70%;
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* 아래 여백 추가 */
+}
+
+#reservationEditForm {
+  display: flex;
+  flex-direction: column;
+}
+
+/* label {
+  margin-bottom: 8px;
+  font-weight: bold;
+} */
+.selectres {
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+/* input,
+textarea {
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} */
+
+/* input[type="datetime-local"] {
+  width: 100%;
+} */
+
+/* input:focus,
+textarea:focus {
+  border-color: #415cbe;
+  outline: none;
+} */
+
+/* button {
+  padding: 12px 20px;  
+  background-color: #415cbe;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+} */
+
+/* button:hover {
+  background-color: #314b94;
+} */
+
+/* button#cancelEditButton {
+  background-color: #ccc;
+  color: #333;
+} */
+
+button#cancelEditButton:hover {
+  background-color: #999;
+}
+
+/* 참석자 상자 스타일 수정 */
+.additional-info {
+  display: flex; /* Flexbox 사용 */
+  align-items: center; /* 수직 가운데 정렬 */
+  width: 70%; /* 가로폭 조절 */
+  margin-bottom: 20px; /* 하단 여백 추가 */
+}
+
+.attendee-box {
+  display: flex; /* Flexbox 사용 */
+  align-items: center; /* 수직 가운데 정렬 */
+  flex: 1; /* 참석자 상자에 남은 공간을 모두 차지하도록 설정 */
+}
+
+label[for="attendees"] {
+  margin-right: 10px; /* 오른쪽 여백 추가 */
+  font-weight: bold;
+}
+
+input#attendees {
+  flex: 2; /* 가로폭 조절 */
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* 조직도 버튼 스타일 */
+#orgChartButton {
+  margin-left: 1px; /* 왼쪽 여백 추가 */
+  padding: 12px 20px; /* 버튼 내부 여백 조절 */
+  font-size: 16px;
+  background-color: #415cbe;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#orgChartButton:hover {
+  background-color: #314b94;
+}
+
+/* 팝업 컨테이너 */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(49, 75, 148, 0.9); /* 314b94 색상 */
+  width: 100%; /* 크기 조정 */
+  max-width: 600px; /* 최대 너비 설정 */
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  padding: 20px;
+}
+
+/* 팝업 내용 */
+
+.popup_inner {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+/* 팝업 내용에 테이블 스타일 적용 */
+.popup_inner table {
+  width: 100%; /* 테이블 너비 조정 */
+  border-collapse: collapse; /* 테이블 간격 없애기 */
+}
+
+.popup_inner table th,
+.popup_inner table td {
+  padding: 10px; /* 셀 안 패딩 설정 */
+  border: 1px solid #ccc; /* 테두리 스타일 설정 */
+  text-align: center; /* 텍스트 정렬 설정 */
+}
+
+.popup_inner table th {
+  background-color: #f2f2f2; /* 테이블 머리글 배경색 설정 */
+}
+
+/* 팝업 닫기 버튼 */
+.popup_inner button {
+  position: absolute; /* 절대 위치 지정 */
+  top: 36px;
+  right: 34px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #415cbe; /* 텍스트 색상 */
+  font-size: 20px;
+  padding: 5px; /* 버튼 패딩 추가 */
+
+  transition: background-color 0.3s ease; /* 배경 색상 변화에 애니메이션 추가 */
+}
+
+/* 팝업 닫기 버튼 호버 상태 */
+.popup_inner button:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* 호버 상태 배경 색상 변경 */
+}
+
+/* 특정 테이블에만 적용되는 스타일 */
+.attendeeTable tbody td:first-child,
+.attendeeTable thead tr th:first-child {
+  min-width: 92px;
+}
+
+/* 라디오 버튼 스타일 */
+input[type="radio"] {
+  width: 16px;  
+  height: 16px;
+  border-radius: 50%;  
+  border: 2px solid #415cbe;  
+  outline: none;
+  cursor: pointer;
+}
+
+/* 테이블 */
+
+.resdetailtable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.resdetailtable thead{
+    background-color: rgb(235, 235, 235);
+    text-align: left;
+    margin: 0;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.resdetailtable thead th , .resdetailtable tbody tr td{
+    padding: 8px 5px;
+}
+
+
+/* 
+.resdetailtable thead th:nth-child(1) {
+    width: 500px;
+    
+    
+    
+} */
+.resdetailtable thead th:nth-child(1) {
+    padding-left: 100px;
+    
+    
+    
+}
+.resdetailtable tbody td:nth-child(1) {
+    padding-left: 100px;
+    
+    
+    
+}
+
+
+
+
+
+.resdetailtable tbody tr{
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
