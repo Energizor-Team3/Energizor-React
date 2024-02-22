@@ -1,5 +1,87 @@
 // function GeneraldraftForm(){
 //     return(
+//     <div id="wrap">
+//       <section>
+//       <article>
+//         <h2>전자결재</h2>
+//         <div>
+//           <a href="/views/approval/newApproval.html">
+//             <button className="btn">신규기안</button>
+//           </a>
+//         </div>
+//         <ul className="subList">
+//           <li>
+//             <div>
+//               <img src="/common/Approval.png" alt="" />
+//               <span>
+//                 <a href="/approval/approvalMain.html">결재할 문서</a>
+//               </span>
+//               <span className="listlist">1</span>
+//             </div>
+//           </li>
+//           <li className="subListText">
+//             <div>
+//               <img src="/common/Approval.png" alt="" />
+//               <span>
+//                 <a href="/views/approval/approvaling.html">진행중인 문서</a>
+//               </span>
+//               <span className="listlist1">1</span>
+//             </div>
+//           </li>
+//           <li>
+//             <div>
+//               <img src="/common/Mydocumentbox.png" alt="" />
+//               <span>
+//                 <a href="/views/approval/mydocument.html">내 문서함</a>
+//               </span>
+//             </div>
+//           </li>
+//           <li>
+//             <div>
+//               <img src="/common/Temporarystoragebox.png" alt="" />
+//               <span>
+//                 <a href="/views/approval/temporarystorage.html">임시보관함</a>
+//               </span>
+//             </div>
+//           </li>
+//           <li>
+//             <div>
+//               <img src="/common/Shareddocumentbox.png" alt="" />
+//               <span>
+//                 <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
+//               </span>
+//             </div>
+//           </li>
+//         </ul>
+//       </article>
+//     </section>
+//     <main>
+//       <div className="content">
+//         <div className="subject">
+//           <strong>신규 기안</strong>
+//           <div className="line">
+//             <div className="search_box">
+//               <span>
+//                 <button onClick={toggleContent}>결재지정</button>
+//               </span>
+//               <span>
+//                 <button onClick={onClickcallSaveGeneralDraftAPI}>임시저장</button>
+//               </span>
+//               <input
+//         type="file"
+//         ref={imageInput}
+//         onChange={onFileChange}
+//         style={{ display: 'none' }} // 시각적으로 숨김 처리
+//       />
+//               <span>
+//                 <button onClick={ onClickImageUpload }>첨부파일</button>
+//               </span>
+//             </div>
+//           </div>
+//         </div>
+//         <div className="select_line">
+//         </div>
+//         <div className='side'>
 //         <div className="wrap2">
 //           <div className="approval">
 //             <span className="texttitle">기 안</span>
@@ -136,6 +218,13 @@
 //             <button className="btn" onClick={onClickInsertDocumentHandler} >기안</button> 
 //           </div>
 //         </div>
+//         <div className='og' id='og' >
+//         <ApprovalGroup onUserSelect={handleUserSelect} />
+//         </div>
+//         </div>
+//         </div>
+//     </main>
+//     </div>
 //     )
 // }
 // export default GeneraldraftForm;

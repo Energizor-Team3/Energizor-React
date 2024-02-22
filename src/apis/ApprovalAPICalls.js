@@ -11,12 +11,25 @@ import {
     POST_APPROVAL_SAVEEDUCATION,
     POST_APPROVAL_INSERTVACATION,
     POST_APPROVAL_SAVEVACATION,
-    GET_APPROVAL_SAVEINBOX
+    GET_APPROVAL_SAVEINBOX,
+    GET_APPROVAL_FINDUSERDETAIL
 } from '../modules/ApprovalMainModule';
 import {
-    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL
+    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
+    PUT_APPROVAL_APPROVEMENT
    
 } from '../modules/ApprovalsubModule';
+import {
+    GET_APPROVAL_FINDLINEUSER,
+    PUT_APPROVAL_REJECTION
+   
+} from '../modules/ApprovalLineModule';
+import {
+    GET_APPROVAL_FINDRFUSER
+   
+} from '../modules/ApprovalRfModule';
+
+
 
 
 
@@ -342,7 +355,7 @@ export const callSelectUserDetailAPI = () => {
 
         console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT 111: ', result);
 
-        dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result.data });
+        dispatch({ type: GET_APPROVAL_FINDUSERDETAIL,  payload: result.data });
         
     };
 }
@@ -371,5 +384,99 @@ export const callSelectTempDocumentDetailAPI = (documentCode) => {
     };
 }
 
+//결재자 조회
+export const callSelectLineUserAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalLine/${documentCode}`;
 
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectLineUserAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_FINDLINEUSER,  payload: result.data });
+        
+    };
+}
+
+//참조자 조회
+export const callSelectRfUserAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalRf/${documentCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectRfUserAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_FINDRFUSER,  payload: result.data });
+        
+    };
+}
+
+//결재하기
+export const callApprovementAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvement/${documentCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callApprovementAPI RESULT 111: ', result);
+
+        dispatch({ type: PUT_APPROVAL_APPROVEMENT,  payload: result.data });
+        
+    };
+}
+
+//결재하기
+export const callRejectionAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/rejection/${documentCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callRejectionAPI RESULT 111: ', result);
+
+        dispatch({ type: PUT_APPROVAL_REJECTION,  payload: result.data });
+        
+    };
+}
 

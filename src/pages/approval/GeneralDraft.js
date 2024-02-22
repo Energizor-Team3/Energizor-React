@@ -259,9 +259,9 @@ useEffect(() => {
 }
 
 
-    return(<div id="wrap">
-  
-    <section>
+    return(
+    <div id="wrap">
+      <section>
       <article>
         <h2>전자결재</h2>
         <div>

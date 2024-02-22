@@ -56,7 +56,7 @@ function BusinessTrip(){
   const dispatch = useDispatch();
   const currentTimeString = CurrentTime();
   const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
-  const approvallineuser = useSelector((state) => state.groupUserReducer); // 로그인한 사용자 정보
+  const approvallineuser = useSelector((state) => state.groupUserReducer); // 조직도 선택 유저
   const [approvalLine, setApprovalLine] = useState([]); // 결재 라인 상태
   const [referenceLine, setReferenceLine] = useState([]); // 참조 라인 상태
   const [selectedAction, setSelectedAction] = useState(null); // 'approval' 또는 'reference' 액션 선택 상태
