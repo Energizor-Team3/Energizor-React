@@ -149,29 +149,63 @@ function Group() {
     }
   };
 
-  // 부서 수정
+  // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-  // const deptUpdateClick = async () => {
-  //   try {
-  //     const deptName = "리액트 부서 수정";
-  //     const result = dispatch(callDeptUpdateAPI(deptName));
-
-  //     if (result && result.status === 200) {
-  //     }
-  //   } catch (error) {
-  //     console.error("부서 수정 API 호출 중 에러 발생:", error);
-  //     alert("부서 수정 API 호출 중 에러가 발생했습니다.");
-  //   }
-  // };
-
-  // 팀추가할 부서선택하기 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const [deptName, setDeptName] = useState("");
   const [isTeamInputRock, setIsTeamInputRock] = useState(false);
   const [isDeptOnlyLead, setIsDeptOnlyLead] = useState(true);
   const [deptCode, setDeptCode] = useState("");
   const [teamName, setTeamName] = useState("");
+  const [modifyDeptName, setModifyDeptName] = useState("");
+  const [modifyTeamName, setModifyTeamName] = useState("");
 
+  // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  let inputDeptName = "";               
+  const changeDeptName = (e) => {
+
+    setModifyDeptName(e.target.value);
+  }
+
+
+  console.log("수정할 부서명입력한거 확인===", modifyDeptName);
+
+    
+  for(const key in groupAndTeam) {
+      if(!(groupAndTeam[key].deptName === modifyDeptName.trim())) {
+        inputDeptName = groupAndTeam[key].deptName;
+        break
+      } 
+
+      // if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
+      //   alert("존재하지 않는 부서입니다")
+      //   return;
+      // }
+  }
+
+  const deptModifyClick = async () => {
+    console.log("수정할 부서명체크===", inputDeptName);
+
+    if(inputDeptName !== "") {
+
+      try {
+
+        const result = await dispatch(callDeptUpdateAPI(inputDeptName));
+        if(result.status === 200) {
+          alert("부서 수정 성공!!")
+        } else {
+          alert ("부서 수정 실패 ..")
+        }
+      } catch (error) {
+        alert("오류발생! 관리자에게 문의하세요")
+      }
+
+    }
+    
+  }
+
+  // 팀추가할 부서선택하기 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleDeptConfirmation = () => {
     console.log("입력한부서명존재하니?==", deptName);
 
@@ -183,7 +217,6 @@ function Group() {
       if (groupAndTeam[key].deptName === deptName.trim()) {
         deptExists = true;
         newDeptCode = groupAndTeam[key].deptCode; // 새로운 부서 코드 저장
-        console.log("입력한 부서코드=========", newDeptCode);
         break;
       }
     }
@@ -205,7 +238,10 @@ function Group() {
 
   const handleInputTeam = (e) => {
     const inputValue = e.target.value;
-    const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ0-9\s]*$/;
+
+    console.log("teamName결과====", inputValue);
+
+    const koreanRegex = /^[가-힣ㄱ-ㅎㅏ-ㅣ\s]*$/;
 
     if (!koreanRegex.test(inputValue) && inputValue !== "") {
       alert(`한글을 입력하세요.`);
@@ -217,24 +253,17 @@ function Group() {
     }
   };
 
-  console.log("teamName결과====", teamName);
-
   const handleTeamAddition = async () => {
-    try {
-      const teamInsertResult = await dispatch(
-        callTeamInsertAPI(teamName, deptCode)
-      );
 
-      if (teamInsertResult) {
-        alert("팀이 추가되었습니다.");
-      } else {
-        alert("팀 추가에 실패했습니다.");
-      }
-      setTeamName("");
+    try {
+      const result = await dispatch(callTeamInsertAPI(teamName, deptCode));
+      // 이후 result를 기반으로 추가적인 작업을 수행할 수 있습니다.
     } catch (error) {
       console.error("팀 추가 중 오류 발생:", error);
       alert("팀 추가에 실패했습니다.");
     }
+
+    
   };
 
   // 조직도 조회화면에서만 조직도 상세보기 가능
@@ -432,17 +461,56 @@ function Group() {
             </div>
 
             <div className="group_info_wrap">
+              
+
+
+
               {showAdminButtons && (
-                <>
+
                   <div className="admin_btn">
                     <button type="button" onClick={groupInsertClick}>
                       그룹추가
                     </button>
-                    <button type="button" onClick={deptInsertClick}>
+                    <button type="button">
                       그룹수정
                     </button>
                     <button type="button">그룹삭제</button>
                   </div>
+                  )}
+                  <div className="group_insert_wrap ">
+                      <ul className="group_insert">
+                        <li>
+                          <label>수정할 부서 :</label>
+                          <input
+                            type="text"
+                            id="modifyDeptName"
+                            placeholder="수정할 부서명을 입력하세요"
+                            value={modifyDeptName}
+                            onChange={changeDeptName}
+                          />
+                          <button type="button"
+                          onClick={deptModifyClick}
+                          >수정</button>
+                        </li>
+                        <hr />
+                        <li className="teamInsert">
+                          <div>
+                            <label>수정할 팀 :</label>
+                            <input
+                              type="text"
+                              id="modifyTeamName"
+                              placeholder="수정할 팀을 입력하세요"
+                              value={modifyTeamName}
+                              onChange={(e) => setModifyTeamName(e.target.value)}
+                            />
+                            <button type="button" 
+                            
+                            >수정</button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
                   {GroupInsertButton && (
                     <div className="group_insert_wrap ">
                       <ul className="group_insert">
@@ -506,8 +574,8 @@ function Group() {
                       </ul>
                     </div>
                   )}
-                </>
-              )}
+
+              
 
               {groupShow && (
                 <>

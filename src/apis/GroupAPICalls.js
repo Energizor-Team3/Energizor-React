@@ -130,7 +130,7 @@ export const callDeptInsertAPI = (deptName) => {
 };
 
 // 팀 추가
-export const callTeamInsertAPI = (TeamName, deptCode) => {
+export const callTeamInsertAPI = (teamName, deptCode) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/team-insert`;
 
   return async (dispatch, getState) => {
@@ -144,21 +144,17 @@ export const callTeamInsertAPI = (TeamName, deptCode) => {
           Accept: "*/*",
           Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
         },
-        body: JSON.stringify({ deptCode: deptCode, TeamName: TeamName }),
-      }).then((response) => {
-        if (!response.ok) {
-          throw new Error('패치실패!!!!');
-        }
-        return response.json();
-      });
+        body: JSON.stringify({ deptCode: deptCode, teamName: teamName }),
 
+      }).then((response) => response.json());
       console.log("접근권한확인하기=============== ", result.status);
 
       if (result.status === 403) {
         alert("접근 권한이 없습니다.");
       } else if (result.status === 200) {
-        alert(`새로운 팀 "` + TeamName + `" 이 생성되었어요!`);
-      }
+        alert(`새로운 팀 "` + teamName + `" 이 생성되었어요!`);
+      } 
+      
       dispatch({ type: POST_TEAM_INSERT, payload: result });
       console.log("팀추가 결과???? ", result);
     } catch (error) {
