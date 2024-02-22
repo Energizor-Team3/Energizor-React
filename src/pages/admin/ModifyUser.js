@@ -290,7 +290,7 @@ function ModifyUser() {
                                             className="regist_user_input"
                                             name="dayoff"
                                             value={form.dayoff?.offCount}
-                                            type="text"
+                                            type="number"
                                             onChange={onChangeHandler}
                                         />
                                     </div>
@@ -300,13 +300,13 @@ function ModifyUser() {
                                             className="regist_user_input"
                                             name="dayoff"
                                             value={form.dayoff?.offUsed}
-                                            type="text"
+                                            type="number"
                                             onChange={onChangeHandler}
                                         />
                                     </div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">잔여 연차</label>
-                                        <div className="regist_user_id" name="dayoff" onChange={onChangeHandler}>
+                                        <div className="regist_user_id" name="dayoff" value={form.dayoff?.offCount - form.dayoff?.offUsed} onChange={onChangeHandler}>
                                             {form.dayoff?.offCount - form.dayoff?.offUsed}
                                         </div>
                                     </div>
