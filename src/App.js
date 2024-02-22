@@ -52,10 +52,10 @@ function App() {
         <Route path="/searchpwd" element={<SearchPwd />} />
         <Route path="/searchpwdemail" element={<SearchPwdEmail />} />
 
-
+{/* 
       <Route path="/main" element={ <Layout/> }>
         <Route index element={ <Main /> } />
-      </Route>
+      </Route> */}
         <Route path="/login" element={ <Login/> } />
         <Route path="*" element={ <Error/> }/>
 

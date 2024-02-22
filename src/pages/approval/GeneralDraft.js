@@ -315,6 +315,7 @@ useEffect(() => {
         </ul>
       </article>
     </section>
+    
     <main>
       <div className="content">
         <div className="subject">
@@ -484,8 +485,10 @@ useEffect(() => {
         </div>
         </div>
     </main>
+
+
     </div>
-       );
+        );
     }
     
     export default GeneralDraft;

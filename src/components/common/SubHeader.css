@@ -84,7 +84,7 @@ header h1 img {
   border-radius: 6px;
 }
 
-
+/* 서브헤더부분 */
 
 
 /* 서브헤더부분 */
@@ -129,6 +129,7 @@ article .btn {
   cursor: pointer;
   border: transparent;
   display: inline-block;
+  text-align: center;
 }
 
 article .btn:hover {
@@ -197,6 +198,7 @@ article .subList .subListText > a:hover {
   /* text-align: center; */
   line-height: 58px;
   width: 220px;
+  text-align: center;
 }
 
 .content .subject {
@@ -267,14 +269,14 @@ article .subList .subListText > a:hover {
 
 /* 테이블 */
 
-.subtable {
+.subTable {
   width: 1400px;
   border-collapse: collapse;
   margin-top: 20px;
   /* text-align: center; */
 }
 
-.subtable  thead {
+.subTable thead {
   background-color: rgb(235, 235, 235);
   margin: 0;
   border-top: 1px solid rgb(156, 156, 156);
@@ -282,22 +284,22 @@ article .subList .subListText > a:hover {
   /* text-align: center; */
 }
 
-.subtable  thead th,
-.subtable  tbody tr td {
+.subTable thead th,
+.subTable tbody tr td {
   padding: 8px 5px;
 }
 
-.subtable  tbody td:first-child,
-.subtable  thead tr th:first-child {
+.subTable tbody td:first-child,
+.subTable thead tr th:first-child {
   max-width: 15px;
   min-width: 15px;
 }
 
-.subtable  tbody thead th {
+.subTable tbody thead th {
   max-width: 150px;
 }
 
-.subtable  tbody tr {
+.subTable tbody tr {
   border-bottom: 1px solid rgb(156, 156, 156);
 }
 
