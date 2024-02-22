@@ -48,7 +48,7 @@ function Header() {
                     <span style={spanStyle}>홈</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/approvalmain">
                         <img src="/common/Approval.png" alt="" />
                     </a>
                     <span style={spanStyle}>전자결재</span>

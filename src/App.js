@@ -29,6 +29,7 @@ import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
 import CalendarSetting from './pages/calendar/CalendarSetting';
 import ProjectMain from './pages/project/projectMain';
+import ProxyApprovalLine from './pages/approval/ProxyApprovalLine';
 
 
 
@@ -72,6 +73,7 @@ function App() {
           <Route path="/generaldraftform" element={ <GeneraldraftForm/> } />
           <Route path="/educationform" element={ <EducationForm/> } />
           <Route path="/businesstripform" element={ <BusinesstripForm/> } />
+          <Route path="/proxyapprovalline" element={ <ProxyApprovalLine/> } />
           <Route path="/vacationform" element={ <VacationForm/> } />
           <Route path="/group" element={ <Group/> } />
 
