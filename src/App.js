@@ -15,6 +15,7 @@ import EducationForm from "./pages/approval/EducationForm";
 import VacationForm from "./pages/approval/VacationForm";
 import BusinesstripForm from "./pages/approval/BusinesstripForm";
 import SharedInBox from "./pages/approval/SharedInBox";
+import InBox from "./pages/approval/InBox";
 import Approvaling from "./pages/approval/Approvaling";
 import NewApproval from "./pages/approval/NewApproval";
 import Vacation from "./pages/approval/Vacation";
@@ -34,6 +35,10 @@ import ReservationApply from "./pages/Reservation/ReservationApply";
 import ReservationModify from "./pages/Reservation/ReservationModify";
 import SearchPwd from "./pages/user/SearchPwd";
 import SearchPwdEmail from "./pages/user/SearchPwdEmail";
+import UserList from "./pages/admin/UserList";
+import ModifyUser from "./pages/admin/ModifyUser";
+import MyPage from './pages/user/MyPage';
+import UserRegist from './pages/admin/UserRegist';
 
 function App() {
   return (
@@ -50,12 +55,20 @@ function App() {
           {/* 쪽지 */}
           <Route path="/message" element={<Message />} />
 
+
+          <Route path="/userlist" element={ <UserList/> } />
+          <Route path="/my-page" element={ <MyPage/> } />
+          <Route path="/userregist" element={ <UserRegist/> } />
+          <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
+
+
           {/* 결재 */}
 
           <Route path="/generaldraft" element={<GeneralDraft />} />
           <Route path="/education" element={<Education />} />
           <Route path="/businesstrip" element={<BusinessTrip />} />
           <Route path="/saveinbox" element={<SaveInBox />} />
+          <Route path="/inbox" element={<InBox />} />
           <Route path="/vacation" element={<Vacation />} />
           <Route path="/approvalmain" element={<ApprovalMain />} />
           <Route path="/sharedinbox" element={<SharedInBox />} />
