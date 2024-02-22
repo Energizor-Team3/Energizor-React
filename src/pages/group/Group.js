@@ -114,9 +114,18 @@ function Group() {
   };
 
   // 그룹추가버튼 클릭시 보이는 추가할수있는 화면  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const [GroupInsertButton, setGroupInsertButton] = useState(false);
+  const [groupInsertButton, setGroupInsertButton] = useState(false);
   const groupInsertClick = async () => {
     setGroupInsertButton(true);
+    setGroupModifyButton(false);
+  };
+
+  // 그룹수정 클릭시 부서수정할수있는 화면 출력 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const [groupModifyButton, setGroupModifyButton] = useState(false);
+
+  const groupModifyClick = async () => {
+    setGroupModifyButton(true);
+    setGroupInsertButton(false);
   };
 
   // 부서추가 (한글입력만 가능 )   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -149,9 +158,6 @@ function Group() {
     }
   };
 
-  // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
   const [deptName, setDeptName] = useState("");
   const [isTeamInputRock, setIsTeamInputRock] = useState(false);
   const [isDeptOnlyLead, setIsDeptOnlyLead] = useState(true);
@@ -159,51 +165,52 @@ function Group() {
   const [teamName, setTeamName] = useState("");
   const [modifyDeptName, setModifyDeptName] = useState("");
   const [modifyTeamName, setModifyTeamName] = useState("");
+  const [updateDeptName, setUpdateDeptName] = useState("");
+  const [updateTeamName, setupdateTeamName] = useState("");
 
-  // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  let inputDeptName = "";
+  let inputDeptCode = 0;
 
-  let inputDeptName = "";               
-  const changeDeptName = (e) => {
+  const deptModifyCeckClick = async () => {
+    console.log("수정할 부서명입력한거 확인===", modifyDeptName);
 
-    setModifyDeptName(e.target.value);
-  }
-
-
-  console.log("수정할 부서명입력한거 확인===", modifyDeptName);
-
-    
-  for(const key in groupAndTeam) {
-      if(!(groupAndTeam[key].deptName === modifyDeptName.trim())) {
+    for (const key in groupAndTeam) {
+      if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
         inputDeptName = groupAndTeam[key].deptName;
-        break
-      } 
+        inputDeptCode = groupAndTeam[key].deptCode;
+        break;
+      }
+    }
+    if (inputDeptName !== "") {
+      alert("부서확인 성공!!");
+    } 
 
-      // if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
-      //   alert("존재하지 않는 부서입니다")
-      //   return;
-      // }
-  }
+    if (inputDeptName === "") {
+      alert("존재하지 않는 부서입니다");
+      return;
+    }
+  };
+
+
+  console.log("수정할 부서코드체크===", inputDeptCode);
+
+
 
   const deptModifyClick = async () => {
-    console.log("수정할 부서명체크===", inputDeptName);
+    try {
+      console.log("체인지할 부서네임 체크===", updateDeptName);
 
-    if(inputDeptName !== "") {
-
-      try {
-
-        const result = await dispatch(callDeptUpdateAPI(inputDeptName));
-        if(result.status === 200) {
-          alert("부서 수정 성공!!")
-        } else {
-          alert ("부서 수정 실패 ..")
-        }
-      } catch (error) {
-        alert("오류발생! 관리자에게 문의하세요")
+      const result = await dispatch(
+        callDeptUpdateAPI(updateDeptName, inputDeptCode)
+      );
+      if (result && result.status === 200) {
+        alert("부서 수정 성공!!");
       }
-
+    } catch (error) {
+      alert("부서 수정 실패!!");
     }
-    
-  }
+  };
 
   // 팀추가할 부서선택하기 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleDeptConfirmation = () => {
@@ -254,7 +261,6 @@ function Group() {
   };
 
   const handleTeamAddition = async () => {
-
     try {
       const result = await dispatch(callTeamInsertAPI(teamName, deptCode));
       // 이후 result를 기반으로 추가적인 작업을 수행할 수 있습니다.
@@ -262,8 +268,6 @@ function Group() {
       console.error("팀 추가 중 오류 발생:", error);
       alert("팀 추가에 실패했습니다.");
     }
-
-    
   };
 
   // 조직도 조회화면에서만 조직도 상세보기 가능
@@ -461,121 +465,144 @@ function Group() {
             </div>
 
             <div className="group_info_wrap">
-              
-
-
-
               {showAdminButtons && (
+                <div className="admin_btn">
+                  <button type="button" onClick={groupInsertClick}>
+                    그룹추가
+                  </button>
+                  <button type="button" onClick={groupModifyClick}>
+                    그룹수정
+                  </button>
+                  <button type="button">그룹삭제</button>
+                </div>
+              )}
+              {groupModifyButton && (
+                <div className="group_modify_wrap ">
+                  <ul className="group_modify">
+                    <li className="group_modify">
+                      <div>
+                        <label>수정할 부서 :</label>
+                        <input
+                          type="text"
+                          id="modifyDeptName"
+                          placeholder="수정할 부서명을 입력하세요"
+                          value={modifyDeptName}
+                          onChange={(e) => setModifyDeptName(e.target.value)}
+                        />
+                        <button
+                          disabled={!isDeptOnlyLead}
+                          onClick={deptModifyCeckClick}
+                        >
+                          부서확인
+                        </button>
+                      </div>
 
-                  <div className="admin_btn">
-                    <button type="button" onClick={groupInsertClick}>
-                      그룹추가
-                    </button>
-                    <button type="button">
-                      그룹수정
-                    </button>
-                    <button type="button">그룹삭제</button>
-                  </div>
-                  )}
-                  <div className="group_insert_wrap ">
-                      <ul className="group_insert">
-                        <li>
-                          <label>수정할 부서 :</label>
-                          <input
-                            type="text"
-                            id="modifyDeptName"
-                            placeholder="수정할 부서명을 입력하세요"
-                            value={modifyDeptName}
-                            onChange={changeDeptName}
-                          />
-                          <button type="button"
-                          onClick={deptModifyClick}
-                          >수정</button>
-                        </li>
-                        <hr />
-                        <li className="teamInsert">
-                          <div>
-                            <label>수정할 팀 :</label>
-                            <input
-                              type="text"
-                              id="modifyTeamName"
-                              placeholder="수정할 팀을 입력하세요"
-                              value={modifyTeamName}
-                              onChange={(e) => setModifyTeamName(e.target.value)}
-                            />
-                            <button type="button" 
-                            
-                            >수정</button>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
+                      <div>
+                        <label>원하는 부서명 :</label>
+                        <input
+                          type="text"
+                          id="updateDeptName"
+                          placeholder="원하는 부서명을 입력하세요"
+                          value={updateDeptName}
+                          onChange={(e) => setUpdateDeptName(e.target.value)}
+                        />
+                        <button type="button" onClick={deptModifyClick}>
+                          수정
+                        </button>
+                      </div>
+                    </li>
+                    <hr />
+                    <li className="group_modify">
+                      <div>
+                        <label>수정할 팀 :</label>
+                        <input
+                          type="text"
+                          id="modifyTeamName"
+                          placeholder="수정할 팀을 입력하세요"
+                          value={modifyTeamName}
+                          onChange={(e) => setModifyTeamName(e.target.value)}
+                        />
+                        <button disabled={!isDeptOnlyLead}>팀확인</button>
+                      </div>
+                      <div>
+                        <label>원하는 팀명 :</label>
+                        <input
+                          type="text"
+                          id="updateDeptName"
+                          placeholder="원하는 팀명을 입력하세요"
+                          value={updateTeamName}
+                          onChange={(e) => setupdateTeamName(e.target.value)}
+                        />
+                        <button type="button">수정</button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
 
-                  {GroupInsertButton && (
-                    <div className="group_insert_wrap ">
-                      <ul className="group_insert">
-                        <li>
-                          <label>부서명 :</label>
-                          <input
-                            type="text"
-                            id="departmentName"
-                            placeholder="추가할 부서명을 입력하세요"
-                            value={departmentName}
-                            onChange={handleInputChange}
-                          />
-                          <button type="button" onClick={deptInsertClick}>
-                            부서추가
-                          </button>
-                        </li>
-                        <hr />
-                        <li className="teamInsert">
-                          <div>
-                            <label>부서선택 :</label>
-                            <input
-                              placeholder="팀을 추가하려는 부서명(한글)을 입력하세요"
-                              type="text"
-                              value={deptName}
-                              onChange={(e) => setDeptName(e.target.value)}
-                              disabled={!isDeptOnlyLead}
-                            />
-                            <button
-                              onClick={handleDeptConfirmation}
-                              disabled={!isDeptOnlyLead}
-                            >
-                              부서확인
-                            </button>
-                            <button
-                              onClick={() => {
-                                setIsDeptOnlyLead(true);
-                                setIsTeamInputRock(false);
-                              }}
-                            >
-                              재입력
-                            </button>
-                          </div>
-                          <div>
-                            <label>팀명 :</label>
-                            <input
-                              type="text"
-                              placeholder="추가할 팀명을 입력하세요"
-                              value={teamName}
-                              onChange={handleInputTeam}
-                              disabled={!isTeamInputRock}
-                            ></input>
-                            <button
-                              type="button"
-                              onClick={handleTeamAddition}
-                              disabled={!isTeamInputRock}
-                            >
-                              팀추가
-                            </button>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-
-              
+              {groupInsertButton && (
+                <div className="group_insert_wrap ">
+                  <ul className="group_insert">
+                    <li>
+                      <label>부서명 :</label>
+                      <input
+                        type="text"
+                        id="departmentName"
+                        placeholder="추가할 부서명을 입력하세요"
+                        value={departmentName}
+                        onChange={handleInputChange}
+                      />
+                      <button type="button" onClick={deptInsertClick}>
+                        부서추가
+                      </button>
+                    </li>
+                    <hr />
+                    <li className="teamInsert">
+                      <div>
+                        <label>부서선택 :</label>
+                        <input
+                          placeholder="팀을 추가하려는 부서명(한글)을 입력하세요"
+                          type="text"
+                          value={deptName}
+                          onChange={(e) => setDeptName(e.target.value)}
+                          disabled={!isDeptOnlyLead}
+                        />
+                        <button
+                          onClick={handleDeptConfirmation}
+                          disabled={!isDeptOnlyLead}
+                        >
+                          부서확인
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsDeptOnlyLead(true);
+                            setIsTeamInputRock(false);
+                          }}
+                        >
+                          재입력
+                        </button>
+                      </div>
+                      <div>
+                        <label>팀명 :</label>
+                        <input
+                          type="text"
+                          placeholder="추가할 팀명을 입력하세요"
+                          value={teamName}
+                          onChange={handleInputTeam}
+                          disabled={!isTeamInputRock}
+                        ></input>
+                        <button
+                          type="button"
+                          onClick={handleTeamAddition}
+                          disabled={!isTeamInputRock}
+                        >
+                          팀추가
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
 
               {groupShow && (
                 <>

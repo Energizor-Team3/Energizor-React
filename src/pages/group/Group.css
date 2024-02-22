@@ -164,8 +164,9 @@ main .group_list label {
 
 /* 그룹 추가 */
 
-.group_insert_wrap {
-  margin-top: 50px;
+.group_insert_wrap,
+.group_modify {
+  margin-top: 80px;
 }
 
 .group_insert {
@@ -204,7 +205,8 @@ main .group_list label {
   margin-bottom: 30px;
 }
 
-.group_insert li button {
+.group_insert li button,
+.group_modify li button {
   margin: 0 10px;
   padding: 6px 0;
   width: 70px;
@@ -223,4 +225,27 @@ main .group_list label {
 .group_insert li button:active {
   box-shadow: none;
   border: none;
+}
+
+.group_modify li {
+  display: flex;
+  flex-direction: column;
+}
+
+.group_modify div {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.group_modify div label {
+  width: 140px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.group_modify div input {
+  width: 400px;
+  height: 30px;
+  border: 1px solid rgb(141, 141, 141);
+  background-color: white;
 }
