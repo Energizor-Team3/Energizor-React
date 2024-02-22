@@ -21,12 +21,11 @@ import Vacation from "./pages/approval/Vacation";
 import SaveInBox from "./pages/approval/SaveInBox";
 import Layout from "./layouts/SubLayout";
 // import Group from './pages/group/Group';
-import GeneralDraft from './pages/approval/GeneralDraft'
-import ProjectDetail from './pages/project/project_detail';
-import PersonalContact from './pages/contact/personalContactList';
-import CompanyContact from './pages/contact/companyContactList';
 
 import ProjectDetail from "./pages/project/project_detail";
+import PersonalContact from "./pages/contact/personalContactList";
+import CompanyContact from "./pages/contact/companyContactList";
+
 import CalendarMainPage from "./pages/calendar/CalendarMain";
 import CalendarSetting from "./pages/calendar/CalendarSetting";
 import ProjectMain from "./pages/project/projectMain";
@@ -96,10 +95,12 @@ function App() {
           <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
           <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
 
-          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
-          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
+          <Route
+            path="/contact/personal-list/:userCode"
+            element={<PersonalContact />}
+          />
+          <Route path="/contact/company-list" element={<CompanyContact />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

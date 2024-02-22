@@ -21,13 +21,13 @@ import reservationTotalReducer from './ReservationTotalModules ';
 import contactReducer from './ContactModule';
 
 const rootReducer = combineReducers({
-  userReducer,
-  approvalReducer,
-  reservationReducer,
-  reservationAttendeeReducer,
-  reservationModifyReducer,
-  reservationCodeReducer,
-  reservationTotalReducer,
+    userReducer,
+    approvalReducer,
+    reservationReducer,
+    reservationAttendeeReducer,
+    reservationModifyReducer,
+    reservationCodeReducer,
+    reservationTotalReducer,
 
     groupReducer,
     groupUserReducer,
