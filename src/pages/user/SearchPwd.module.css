@@ -26,7 +26,13 @@
     margin-bottom: 20px;
 }
 
-.login {
+.find_pw_title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.find_pw {
     width: 343px; 
     height: 62px; 
     background: white; 
@@ -38,7 +44,7 @@
     font-size: 16px;
 }
 
-.login_btn {
+.find_pw_btn {
     background: #94A9FF;
     border-radius: 6px; 
     border: transparent;
@@ -54,21 +60,25 @@
     margin-bottom: 10px;
 }
 
-.additional_options {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+.send_email {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    margin-top: 40px;
 }
 
-.save_id_check {
-    margin-right: -180px;
-}
-
-.find_pw {
-    font-size: 14px;
-    cursor: pointer;
-    position: absolute;
-    right: 50%;
-    transform: translateX(50%);
-    color: gray;
+.back_login_btn {
+    background: #94A9FF;
+    border-radius: 6px; 
+    border: transparent;
+    width: 343px;
+    height: 55px;
+    font-weight: 550;
+    font-size: 16px;
+    color:#353535;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-top: 40px;
+    margin-bottom: 10px;
 }

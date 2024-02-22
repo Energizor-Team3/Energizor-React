@@ -38,84 +38,99 @@ function ApprovalMain(){
  
 
 
-    return(
-    <div id="wrap">
-    <section>
-      <article>
-        <h2>전자결재</h2>
-        <div>
-          <a href="/views/approval/newApproval.html">
-            <button className="btn">신규기안</button>
-          </a>
-        </div>
-        <ul className="sub_list">
-          <li>
-            <div>
-              <img src="/common/Approval.png" alt="" />
-              <span className="textcolor">
-                <a href="/views/approval/approvalMain.html">결재할 문서</a>
-              </span>
-              <span className="listlist">1</span>
-            </div>
-          </li>
-          <li className="sub_list_text">
-            <div>
-              <img src="/common/Approval.png" alt="" />
-              <span>
-                <a href="/views/approval/approvaling.html">진행중인 문서</a>
-              </span>
-              <span className="listlist1">1</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Mydocumentbox.png" alt="" />
-              <span>
-                <a href="/views/approval/mydocument.html">내 문서함</a>
-              </span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Temporarystoragebox.png" alt="" />
-              <span>
-                <a href="/views/approval/temporarystorage.html">임시보관함</a>
-              </span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Shareddocumentbox.png" alt="" />
-              <span>
-                <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-              </span>
-            </div>
-          </li>
-        </ul>
-      </article>
-    </section>
-    <main>
-      <div className="content">
-        <div className="subject">
-          <strong>결재할 문서</strong>
-          <div className="line">
-            <div className="search_box">
-              <input
-                type="search"
-                placeholder="제목,기안자,양식명을 입력하세요."
-              />
-            </div>
-          </div>
-        </div>
-        <div className="select_line">
-          {/* 셀렉트 문*/}
-          {/* <select name="messageLead">
+    return (
+        <div id="wrap">
+            <section>
+                <article>
+                    <h2>전자결재</h2>
+                    <div>
+                        <a href="/views/approval/newApproval.html">
+                            <button className="btn">신규기안</button>
+                        </a>
+                    </div>
+                    <ul className="sub_list">
+                        <li>
+                            <div>
+                                <img
+                                    src="/common/Approval.png"
+                                    alt=""
+                                />
+                                <span className="textcolor">
+                                    <a href="/views/approval/approvalMain.html">결재할 문서</a>
+                                </span>
+                                <span className="listlist">1</span>
+                            </div>
+                        </li>
+                        <li className="sub_list_text">
+                            <div>
+                                <img
+                                    src="/common/Approval.png"
+                                    alt=""
+                                />
+                                <span>
+                                    <a href="/views/approval/approvaling.html">진행중인 문서</a>
+                                </span>
+                                <span className="listlist1">1</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img
+                                    src="/common/Mydocumentbox.png"
+                                    alt=""
+                                />
+                                <span>
+                                    <a href="/views/approval/mydocument.html">내 문서함</a>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img
+                                    src="/common/Temporarystoragebox.png"
+                                    alt=""
+                                />
+                                <span>
+                                    <a href="/views/approval/temporarystorage.html">임시보관함</a>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img
+                                    src="/common/Shareddocumentbox.png"
+                                    alt=""
+                                />
+                                <span>
+                                    <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </section>
+            <main>
+                <div className="content">
+                    <div className="subject">
+                        <strong>결재할 문서</strong>
+                        <div className="line">
+                            <div className="search_box">
+                                <input
+                                    type="search"
+                                    placeholder="제목,기안자,양식명을 입력하세요."
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="select_line">
+                        {/* 셀렉트 문*/}
+                        {/* <select name="messageLead">
             <option value="전체">전체</option>
             <option value="결재함">결재함</option>
             <option value="참조함">참조함</option>
             <option value="반려함">반려함</option>
         </select> */}
-          {/* <div class="attention_Text">
+                        {/* <div class="attention_Text">
           <img src="/common/Exclamation.png" alt="">
           <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
         </div> */}
@@ -245,11 +260,9 @@ function ApprovalMain(){
         <label className="page_number_choice_text" htmlFor="page_number_choice">
           페이지당 항목수
         </label> */}
-      </div>
-    </main>
-  </div>
-  
-        
+                </div>
+            </main>
+        </div>
     );
 }
 
