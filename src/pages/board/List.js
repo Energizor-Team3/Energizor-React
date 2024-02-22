@@ -44,6 +44,9 @@ const BoardList = ({ boardTypeCode }) => {
     })
   }
 
+  const handleGetNewPage = (pageNum) => {
+    
+  }
   return (
     <BoardLayout>
       <button className="trash_button"><FaRegTrashCan className="trash"></FaRegTrashCan></button>
@@ -74,6 +77,12 @@ const BoardList = ({ boardTypeCode }) => {
       <td>{el.viewCount}</td>
     </tr>
   ))}
+  <div>
+    {
+      boardListData?.data?.pageList?.map(el =>
+        <p onClick={() => handleGetNewPage(el)}>{el}</p>)
+    }
+  </div>
 </tbody>
 
       </table>

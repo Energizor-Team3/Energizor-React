@@ -5,6 +5,8 @@ import { useGetInterestBoardList } from "../../apis/board/useGetInterestBoardLis
 import { BoardLayout } from "../../layouts/BoardLayout";
 import './InterestList.css';
 import { FaRegTrashCan } from "react-icons/fa6";
+import {useMutation} from '@tanstack/react-query'
+import { deleteBoard } from "../../apis/board/deleteBoard";
 
 const InterestList = () => {
   const navigate = useNavigate();
@@ -13,6 +15,9 @@ const InterestList = () => {
     boardTypeCode: searchParams.get("boardTypeCode"),
     
   });
+  const {mutate} = useMutation({
+    mutationFn: deleteBoard
+  })
 
   const [selectedBoardList, setSelectedBoardList] = useState([])
 
@@ -23,9 +28,15 @@ const InterestList = () => {
       setSelectedBoardList([...selectedBoardList, id])
     }
   }
+  const deleteHandler = () => {
+    console.log(selectedBoardList)
+    selectedBoardList.map(selectedBoard => {
+      mutate(selectedBoard);
+    })
+  }
   return (
     <BoardLayout>
-      <button className="trash_button"><FaRegTrashCan className="trash"></FaRegTrashCan></button>
+      <button className="trash_button" onClick={deleteHandler}><FaRegTrashCan className="trash"></FaRegTrashCan></button>
       <table className="board_table">
         <thead>
             <th>
@@ -40,7 +51,7 @@ const InterestList = () => {
         <tbody>
   {boardListData?.data?.dtoList?.map((el,index) => (
     <tr key={el.id}>
-      <td><input type="checkbox" onChange={() => onClickBoard(el.id)} /></td>
+      <td><input type="checkbox" onChange={() => {onClickBoard(el.boardCode)}} /></td>
       <td>{index + 1}</td>
       <td onClick={() => navigate(`/board/${el.boardCode}`)}>{el.title}</td>
       <td>

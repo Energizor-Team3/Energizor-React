@@ -5,11 +5,15 @@ import { Viewer } from "@toast-ui/react-editor";
 import { BoardLayout } from "../../layouts/BoardLayout";
 
 import "./Detail.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetBoardDetail } from "../../apis/board/useGetBoardDetail";
 import dayjs from "dayjs";
 import { useGetCommentList } from "../../apis/board/useGetCommentList";
 import {usePostComment} from '../../apis/board/usePostComment'
+import { usePatchComment } from "../../apis/board/usePatchComment";
+import { useDeleteComment } from "../../apis/board/useDeleteComment";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { PiNotePencilDuotone } from "react-icons/pi";
 
 export const BoardDetail = () => {
   const params = useParams();
@@ -18,8 +22,13 @@ export const BoardDetail = () => {
   const {data:commentListData, refetch: refetchCommentList} = useGetCommentList(params.id);
   
   const {mutate:postCommentMutate} = usePostComment()
+  const {mutate:patchCommentMutate} = usePatchComment()
+  const {mutate:deleteCommentMutate} = useDeleteComment()
 
   const [commentContent, setCommentContents] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  console.log(commentContent);
+  const [editingCommentContent, setEditingCommentContent] = useState('');
   const onPostComment = () => {
     if (!commentContent) {
       alert("댓글을 입력해주세요.");
@@ -40,48 +49,87 @@ export const BoardDetail = () => {
       }    
     })
   }
+  const handleEdit = (id, comment) => {
+    setEditingCommentId(id);
+    setEditingCommentContent(comment);
+  }
+  const handleEditCancel = () =>{
+    setEditingCommentId(null);
+    setEditingCommentContent('');
+  }
+  const handleEditSave = () => {
+    if (!editingCommentContent) {
+      alert("댓글을 입력해주세요.");
+      return;
+    }
+    patchCommentMutate({
+      editingCommentContent,
+      boardCode : Number(params.id),
+      commentCode: editingCommentId
+    }, {
+      onSuccess : () => {
+        setEditingCommentContent("")
+        alert("댓글이 정상적으로 수정되었습니다.");
+        refetchCommentList();
+      },
+      onError : (e) =>{
+        console.error(e);
+        alert("댓글 작성 중에 오류가 발생했습니다.");
+      }    
+    })
+  }
+  const handleDelete = (id) => {
+    deleteCommentMutate(id)
+  }
   return (
     <BoardLayout>
+      <div className="boardButton">
+        <button className="updateButton"><PiNotePencilDuotone></PiNotePencilDuotone></button>
+        <button className="deleteButton" ><FaRegTrashCan></FaRegTrashCan></button>
+      </div>
       <div className="detailCotentHeader">
+        
         <div className="headerItemWrapper">
           <div className="headerItem">
             <div>제목</div>
             <div>{boardDetailData?.data?.title}</div>
           </div>
-        </div>
-        <div className="headerItemWrapper">
+        
           <div className="headerItem">
-            <div>작성자</div>
+            <div className="writer">작성자</div>
             <div>{[boardDetailData?.data.userName, boardDetailData?.data.deptName, boardDetailData?.data.teamName]
                   .filter(Boolean) 
-                  .join(" / ")}</div>
-            </div>
-          <div className="headerItem">
-            <div>작성일</div>
-            <div>
-            {boardDetailData?.data.registerDate?.join(".")}
+                  .join(" / ")}
             </div>
           </div>
         </div>
+        
         <div className="headerItemWrapper">
+          <div className="headerItem">
+            <div>작성일</div>
+            <div>
+              {boardDetailData?.data.registerDate?.join(".")}
+            </div>
+          </div>
+        
+      
           <div className="headerItem">
             <div>조회수</div>
             <div>{boardDetailData?.data.viewCount}</div>
           </div>
-        </div>
-        <div className="headerItemWrapper">
+        </div>    
+            
           <div className="headerItem">
             <div>첨부파일</div>
             <div>
               {boardDetailData?.fileList?.map((file) => (
                 <div key={file.fileId}>{file.fileName}</div>
-              ))}
+            ))}
             </div>
           </div>
-        </div>
-      </div>
+        </div> 
       <div>
-        <Viewer initialValue={boardDetailData?.content || ""} />
+        <Viewer className="viewer" initialValue={boardDetailData?.content || ""} />
       </div>
       <div className="commentWrapper">
         <div className="commentHeader">댓글 {commentListData?.data?.length}개</div>
@@ -91,13 +139,24 @@ export const BoardDetail = () => {
             <div></div>
             <div className="commentContent">
               <div>{comment.userName}</div>
-              <div>{comment.commentContent}</div>
+              {
+                editingCommentId === comment.commentCode ? 
+                  <textarea value={editingCommentContent}
+                    onChange={e => setEditingCommentContent(e.target.value)} />
+                    : <div>{comment.commentContent}</div>
+              }
             </div>
             <div className="commentFooter">
               <div>{`${comment.registerDate[0]}.${comment.registerDate[1]}.${comment.registerDate[2]}`}</div>
               <div>
-                <button>수정</button>
-                <button>삭제</button>
+                { editingCommentId === comment.commentCode ?
+                <><button onClick={handleEditSave}>완료</button>
+                <button onClick={handleEditCancel}>취소</button>
+                </> :
+                <button onClick={() => {handleEdit(comment.commentCode, comment.commentContent)}}>수정</button>  
+              }
+              
+                <button onClick={() => {handleDelete(comment.commentCode)}}>삭제</button>
               </div>
             </div>
           </div>
@@ -118,3 +177,5 @@ export const BoardDetail = () => {
     </BoardLayout>
   );
 };
+
+export default BoardDetail;

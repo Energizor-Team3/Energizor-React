@@ -1,47 +1,56 @@
 import React, { useEffect, useRef, useState } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
-
+import { useMutation } from "@tanstack/react-query";
 import { Editor } from "@toast-ui/react-editor";
 import { BoardLayout } from "../../layouts/BoardLayout";
 
 import "./Register.css";
-import { usePostBoard } from "../../apis/board/usePostBoard";
+import { postBoard } from "../../apis/board/usePostBoard";
 import { usePutBoard } from "../../apis/board/usePutBoard";
 import { client } from "../../apis/Client";
 import { useNavigate, useParams } from "react-router-dom";
 import { GLOBAL_API_URL } from "../../apis/GLOBAL_API_URL";
+import { useGetBoardDetail } from "../../apis/board/useGetBoardDetail";
 
 const BOARD_LIST = [
-  { value: "0", label: "공지게시판" },
-  { value: "1", label: "자유게시판" },
-  { value: "2", label: "관리본부" },
-  { value: "3", label: "영업본부" },
-  { value: "4", label: "기술본부" },
-  { value: "5", label: "마케팅본부" },
+  { value: "1", label: "공지게시판" },
+  { value: "2", label: "자유게시판" },
+  { value: "3", label: "관리본부" },
+  { value: "4", label: "영업본부" },
+  { value: "5", label: "기술본부" },
+  { value: "6", label: "마케팅본부" },
 ];
 
 export const BoardRegister = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { mutate: postBoardMutate } = usePostBoard();
+  const { data: boardDetailData } = useGetBoardDetail(params.id);
+  console.log(boardDetailData)
+  const { mutate: postBoardMutate } = useMutation(
+    {
+      mutationFn: postBoard
+    }
+  );
   const { mutate: putBoardMutate } = usePutBoard();
   const [title, setTitle] = useState("");
   const [boardTypeCode, setBoardTypeCode] = useState(0);
   const [fileList, setFileList] = useState([]);
-  const [content, setContent] = useState("");
 
   const ref = useRef(null);
+  const editorRef = useRef(null);
 
 
   const onSaveBoard = () => {
     if (!params.id) {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('boardTypeCode', boardTypeCode);
+      fileList.forEach(file => {
+        formData.append('uploadFiles', file);
+      })
+      formData.append('content', editorRef.current.getInstance().getMarkdown());
       postBoardMutate(
-        {
-          title,
-          boardTypeCode,
-          fileList,
-          content,
-        },
+        formData,
         {
           onSuccess: () => {
             alert("게시글이 작성되었습니다");
@@ -57,8 +66,8 @@ export const BoardRegister = () => {
           boardCode: params.id,
           title,
           boardTypeCode,
-          fileList,
-          content,
+          // fileList,
+          content: editorRef.current.getInstance().getMarkdown(),
         },
         {
           onSuccess: () => {
@@ -75,7 +84,7 @@ export const BoardRegister = () => {
         title,
         boardTypeCode,
         fileList,
-        content,
+        content : editorRef.current.getInstance().getMarkdown(),
         isTemporaryOpt:true
       },
       {
@@ -93,25 +102,21 @@ export const BoardRegister = () => {
     ref.current.click();
   };
 
+  console.log(fileList);
   const onFileUpload = async (e) => {
     try {
     const files = e.target.files;
-    const formData = new FormData();
-    formData.append("boardCode", )
-    for (const file of files) {
-      formData.append("uploadFiles", file);
-    }
-    const result = await client.post(
-      GLOBAL_API_URL.BOARD.FILE_UPLOAD,
-      formData,
-     
-    );
-
-    setFileList([...fileList, ...result.data]);
+    setFileList([...fileList, ...files]);
     } catch(e) {
       console.error(e)
     }
   };
+  useEffect(()=>{
+    const prevContent = boardDetailData?.data?.content;
+    if (prevContent && editorRef.current.getInstance().getMarkdown() === '') {
+      editorRef.current.getInstance().insertText(prevContent);
+    }
+  }, [boardDetailData]);
 
   return (
     <BoardLayout>
@@ -132,7 +137,7 @@ export const BoardRegister = () => {
           <input
             type="text"
             placeholder="제목을 입력해주세요"
-            value={title}
+            value={boardDetailData?.data?.title ?? title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
@@ -141,7 +146,7 @@ export const BoardRegister = () => {
         <label>게시판명</label>
         <div>
           <select className="select"
-            value={boardTypeCode.toString()}
+            value={boardDetailData?.data?.boardTypeCode?.toString() ?? boardTypeCode.toString()}
             onChange={(e) => setBoardTypeCode(Number(e.target.value))}
           >
             {BOARD_LIST.map((item) => {
@@ -170,21 +175,22 @@ export const BoardRegister = () => {
             <div>첨부파일 {fileList.length}개</div>
           </div>
           <div className="attchFileList">
-            {true
+            {fileList.length === 0
               ? "첨부파일이 없습니다."
-              : fileList.map((item) => <div>{item.fileName}</div>)}
+              : fileList.map((item) => <div>{item.name}</div>)}
           </div>
         </div>
       </div>
       <Editor
+        ref={editorRef}
         initialValue=""
         previewStyle="vertical"
         height="600px"
         initialEditType="wysiwyg"
         useCommandShortcut={true}
-        onChange={(e) => setContent(e)}
-        value={content}
       />
     </BoardLayout>
   );
 };
+
+export default BoardRegister;

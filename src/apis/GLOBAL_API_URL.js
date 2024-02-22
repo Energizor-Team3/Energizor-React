@@ -3,7 +3,7 @@ export const GLOBAL_API_URL = {
     LIST: "/board/list",
     REGISTER: "/board/register",
     MODIFY: "/board/update",
-    DELETE: "/board",
+    DELETE: "/board/delete",
     DETAIL: "/board/list/detail",
     FILE_UPLOAD: "/board/upload",
     TEMPORARY_LIST: "/board/temporary/list",
@@ -13,6 +13,7 @@ export const GLOBAL_API_URL = {
       LIST : "/board/comment",
       REGISTER : "/board/comment/register",
       MODIFY : "/board/comment/update",
+      DELETE : "/board/comment/delete"
     }
   },
 };

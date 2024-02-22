@@ -3,5 +3,5 @@ export const boardKeyFactory = {
   list: (requestObj) => [{ ...boardKeyFactory.all, ...requestObj }],
   detail: (id) => [{ ...boardKeyFactory.all, id }],
   comment : [{scope :"comment"}],
-  commentList : (id) => [{ ...boardKeyFactory.comment, id }],
+  commentList : (id) => [{ ...boardKeyFactory.comment, id }]
 };
