@@ -1,3 +1,4 @@
+import './Education.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,7 +7,7 @@ import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetai
 
 
 function EducationForm(){
-  let formatdate,formatdate2,formatdate3, Date1;
+  let formatdate,formatdate2,formatdate3;
 
   const location = useLocation();
   const dispatch = useDispatch();
@@ -44,23 +45,24 @@ function EducationForm(){
   
   
   
-
   //시간 바꾸기
   function formatDate(dateArray) {
-    if(approvalLine && Array.isArray(approvalLine?.approvalLineStatus)){
-    
-    }
-    
-    const date = new Date(...dateArray);
+    if(dateArray != null){
+      const date = new Date(...dateArray);
    
-    const year = date.getFullYear();
-    const month = (`0${date.getMonth() + 1}`).slice(-2); 
-    const day = (`0${date.getDate()}`).slice(-2);
-    const hour = (`0${date.getHours()}`).slice(-2);
-    const minute = (`0${date.getMinutes()}`).slice(-2);
-  
+      const year = date.getFullYear();
+      const month = (`0${date.getMonth() + 1}`).slice(-2); 
+      const day = (`0${date.getDate()}`).slice(-2);
+      const hour = (`0${date.getHours()}`).slice(-2);
+      const minute = (`0${date.getMinutes()}`).slice(-2);
     
-    return `${year}-${month}-${day} ${hour}:${minute}`;
+      
+      console.log(dateArray, 'dateArray');
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    }
+      
+    
+    
   }
 
   
@@ -102,7 +104,10 @@ function EducationForm(){
     }
   }
 
-
+  const pendingApprovals = approvalLine.filter((approvalLine) =>
+  approvalLine.user.userCode === userDetail?.userCode &&
+  approvalLine.approvalLineStatus === '미결'
+);
     return(
       <div id="wrap">
   <section>
@@ -164,11 +169,23 @@ function EducationForm(){
           <div className="line">
             <div className="search_box">
               <span>
-              {/* {userRole === 'admin' && ()} */}
-              <button onClick={testBtn}>승인</button>
+              {
+              approvalLine.filter((line) =>
+              line.user.userCode === userDetail?.userCode &&
+               line.approvalLineStatus === '미결'
+              ).length > 0 && (
+                <button onClick={testBtn}>승인</button>
+               )
+              }
               </span>
-              <span>              
-              <button onClick={testBtn1}>반려</button>              
+              <span>{
+              approvalLine.filter((line) =>
+              line.user.userCode === userDetail?.userCode &&
+              line.approvalLineStatus === '미결'
+              ).length > 0 && (            
+              <button onClick={testBtn1}>반려</button>   
+              )
+            }           
               </span>
               <span>
               <button>PDF</button>
@@ -202,7 +219,7 @@ function EducationForm(){
     ) : null
   }</li>
                     <input className="three" value={approval?.user?.userName } readOnly />
-                    <input className="four" value={approval?.processingDate} readOnly />
+                    <input className="four" value={formatDate(approval?.processingDate)} readOnly />
                 </ul>
               ))}
               </div>
@@ -293,7 +310,7 @@ function EducationForm(){
             <tr>
               <td className="text">교육 일수 </td>
               <td className="inputsize">
-                <input type="text" className="inputtext1" value={getDaysDifference(formatdate2,formatdate3)+ 1} />
+                <input type="text" className="inputtext" value={getDaysDifference(formatdate2,formatdate3)+ 1} />
               </td>
             </tr>
           </tbody>

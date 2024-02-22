@@ -17,6 +17,7 @@ import EducationForm from './pages/approval/EducationForm';
 import VacationForm from './pages/approval/VacationForm';
 import BusinesstripForm from './pages/approval/BusinesstripForm';
 import SharedInBox from './pages/approval/SharedInBox';
+import InBox from './pages/approval/InBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
 import Vacation from './pages/approval/Vacation';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/vacation" element={ <Vacation/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
+          <Route path="/inbox" element={ <InBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
           <Route path="/generaldraftform" element={ <GeneraldraftForm/> } />
