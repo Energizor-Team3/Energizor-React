@@ -1,5 +1,6 @@
 import {
-  GET_CALENDAR
+  GET_CALENDAR,
+  POST_CALENDAR
 
 } from '../modules/CalendarModule.js';
 import {
@@ -10,8 +11,7 @@ DELETE_SCHEDULE,
 PATCH_SCHEDULE
 } from '../modules/ScheduleModule.js';
 
-
-export const callUpdateScheduleAPI = ({ schNo, updatedData }) => {
+export const callUpdateScheduleAPI = ({ schNo, form }) => {
   console.log('[CalendarAPICalls] callScheduleUpdateAPI Call');
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/update/${ schNo }`; 
 
@@ -23,7 +23,7 @@ export const callUpdateScheduleAPI = ({ schNo, updatedData }) => {
         Accept: '*/*',
         Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
       },
-      body: JSON.stringify(updatedData)
+      body: form,
     })
     .then(response => response.json());
 
@@ -91,6 +91,37 @@ export const callSchedulesAPI = ({ userCode }) => {
 }
 
 
+export const callADDCalendarAPI = ({ form }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/addCalendar`;
+  return async (dispatch, getState) => {
+    const requestData = {
+      calColor: form.calColor,
+      calName: form.calName
+    };
+
+    // 캘린더 타입에 따라 요청 데이터에 필요한 필드를 추가
+    if (form.calType === "공유 캘린더") {
+      requestData.calType = "공유 캘린더";
+      requestData.userCodes = form.userCodes;
+    } else {
+      requestData.calType = "개인 캘린더";
+    }
+
+    const result = await fetch(requestURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+        "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+      },
+      body: JSON.stringify(requestData)
+    })
+      .then(response => response.json());
+
+    console.log('[CalendarAPICalls] callAddScheduleAPI RESULT : ', result);
+    dispatch({ type: POST_CALENDAR, payload: result });
+  }
+}
 
 export const callAddScheduleAPI = ({form}) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/insert`; 

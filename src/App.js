@@ -50,6 +50,7 @@ function App() {
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
+          
 
 {/* 자원예약 */}
 

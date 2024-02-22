@@ -22,7 +22,7 @@
             
                 
                 */
-import  "./CalendarMain.css"
+import "./CalendarMain.css"
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
@@ -50,8 +50,8 @@ function CalendarMainPage(){
     
     const navigate = useNavigate();
 
-    const handleEditButtonClick = (schNo) => {
-        navigate(`/schedule/edit/${schNo}`);
+    const handleEditButtonClick = ( schNo ) => {
+        navigate(`/schedule/edit/${ schNo }`);
     };
     
     const dispatch = useDispatch();

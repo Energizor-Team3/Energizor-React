@@ -26,6 +26,27 @@ function EditSchedule(){
   const dispatch = useDispatch();
   const params = useParams();
   const schedule  = useSelector(state => state.scheduleReducer);
+  const calendar = useSelector(state => state.calendarReducer); 
+  const calendarList = calendar.data;
+  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  const [calNo, setcalNo] = useState(0);
+  const calendarRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false); 
+    
+  const [userCode, setuserCode] = useState(0);
+  useEffect(() => {
+    console.log("useEffect의 token---->", token);
+    console.log("useEffect의 token.userCode--->", token.userCode);
+
+    if (calendarRef.current) {
+        calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
+    }
+
+    if (token !== null) {
+        dispatch(callCalendarListAPI({ userCode: token.userCode }));
+       
+    }
+}, []);
   
   
   console.log('scheduleInfo', schedule);
@@ -54,9 +75,9 @@ function EditSchedule(){
         const [year, month, day, hour, minute] = dateArray;
         const formattedDate = new Date(year, month - 1, day, hour, minute);
         const isoString = formattedDate.toISOString();
-        return isoString.substring(0, 16);
+        return isoString.substring(0, 16); // YYYY-MM-DDTHH:mm 형식의 문자열을 반환합니다.
       };
-
+      
       const formattedStartDate = formatDate(schedule.schStartDate);
       const formattedEndDate = schedule.schEndDate ? formatDate(schedule.schEndDate) : '';
 
@@ -67,7 +88,9 @@ function EditSchedule(){
         schNo: schedule.schNo,
         schTitle: schedule.schTitle,
         schDetail: schedule.schDetail,
-        schLocal: schedule.schLocal
+        schLocal: schedule.schLocal,
+        calNo: schedule.calNo,
+
       });
     }
   }, [schedule]);
@@ -87,8 +110,11 @@ function EditSchedule(){
     formData.append("schEndDate", form.schEndDate);
     formData.append("schDetail", form.schDetail);
     formData.append("schLocal", form.schLocal);
+    formData.append("calNo",form.calNo);
 
-    dispatch(callUpdateScheduleAPI({ form: formData })).then(() => {
+
+
+    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: formData })).then(() => {
       alert('수정이 완료되었습니다.');
       navigate('/calendar'); 
     });         
@@ -144,6 +170,7 @@ function EditSchedule(){
                   <tr>
                     <td>캘린더</td>
                     <td>
+
                       <select id="edit_sch_cal">
                         <optgroup label="내 캘린더">
                           <option value="개인일정"> 개인일정</option>
