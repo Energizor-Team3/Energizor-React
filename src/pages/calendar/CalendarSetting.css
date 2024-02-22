@@ -139,22 +139,25 @@ border-radius: 6px;
 #start_date,#end_date{
 border:none
 }
-.chartbox img{
-width: 270px;
-height: 415px; 
-}
+
 .add_detail_box {
 position: relative;
 }
+.chartbox .group{
+  position: absolute;
+  right: 60px;
+  background-color: white;
+  width: 400px;
+  height: 600px;
+  bottom: 150px;
 
-.add_detail_box .chartbox {
+}
+
+.add_detail_box  {
 position: absolute;
 right: 20px;
 top:350px;
 
-}
-.chartbox{
-display: none;
 }
 
 

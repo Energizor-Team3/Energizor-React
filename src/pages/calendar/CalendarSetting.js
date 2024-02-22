@@ -1,8 +1,10 @@
 import './CalendarSetting.css'
+import CalendarGroup from './CalendarGroup';
 import { NavLink,useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
+import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 import {
   callCalendarListAPI,
   callADDCalendarAPI
@@ -28,9 +30,6 @@ function CalendarSetting(){
 function rgbToHex(rgb) {
   const [r, g, b] = rgb.match(/\d+/g);
   return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
-
-
-  
   
 }  
   
@@ -41,6 +40,11 @@ const handleCalTypeChange = (e) => {
     calType: selectedCalType
   });
 };
+
+const toggleContent =() =>{
+  var chartbox = document.getElementById("chartbox");
+  chartbox.classList.toggle("active");
+  }
 
 
   const onChangeHandler = (e) => {
@@ -96,6 +100,11 @@ const onClickPurchaseHandler = () => {
     }
 }, []);
 
+const [showChartbox, setShowChartbox] = useState(false);
+
+const toggleChartbox = () => {
+    setShowChartbox(!showChartbox);
+};
 
 
 
@@ -210,14 +219,15 @@ const onClickPurchaseHandler = () => {
             <tr className="tr_3" id="dateboxRow">
               <td>캘린더 공유하기</td>
               <td>
-                <button className="add_att" onclick="toggleChartbox()">
+                <button className="add_att" onClick={toggleContent}>
                   +
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
-        <div className="chartbox">
+        <div className="chartbox" id='chartbox'>
+          <CalendarGroup  />
  
         </div>
       </div>
