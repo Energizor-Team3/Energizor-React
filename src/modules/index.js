@@ -18,6 +18,7 @@ import projectReducer from './ProjectModule';
 import calendarReducer from './CalendarModule';
 import scheduleReducer from './ScheduleModule';
 import reservationTotalReducer from './ReservationTotalModules ';
+import contactReducer from './ContactModule';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -36,6 +37,9 @@ const rootReducer = combineReducers({
     approvalSubReducer,
 
 
+    userReducer,
+    projectReducer,
+    contactReducer
 });
 
 export default rootReducer;
