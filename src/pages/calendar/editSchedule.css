@@ -15,6 +15,14 @@
   box-shadow: 5px 5px 18px -8px rgba(148, 148, 148, 0.75);
 
 }
+#edit_sch_cal{
+  border: 1px solid rgb(185, 185, 185);
+  height: 42px;
+  padding: 10px;
+  border-radius: 6px;
+  padding-left: 15px;
+  }
+  
 .edit_sch_box h2{
    margin: 30px;
 }
@@ -42,7 +50,7 @@
   
 }
 
-.edit_input_tb input,.edit_input_tb textarea,#edit_sch_cal{
+.edit_input_tb input,.edit_input_tb textarea {
   /* background-color: #fafafa; */
   border: 1px solid rgb(185, 185, 185);
   height: 20px;

@@ -1,14 +1,18 @@
 import './CalendarSetting.css'
-import { NavLink } from 'react-router-dom';
+import CalendarGroup from './CalendarGroup';
+import { NavLink,useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
+import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 import {
-  callCalendarListAPI
+  callCalendarListAPI,
+  callADDCalendarAPI
 } from '../../apis/CalendarAPICalls'
 import calendarReducer from '../../modules/CalendarModule';
 
 function CalendarSetting(){
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const calendar = useSelector(state => state.calendarReducer); 
   const calendarList = calendar.data;
@@ -16,6 +20,75 @@ function CalendarSetting(){
   const [calNo, setcalNo] = useState(0);
   const [userCode, setuserCode] = useState(0);
   const calendarRef = useRef(null);
+
+  const [form, setForm] = useState({
+    calType: '',
+    calColor: '',
+    calName: '',
+    userCodes: [] // 공유 캘린더를 추가할 때만 필요
+  });
+function rgbToHex(rgb) {
+  const [r, g, b] = rgb.match(/\d+/g);
+  return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
+  
+}  
+  
+const handleCalTypeChange = (e) => {
+  const selectedCalType = e.target.value;
+  setForm({
+    ...form,
+    calType: selectedCalType
+  });
+};
+
+const toggleContent =() =>{
+  var chartbox = document.getElementById("chartbox");
+  chartbox.classList.toggle("active");
+  }
+
+
+  const onChangeHandler = (e) => {
+    let value = e.target.value;
+  
+    // 만약 입력값이 RGB 또는 HSL 형식인 경우, HEX로 변환
+    if (value.startsWith("rgb") || value.startsWith("hsl")) {
+      value = rgbToHex(value);
+    }
+  
+    setForm({
+      ...form,
+      [e.target.name]: value
+    });
+    console.log('form updated:', form);
+
+
+  }
+
+  useEffect(() => {
+    console.log('form updated:', form);
+  }, [form]);
+
+
+const onClickPurchaseHandler = () => {
+  console.log('[Schedule] Schedule event Started!!');
+  console.log('form', form);
+
+  if(form.calType === '' || form.calColor === '' 
+      || form.calName === '' ){
+          alert('필수 정보를 다 입력해주세요.');
+          return ;
+  }   
+      
+      dispatch(callADDCalendarAPI({	
+      form: form
+    }));      
+
+    alert('캘린더 등록이 완료 되었습니다');
+
+    navigate("/calendar/setting", { replace: true });        
+
+};
+
 
   useEffect(() => {
     console.log("useEffect의 token---->", token);
@@ -26,6 +99,14 @@ function CalendarSetting(){
 
     }
 }, []);
+
+const [showChartbox, setShowChartbox] = useState(false);
+
+const toggleChartbox = () => {
+    setShowChartbox(!showChartbox);
+};
+
+
 
 
     return(
@@ -98,7 +179,11 @@ function CalendarSetting(){
                         <label htmlFor="colors">색상:</label>{" "}
                       </td>
                       <td>
-                        <input type="color" id="colors" />
+                        <input 
+                          type="color" 
+                          id="colors"
+                          name='calColor'
+                          onChange={ onChangeHandler } />
                       </td>
                     </tr>
                     <tr>
@@ -106,8 +191,13 @@ function CalendarSetting(){
                         <label htmlFor="cal_title">캘린더명</label>
                       </td>
                       <td>
-                        <input type="text" id="cal_title" />
-                        <button className="add_title">추가</button>
+                        <input 
+                          type="text" 
+                          id="cal_title"
+                          name='calName'
+                          autoComplete='off'
+                          onChange={ onChangeHandler } />
+
                       </td>
                     </tr>
                     <tr>
@@ -115,9 +205,9 @@ function CalendarSetting(){
                         <label>캘린더 유형</label>
                       </td>
                       <td>
-                        <select className="cal_select">
-                          <option>개인 캘린더</option>
-                          <option>공유 캘린더</option>
+                        <select className="cal_select" onChange={handleCalTypeChange}>
+                          <option value="개인 캘린더">개인 캘린더</option>
+                          <option value="공유 캘린더">공유 캘린더</option>
                         </select>
                       </td>
                     </tr>
@@ -129,19 +219,20 @@ function CalendarSetting(){
             <tr className="tr_3" id="dateboxRow">
               <td>캘린더 공유하기</td>
               <td>
-                <button className="add_att" onclick="toggleChartbox()">
+                <button className="add_att" onClick={toggleContent}>
                   +
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
-        <div className="chartbox">
-          <img src="/resources/images/org_chartimg.png" />
+        <div className="chartbox" id='chartbox'>
+          <CalendarGroup  />
+ 
         </div>
       </div>
       <div className="setting_btns">
-        <button className="setting_submit_btn" type="submit">
+        <button className="setting_submit_btn"  onClick={ onClickPurchaseHandler } type="submit">
           등록
         </button>
         <button className="setting_cancle_btn">취소</button>

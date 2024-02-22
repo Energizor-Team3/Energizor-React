@@ -1,37 +1,57 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './GeneralDraft.css';
+import './BusinessTrip.css';
 import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectUserDetailAPI, callInsertGeneralDraftAPI, callSaveGeneralDraftAPI, callSelectTempDocumentDetailAPI} from '../../apis/ApprovalAPICalls';
-
+import { callSelectUserDetailAPI, callSaveBusinessTripAPI, callInsertBusinessTripAPI, callSelectTempDocumentDetailAPI } from '../../apis/ApprovalAPICalls';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
+
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-function GeneralDraft() {
+function BusinessTrip(){
 
   const location = useLocation();
   const documentCodeData = location.state?.documentCode;
- 
+  let formatdate, formatdate2;
+
+  console.log(documentCodeData,'넘어온값'); // 이전 페이지에서 전달한 document 객체에 접근  
   const tempDocument = useSelector((state) => state.approvalSubReducer); 
-  
+  console.log(tempDocument, 'tempDocument');
 
  
-  
+  if (tempDocument && Array.isArray(tempDocument.btStart)) {
+
+    const formattedDate = tempDocument.btStart.map(num => String(num).padStart(2, '0'));
+    const formattedDate2 = tempDocument.btFinish.map(num => String(num).padStart(2, '0'));
+    // 배열이 정의되어 있고, 배열인 경우에만 join을 실행합니다.
+    formatdate = formattedDate.join('-');
+    formatdate2 = formattedDate2.join('-');
+
+    console.log(formatdate);
+    console.log(formatdate2);
+  } 
+
 
   // 조회해온 임시저장문서 가 있을경우 진행
   useEffect(() => {
+    
+
     if (tempDocument !== undefined) { 
       setForm(prevForm => ({
         ...prevForm,
-        gdTitle: tempDocument.gdTitle,
-        gdContent: tempDocument.gdContent,
+        btPhone: tempDocument.btPhone,
+        btStart: formatdate,
+        btFinish: formatdate2,
+        btPlace: tempDocument.btPlace,
+        btContent: tempDocument.btContent,
+        btTitle: tempDocument.btTitle,
+        
     }));
     }
   }, [tempDocument]);
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentTimeString = CurrentTime();
@@ -45,8 +65,12 @@ function GeneralDraft() {
   const imageInput = useRef(); 
 
   const [form, setForm] = useState({
-    gdTitle: '',
-    gdContent: '',
+    btPhone: '',
+    btStart: '',
+    btFinish: '',
+    btPlace: '',
+    btContent: '',
+    btTitle: '',
     rfUser: '',
     lineUser: '',
     file: '',
@@ -61,7 +85,6 @@ function GeneralDraft() {
     if(documentCodeData !== undefined){  
       dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
     }
-    
   }, [dispatch]);
 
   useEffect(() => {
@@ -198,8 +221,12 @@ useEffect(() => {
 
       const formData = new FormData();
 
-      formData.append("gdTitle", form.gdTitle);
-    formData.append("gdContent", form.gdContent);
+      formData.append("btPhone", form.btPhone);
+    formData.append("btStart", form.btStart);
+    formData.append("btFinish", form.btFinish);
+    formData.append("btPlace", form.btPlace);
+    formData.append("btContent", form.btContent);
+    formData.append("btTitle", form.btTitle);
     formData.append("rfUser", form.rfUser);
     formData.append("lineUser", form.lineUser);
     formData.append("file", form.file);
@@ -208,14 +235,14 @@ useEffect(() => {
           formData.append("file", image);
       }
     
-      if(form.gdTitle === '' || form.gdContent === '' 
+      if(form.btTitle === '' || form.btContent === '' || form.btPhone === ''|| form.btStart === ''|| form.btPlace === ''|| form.btFinish === ''
             || form.lineUser === ''){
-                alert('정보를 다 입력해주세요.');
+                alert('공란을 입력해주세요.');
                 return ;
         }
       
 
-    dispatch(callInsertGeneralDraftAPI({	
+    dispatch(callInsertBusinessTripAPI({	
       form: formData
       
     }));   
@@ -228,25 +255,31 @@ useEffect(() => {
   }
   //임시 저장 onClickcallSaveGeneralDraftAPI
 
-  const onClickcallSaveGeneralDraftAPI = () => {
+  const onClickcallSaveBusinessTripAPI = () => {
 
     console.log('[Approval] onClickInsertDocumentHandler');
 
     const formData = new FormData();
 
-    formData.append("gdTitle", form.gdTitle);
-    formData.append("gdContent", form.gdContent);
+    formData.append("btPhone", form.btPhone);
+    formData.append("btStart", form.btStart);
+    formData.append("btFinish", form.btFinish);
+    formData.append("btPlace", form.btPlace);
+    formData.append("btContent", form.btContent);
+    formData.append("btTitle", form.btTitle);
+    
   
 
   
-    if(form.gdTitle === '' || form.gdContent === '' 
+    if(form.btTitle === '' || form.btContent === '' || form.btPhone === ''|| form.btStart === ''|| form.btPlace === ''|| form.btFinish === ''
+     
           ){
               alert('최소 하나의 정보를 입력해주세요.');
               return ;
       }
     
 
-  dispatch(callSaveGeneralDraftAPI({	
+  dispatch(callSaveBusinessTripAPI({	
     form: formData
     
   }));   
@@ -259,65 +292,67 @@ useEffect(() => {
 }
 
 
-    return(<div id="wrap">
-  
-    <section>
-      <article>
-        <h2>전자결재</h2>
-        <div>
-          <a href="/views/approval/newApproval.html">
-            <button className="btn">신규기안</button>
-          </a>
-        </div>
-        <ul className="subList">
-          <li>
-            <div>
-              <img src="/common/Approval.png" alt="" />
-              <span>
-                <a href="/approval/approvalMain.html">결재할 문서</a>
-              </span>
-              <span className="listlist">1</span>
-            </div>
-          </li>
-          <li className="subListText">
-            <div>
-              <img src="/common/Approval.png" alt="" />
-              <span>
-                <a href="/views/approval/approvaling.html">진행중인 문서</a>
-              </span>
-              <span className="listlist1">1</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Mydocumentbox.png" alt="" />
-              <span>
-                <a href="/views/approval/mydocument.html">내 문서함</a>
-              </span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Temporarystoragebox.png" alt="" />
-              <span>
-                <a href="/views/approval/temporarystorage.html">임시보관함</a>
-              </span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <img src="/common/Shareddocumentbox.png" alt="" />
-              <span>
-                <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-              </span>
-            </div>
-          </li>
-        </ul>
-      </article>
-    </section>
-    <main>
-      <div className="content">
-        <div className="subject">
+
+
+    return(
+
+
+<div id="wrap">
+  <section>
+    <article>
+      <h2>전자결재</h2>
+      <div>
+        <a href="/views/approval/newApproval.html">
+          <button className="btn">신규기안</button>
+        </a>
+      </div>
+      <ul className="sub_list">
+        <li>
+          <div>
+            <img src="/common/Approval.png" alt="" />
+            <span>
+              <a href="/views/approval/approvalMain.html">결재할 문서</a>
+            </span>
+          </div>
+        </li>
+        <li className="sub_list_text">
+          <div>
+            <img src="/common/Approval.png" alt="" />
+            <span>
+              <a href="/views/approval/approvaling.html">진행중인 문서</a>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <img src="/common/Mydocumentbox.png" alt="" />
+            <span>
+              <a href="/views/approval/mydocument.html">내 문서함</a>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <img src="/common/Temporarystoragebox.png" alt="" />
+            <span>
+              <a href="/views/approval/temporarystorage.html">임시보관함</a>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <img src="/common/Shareddocumentbox.png" alt="" />
+            <span>
+              <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </article>
+  </section>
+  <main>
+    <div className="content">
+    <div className="subject">
           <strong>신규 기안</strong>
           <div className="line">
             <div className="search_box">
@@ -325,7 +360,7 @@ useEffect(() => {
                 <button onClick={toggleContent}>결재지정</button>
               </span>
               <span>
-                <button onClick={onClickcallSaveGeneralDraftAPI}>임시저장</button>
+                <button onClick={onClickcallSaveBusinessTripAPI}>임시저장</button>
               </span>
               <input
         type="file"
@@ -339,11 +374,11 @@ useEffect(() => {
             </div>
           </div>
         </div>
-        <div className="select_line">
-        </div>
-        <div className='side'>
-        <div className="wrap2">
-          <div className="approval">
+      <div className="select_line">
+      </div>
+      <div className='side'>
+      <div className="wrap2">
+      <div className="approval">
             <span className="texttitle">기 안</span>
             <ul className="approvalul">
               <input type='text' className="one" value={userDetail?.team?.dept?.deptName + "/" + userDetail?.team?.teamName}/>
@@ -374,118 +409,172 @@ useEffect(() => {
                 </ul>
                   ))}
               </div>
-          <table>
-            <thead>
-              <tr>
-                <th className="title">
-                  <h1>일반기안서</h1>
-                </th>
-                <th className="title" />
-              </tr>
-            </thead>
-            <tbody className="tbtb">
-              <tr>
-                <td className="text">제목</td>
-                <td className="inputsize">
-                  <input
-                    type="text"
-                    placeholder="제목을 입력하세요"
-                    className="inputtext"
-                    name='gdTitle'
-                    defaultValue={form.gdTitle}
-                    onChange={onChangeHandler}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="text">부서</td>
-                <td className="inputsize">
-                  <input
-                    type="text"
-                    placeholder="에브리웨어"
-                    className="inputtext"
-                    value={userDetail?.team?.dept?.deptName + '/' + userDetail?.team?.teamName}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="text">직위/직책</td>
-                <td className="inputsize">
-                  <input
-                    type="text"
-                    placeholder="직위/ 직책 자동으로 입력됩니다."
-                    className="inputtext"
-                    value={userDetail?.userRank}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="text">기안자명</td>
-                <td className="inputsize">
-                  <input
-                    type="text"
-                    placeholder="기안자명 자동으로 입력됩니다."
-                    className="inputtext"
-                    value={userDetail?.userName}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td className="text">기안일</td>
-                <td className="inputsize">
-                  <input
-                    type="text"
-                    placeholder="조직원이 기안하는 날짜가 자동으로 입력됩니다."
-                    className="inputtext"
-                    value={currentTimeString}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table className="selectdetail">
-            
-            <thead className="contenttitle">
-              <tr>
-                <th colSpan={2} className="contenttitle">
-                  목적 및 내용
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={2} className="hihi">
-                  <textarea
-                    cols={30}
-                    rows={10}
-                    placeholder="기안 목적 및 내용을 입력하세요"
-                    className="inputbox3"
-                    name="gdContent"
-                    defaultValue={form.gdContent}
-                    onChange={onChangeHandler}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="btn1">
-            <input
-              type="file"
-              ref={imageInput}
-              onChange={onFileChange}
-              style={{ display: 'none' }} // 시각적으로 숨김 처리
-            />
-            <button className="btn" onClick={onClickInsertDocumentHandler} >기안</button> 
-          </div>
+        <div className='businesstable'>
+          <thead>
+            <tr>
+              <th className="title">
+                <h1>출장신청서</h1>
+              </th>
+              <th className="title" />
+            </tr>
+          </thead>
+          <tbody className="tbtb">
+            <tr>
+              <td className="text">제목</td>
+              <td className="inputsize">
+                <input
+                  type="text"
+                  placeholder="제목을 입력하세요"
+                  className="inputtext"
+                  name='btTitle'
+                  defaultValue={form.btTitle}
+                  onChange={onChangeHandler}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text">부서</td>
+              <td className="inputsize">
+                <input
+                  type="text"
+                  placeholder="에브리웨어"
+                  className="inputtext"
+                  value={userDetail?.team?.dept?.deptName + '/' + userDetail?.team?.teamName}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text">직위/직책</td>
+              <td className="inputsize">
+                <input
+                  type="text"
+                  placeholder="직위/ 직책 자동으로 입력됩니다."
+                  className="inputtext"
+                  value={userDetail?.userRank}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text">기안자명</td>
+              <td className="inputsize">
+                <input
+                  type="text"
+                  placeholder="기안자명 자동으로 입력됩니다."
+                  className="inputtext"
+                  value={userDetail?.userName}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text">기안일</td>
+              <td className="inputsize">
+                <input
+                  type="text"
+                  placeholder="조직원이 기안하는 날짜가 자동으로 입력됩니다."
+                  className="inputtext"
+                  value={currentTimeString}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td className="text">출장 일수 합계</td>
+              <td className="inputsize">
+                <input type="text" className="inputtext1" defaultValue="0일" />
+              </td>
+            </tr>
+          </tbody>
         </div>
+        <table className="selectdetail">
+          <thead>
+            <tr>
+              <th>출장자</th>
+              <th>출장 기간</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input
+                  type="text"
+                  className="inputbox"
+                  value={userDetail?.userName}
+                />
+              </td>
+              <td>
+                <input type="date" id="start-date" className="inputbox55" name='btStart' onChange={onChangeHandler} value={form.btStart}/>
+                <label htmlFor="">~</label>
+                <input type="date" id="end-date" className="inputbox55" name='btFinish' onChange={onChangeHandler} value={form.btFinish}/>
+              </td>
+            </tr>
+          </tbody>
+          <thead>
+            <tr>
+              <th>출장지 연락처 </th>
+              <th>출장 지역</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="hihi2">
+                <input
+                  type="text"
+                  className="inputbox"
+                  placeholder="출장지 연락처"
+                  name='btPhone'
+                  value={form.btPhone}
+                  onChange={onChangeHandler}
+                />
+              </td>
+              <td className="hihi2">
+                <input
+                  type="text"
+                  className="inputbox"
+                  placeholder="출장지역"
+                  name="btPlace"
+                  value={form.btPlace}
+                  onChange={onChangeHandler}
+                />
+              </td>
+            </tr>
+          </tbody>
+          <thead className="contenttitle">
+            <tr>
+              <th colSpan={2} className="contenttitle">
+                목적 및 내용
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan={2} className="hihi">
+                <textarea
+                  id=""
+                  cols={30}
+                  rows={10}
+                  placeholder="출장 목적 및 내용을 입력하세요"
+                  className="inputbox2"
+                  name="btContent"
+                  defaultValue={form.btContent}
+                  onChange={onChangeHandler}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="btn1">
+          <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
+        </div>
+      </div>
         <div className='og' id='og' >
         <ApprovalGroup onUserSelect={handleUserSelect} />
         </div>
         </div>
-        </div>
-    </main>
     </div>
-       );
-    }
-    
-    export default GeneralDraft;
+  </main>
+</div>
+
+
+    )
+}
+
+export default BusinessTrip;

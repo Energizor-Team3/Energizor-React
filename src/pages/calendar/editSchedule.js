@@ -1,7 +1,127 @@
+
+
+
 import { NavLink } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
 import './editSchedule.css';
 
+
+import {
+  callCalendarListAPI, 
+  callScheduleDetailAPI,
+  callUpdateScheduleAPI
+} from '../../apis/CalendarAPICalls';
+
+
+import calendarReducer from '../../modules/CalendarModule';
+
+
 function EditSchedule(){
+
+
+  let formatstartdate, formatenddate;
+  const dispatch = useDispatch();
+  const params = useParams();
+  const schedule  = useSelector(state => state.scheduleReducer);
+  const calendar = useSelector(state => state.calendarReducer); 
+  const calendarList = calendar.data;
+  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+  const [calNo, setcalNo] = useState(0);
+  const calendarRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false); 
+    
+  const [userCode, setuserCode] = useState(0);
+  useEffect(() => {
+    console.log("useEffect의 token---->", token);
+    console.log("useEffect의 token.userCode--->", token.userCode);
+
+    if (calendarRef.current) {
+        calendarRef.current.getApi().gotoDate(new Date()); // 현재 날짜로 이동
+    }
+
+    if (token !== null) {
+        dispatch(callCalendarListAPI({ userCode: token.userCode }));
+       
+    }
+}, []);
+  
+  
+  console.log('scheduleInfo', schedule);
+
+
+  const navigate = useNavigate();
+ 
+  const [form, setForm] = useState({});
+  useEffect(()=>{
+    console.log('입력값 바뀐거',form);
+
+    
+  },[form])
+
+  useEffect(() => {
+    console.log('[ScheduleUpdate] schNo : ', params.schNo);
+    dispatch(callScheduleDetailAPI({ schNo: params.schNo }));
+  }, []);
+
+  useEffect(() => {
+    if (schedule !== undefined) {
+      const formatDate = (dateArray) => {
+        if (!Array.isArray(dateArray) || dateArray.length < 5) {
+          return ''; // 혹은 적절한 기본값을 반환합니다.
+        }
+        const [year, month, day, hour, minute] = dateArray;
+        const formattedDate = new Date(year, month - 1, day, hour, minute);
+        const isoString = formattedDate.toISOString();
+        return isoString.substring(0, 16); // YYYY-MM-DDTHH:mm 형식의 문자열을 반환합니다.
+      };
+      
+      const formattedStartDate = formatDate(schedule.schStartDate);
+      const formattedEndDate = schedule.schEndDate ? formatDate(schedule.schEndDate) : '';
+
+      setForm({
+        ...form,
+        schStartDate: formattedStartDate,
+        schEndDate: formattedEndDate,
+        schNo: schedule.schNo,
+        schTitle: schedule.schTitle,
+        schDetail: schedule.schDetail,
+        schLocal: schedule.schLocal,
+        calNo: schedule.calNo,
+
+      });
+    }
+  }, [schedule]);
+
+  const onChangeHandler = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const onClickScheduleUpdateHandler = () => {
+    const formData = new FormData();
+    formData.append("schNo", form.schNo);
+    formData.append("schTitle", form.schTitle);
+    formData.append("schStartDate", form.schStartDate);
+    formData.append("schEndDate", form.schEndDate);
+    formData.append("schDetail", form.schDetail);
+    formData.append("schLocal", form.schLocal);
+    formData.append("calNo",form.calNo);
+
+
+
+    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: formData })).then(() => {
+      alert('수정이 완료되었습니다.');
+      navigate('/calendar'); 
+    });         
+  
+  
+  
+  } 
     return(
         <div id="wrap">
                    <section>
@@ -36,12 +156,21 @@ function EditSchedule(){
                   <tr>
                     <td>일정명</td>
                     <td>
-                      <input id="edit_title" defaultValue="수정전 일정이 들어감" />
+                    <input 
+                      type="text" 
+                      id="edit_title" 
+                      name="schTitle" 
+                      value={ form.schTitle  || '' }
+                      onChange={ onChangeHandler }
+                      
+
+                    />
                     </td>
                   </tr>
                   <tr>
                     <td>캘린더</td>
                     <td>
+
                       <select id="edit_sch_cal">
                         <optgroup label="내 캘린더">
                           <option value="개인일정"> 개인일정</option>
@@ -58,8 +187,20 @@ function EditSchedule(){
                     <td>일시</td>
                     <td>
                       <div className="datebox">
-                        <input type="datetime-local" id="start_date" /> ~{" "}
-                        <input type="datetime-local" id="end_date" />
+                        <input 
+                          type="datetime-local" 
+                          id="start_date" 
+                          name="schStartDate" 
+                          value={ form.schStartDate }
+                          onChange={ onChangeHandler }
+                        /> ~{" "}
+                        <input 
+                        type="datetime-local" 
+                        id="end_date"
+                        name="schEndDate" 
+                        value={ form.schEndDate  || ''}
+                        onChange={ onChangeHandler }/>
+                          
                       </div>
                     </td>
                     <td className="cb_zone">
@@ -70,7 +211,12 @@ function EditSchedule(){
                   <tr>
                     <td>장소</td>
                     <td>
-                      <input defaultValue="원래 장소 info가 들어감" />
+                      <input
+                      type="text" 
+                      id="edit_local" 
+                      name="schLocal"
+                      value={ form.schLocal  || '' }
+                      onChange={ onChangeHandler }/>
                     </td>
                     <td>
                       <button id="find_map">찾기</button>
@@ -89,7 +235,9 @@ function EditSchedule(){
                       <textarea
                         id="sch_detail"
                         style={{ resize: "none" }}
-                        defaultValue={""}
+                        name="schDetail"
+                        value={ form.schDetail  || '' }
+                        onChange={ onChangeHandler }
                       />
                     </td>
                   </tr>
@@ -100,7 +248,9 @@ function EditSchedule(){
               </div>
             </div>
             <div className="editschbtns">
-              <button className="essub_btn" type="submit">
+              
+              <button className="essub_btn" type="submit"
+              onClick={onClickScheduleUpdateHandler}>
                 등록
               </button>
               <button className="escancle_btn">취소</button>
@@ -112,3 +262,4 @@ function EditSchedule(){
 }
 
 export default EditSchedule;
+

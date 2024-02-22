@@ -51,42 +51,42 @@
 /* ReservationMain.css */
 
 /* FullCalendar 헤더 스타일 조정 */
-.fc-header-toolbar {
+.time-grid .fc-header-toolbar {
   padding: 10px;
   background-color: #f0f0f0;
   border-bottom: 1px solid #ddd;
 }
 
-.fc-header-toolbar h2 {
+.time-grid .fc-header-toolbar h2 {
   font-size: 20px;
   margin: 0;
 }
 
 /* FullCalendar 이벤트 스타일 조정 */
-.fc-event-container {
+.time-grid .fc-event-container {
   border: none;
   width: 100%;
 }
 
-.fc-event {
+.time-grid .fc-event {
   background-color: #337ab7;
   color: #fff;
   border: none;
 }
 
-.fc-event-resizer {
+.time-grid .fc-event-resizer {
   background-color: #337ab7;
 }
 
 /* 선택된 영역 스타일 조정 */
-.fc-highlight {
+.time-grid .fc-highlight {
   background-color: rgba(51, 122, 183, 0.3);
 }
-.presentation {
+.time-grid .presentation {
   display: none;
 }
-.fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: -0.1em;
+.time-grid .fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: -1.3em;
 }
 .fc-header-toolbar {
   padding: 6px;
@@ -94,8 +94,7 @@
   border-bottom: 0px solid #ddd;
 }
 
-.fc .fc-button-primary:not(:disabled).fc-button-active, .fc .fc-button-primary:not(:disabled):active {
-  background-color: #58aeff;
-  border-color: var(--fc-button-active-border-color);
-  color: var(--fc-button-text-color);
+.time-grid .fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 0 10px; /* 수정된 패딩 값 */
 }
