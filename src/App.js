@@ -48,15 +48,17 @@ function App() {
 
 
 
-        <Route path="/" element={ <Sublayout/> }>       
+        <Route path="/" element={ <Sublayout/> }>   
+        
+            
 {/*메인 전용 헤더 붙히기 전  */}
-       <Route path="/main" element={ <Main /> } />
+         <Route path="/main" element={ <Main /> } />
 {/* 쪽지 */}
           <Route path="/message" element={ <Message/> } />
 
 {/* 결재 */}
 
-<Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/generaldraft" element={ <GeneralDraft/> } />
           <Route path="/education" element={ <Education/> } />
           <Route path="/businesstrip" element={ <BusinessTrip/> } />
           <Route path="/saveinbox" element={ <SaveInBox/> } />

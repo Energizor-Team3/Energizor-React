@@ -15,35 +15,50 @@ function CalendarSetting(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const calendar = useSelector(state => state.calendarReducer); 
+  const calpartlistuser = useSelector((state) => state.groupUserReducer); // 캘린더 참여자 불러옴
+  const [calpartlist, setCalPartList] = useState([]);  //캘린더 참여자 상태
   const calendarList = calendar.data;
   const token = decodeJwt(window.localStorage.getItem("accessToken"));  
   const [calNo, setcalNo] = useState(0);
   const [userCode, setuserCode] = useState(0);
   const calendarRef = useRef(null);
 
+
+  const handleUserSelect = (code) => {
+    
+    console.log('code', code);
+    
+      
+    }
+
+    
+   function rgbToHex(rgb) {     //색깔 코드 변환 
+    const [r, g, b] = rgb.match(/\d+/g);
+    return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
+  
+   }  
   const [form, setForm] = useState({
     calType: '',
     calColor: '',
     calName: '',
     userCodes: [] // 공유 캘린더를 추가할 때만 필요
   });
-function rgbToHex(rgb) {
-  const [r, g, b] = rgb.match(/\d+/g);
-  return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
+
+  console.log(calpartlist, "캘린더 참여자")   
+
+
   
-}  
-  
-const handleCalTypeChange = (e) => {
+   const handleCalTypeChange = (e) => {
   const selectedCalType = e.target.value;
   setForm({
     ...form,
     calType: selectedCalType
   });
-};
+   };
 
-const toggleContent =() =>{
+  const toggleContent =() =>{
   var chartbox = document.getElementById("chartbox");
-  chartbox.classList.toggle("active");
+  chartbox.classList.toggle("active");         //조직도 띄우기
   }
 
 
@@ -60,7 +75,6 @@ const toggleContent =() =>{
       [e.target.name]: value
     });
     console.log('form updated:', form);
-
 
   }
 
@@ -100,11 +114,7 @@ const onClickPurchaseHandler = () => {
     }
 }, []);
 
-const [showChartbox, setShowChartbox] = useState(false);
 
-const toggleChartbox = () => {
-    setShowChartbox(!showChartbox);
-};
 
 
 
@@ -218,16 +228,23 @@ const toggleChartbox = () => {
             {/* datebox */}
             <tr className="tr_3" id="dateboxRow">
               <td>캘린더 공유하기</td>
-              <td>
+              <td className='addllist'>
                 <button className="add_att" onClick={toggleContent}>
                   +
                 </button>
+                <div className='cal_partname'> 헬로우</div>
+
+
+
+
+
               </td>
+
             </tr>
           </tbody>
         </table>
         <div className="chartbox" id='chartbox'>
-          <CalendarGroup  />
+          <CalendarGroup onUserSelect={handleUserSelect}  />
  
         </div>
       </div>

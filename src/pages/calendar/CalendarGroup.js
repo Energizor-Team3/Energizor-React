@@ -91,10 +91,10 @@ const data = Array.isArray(groupAndTeam) ? [
 
     
   
-    // 결재 버튼과 참조 버튼의 클릭 핸들러에서 선택 유형을 onUserSelect에 전달합니다.
+
   const handleCParticipantClick = () => {
     if (selectedUserCode) { // 선택된 사용자가 있을 경우에만 실행
-      onUserSelect(selectedUserCode, 'approval');
+      onUserSelect(selectedUserCode);
     }
   };
 
