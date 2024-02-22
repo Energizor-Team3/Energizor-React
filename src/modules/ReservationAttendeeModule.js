@@ -1,5 +1,7 @@
 import { createActions, handleActions } from "redux-actions";
 
+// 예약코드내 참석자 조회
+
 /* 초기값 */
 const initialState = [];
 

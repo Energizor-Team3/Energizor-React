@@ -1,6 +1,36 @@
 import { GET_RESERVATION_DETAILS } from "../modules/ReservationModules";
 import { PUT_RESERVATION_MODIFY } from "../modules/ReservationModifyModule";
 import { GET_RESERVATION_ATTENDEE } from "../modules/ReservationAttendeeModule";
+import { GET_RESERVATION_TOTAL_DETAILS } from './../modules/ReservationTotalModules ';
+
+
+// 전체 예약내역  조회
+export const callResevationTotalDetailAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/total`;
+
+  return async (dispatch, getState) => {
+    console.log("전체예약내역 확인하기");
+
+    const result = await fetch(requestURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+      },
+    }).then((response) => response.json());
+
+    console.log(
+      "[ReservationAPICall] callResevationTotalDetailAPI RESULT : ",
+      result
+    );
+
+    dispatch({
+      type: "reservation/GET_RESERVATION_TOTAL_DETAILS",
+      payload: result.data,
+    });
+  };
+};
 
 // 내 예약내역 전체 조회
 export const callResevationDetailAPI = () => {
@@ -103,7 +133,7 @@ export const callResevationModifyAPI = () => {
     );
 
     dispatch({
-      type: "reservation/GET_RESERVATION_MODIFY",
+      type: "reservation/PUT_RESERVATION_MODIFY",
       payload: result.data,
     });
   };

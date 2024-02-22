@@ -1,16 +1,34 @@
-import React from "react";
 import "./ReservationMain.css";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import dayGridPlugin from "@fullcalendar/daygrid"; // dayGridPlugin 추가
+import { useDispatch, useSelector } from "react-redux";
+import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
+import { useEffect, useState } from "react";
+import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
 
 function ReservationMain() {
-  const resources = [
-    { id: "room1", title: "GREEN ROOM (6F)" },
-    { id: "room2", title: "BLUE ROOM (5F)" },
-    { id: "room3", title: "PROJECT ROOM (4F)" },
-  ];
+  const dispatch = useDispatch();
+  const reservationTotal = useSelector(
+    (state) => state.reservationTotalReducer
+  ); // Redux 스토어에서 예약 상태 가져오기
+  console.log("자자자전체내역들어갑니다", reservationTotal);
+  useEffect(() => {
+    // 페이지가 마운트될 때 예약 내역 가져오는 API 호출
+    dispatch(callResevationTotalDetailAPI());
+  }, [dispatch]);
+
+  function getColorForMeetCode(meetCode) {
+    switch (meetCode) {
+      case 1:
+        return "#b2fab4"; // 연한 초록색
+      case 2:
+        return "#b2dffb"; // 연한 파란색
+      case 3:
+        return "#dcb2f9"; // 연한 보라색
+    }
+  }
+
   return (
     <div id="wrap">
       <section>
@@ -91,47 +109,22 @@ function ReservationMain() {
               slotMinTime="08:00:00"
               slotMaxTime="19:30:00"
               contentHeight="auto"
-              resources={resources}
               slotLabelFormat={{
                 hour: "2-digit",
                 minute: "2-digit",
                 hour12: false,
               }}
-              events={[
-                {
-                  id: "event1",
-                  resourceId: "room1",
-                  start: "2024-02-21T10:00:00",
-                  end: "2024-02-21T12:00:00",
-                  title: "GREEN ROOM",
-                  backgroundColor: "lightgreen", // 초록색
-                },
-                {
-                  id: "event2",
-                  resourceId: "room2",
-                  start: "2024-02-21T10:00:00",
-                  end: "2024-02-21T12:00:00",
-                  title: "BLUE ROOM",
-                  backgroundColor: "lightblue", // 파란색
-                },
-                {
-                  id: "event3",
-                  resourceId: "room3",
-                  start: "2024-02-21T10:00:00",
-                  end: "2024-02-21T12:00:00",
-                  title: "PROJECT ROOM",
-                  backgroundColor: "lavender", // 보라색
-                },
-                {
-                  id: "event4",
-                  resourceId: "room3",
-                  start: "2024-02-21T13:00:00",
-                  end: "2024-02-21T15:00:00",
-                  title: "PROJECT ROOM",
-                  backgroundColor: "lavender", // 보라색
-                }
-                // 추가적인 이벤트 데이터 추가 가능
-              ]}
+              events={reservationTotal.map((event) => {
+                console.log("199191919191919", event.userCode.userName);
+                return {
+                  title: event.userCode.userName + ' - ' + event.reservationContent,
+                  start: event.reservationDate + "T08:00:00",
+                  end: event.reservationDate + "T10:00:00",
+                  color: getColorForMeetCode(event.meetCode.meetCode),
+                  textColor: 'black', // 이벤트의 텍스트 색상을 파란색으로 지정
+
+                };
+              })}
             />
           </div>
         </div>

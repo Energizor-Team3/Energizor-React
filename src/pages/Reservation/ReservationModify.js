@@ -36,6 +36,34 @@ function ReservationModify() {
   console.log('attendee Detail:', attendee);
 
   const attendeeName = attendee.map(attendee => attendee.userCode.userName).join(','); //포문돌려서 배열에 담기
+
+  const [form, setForm] = useState({
+    meetName: '',
+    reservationContent: '',
+    userName: '',
+    reservationDate: '',
+    reservationDate: '',
+   
+});
+
+useEffect(() => {
+    if (reservationDetail && Object.keys(reservationDetail).length > 0) {
+        setForm(prevForm => ({
+            ...prevForm,
+            meetName: reservationDetail?.meetCode?.meetName || '',
+            reservationContent: reservationDetail?.reservationContent || '',
+            userName: attendeeName,
+            
+        }));
+    }
+}, [reservationDetail]);
+
+const onChangeHandler = (e) => {
+  setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+  });
+};
   
 
 
@@ -80,18 +108,18 @@ function ReservationModify() {
 
           <div className="reservation-container">
             <form className="reservation-form">
-              <label htmlFor="place">장소:</label>
-              <select id="place" name="place" required value={reservationDetail?.meetCode?.meetName || ''}>
+              <label htmlFor="meetName">장소:</label>
+              <select id="meetName" name="meetName" required value={form.meetName} onChange={onChangeHandler}>
                 <option value="">장소를 선택하세요</option>
                 <option value="GREEN ROOM">GREEN ROOM</option>
                 <option value="BLUE ROOM">BLUE ROOM</option>
                 <option value="PROJECT ROOM">PROJECT ROOM</option>
               </select>
               <br />
-              <label htmlFor="reason" required>
+              <label htmlFor="reservationContent" required>
                 신청사유:
               </label>
-              <input id="reason" name="reason" required value={reservationDetail?.reservationContent || ''} />
+              <input id="reservationContent" name="reservationContent" required value={form.reservationContent} onChange={onChangeHandler} />
               <br />
               <label htmlFor="attendees">참석자:</label>
               <input id="attendees" name="attendees" readOnly Value={attendeeName} />

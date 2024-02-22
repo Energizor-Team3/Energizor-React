@@ -7,18 +7,18 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const GET_RESERVATION_DETAILS = 'reservation/GET_RESERVATION_DETAILS';
+export const GET_RESERVATION_TOTAL_DETAILS = 'reservation/GET_RESERVATION_TOTAL_DETAILS';
 
 
 const actions = createActions({
-    [GET_RESERVATION_DETAILS]: () => {}
+    [GET_RESERVATION_TOTAL_DETAILS]: () => {}
     
 });
 
 /* 리듀서 */
-export const reservationReducer = handleActions(
+export const reservationTotalReducer = handleActions(
     {
-        [GET_RESERVATION_DETAILS]: (state, { payload }) => {
+        [GET_RESERVATION_TOTAL_DETAILS]: (state, { payload }) => {
             
             return payload;
         }
@@ -26,4 +26,4 @@ export const reservationReducer = handleActions(
     initialState
 );
 
-export default reservationReducer;
+export default reservationTotalReducer;

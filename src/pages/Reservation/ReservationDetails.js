@@ -146,6 +146,7 @@ function ReservationDetails() {
                 <th></th>
                 <th>장소</th>
                 <th>신청사유</th>
+                <th>날짜</th>
                 <th>사용시작일시</th>
                 <th>사용종료일시</th>
                 <th>참석자</th>
@@ -175,6 +176,7 @@ function ReservationDetails() {
                       </td>
                       <td>{reservation?.meetCode?.meetName}</td>
                       <td>{reservation?.reservationContent}</td>
+                      <td>{reservation?.reservationDate}</td>
                       <td>{reservation?.reservationDate}</td>
                       <td>{reservation?.reservationDate}</td>
                       <td>

@@ -14,6 +14,7 @@ import groupUserReducer from './groupUserModule'
 import projectReducer from './ProjectModule';
 import calendarReducer from './CalendarModule';
 import scheduleReducer from './ScheduleModule';
+import reservationTotalReducer from './ReservationTotalModules ';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   reservationAttendeeReducer,
   reservationModifyReducer,
   reservationCodeReducer,
+  reservationTotalReducer,
 
     groupReducer,
     groupUserReducer,
