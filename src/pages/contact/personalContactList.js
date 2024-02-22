@@ -1,44 +1,108 @@
-// Contact.js (컴포넌트 파일)
-
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { callPersonalAPI, callPersonalPOSTAPI, callPersonalPUTAPI, callPersonalDELETEAPI } from '../../apis/ContactAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
-import { callContactAPI } from '../../apis/ContactAPICalls';
+import ContactDetailModal from './ContactDetailModal';
 
+import contactReducer from '../../modules/ContactModule';
+import styled from 'styled-components';
 import './contact.css';
 
-function Contact() {
+function PersonalContact() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
-    const contact = useSelector((state) => state.contactReducer);
-
-    console.log('contact', contact);
+    const contactList = useSelector((state) => state.contactReducer);
+    const [isOpen, setIsOpen] = useState(false);
+    const [form, setForm] = useState({
+        pcName: '',
+        pcCompany: '',
+        pcRank: '',
+        pcDept: '',
+        pcPhone: '',
+        pcEmail: '',
+        userCode: decodeJwt(window.localStorage.getItem("accessToken")).userCode
+    });
 
     useEffect(() => {
-        dispatch(callContactAPI({
-            userCode: params.userCode
-        }));
+        dispatch(callPersonalAPI({ userCode: params.userCode}));
     }, []);
+
+    const openModalHandler = () => {
+        setIsOpen(true);
+    };
+
+    const closeModalHandler = () => {
+        setIsOpen(false);
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setForm(prevForm => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
+
+    const handleContactInsert = () => {
+        dispatch(callPersonalPOSTAPI({ form: form }));
+        closeModalHandler();
+    };
+
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [selectedContact, setSelectedContact] = useState(null);
+
+    const openDetailModalHandler = (contact) => {
+        setSelectedContact(contact);
+        setIsDetailOpen(true);
+    };
+
+    const closeDetailModalHandler = () => {
+        setSelectedContact(null);
+        setIsDetailOpen(false);
+    };
+
+    // const editContactHandler = (editedContact) => {
+    //     dispatch(callPersonalPUTAPI(editedContact));
+    //     setIsDetailOpen(false);
+    // };
+    const editContactHandler = (editedContact) => {
+        dispatch(callPersonalPUTAPI({ pcCode: editedContact.pcCode, form: editedContact }));
+        setIsDetailOpen(false);
+    };
+
+
+    const deleteContactHandler = () => {
+        dispatch(callPersonalDELETEAPI(selectedContact.pcCode));
+        setIsDetailOpen(false);
+    };
+
+    /* 지울예정 */
+    // const navigate = useNavigate();
+    // const params = useParams();
+    // const personalList = contactList.data;
+    // const token = decodeJwt(window.localStorage.getItem("accessToken"));
+    // console.log('contact', contactList);
+
 
     return (
         <div id='wrap'>
             <section>
                 <article>
                     <h2 className='contact'>주소록</h2>
-                    <div id='company_contact'>
-                        <img src='/contact/address.png' alt=''/>
-                        <span>회사 주소록</span>
-                    </div>
-                    <div id="personal_contact" style={{ color: "#415CBE" }}>
-                        <img src='/contact/address.png' alt=''/>
-                        <span>개인 주소록</span>
-                    </div>
-                    <div id='favorites_contact'>
-                        <img src='/contact/address.png' alt=''/>
-                        <span>즐겨찾기</span>
-                    </div>
+                    <a href="/contact/company-list">
+                        <div id='company_contact'>
+                            <img src='/contact/address.png' alt=''/>
+                            <span>회사 주소록</span>
+                        </div>
+                    </a>
+                    <a href="http://localhost:3000/contact/personal-list/1">
+                        <div id="personal_contact" style={{ color: "#415CBE" }}>
+                            <img src='/contact/address.png' alt=''/>
+                            <span>개인 주소록</span>
+                        </div>
+                    </a>
                 </article>
             </section>
 
@@ -49,28 +113,9 @@ function Contact() {
                         <div className="line"></div>
                     </div>
 
-                    <div className="select_line">
-                        <select name="messageLead">
-                            <option value="전체">전체</option>
-                            <option value="연차">연차</option>
-                            <option value="병가">병가</option>
-                            <option value="공가">공가</option>
-                            <option value="경조사">경조사</option>
-                        </select>
-
-                        <select name="messageLead">
-                            <option value="전체">전체</option>
-                            <option value="승인">반려</option>
-                            <option value="대기중">대기중</option>
-                            <option value="대기중">등록</option>
-                        </select>
-                        <h3 style={{ textAlign: 'center' }}>2024-02</h3>
-                    </div>
-
                     <table className='table table-hover' id='listArea'>
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>이름</th>
                                 <th>회사</th>
                                 <th>직급</th>
@@ -80,9 +125,8 @@ function Contact() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(contact) && contact.map((personalList) => (
-                                <tr key={personalList?.pcCode}>
-                                    <td>{personalList?.pcCode}</td>
+                            {Array.isArray(contactList) && contactList.map((personalList) => (
+                                <tr key={personalList?.pcCode} onClick={() => openDetailModalHandler(personalList)}>
                                     <td>{personalList?.pcName}</td>
                                     <td>{personalList?.pcCompany}</td>
                                     <td>{personalList?.pcRank}</td>
@@ -94,14 +138,39 @@ function Contact() {
                         </tbody>
                     </table>
 
-                    <select name="page_number_choice" id="page_number_choice">
-                        <option value=""></option>
-                    </select>
-                    <label className="page_number_choice_text" htmlFor="page_number_choice">페이지당 항목수</label>
+                    <div>
+                         {/* 모달 열기 버튼 */}
+                        <button onClick={openModalHandler} className="contact_insert">연락처 추가</button>
+                        
+                        {/* 모달 */}
+                        {isOpen && (
+                            <div>
+                                {/* 새로운 연락처를 추가하기 위한 입력 폼 */}
+                                <h3>연락처를 추가해주세요.</h3>
+                                <input type="text" name="pcName" value={form.pcName} onChange={handleInputChange} placeholder="이름" />
+                                <input type="text" name="pcCompany" value={form.pcCompany} onChange={handleInputChange} placeholder="회사" />
+                                <input type="text" name="pcRank" value={form.pcRank} onChange={handleInputChange} placeholder="직급" />
+                                <input type="text" name="pcDept" value={form.pcDept} onChange={handleInputChange} placeholder="부서" />
+                                <input type="text" name="pcPhone" value={form.pcPhone} onChange={handleInputChange} placeholder="전화번호" />
+                                <input type="email" name="pcEmail" value={form.pcEmail} onChange={handleInputChange} placeholder="이메일" />
+                                <button onClick={handleContactInsert}>추가</button>
+                                <button onClick={closeModalHandler}>취소</button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 상세 정보 모달 */}
+                    <ContactDetailModal
+                        isOpen={isDetailOpen}
+                        closeModal={closeDetailModalHandler}
+                        contact={selectedContact}
+                        handleEdit={editContactHandler}
+                        handleDelete={deleteContactHandler} // deleteContactHandler 함수를 모달에 전달한다.
+                    />
                 </div>
             </main>
         </div>
     );
 }
 
-export default Contact;
+export default PersonalContact;

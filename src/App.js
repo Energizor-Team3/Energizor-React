@@ -11,7 +11,8 @@ import Layout from './layouts/SubLayout';
 // import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft'
 import ProjectDetail from './pages/project/project_detail';
-import Contact from './pages/contact/personalContactList';
+import PersonalContact from './pages/contact/personalContactList';
+import CompanyContact from './pages/contact/companyContactList';
 
 
 
@@ -48,7 +49,8 @@ function App() {
           <Route path="/project/:proNo" element={ <ProjectDetail/> }/>       
           <Route path="/addDetailSchedule" element={ <AddDetailSchedule/> }/>
         
-          <Route path="/contact/personal-list/:userCode" element={ <Contact/> }/>
+          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
+          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
         </Route>
       
 
