@@ -27,7 +27,19 @@ function Approvaling() {
   console.log('approvalingstateList',  approvalingstateList);
   
 
-  const doubleClickHandler= () =>{
+  const onClickHandler= (documentCode, form) =>{
+    console.log(documentCode,'documentCode')
+
+    switch(form){
+      case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+      break;
+      case"교육신청서": navigate('/educationform', { state: { documentCode } });
+      break;
+      case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+      break;
+      case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+      break;
+    }
 
   }
 
@@ -139,7 +151,10 @@ function Approvaling() {
                         <tr key={document?.documentCode} >
                             <td><input type="checkbox" value={document?.documentCode}/></td>
               <td >{document?.form}</td>
-              <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
+              <td><a href="#" onClick={(e) => { 
+          e.preventDefault(); // 기본 이벤트를 방지합니다.
+          onClickHandler(document?.documentCode, document?.form);
+        }}>{document?.documentTitle}</a></td>
               <td>{document?.userDTO?.userName}</td>
               <td>{document?.draftDay}</td>
               <td ><button className="btnStatus" onClick={toggleContent}>진행중</button></td>
