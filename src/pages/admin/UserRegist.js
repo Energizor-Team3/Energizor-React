@@ -11,14 +11,13 @@ function UserRegist() {
     const [form, setForm] = useState({
         userName: '',
         userPw: '',
-        teamDTO: '',
+        team: '',
         userRank: '',
-        entDate: '', 
+        entDate: '',
         email: '',
         phone: '',
     });
 
-    
     // Team 정보 상태
     const [teams, setTeams] = useState([]);
 
@@ -31,38 +30,36 @@ function UserRegist() {
                 console.error('팀 목록을 불러오는 중 오류 발생:', error);
             }
         };
-    
+
         fetchTeams();
     }, []);
-    
 
     const onChangeHandler = (e) => {
         setForm({
             ...form,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
     const onClickUserRegistHandler = async () => {
         console.log('[UserRegist] onClickUserRegistHandler');
-        
+
         // teamDTO 값을 정확하게 찾아서 설정
-        const selectedTeam = teams.find(team => team.teamCode.toString() === form.teamDTO);
-        
+        const selectedTeam = teams.find((team) => team.teamCode.toString() === form.team);
+
         const requestBody = {
             userName: form.userName,
             userPw: form.userPw,
-            teamDTO: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
+            team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
             entDate: form.entDate,
             email: form.email,
             phone: form.phone,
         };
-        
+
         try {
             // API 호출
             await dispatch(callUserRegistAPI(requestBody, navigate));
-            
         } catch (error) {
             // 에러 처리
             alert(error.message);
@@ -82,7 +79,6 @@ function UserRegist() {
             navigate('/userlist', { replace: true });
         }
     };
-    
 
     return (
         <div id="wrap">
@@ -99,7 +95,10 @@ function UserRegist() {
                                 <span>직원 등록</span>
                             </div>
                         </li>
-                        <li className="sub_list_text" onClick={onClickUserListHandler}>
+                        <li
+                            className="sub_list_text"
+                            onClick={onClickUserListHandler}
+                        >
                             <div>
                                 <img
                                     src="/mypage/user_list.png"
@@ -155,8 +154,8 @@ function UserRegist() {
                                 <label className="regist_user_label">팀</label>
                                 <select
                                     className="regist_user_input"
-                                    name="teamDTO"
-                                    value={form.teamDTO}
+                                    name="team"
+                                    value={form.team}
                                     onChange={onChangeHandler}
                                 >
                                     <option value="">팀을 선택하세요</option>
@@ -178,12 +177,13 @@ function UserRegist() {
                                     value={form.userRank}
                                     onChange={onChangeHandler}
                                 >
+                                    <option value="">직급을 선택하세요</option>
                                     <option value="employee">사원</option>
-                                    <option value="assistant">주임</option>
                                     <option value="manager">대리</option>
                                     <option value="seniorManager">과장</option>
+                                    <option value="associateDirector">차장</option>
+                                    <option value="generalManager">부장</option>
                                     <option value="director">이사</option>
-                                    <option value="vicePresident">부사장</option>
                                     <option value="president">사장</option>
                                 </select>
                             </div>

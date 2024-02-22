@@ -4,7 +4,6 @@ import { callUserListAPI } from '../../apis/UserAPICalls';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
 
 function UserList() {
     const navigate = useNavigate();
@@ -101,7 +100,7 @@ function UserList() {
                                     >
                                         <td>{user?.userId}</td>
                                         <td>{user?.userName}</td>
-                                        <td>{user?.teamDTO?.teamName}</td>
+                                        <td>{user?.team?.teamName}</td>
                                         <td>{user?.phone}</td>
                                         <td>{user?.email}</td>
                                         <td>{user?.entDate}</td>

@@ -91,7 +91,7 @@ function MyPage() {
                             <div className="user_info">
                                 <span className="user_info_label">팀</span>
                                 <strong className="user_info_content">
-                                    {myInfo?.teamDTO?.deptDTO?.deptName}/{myInfo?.teamDTO?.teamName}
+                                    {myInfo?.team?.dept?.deptName}/{myInfo?.team?.teamName}
                                 </strong>
                             </div>
                             <div className="user_info">

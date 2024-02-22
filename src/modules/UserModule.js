@@ -5,13 +5,15 @@ const initialState = [];
 
 /* 액션 */
 export const GET_USER_LIST     = 'user/GET_USER_LIST';
+export const GET_USER     = 'user/GET_USER';
 export const POST_LOGIN     = 'user/POST_LOGIN';
 export const POST_SEARCHPWD  = 'user/POST_SEARCHPWD';
 export const GET_MYPAGE = 'user/GET_MYPAGE';
-export const POST_SIGNUP = 'user/GET_MYPAGE';
+export const POST_SIGNUP = 'user/POST_SIGNUP';
 
 const actions = createActions({
     [GET_USER_LIST]: () => {},
+    [GET_USER]: () => {},
     [POST_LOGIN]: () => {},
     [POST_SEARCHPWD]: () => {},
     [GET_MYPAGE]: () => {},
@@ -19,9 +21,13 @@ const actions = createActions({
 });
 
 /* 리듀서 */
-const userReducer = handleActions(
+export const userReducer = handleActions(
     {
         [GET_USER_LIST]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [GET_USER]: (state, { payload }) => {
             
             return payload;
         },
