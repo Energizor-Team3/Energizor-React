@@ -4,97 +4,21 @@ import {
     GET_APPROVAL_SHAREDINBOX,
     GET_APPROVAL_Progress,
     POST_APPROVAL_INSERTGENERALDRAFT,
-    GET_APPROVAL_FINDUSERDETAIL
-   
+    POST_APPROVAL_SAVEGENERALDRAFT,
+    POST_APPROVAL_INSERTBUSINESSTRIP,
+    POST_APPROVAL_SAVEBUSINESSTRIP,
+    POST_APPROVAL_INSERTEDUCATION,
+    POST_APPROVAL_SAVEEDUCATION,
+    POST_APPROVAL_INSERTVACATION,
+    POST_APPROVAL_SAVEVACATION,
+    GET_APPROVAL_SAVEINBOX
 } from '../modules/ApprovalMainModule';
+import {
+    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL
+   
+} from '../modules/ApprovalsubModule';
 
-// export const callGeneralDraftAPI = ({ form }) => {
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/generalDraft`;
 
-//     return async (dispatch, getState) => {
-//         // 클라이언트 fetch mode : no-cors 사용시 application/json 방식으로 요청이 불가능
-//         // 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP요청을 제한한다.
-//         // 서버에서 cors 허용을 해주어야 함
-//         const result = await fetch(requestURL, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Accept: '*/*',
-//                 // 토큰 넣어라 꼭
-//             },
-//             body: JSON.stringify({
-//                 userId: form.userId,
-//                 userPw: form.userPw,
-//             }),
-//         }).then((response) => response.json());
-
-//         console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
-//         if (result.status === 200) {
-//             window.localStorage.setItem('accessToken', result.userInfo.accessToken);
-//         }
-//         dispatch({ type: POST_LOGIN, payload: result });
-//     };
-// };
-// 결재대기 문서
-// export const callInboxApprovalAPI = ({ form }) => {
-//     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/inboxApproval`;
-
-//     return async (dispatch, getState) => {
-//         // 클라이언트 fetch mode : no-cors 사용시 application/json 방식으로 요청이 불가능
-//         // 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP요청을 제한한다.
-//         // 서버에서 cors 허용을 해주어야 함
-//         const result = await fetch(requestURL, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Accept: '*/*',
-//                 // 토큰 넣어라 꼭
-//             },
-//             body: JSON.stringify({
-//                 userId: form.userId,
-//                 userPw: form.userPw,
-//             }),
-//         }).then((response) => response.json());
-
-//         console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
-//         if (result.status === 200) {
-//             window.localStorage.setItem('accessToken', result.userInfo.accessToken);
-//         }
-//         dispatch({ type: POST_LOGIN, payload: result });
-//     };
-// };
-
-// export const callInboxApprovalAPI = () => {
-//     const requestURL = `${process.env.REACT_APP_API_URL}/approval/inboxApproval`; // API URL 환경 변수 사용
-
-//     return async (dispatch) => {
-//         const accessToken = window.localStorage.getItem('accessToken'); // 액세스 토큰을 로컬 스토리지에서 가져옵니다.
-
-//         try {
-//             const response = await fetch(requestURL, {
-//                 method: 'GET',
-//                 headers: {
-//                     'Accept': 'application/json',
-//                     'Authorization': `Bearer ${accessToken}`, // 액세스 토큰을 헤더에 추가합니다.
-//                 },
-//             });
-
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-
-//             const result = await response.json();
-//             console.log('[UserAPICalls] callInboxApprovalAPI RESULT : ', result);
-
-//             // 결과에 따른 처리 로직
-//             dispatch({ type: GET_APPROVAL_InboxApproval, payload: result.data }); // 실제 액션 타입과 payload를 적절히 조정해야 합니다.
-
-//         } catch (error) {
-//             console.error('There has been a problem with your fetch operation:', error);
-//             // 오류 처리 로직을 추가합니다.
-//         }
-//     };
-// };
 
 export const callInboxApprovalAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/inboxApproval`;
@@ -119,6 +43,32 @@ export const callInboxApprovalAPI = () => {
     };
 }
 
+// 임시보관함
+export const callSaveInBoxAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/tempSaveDocument`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSharedInBoxAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_SAVEINBOX,  payload: result.data });
+        
+    };
+}
+
+
+// 공유문서함
 export const callSharedInBoxAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectSharedDocument`;
 
@@ -166,13 +116,14 @@ export const callApprovalingAPI = () => {
 }
 
 
+//일반 기안 임시저장
 
-export const callInsertGeneralDraftAPI = ({form}) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/generalDraft`;
+export const callSaveGeneralDraftAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalGeneral`;
 
     return async (dispatch, getState) => {
         console.log('들옴?');
-        
+        console.log(form,'api에서 폼이다');
         const result = await fetch(requestURL, {
             method: "POST",
             headers: {
@@ -180,8 +131,35 @@ export const callInsertGeneralDraftAPI = ({form}) => {
                 "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
             },
             body: form,
+            
         })
         .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveGeneralDraftAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEGENERALDRAFT,  payload: result });
+        
+    };
+}
+
+export const callInsertGeneralDraftAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/generalDraft`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
 
         console.log('[ApprovalAPICalls] callInsertGeneralDraftAPI RESULT : ', result);
 
@@ -190,6 +168,161 @@ export const callInsertGeneralDraftAPI = ({form}) => {
     };
 }
 
+// 출장 임시저장 및 기안등록
+
+export const callSaveBusinessTripAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalBusinessTrip`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveBusinessTripAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEBUSINESSTRIP,  payload: result });
+        
+    };
+}
+
+export const callInsertBusinessTripAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/businessTrip`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertBusinessTripAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTBUSINESSTRIP,  payload: result });
+        
+    };
+}
+
+// 교육 임시저장 및 기안등록
+
+export const callSaveEducationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalEducation`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveEducationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEEDUCATION,  payload: result });
+        
+    };
+}
+
+export const callInsertEducationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/education`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertEducationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTEDUCATION,  payload: result });
+        
+    };
+}
+
+// 휴가 임시저장 및 기안등록
+
+export const callSaveVacationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/saveApprovalDayOff`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callSaveVacationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_SAVEVACATION,  payload: result });
+        
+    };
+}
+
+export const callInsertVacationAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/dayOffApply`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form,
+            
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertVacationAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTVACATION,  payload: result });
+        
+    };
+}
 
 export const callSelectUserDetailAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/user`;
@@ -210,6 +343,30 @@ export const callSelectUserDetailAPI = () => {
         console.log('[ApprovalAPICalls] callSelectUserDetailAPI RESULT 111: ', result);
 
         dispatch({ type: 'approval/GET_APPROVAL_FINDUSERDETAIL',  payload: result.data });
+        
+    };
+}
+
+//임시 기안 문서 상세조회
+export const callSelectTempDocumentDetailAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectTempDocumentDetail/${documentCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectTempDocumentDetailAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,  payload: result.data });
         
     };
 }

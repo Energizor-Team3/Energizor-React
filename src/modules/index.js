@@ -1,6 +1,9 @@
-import { combineReducers } from "redux";
-import userReducer from "./UserModule";
-import approvalReducer from "./ApprovalMainModule";
+import { combineReducers } from 'redux';
+import userReducer from './UserModule';
+import approvalReducer from './ApprovalMainModule'
+import approvalSubReducer from './ApprovalsubModule'
+
+
 import reservationReducer from "./ReservationModules";
 import reservationAttendeeReducer from "./ReservationAttendeeModule";
 import reservationModifyReducer from "./ReservationModifyModule";
@@ -27,7 +30,8 @@ const rootReducer = combineReducers({
     groupUserReducer,
     projectReducer,
     calendarReducer,
-    scheduleReducer
+    scheduleReducer,
+    approvalSubReducer,
 
 
 });

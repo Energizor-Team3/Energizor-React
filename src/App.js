@@ -8,9 +8,19 @@ import Message from "./pages/message/Message";
 import Group from './pages/group/Group';
 import GeneralDraft from './pages/approval/GeneralDraft';
 import ApprovalMain from './pages/approval/ApprovalMain';
+import BusinessTrip from './pages/approval/BusinessTrip';
+import Education from './pages/approval/Education';
+import GeneraldraftForm from './pages/approval/GeneraldraftForm';
+import EducationForm from './pages/approval/EducationForm';
+import VacationForm from './pages/approval/VacationForm';
+import BusinesstripForm from './pages/approval/BusinesstripForm';
 import SharedInBox from './pages/approval/SharedInBox';
 import Approvaling from './pages/approval/Approvaling';
 import NewApproval from './pages/approval/NewApproval';
+import Vacation from './pages/approval/Vacation';
+import SaveInBox from './pages/approval/SaveInBox';
+import Layout from './layouts/SubLayout';
+// import Group from './pages/group/Group';
 
 import ProjectDetail from './pages/project/project_detail';
  import CalendarMainPage from './pages/calendar/CalendarMain'
@@ -46,11 +56,20 @@ function App() {
 
 {/* 결재 */}
 
+<Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/education" element={ <Education/> } />
+          <Route path="/businesstrip" element={ <BusinessTrip/> } />
+          <Route path="/saveinbox" element={ <SaveInBox/> } />
+          <Route path="/vacation" element={ <Vacation/> } />
           <Route path="/approvalmain" element={ <ApprovalMain/> } />
           <Route path="/sharedinbox" element={ <SharedInBox/> } />
           <Route path="/approvaling" element={ <Approvaling/> } />
           <Route path="/newapproval" element={ <NewApproval/> } />
-          
+          <Route path="/generaldraftform" element={ <GeneraldraftForm/> } />
+          <Route path="/educationform" element={ <EducationForm/> } />
+          <Route path="/businesstripform" element={ <BusinesstripForm/> } />
+          <Route path="/vacationform" element={ <VacationForm/> } />
+          <Route path="/group" element={ <Group/> } />
 
 {/* 자원예약 */}
 
@@ -83,3 +102,5 @@ function App() {
 }
 
 export default App;
+
+
