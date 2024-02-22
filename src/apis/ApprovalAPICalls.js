@@ -12,7 +12,8 @@ import {
     POST_APPROVAL_INSERTVACATION,
     POST_APPROVAL_SAVEVACATION,
     GET_APPROVAL_SAVEINBOX,
-    GET_APPROVAL_FINDUSERDETAIL
+    GET_APPROVAL_FINDUSERDETAIL,
+    GET_APPROVAL_APPROVALCOMPLETE
 } from '../modules/ApprovalMainModule';
 import {
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
@@ -32,7 +33,7 @@ import {
 
 
 
-
+// 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/inboxApproval`;
 
@@ -55,6 +56,32 @@ export const callInboxApprovalAPI = () => {
         
     };
 }
+
+// 결재 완료된 문서
+export const callApprovalCompleteAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComplete`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callApprovalCompleteAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_APPROVALCOMPLETE,  payload: result.data });
+        
+    };
+}
+
+
 
 // 임시보관함
 export const callSaveInBoxAPI = () => {
