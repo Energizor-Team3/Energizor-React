@@ -1,7 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
-body{
-  font-family: 'Nanum Gothic', sans-serif;
-}
+
 .menu_schedule{
   margin-top: -20px;
   font-weight: 800;
@@ -152,14 +151,34 @@ position: relative;
   bottom: 150px;
 
 }
+.cal_partname{
+  width: 50px;
+height: 30px;
+border-radius: 6px;
+border:1px solid #94A9FF ; 
+color: #94A9FF;
+background-color: white;
+font-size: 14px;
+color: #415CBE;
+padding-top: 5px;
+padding-left: 3.5px;
+margin-left: 10px;
+margin-bottom: 10px;
 
-.add_detail_box  {
+
+}
+/* .add_detail_box  {
 position: absolute;
 right: 20px;
 top:350px;
 
-}
+} */
 
+.addllist{
+  display: flex;
+  max-width: 446px;
+  flex-wrap: wrap;
+}
 
 .add_att{
 font-size: 25px;

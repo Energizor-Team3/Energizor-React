@@ -64,6 +64,20 @@ function App() {
 
           {/* 결재 */}
 
+          <Route path="/generaldraft" element={ <GeneralDraft/> } />
+          <Route path="/education" element={ <Education/> } />
+          <Route path="/businesstrip" element={ <BusinessTrip/> } />
+          <Route path="/saveinbox" element={ <SaveInBox/> } />
+          <Route path="/vacation" element={ <Vacation/> } />
+          <Route path="/approvalmain" element={ <ApprovalMain/> } />
+          <Route path="/sharedinbox" element={ <SharedInBox/> } />
+          <Route path="/approvaling" element={ <Approvaling/> } />
+          <Route path="/newapproval" element={ <NewApproval/> } />
+          <Route path="/generaldraftform" element={ <GeneraldraftForm/> } />
+          <Route path="/educationform" element={ <EducationForm/> } />
+          <Route path="/businesstripform" element={ <BusinesstripForm/> } />
+          <Route path="/vacationform" element={ <VacationForm/> } />
+          <Route path="/group" element={ <Group/> } />
           <Route path="/generaldraft" element={<GeneralDraft />} />
           <Route path="/education" element={<Education />} />
           <Route path="/businesstrip" element={<BusinessTrip />} />
