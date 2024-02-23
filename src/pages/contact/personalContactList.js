@@ -108,7 +108,7 @@ function PersonalContact() {
 
             <main>
                 <div className="content">
-                    <div className="subject">
+                    <div className="subject1">
                         <strong>개인 주소록</strong>
                         <div className="line"></div>
                     </div>

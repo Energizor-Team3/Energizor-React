@@ -53,7 +53,7 @@ main{
     text-indent: 15px;;
 }
 
-.subject .search_box::after{
+.subject1 .search_box::after{
     content: "";
     background-image: url("/public/common/search.png");
     position: absolute;

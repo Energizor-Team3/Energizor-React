@@ -110,6 +110,8 @@ function App() {
           <Route path="/contact/company-list" element={<CompanyContact/>} />
           <Route path="/contact/personal-list/:userCode" element={<PersonalContact/>} />
         </Route>
+
+        
       </Routes>
     </BrowserRouter>
   );
