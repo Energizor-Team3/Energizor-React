@@ -21,6 +21,13 @@ function Main() {
     window.location.reload();
   };
 
+  const onClickMyPageHandler = () => {
+    console.log('마이페이지 클릭');
+    if (window.location.pathname !== '/my-page') {
+        navigate('/my-page', { replace: true });
+    }
+};
+
   return (
     <>
       <main>
@@ -36,7 +43,7 @@ function Main() {
               <p>김뫄뫄</p>
               <br />
               <h4>관리본부/인사팀</h4>
-              <button className={MainCSS.go_mypage}>마이페이지</button>
+              <button className={MainCSS.go_mypage} onClick={onClickMyPageHandler}>마이페이지</button>
               <button
                 className={MainCSS.go_mypage}
                 onClick={onClickLogoutHandler}

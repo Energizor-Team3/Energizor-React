@@ -41,6 +41,8 @@ import UserList from "./pages/admin/UserList";
 import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from './pages/user/MyPage';
 import UserRegist from './pages/admin/UserRegist';
+import ChangePwd from './pages/user/ChangePwd';
+
 
 import CompanyContact from "./pages/contact/companyContactList";
 import PersonalContact from "./pages/contact/personalContactList";
@@ -63,6 +65,7 @@ function App() {
 
           <Route path="/userlist" element={ <UserList/> } />
           <Route path="/my-page" element={ <MyPage/> } />
+          <Route path="/changepwd" element={ <ChangePwd/> } />
           <Route path="/userregist" element={ <UserRegist/> } />
           <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
 

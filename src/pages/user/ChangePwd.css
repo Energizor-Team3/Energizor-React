@@ -1,0 +1,63 @@
+.subject .search_box::after{
+    background-image: none;
+}
+
+.pw_change_wrap {
+    text-align: center;
+}
+
+.pw_change_section {
+    position: relative;
+    width: 715px; 
+    height: 354px;
+    background: #F2F6FF; 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    margin: auto; /* 수평 가운데 정렬 */
+    margin-top: 200px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.pw_change {
+    display: flex;
+    min-width: 350px;
+    min-height: 31px;
+    line-height: 31px;
+    padding: 3px;
+    font-weight: 540;
+    font-size: 20px;
+    margin-top: 45px;
+}
+
+.pw_change_label {
+    width: 220px;
+    height: 50px;
+    text-align: left;
+} 
+
+.pw_change_input {
+    width: 336px; 
+    height: 39px; 
+    background: white; 
+    border-radius: 6px; 
+    border: 1px #696868 solid;
+}
+
+.pw_change_btn {
+    background: #94A9FF;
+    border-radius: 6px; 
+    border: transparent;
+    width: 180px;
+    height: 55px;
+    font-weight: 550;
+    font-size: 16px;
+    color:#353535;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin: 60px 10px 0 10px;
+}

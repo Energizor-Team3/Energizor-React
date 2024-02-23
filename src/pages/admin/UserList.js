@@ -37,7 +37,6 @@ function UserList() {
         navigate(`/modifyuser/${userCode}`);
     };
 
-
     return (
         <div id="wrap">
             <section>
@@ -103,6 +102,7 @@ function UserList() {
                                     <tr
                                         key={user?.userCode}
                                         className="user-row"
+                                        onClick={() => handleUserClick(user.userCode)} 
                                         onClick={() => handleUserClick(user.userCode)} 
                                     >
                                         <td>{user?.userId}</td>
