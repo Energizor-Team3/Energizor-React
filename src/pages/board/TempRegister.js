@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { BoardLayout } from "../../layouts/BoardLayout";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetBoardDetail } from "../../apis/board/useGetBoardDetail";
+import { useGetTempBoardDetail } from "../../apis/board/useGetTempBoardDetail";
 import { postBoard } from "../../apis/board/usePostBoard";
 import { usePutBoard } from "../../apis/board/usePutBoard";
 import "./Register.css";
@@ -19,10 +19,10 @@ const BOARD_LIST = [
   { value: "6", label: "마케팅본부" },
 ];
 
-export const BoardRegister = () => {
+export const TempBoardRegister = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const { data: boardDetailData } = useGetBoardDetail(params.id);
+  const { data: boardDetailData } = useGetTempBoardDetail(params.id);
   console.log(boardDetailData);
   const { mutate: postBoardMutate } = useMutation({
     mutationFn: postBoard,
@@ -190,4 +190,4 @@ export const BoardRegister = () => {
   );
 };
 
-export default BoardRegister;
+export default TempBoardRegister;

@@ -2,13 +2,16 @@ import { useMutation } from "@tanstack/react-query";
 import { client } from "../Client";
 import { GLOBAL_API_URL } from "../GLOBAL_API_URL";
 
-const deleteComment = async (id) => {
+export const deleteBoard = async (boardId) => {
   const { data } = await client.delete(
-    GLOBAL_API_URL.BOARD.COMMENT.DELETE + `/${id}`
+    `${GLOBAL_API_URL.BOARD.DELETE}/${boardId}`
   );
   return data;
 };
-export const useDeleteComment = () =>
+
+export const useDeleteBoard = () =>
   useMutation({
-    mutationFn: (id) => deleteComment(id),
+    mutationFn: (boardId) => {
+      deleteBoard(boardId);
+    },
   });
