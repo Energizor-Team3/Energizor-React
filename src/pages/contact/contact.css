@@ -119,12 +119,12 @@ table thead th , table tbody tr td{
 
 
 }
-table tbody tr td:first-child{
+.table1 tbody tr td:first-child{
     max-width: 30px;
     min-width: 30px;
 }
 
-table tbody tr td{
+.table1 tbody tr td{
     max-width: 80px;
     min-width: 80px;
     overflow: hidden;

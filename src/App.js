@@ -42,6 +42,9 @@ import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from './pages/user/MyPage';
 import UserRegist from './pages/admin/UserRegist';
 
+import CompanyContact from "./pages/contact/companyContactList";
+import PersonalContact from "./pages/contact/personalContactList";
+
 function App() {
   return (
     <BrowserRouter>
@@ -99,6 +102,10 @@ function App() {
           <Route path="/calendar/setting" element={<CalendarSetting />} />
           <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
           <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+
+          {/* 주소록 */}
+          <Route path="/contact/company-list" element={<CompanyContact/>} />
+          <Route path="/contact/personal-list/:userCode" element={<PersonalContact/>} />
         </Route>
       </Routes>
     </BrowserRouter>
