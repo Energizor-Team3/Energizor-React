@@ -9,11 +9,13 @@ const initialState = {
 /*액션*/ 
 
 export const GET_CALENDAR     ="calendar/GET_CALENDAR";
+export const POST_CALENDAR    ="calendar/POST_CALENDAR";
  
 
 
 const actions = createActions({
-    [GET_CALENDAR]: () => {}
+    [GET_CALENDAR]: () => {},
+    [POST_CALENDAR]:() => {}
  
 });
 
@@ -23,9 +25,13 @@ const calendarReducer = handleActions(
         [GET_CALENDAR]: (state, { payload }) => {
 
             return payload;
-        }
-    },
+        },
+   
+        [POST_CALENDAR]: (state, { payload }) => {
 
+            return payload; 
+        }
+ },
     
     initialState
 );

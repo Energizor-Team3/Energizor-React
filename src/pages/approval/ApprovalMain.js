@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
 
 
+
 function ApprovalMain(){
 
     const navigate = useNavigate();
@@ -17,6 +18,26 @@ function ApprovalMain(){
     const inboxDocument  = useSelector((state) => state.approvalReducer);
     const inboxDocumentList = inboxDocument?.data?.content;  
 
+
+    const onClickHandler = (documentCode, form) => {
+      switch(form){
+        case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+        break;
+        case"교육신청서": navigate('/educationform', { state: { documentCode } });
+        break;
+        case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+        break;
+        case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+        break;
+      }
+      }
+    
+    //   // 새 창에서 열 문서에 대한 URL을 구성합니다.
+    //   const urlToOpen = `${baseURL}${path}?documentCode=${documentCode}`;
+    
+    //   // 새 창(또는 탭)을 엽니다.
+    //   window.open(urlToOpen, '_blank');
+    // }
 
     const token = decodeJwt(window.localStorage.getItem("accessToken"));  
     useEffect(()=>{
@@ -26,9 +47,8 @@ function ApprovalMain(){
     console.log('inbox',  inboxDocument );
     console.log('inbox list', inboxDocumentList);
 
-    const doubleClickHandler= () =>{
+   
 
-    }
 
     // 컨텐츠 박스 표시/숨김 토글 함수
     const toggleContent =() =>{
@@ -108,17 +128,6 @@ function ApprovalMain(){
           </div>
         </div>
         <div className="select_line">
-          {/* 셀렉트 문*/}
-          {/* <select name="messageLead">
-            <option value="전체">전체</option>
-            <option value="결재함">결재함</option>
-            <option value="참조함">참조함</option>
-            <option value="반려함">반려함</option>
-        </select> */}
-          {/* <div class="attention_Text">
-          <img src="/common/Exclamation.png" alt="">
-          <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
-        </div> */}
         </div>
         <div className='approvaltable'>
           <thead>
@@ -139,7 +148,10 @@ function ApprovalMain(){
                         <tr key={document?.documentCode} >
                             <td><input type="checkbox" value={document?.documentCode}/></td>
               <td >{document?.form}</td>
-              <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
+              <td><a href="#" onClick={(e) => { 
+          e.preventDefault(); // 기본 이벤트를 방지합니다.
+          onClickHandler(document?.documentCode, document?.form);
+        }}>{document?.documentTitle}</a></td>
               <td>{document?.userDTO?.userName}</td>
               <td>{document?.draftDay}</td>
               <td ><button className="btnStatus" onClick={toggleContent}>진행중</button></td>
@@ -245,11 +257,9 @@ function ApprovalMain(){
         <label className="page_number_choice_text" htmlFor="page_number_choice">
           페이지당 항목수
         </label> */}
-      </div>
-    </main>
-  </div>
-  
-        
+                </div>
+            </main>
+        </div>
     );
 }
 

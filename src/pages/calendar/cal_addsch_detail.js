@@ -61,9 +61,9 @@ function AddDetailSchedule(){
             || form.calNo === '' ){
                 alert('필수 정보를 다 입력해주세요.');
                 return ;
-        }
+        }   
 
-        dispatch(callAddScheduleAPI({	
+    dispatch(callAddScheduleAPI({	
             form: form
         }));      
         

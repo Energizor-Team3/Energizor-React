@@ -22,7 +22,7 @@
             
                 
                 */
-import  "./CalendarMain.css"
+import "./CalendarMain.css"
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
@@ -31,7 +31,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid'; 
 import interactionPlugin from '@fullcalendar/interaction'; 
 import { NavLink } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 import {
     callCalendarListAPI,
@@ -41,11 +41,19 @@ import {
 
 import calendarReducer from '../../modules/CalendarModule';
 import scheduleReducer from '../../modules/ScheduleModule';
+import EditSchedule from './editSchedule';
+
 
 
 
 function CalendarMainPage(){
+    
+    const navigate = useNavigate();
 
+    const handleEditButtonClick = ( schNo ) => {
+        navigate(`/schedule/edit/${ schNo }`);
+    };
+    
     const dispatch = useDispatch();
     const calendar = useSelector(state => state.calendarReducer);  
     const schedule = useSelector(state => state.scheduleReducer);
@@ -194,8 +202,7 @@ function CalendarMainPage(){
                 <NavLink to='/calendar'>
                 <span>캘린더</span></NavLink>
             </div>
-            <div>
-               
+            <div>             
                 <NavLink to='/schedule/add/detail'> <button className="cal_btn">일정추가</button></NavLink>
                 <NavLink to='/calendar/setting'> <button className="cal_btn">캘린더 설정</button></NavLink>
             </div>
@@ -266,13 +273,8 @@ function CalendarMainPage(){
                     select={handleSelect}
                     dayMaxEventRows={3} 
                     // editable={true}
-                    
-                   
-                />
-                                
+                />                              
                 </div>
-
-
                 <div className="schedule">
                     <span className="selected_date">    {/* 선택 된 날짜 */}
                      {selectedDate ? 
@@ -286,14 +288,15 @@ function CalendarMainPage(){
                     <div className="schbox_top" onClick={toggleExpand}>
                         <div className="sch_time">
                         <div className="sch_start_date">{formatDateTime(schedule.schStartDate)}</div>
-                {schedule.schEndDate && <span>~</span>}
-                {schedule.schEndDate && <div className="sch_end_date">{formatDateTime(schedule.schEndDate)}</div>}
+                            {schedule.schEndDate && <span>~</span>}
+                            {schedule.schEndDate && <div className="sch_end_date">{formatDateTime(schedule.schEndDate)}</div>}
                         </div>
                         <div className="sch_btns">
                         <img
                             src="/calendar/editIcon 1.png"
                             alt="editIcon"
                             className="editbtn"
+                            onClick={() => handleEditButtonClick(schedule.schNo)}   
                         />
                         <img
                             src="/calendar/trash 1.png"
@@ -304,7 +307,7 @@ function CalendarMainPage(){
                         </div>
                     </div>
                     <div className="sch_title">{schedule.schTitle}</div>
-                {isExpanded && (
+                    {isExpanded && (
                     <div className="schbox_mid">
                         <div className="calNameTitle">
                             캘린더 :{" "}

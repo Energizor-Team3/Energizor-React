@@ -105,6 +105,8 @@ font-weight: bold;
 text-decoration:overline 2px;
  
 }
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 1.5em !important;}
 
 .fc .fc-button-primary:disabled{
 background-color: #c9c9c9;
@@ -122,8 +124,8 @@ color: #415CBE;
 }
 
 #fc-dom-1{
-color: #42414a;
-}
+  color: #42414a;
+  }
 /* .fc-non-business{
 background-color: #F8F8F8;
 } */

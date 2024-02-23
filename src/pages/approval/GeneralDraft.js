@@ -1,82 +1,150 @@
-import  './GeneralDraft.css';
-import  './NewApprovaling.css';
+import React, { useEffect, useRef, useState } from 'react';
+import './GeneralDraft.css';
+import './NewApprovaling.css';
 import CurrentTime from './Time';
 import ApprovalGroup from './ApprovalGroup';
-
-import {
-  callInsertGeneralDraftAPI,
-  callSelectUserDetailAPI,
-} from '../../apis/ApprovalAPICalls';
-import {
-  callGetuserDetailAPI
-  
-} from '../../apis/GroupAPICalls';
-
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
+import { callSelectUserDetailAPI, callInsertGeneralDraftAPI, callSaveGeneralDraftAPI, callSelectTempDocumentDetailAPI} from '../../apis/ApprovalAPICalls';
+
+import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
+function GeneralDraft() {
 
-
-
-function GeneralDraft(){
+  const location = useLocation();
+  const documentCodeData = location.state?.documentCode;
+ 
+  const tempDocument = useSelector((state) => state.approvalSubReducer); 
   
-  const currentTimeString = CurrentTime();
+
+ 
+  
+
+  // 조회해온 임시저장문서 가 있을경우 진행
+  useEffect(() => {
+    if (tempDocument !== undefined) { 
+      setForm(prevForm => ({
+        ...prevForm,
+        gdTitle: tempDocument.gdTitle,
+        gdContent: tempDocument.gdContent,
+    }));
+    }
+  }, [tempDocument]);
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = decodeJwt(window.localStorage.getItem("accessToken"));
-  const userdetail  = useSelector((state) => state.approvalReducer);
-  const approvallineuser = useSelector((state) => state.groupUserReducer);
-
-  console.log('userdetail',  userdetail );
-  console.log('approvallineuser',  approvallineuser );
-  const [list, setList] = useState([]);
+  const currentTimeString = CurrentTime();
+  const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
+  const approvallineuser = useSelector((state) => state.groupUserReducer); // 로그인한 사용자 정보
+  const [approvalLine, setApprovalLine] = useState([]); // 결재 라인 상태
+  const [referenceLine, setReferenceLine] = useState([]); // 참조 라인 상태
+  const [selectedAction, setSelectedAction] = useState(null); // 'approval' 또는 'reference' 액션 선택 상태
+  const [clickType, setClickType] = useState("") 
   const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState();
-  const imageInput = useRef();
-  const approvalList = useRef([]);
-  
-  // const [titleValue,setTitleValue] = useState('');
-  console.log('load List ----> ', list);
-  
-  
-  
-  useEffect(() => {
-    dispatch(callSelectUserDetailAPI());
-    
-    console.log('--------------', approvalList);
-    approvalList.current.push(approvallineuser);
-    setList(approvalList.current.filter(approval => approval?.userName !== undefined));
-  },[approvallineuser]); // 의존성 배열에 dispatch를 넣어주어야 합니다.
-
-  // ApprovalGroup에서 userCode를 업데이트하는 함수
-  const handleUserSelect = (code) => {
-    
-    dispatch(callGetuserDetailAPI(code));
-    
-  };
-  
+  const imageInput = useRef(); 
 
   const [form, setForm] = useState({
     gdTitle: '',
     gdContent: '',
     rfUser: '',
     lineUser: '',
-    apFileNameOrigin: '',
+    file: '',
 
   });
-  // const onChangeImageUpload = (e) => {
+  
+  console.log(approvalLine, "결재자")   
+  console.log(referenceLine, "참조자")   
+  // 로그인한 정보 불러옴
+  useEffect(() => {
+    dispatch(callSelectUserDetailAPI());
+    if(documentCodeData !== undefined){  
+      dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+    }
+    
+  }, [dispatch]);
 
-  //   const image = e.target.files[0];
+  useEffect(() => {
+  // approvallineuser가 유효한지 확인 (userCode가 존재하는지)
+  if (approvallineuser && approvallineuser.userCode){
+  switch(clickType){
+    case 'approval': 
+    if(approvalLine.length < 4){
+      if (!approvalLine.some(user => user.userCode === approvallineuser.userCode)) {
+        if (!referenceLine.some(user => user.userCode === approvallineuser.userCode)) {
+          setApprovalLine(prev => [...prev, approvallineuser]);
+        } 
+      }
+    }else{
+      alert('결재라인에는 최대 4명까지 추가할 수 있습니다.');
+    }
+    break;
+    case 'reference': if(referenceLine.length < 4){
+      
+      
+      if (!referenceLine.some(user => user.userCode === approvallineuser.userCode)) {
+        if (!approvalLine.some(user => user.userCode === approvallineuser.userCode)) {
+          setReferenceLine(prev => [...prev, approvallineuser]);
+        } 
+        
+      } 
+    } else{
+      alert('참조라인에는 최대 4명까지 추가할 수 있습니다.');
+    }
+    break;
+    default: break;
 
-  //   setImage(image);
-  // };
-  // const onClickImageUpload = () => {
-  //   imageInput.current.click();
-  // };
+  }
+}
+}, [approvallineuser, clickType, approvalLine, referenceLine]);
+
+// 결재, 참조자 유저코드만 뽑아서 배열로 바꾼후 폼안에 넣어줌
+useEffect(() => {
+  // approvalLine에서 userCode만 추출하여 쉼표로 구분된 문자열 생성
+  const lineUserCodes = approvalLine.map(user => user.userCode).join(',');
+  // referenceLine에서 userCode만 추출하여 쉼표로 구분된 문자열 생성
+  const rfUserCodes = referenceLine.map(user => user.userCode).join(',');
+
+  // form 상태 업데이트
+  setForm(prevForm => ({
+    ...prevForm,
+    lineUser: lineUserCodes,
+    rfUser: rfUserCodes,
+  }));
+}, [approvalLine, referenceLine]);
+
+  const handleUserSelect = (code, actionType) => {
+    // 로그인 사용자와 선택된 사용자가 동일한지 검사
+    if (userDetail.userCode === code) {
+      alert('기안자와 결재/참조자는 같을 수 없습니다.');
+      return;
+    }
+
+    // 이미 결재자 또는 참조자로 지정된 사용자인지 검사
+  const isAlreadySelected = [...approvalLine, ...referenceLine].some(user => user.userCode === code);
+  if (isAlreadySelected) {
+    alert('이미 지정된 사용자입니다.');
+    return;
+  }
+
+    // 선택된 액션 타입을 상태로 저장
+    setSelectedAction(actionType);
+
+    // 사용자 상세 정보 조회
+    dispatch(callGetuserDetailAPI(code));
+      console.log(approvallineuser);
+      
+      if (actionType === 'approval') {
+          setClickType('approval')
+        } 
+      if (actionType === 'reference') {
+          setClickType('reference')
+        
+      }
+    
+  };
+    
+  
 
   // form 데이터 세팅    
   const onChangeHandler = (e) => {
@@ -95,8 +163,34 @@ function GeneralDraft(){
     var og = document.getElementById("og");
     og.classList.toggle("active");
     }
-  
-   
+    //결재 참조자 제거
+    const deleteline = (userCode) => {
+      console.log(userCode,'userName222222222222222222222222')
+      setApprovalLine(approvalLine => approvalLine.filter(user => user.userCode !== userCode));      
+    }
+    
+    const deleteline2 = (userCode) => {
+      console.log(userCode,'userName111111111111111111111111111')
+      setReferenceLine(referenceLine => referenceLine.filter(user => user.userCode !== userCode));
+      }
+      
+      
+  // 이미지 업로드 세팅
+  const onClickImageUpload = () => {
+      imageInput.current.click();
+  }
+
+  // 파일 업로드 핸들러
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setForm(prevForm => ({
+        ...prevForm,
+        file: file.name,
+      }));
+    }
+  };
 
     const onClickInsertDocumentHandler = () => {
 
@@ -108,50 +202,66 @@ function GeneralDraft(){
     formData.append("gdContent", form.gdContent);
     formData.append("rfUser", form.rfUser);
     formData.append("lineUser", form.lineUser);
-    formData.append("apFileNameOrigin", form.apFileNameOrigin);
+    formData.append("file", form.file);
 
       if(image){
-          formData.append("apFileNameOrigin", image);
+          formData.append("file", image);
       }
-      console.log('[Approval] formData : ', formData.get("gdTitle"));
-      console.log('[Approval] formData : ', formData.get("gdContent"));
-      console.log('[Approval] formData : ', formData.get("rfUser"));
-      console.log('[Approval] formData : ', formData.get("lineUser"));
-      console.log('[Approval] formData : ', formData.get("apFileNameOrigin"));
+    
+      if(form.gdTitle === '' || form.gdContent === '' 
+            || form.lineUser === ''){
+                alert('정보를 다 입력해주세요.');
+                return ;
+        }
       
-    }
 
-      // dispatch(callProductRegistAPI({	// 상품 상세 정보 조회
-      //     form: formData
-      // }));        
+    dispatch(callInsertGeneralDraftAPI({	
+      form: formData
       
+    }));   
+    
+    console.log(form, ' 기안 올린 내용');
       
-      // alert('상품 리스트로 이동합니다.');
-      // navigate('/product-management', { replace: true });
-      // window.location.reload();
-  // }
+      alert('결재기안이 완료 되었습니다. 전자결재 페이지로 이동 됩니다.');
+      navigate('/approvalmain', { replace: true });
+      
+  }
+  //임시 저장 onClickcallSaveGeneralDraftAPI
 
+  const onClickcallSaveGeneralDraftAPI = () => {
 
+    console.log('[Approval] onClickInsertDocumentHandler');
 
+    const formData = new FormData();
 
-  // const token = decodeJwt(window.localStorage.getItem("accessToken"));  
-  // useEffect(()=>{
-  //     dispatch(callInsertGeneralDraftAPI());
-  // },[])
-
+    formData.append("gdTitle", form.gdTitle);
+    formData.append("gdContent", form.gdContent);
   
 
-
-  // const titleValueHandler = (e)=>{
-  //   setTitleValue(e.target.value);
-  // }
-  // useEffect(()=>{
-  //   console.log('실제로 값이 변하는지',titleValue);
-  // },[titleValue])
-
-    return(<div id="wrap">
   
-    <section>
+    if(form.gdTitle === '' || form.gdContent === '' 
+          ){
+              alert('최소 하나의 정보를 입력해주세요.');
+              return ;
+      }
+    
+
+  dispatch(callSaveGeneralDraftAPI({	
+    form: formData
+    
+  }));   
+  
+  console.log(form, ' 임시기안 올린 내용');
+    
+    alert('임시저장이 완료 되었습니다. 전자결재 페이지로 이동 됩니다.');
+    navigate('/approvalmain', { replace: true });
+    
+}
+
+
+    return(
+    <div id="wrap">
+      <section>
       <article>
         <h2>전자결재</h2>
         <div>
@@ -164,8 +274,9 @@ function GeneralDraft(){
             <div>
               <img src="/common/Approval.png" alt="" />
               <span>
-                <a href="/views/approval/approvalMain.html">결재할 문서</a>
+                <a href="/approval/approvalMain.html">결재할 문서</a>
               </span>
+              <span className="listlist">1</span>
             </div>
           </li>
           <li className="subListText">
@@ -174,6 +285,7 @@ function GeneralDraft(){
               <span>
                 <a href="/views/approval/approvaling.html">진행중인 문서</a>
               </span>
+              <span className="listlist1">1</span>
             </div>
           </li>
           <li>
@@ -203,6 +315,7 @@ function GeneralDraft(){
         </ul>
       </article>
     </section>
+    
     <main>
       <div className="content">
         <div className="subject">
@@ -210,55 +323,58 @@ function GeneralDraft(){
           <div className="line">
             <div className="search_box">
               <span>
-                <button onClick={toggleContent}>결재</button>
+                <button onClick={toggleContent}>결재지정</button>
               </span>
               <span>
-                <button>참조</button>
+                <button onClick={onClickcallSaveGeneralDraftAPI}>임시저장</button>
               </span>
+              <input
+        type="file"
+        ref={imageInput}
+        onChange={onFileChange}
+        style={{ display: 'none' }} // 시각적으로 숨김 처리
+      />
               <span>
-                <button>임시저장</button>
-              </span>
-              <span>
-                <button>첨부파일</button>
+                <button onClick={ onClickImageUpload }>첨부파일</button>
               </span>
             </div>
           </div>
         </div>
         <div className="select_line">
-          {/* 셀렉트 문*/}
-          {/* <select name="messageLead">
-            <option value="전체">전체</option>
-            <option value="결재함">결재함</option>
-            <option value="참조함">참조함</option>
-            <option value="반려함">반려함</option>
-        </select> */}
-          {/* <div class="attention_Text">
-          <img src="/resources/images/Exclamation.png" alt="">
-          <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
-        </div> */}
         </div>
         <div className='side'>
         <div className="wrap2">
           <div className="approval">
             <span className="texttitle">기 안</span>
             <ul className="approvalul">
-              <input type='text' className="one" value={userdetail?.team?.dept?.deptName + "/" + userdetail?.team?.teamName}/>
+              <input type='text' className="one" value={userDetail?.team?.dept?.deptName + "/" + userDetail?.team?.teamName}/>
               <li className="two">
                 <img src="" alt="" />
               </li>
-              <input type="text" className="three" value={userdetail?.userName}/>
-              <li className="four">날짜</li>
+              <input type="text" className="three" value={userDetail?.userName}/>
+              <input className="four" value={currentTimeString}/>
             </ul>
             <span className="texttitle">결 재</span>
-
-            
-            <ul className="approvalul">
-              <input className="one" value={approvallineuser?.team?.dept?.deptName + '/'}/>
-              <input className="two"/>
-              <input className="three" value={0}/>
-              <input className="four" value={0}/>
-            </ul>
-          </div>
+              {approvalLine.map((approval, index) => (
+                <ul className="approvalul" key={index}>
+                  <input className="one" value={approval.team?.dept?.deptName + '/' + approval.team?.teamName} readOnly />
+                  <input className="two"  onClick={() => deleteline(approval?.userCode)} placeholder='결재자 제거'/>
+                    <input className="three" value={approval.userName} readOnly />
+                    <input className="four" readOnly />
+                </ul>
+              ))}
+              </div>
+              <div className='approval'>
+                <span className="texttitle">참 조</span>
+                {referenceLine.map((reference, index) => (
+                <ul className='approvalul' key={index}>                
+                  <input className='one' value={reference.team?.dept?.deptName + '/' + reference.team?.teamName} readOnly />
+                  <input className='two'  onClick={() => deleteline2(reference?.userCode)} placeholder='참조자 제거'/>
+                  <input className='three' value={reference.userName} readOnly />
+                  <input className='four' readOnly />                    
+                </ul>
+                  ))}
+              </div>
           <table>
             <thead>
               <tr>
@@ -277,7 +393,7 @@ function GeneralDraft(){
                     placeholder="제목을 입력하세요"
                     className="inputtext"
                     name='gdTitle'
-                    value={form.gdTitle}
+                    defaultValue={form.gdTitle}
                     onChange={onChangeHandler}
                   />
                 </td>
@@ -289,7 +405,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="에브리웨어"
                     className="inputtext"
-                    value={userdetail?.team?.dept?.deptName + '/' + userdetail?.team?.teamName}
+                    value={userDetail?.team?.dept?.deptName + '/' + userDetail?.team?.teamName}
                   />
                 </td>
               </tr>
@@ -300,7 +416,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="직위/ 직책 자동으로 입력됩니다."
                     className="inputtext"
-                    value={userdetail?.userRank}
+                    value={userDetail?.userRank}
                   />
                 </td>
               </tr>
@@ -311,7 +427,7 @@ function GeneralDraft(){
                     type="text"
                     placeholder="기안자명 자동으로 입력됩니다."
                     className="inputtext"
-                    value={userdetail?.userName}
+                    value={userDetail?.userName}
                   />
                 </td>
               </tr>
@@ -341,20 +457,26 @@ function GeneralDraft(){
               <tr>
                 <td colSpan={2} className="hihi">
                   <textarea
-                    name=""
-                    id=""
                     cols={30}
                     rows={10}
                     placeholder="기안 목적 및 내용을 입력하세요"
                     className="inputbox3"
-                    defaultValue={""}
+                    name="gdContent"
+                    defaultValue={form.gdContent}
+                    onChange={onChangeHandler}
                   />
                 </td>
               </tr>
             </tbody>
           </table>
           <div className="btn1">
-            <button className="btn" onClick={onClickInsertDocumentHandler}>기안</button>
+            <input
+              type="file"
+              ref={imageInput}
+              onChange={onFileChange}
+              style={{ display: 'none' }} // 시각적으로 숨김 처리
+            />
+            <button className="btn" onClick={onClickInsertDocumentHandler} >기안</button> 
           </div>
         </div>
         <div className='og' id='og' >
@@ -363,8 +485,10 @@ function GeneralDraft(){
         </div>
         </div>
     </main>
+
+
     </div>
-       );
+        );
     }
     
     export default GeneralDraft;
