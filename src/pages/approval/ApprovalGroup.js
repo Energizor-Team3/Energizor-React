@@ -105,11 +105,11 @@ const data = Array.isArray(groupAndTeam) ? [
   };
 
   return (
-    <div className="group">
-      <div className="group_content">
-        <div className="group_list">
+    <div className="group1">
+      <div className="group_content1">
+        <div className="group_list1">
           {/* 나머지 마크업 */}
-          <div className="Group">
+          <div className="Group1">
             <TreeNode
               name={data[0].name}
               children={data[0].children}
