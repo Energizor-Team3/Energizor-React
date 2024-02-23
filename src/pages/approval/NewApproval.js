@@ -105,28 +105,28 @@ function NewApproval(){
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/vacation.html">휴가 신청서</a>
+              <a href="/vacation">휴가 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/businesstrip.html">출장 신청서</a>
+              <a href="/businesstrip">출장 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/education.html">교육 신청서</a>
+              <a href="/education">교육 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a onClick={onClickGeneralDraft}>기안 신청서</a>
+              <a href="/generaldraft">기안 신청서</a>
             </td>
             <td />
           </tr>

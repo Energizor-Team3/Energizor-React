@@ -30,7 +30,7 @@ function TreeNode({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const hasChildren = children && children.length > 0;
-
+  console.log('------------> children : ', children);
   const toggleOpen = () => {
     if (hasChildren) {
       setIsOpen(!isOpen);

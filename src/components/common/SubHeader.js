@@ -42,7 +42,7 @@ function Header() {
             <nav>
                 <div id="main_list_icon">
                     <div>
-                    <a href="/group">
+                    <a href="/main">
                         <img src="/common/Home.png" alt="" />
                     </a>
                     <span style={spanStyle}>홈</span>
@@ -66,7 +66,7 @@ function Header() {
                     </NavLink>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/contact/company-list">
                         <img src="/common/Address.png" alt="" />
                     </a>
                     <span style={spanStyle}>주소록</span>
@@ -83,14 +83,14 @@ function Header() {
                     </a>
                     <span style={spanStyle}>쪽지</span>
                     </div>
-                    <div>
+                    {/* <div>
                     <a href="/group">
                         <img src="/common/Messanger.png" alt="" />
                     </a>
                     <span style={spanStyle}>메신저</span>
-                    </div>
+                    </div> */}
                     <div>
-                    <a href="/group">
+                    <a href="/reservationmain">
                         <img src="/common/reservation.png" alt="" />
                     </a>
                     <span style={spanStyle}>자원예약</span>
