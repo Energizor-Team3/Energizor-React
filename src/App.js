@@ -19,6 +19,7 @@ import UserList from './pages/admin/UserList';
 import MyPage from './pages/user/MyPage';
 import UserRegist from './pages/admin/UserRegist';
 import ModifyUser from './pages/admin/ModifyUser';
+import ChangePwd from './pages/user/ChangePwd';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
 
           <Route path="/userlist" element={ <UserList/> } />
           <Route path="/my-page" element={ <MyPage/> } />
+          <Route path="/changepwd" element={ <ChangePwd/> } />
           <Route path="/userregist" element={ <UserRegist/> } />
           <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
         </Route>

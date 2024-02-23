@@ -31,7 +31,7 @@ function ModifyUser() {
         entDate: '',
         email: '',
         phone: '',
-        dayoff: '',
+        offUsed: 0, // 'dayoffUsed' 상태 추가
         resignDate: '',
         userRole: '',
     });
@@ -46,10 +46,7 @@ function ModifyUser() {
                 entDate: userDetail.entDate || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
-                dayoff: userDetail.dayoff ? {
-                    offCount: userDetail.dayoff.offCount,
-                    offUsed: userDetail.dayoff.offUsed
-                } : null,
+                offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : 0,
                 resignDate: userDetail.resignDate || '',
                 // userRole: '', // 이 부분은 별도의 로직이 필요한 경우 조정
             }));
@@ -115,7 +112,7 @@ function ModifyUser() {
             entDate: form.entDate,
             email: form.email,
             phone: form.phone,
-            dayoff: form.dayoff,
+            offUsed: form.offUsed,
             resignDate: form.resignDate,
             userRole: userRoles,
         };
@@ -180,7 +177,7 @@ function ModifyUser() {
             >
                 <div className="content">
                     <div className="subject">
-                        <strong>직원 등록</strong>
+                        <strong>직원 정보 수정</strong>
                         <div className="line">
                             <div className="search_box">
                                 {/* <input
@@ -286,29 +283,25 @@ function ModifyUser() {
                                     <div className="modify_title">연차 관리</div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">총 연차</label>
-                                        <input
-                                            className="regist_user_input"
-                                            name="dayoff"
-                                            value={form.dayoff?.offCount}
-                                            type="number"
-                                            onChange={onChangeHandler}
-                                        />
+                                        <div className="regist_user_id">
+                                            {userDetail.dayoff?.offCount}
+                                        </div>
                                     </div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">사용 연차</label>
                                         <input
                                             className="regist_user_input"
-                                            name="dayoff"
-                                            value={form.dayoff?.offUsed}
+                                            name="offUsed"
+                                            value={form.offUsed}
                                             type="number"
                                             onChange={onChangeHandler}
                                         />
                                     </div>
                                     <div className="regist_user">
-                                        <label className="regist_user_label">잔여 연차</label>
-                                        <div className="regist_user_id" name="dayoff" value={form.dayoff?.offCount - form.dayoff?.offUsed} onChange={onChangeHandler}>
-                                            {form.dayoff?.offCount - form.dayoff?.offUsed}
-                                        </div>
+                                    <label className="regist_user_label">잔여 연차</label>
+                                    <div className="regist_user_id">
+                                        {userDetail.dayoff?.offCount - form.offUsed}
+                                    </div>
                                     </div>
                                 </form>
                             </div>

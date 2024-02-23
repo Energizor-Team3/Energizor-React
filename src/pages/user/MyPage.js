@@ -8,6 +8,7 @@ import { decodeJwt } from '../../utils/tokenUtils';
 
 function MyPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const myInfo = useSelector((state) => state.userReducer);
 
     useEffect(() => {
@@ -16,13 +17,27 @@ function MyPage() {
 
     console.log('myInfo', myInfo);
 
+    const onClickMyInfoHandler = () => {
+        console.log('내 정보 클릭');
+        if (window.location.pathname !== '/my-page') {
+            navigate('/my-page', { replace: true });
+        }
+    };
+
+    const onClickChangePWHandler = () => {
+        console.log('비밀번호 변경 클릭');
+        if (window.location.pathname !== '/changepwd') {
+            navigate('/changepwd', { replace: true });
+        }
+    };
+
     return (
         <div id="wrap">
             <section>
                 <article>
                     <h2 style={{ marginBottom: 50 }}>마이페이지</h2>
                     <ul className="sub_list">
-                        <li>
+                        <li  onClick={onClickMyInfoHandler}>
                             <div>
                                 <img
                                     src="/mypage/profile.png"
@@ -31,7 +46,7 @@ function MyPage() {
                                 <span>내 정보</span>
                             </div>
                         </li>
-                        <li className="sub_list_text">
+                        <li className="sub_list_text" onClick={onClickChangePWHandler}>
                             <div>
                                 <img
                                     src="/mypage/password.png"

@@ -1,4 +1,4 @@
-import { GET_MYPAGE, GET_USER, GET_USER_LIST, POST_LOGIN, POST_SIGNUP } from '../modules/UserModule';
+import { GET_MYPAGE, GET_USER, GET_USER_LIST, POST_LOGIN, POST_SIGNUP, PUT_PASSWORD } from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -258,5 +258,27 @@ export const callUserDetailAPI = ({ userCode }) => {
             console.error('Error fetching user details:', error);
             dispatch({ type: 'GET_USER_DETAIL_FAILURE', payload: error.message });
         }
+    };
+};
+
+export const callPasswordUpdateAPI = ({ form }) => {
+    console.log('[UserAPICalls] callPasswordUpdateAPI Call');
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/change-password`;
+
+    return async (dispatch, getState) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+            body: form,
+        }).then((response) => response.json());
+
+        console.log('[UserAPICalls] callPasswordUpdateAPI RESULT : ', result);
+
+        dispatch({ type: PUT_PASSWORD, payload: result });
     };
 };

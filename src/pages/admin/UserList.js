@@ -32,6 +32,11 @@ function UserList() {
         }
     };
 
+    // 사용자 행을 클릭했을 때 호출될 이벤트 핸들러
+    const handleUserClick = (userCode) => {
+        navigate(`/modifyuser/${userCode}`);
+    };
+
     return (
         <div id="wrap">
             <section>
@@ -97,6 +102,7 @@ function UserList() {
                                     <tr
                                         key={user?.userCode}
                                         className="user-row"
+                                        onClick={() => handleUserClick(user.userCode)} 
                                     >
                                         <td>{user?.userId}</td>
                                         <td>{user?.userName}</td>
