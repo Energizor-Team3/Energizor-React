@@ -41,7 +41,6 @@ import UserList from "./pages/admin/UserList";
 import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from './pages/user/MyPage';
 import UserRegist from './pages/admin/UserRegist';
-import ModifyUser from './pages/admin/ModifyUser';
 import ChangePwd from './pages/user/ChangePwd';
 
 

@@ -101,6 +101,12 @@ function Header() {
                     </a>
                     <span style={spanStyle}>게시판</span>
                     </div>
+                    <div>
+                    <a href="/userlist">
+                        <img src="/mypage/hrm.png" alt="" />
+                    </a>
+                    <span style={spanStyle}>인사관리</span>
+                    </div>
                 </div>
             </nav>
         </header>
