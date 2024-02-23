@@ -6,6 +6,7 @@ import {
   POST_DEPT_INSERT,
   POST_TEAM_INSERT,
   POST_DEPT_UPDATE,
+  POST_TEAM_UPDATE,
 } from "../modules/GroupAdminModule";
 
 export const callOrganizationAPI = () => {
@@ -166,7 +167,7 @@ export const callTeamInsertAPI = (teamName, deptCode) => {
 };
 
 // 부서 수정
-export const callDeptUpdateAPI = (deptName) => {
+export const callDeptUpdateAPI = (deptName , deptCode) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/dept-update`;
 
   return async (dispatch, getState) => {
@@ -180,7 +181,7 @@ export const callDeptUpdateAPI = (deptName) => {
           Accept: "*/*",
           Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
         },
-        body: JSON.stringify({ deptName }),
+        body: JSON.stringify({ deptCode: deptCode, deptName: deptName }),
       }).then((response) => response.json());
 
       console.log("접근권한확인하기=============== ", result.status);
@@ -194,6 +195,41 @@ export const callDeptUpdateAPI = (deptName) => {
       console.log("부서수정 결과=== ", result);
     } catch (error) {
       console.error("DETP_UPDATE_API 호출 중 에러 발생:", error);
+      throw error;
+    }
+  };
+};
+
+
+// 팀 수정
+export const callTeamUpdateAPI = (teamName , teamCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/team-update`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("팀추가 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ teamName: teamName, teamCode: teamCode }),
+      }).then((response) => response.json());
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`"` + teamName + `"로 팀명이 수정되었어요!`);
+      }
+      dispatch({ type: POST_TEAM_UPDATE, payload: result });
+      console.log("팀수정 결과=== ", result);
+    } catch (error) {
+      console.error("TEAM_UPDATE_API 호출 중 에러 발생:", error);
       throw error;
     }
   };
