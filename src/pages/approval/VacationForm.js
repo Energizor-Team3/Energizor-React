@@ -2,7 +2,7 @@ import './Vacation.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI } from '../../apis/ApprovalAPICalls';
+import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI } from '../../apis/ApprovalAPICalls.js';
 
 import { printDocument } from './pdf.js';
 
