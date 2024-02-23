@@ -287,7 +287,7 @@ function Education(){
       || form.eduStart === ''|| form.eduFinish === ''|| form.eduInstitution === ''|| form.eduPrice === ''|| form.eduContent === ''|| form.eduName === '' 
        
             ){
-                alert('제목을 입력해주세요.');
+                alert('공란을 입력해주세요.');
                 return ;
         }
       
