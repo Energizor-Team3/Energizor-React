@@ -89,13 +89,14 @@ main{
 
 /* 테이블 */
 
-table {
+/* .approvaltable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
 
-table thead{
+.approvaltable thead{
+    
     background-color: rgb(235, 235, 235);
     text-align: left;
     margin: 0;
@@ -103,20 +104,59 @@ table thead{
     border-bottom: 1px solid rgb(156, 156, 156);
 }
 
-table thead th , table tbody tr td{
+
+ 
+
+.approvaltable thead th , .approvaltable tbody tr td{
+    
+    padding: 8px 5px;
+}
+.approvaltable thead th:nth-child(1) {
+    width: 50px;
+}
+
+.approvaltable thead th:nth-child(3) {
+    width: 600px;
+        
+}
+
+.approvaltable tbody tr{
+    border-bottom: 1px solid rgb(156, 156, 156);
+}  */
+
+.approvaltables {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.approvaltables thead{
+    background-color: rgb(235, 235, 235);
+    text-align: left;
+    margin: 0;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.approvaltables thead th , .approvaltables tbody tr td{
     padding: 8px 5px;
 }
 
-/* table thead th input[type="checkbox"]{
+.approvaltables thead th input[type="checkbox"]{
     margin-left: 10px;
-} */
-
-table thead th:nth-child(3) {
+}
+.approvaltables thead th {
+    width: 300px;
+    
+}
+.approvaltables thead th:nth-child(3) {
     width: 600px;
     
     
     
 }
+ 
+
 .btn{
     padding: 20px;
     border-radius: 6px;
@@ -131,7 +171,7 @@ table thead th:nth-child(3) {
 
 
 
-table tbody tr{
+.approvaltables tbody tr{
     border-bottom: 1px solid rgb(156, 156, 156);
 }
 

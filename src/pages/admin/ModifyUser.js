@@ -1,28 +1,32 @@
-import './ModifyUser.css';
-import { callModifyUserAPI, callTeamListAPI, callUserDetailAPI } from '../../apis/UserAPICalls';
+import "./ModifyUser.css";
+import {
+  callModifyUserAPI,
+  callTeamListAPI,
+  callUserDetailAPI,
+} from "../../apis/UserAPICalls";
 
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 function ModifyUser() {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const userDetail = useSelector((state) => state.userReducer);
-    const { userCode } = useParams();
-    console.log('[ModifyUser] userCode1 : ', userCode);
-    const [modifyMode, setModifyMode] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userDetail = useSelector((state) => state.userReducer);
+  const { userCode } = useParams();
+  console.log("[ModifyUser] userCode1 : ", userCode);
+  const [modifyMode, setModifyMode] = useState(true);
 
-    useEffect(() => {
-        console.log('[ModifyUser] userCode2 : ', userCode);
-        dispatch(
-            callUserDetailAPI({
-                userCode: userCode,
-            })
-        );
-    }, [dispatch, userCode]);
+  useEffect(() => {
+    console.log("[ModifyUser] userCode2 : ", userCode);
+    dispatch(
+      callUserDetailAPI({
+        userCode: userCode,
+      })
+    );
+  }, [dispatch, userCode]);
 
-    console.log('userDetail', userDetail);
+  console.log("userDetail", userDetail);
 
     const [form, setForm] = useState({
         userName: '',
