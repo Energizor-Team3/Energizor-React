@@ -1,4 +1,5 @@
 import './UserList.css';
+import moment from 'moment';
 import { callUserListAPI } from '../../apis/UserAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -11,9 +12,27 @@ function UserList() {
     const userList = useSelector((state) => state.userReducer);
     const userListContent = userList?.data?.content;
 
+    const pageInfo = userList.pageInfo;
+
+    const [start, setStart] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageEnd, setPageEnd] = useState(1);
+
+    const pageNumber = [];
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
+            pageNumber.push(i);
+        }
+    }
+
     useEffect(() => {
-        dispatch(callUserListAPI());
-    }, []);
+        setStart((currentPage - 1) * 5);
+        dispatch(
+            callUserListAPI({
+                currentPage: currentPage,
+            })
+        );
+    }, [currentPage]);
 
     console.log('userList', userList);
     console.log('userListContent', userListContent);
@@ -36,7 +55,6 @@ function UserList() {
     const handleUserClick = (userCode) => {
         navigate(`/modifyuser/${userCode}`);
     };
-
 
     return (
         <div id="wrap">
@@ -103,36 +121,62 @@ function UserList() {
                                     <tr
                                         key={user?.userCode}
                                         className="user-row"
-                                        onClick={() => handleUserClick(user.userCode)} 
+                                        onClick={() => handleUserClick(user.userCode)}
                                     >
                                         <td>{user?.userId}</td>
                                         <td>{user?.userName}</td>
                                         <td>{user?.team?.teamName}</td>
                                         <td>{user?.phone}</td>
                                         <td>{user?.email}</td>
-                                        <td>{user?.entDate}</td>
+                                        <td>{moment.utc(user.entDate).format('YYYY-MM-DD')}</td>
                                         <td>{user?.dayoff?.offCount}</td>
                                         <td>{user?.dayoff?.offUsed}</td>
                                         <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
-                                        <td>{user?.resignDate === '9999-12-30' ? '재직 중' : user?.resignDate}</td>
+                                        <td>
+                                            {moment.utc(user.resignDate).format('YYYY-MM-DD') === '9999-12-31'
+                                                ? '재직 중'
+                                                : moment(user.resignDate).format('YYYY-MM-DD')}
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>
                     </table>
-                    <select
-                        name="page_number_choice"
-                        id="page_number_choice"
-                    >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={15}>15</option>
-                    </select>
-                    <label
-                        className="page_number_choice_text"
-                        htmlFor="page_number_choice"
-                    >
-                        페이지당 항목수
-                    </label>
+
+                    <div className="pagingArea">
+                        <div style={{ listStyleType: 'none', display: 'flex' }}>
+                            {Array.isArray(userListContent) && (
+                                <button
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                    className="pagingBtn"
+                                >
+                                    &lt;
+                                </button>
+                            )}
+                            {pageNumber.map((num) => (
+                                <li
+                                    key={num}
+                                    onClick={() => setCurrentPage(num)}
+                                >
+                                    <button
+                                        style={currentPage === num ? { backgroundColor: '#94A9FF' } : null}
+                                        className="pagingBtn"
+                                    >
+                                        {num}
+                                    </button>
+                                </li>
+                            ))}
+                            {Array.isArray(userListContent) && (
+                                <button
+                                    className="pagingBtn"
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    disabled={currentPage === pageInfo.pageEnd || pageInfo.total === 0}
+                                >
+                                    &gt;
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

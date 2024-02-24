@@ -211,31 +211,41 @@
 
 /* 그룹 추가 */
 
+.main_group 
 .group_insert_wrap,
-.group_modify {
-  margin-top: 80px;
+.group_modify_wrap,
+.group_delete_wrap {
+  margin-top: 50px;
 }
 
-.main_group .group_insert,
-.group_modify {
+.main_group 
+.group_insert,
+.group_modify,
+.team_delete{
   display: flex;
   flex-direction: column;
 }
 
-.main_group .group_insert li,
-.group_modify li {
+.main_group 
+.group_insert li,
+.group_modify li,
+.group_delete li {
   display: flex;
   margin-bottom: 30px;
 }
 
-.main_group .group_insert li label,
-.group_modify li label {
+.main_group 
+.group_insert li label,
+.group_modify li label,
+.group_delete li label {
   width: 140px;
   font-weight: 500;
   font-size: 18px;
 }
-.main_group .group_insert li input,
-.group_modify input {
+.main_group 
+.group_insert input,
+.group_modify input,
+.group_delete input {
   width: 400px;
   height: 30px;
   border: 1px solid rgb(141, 141, 141);
@@ -243,23 +253,30 @@
   text-indent: 14px;
 }
 
-.main_group .group_insert hr,
-.group_modify hr {
+.main_group 
+.group_insert hr,
+.group_modify hr,
+.group_delete hr {
   margin-bottom: 50px;
 }
 
-.main_group .teamInsert {
+.main_group 
+.team_insert{
   display: flex;
   flex-direction: column;
 }
 
-.main_group .teamInsert div {
+.main_group 
+.team_insert div,
+.team_delete div {
   display: flex;
   margin-bottom: 30px;
 }
 
-.group_insert li button,
-.group_modify li button {
+.main_group 
+.group_insert button,
+.group_modify button,
+.group_delete button {
   margin: 0 10px;
   padding: 6px 0;
   width: 70px;
@@ -270,12 +287,18 @@
   background-color: #94a9ff;
 }
 
-.main_group .group_insert li button:hover {
+.main_group 
+.group_insert li button:hover,
+.group_delete li button:hover,
+.group_modify li button:hover{
   box-shadow: 0 -3px 10px #335cff inset;
   color: white;
 }
 
-.main_group .group_insert li button:active {
+.main_group 
+.group_insert li button:active,
+.group_delete li button:active,
+.group_modify li button:active {
   box-shadow: none;
   border: none;
 }

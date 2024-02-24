@@ -1,14 +1,28 @@
 .content {
-  width: 1400px;
+    width: 1400px;
 }
-.usertable thead th{
-    padding: 8px 5px;
-}
-.user_table{
-    width:100%;
-    border-collapse:collapse;
+
+.user_table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
 }
+
+.user_table thead th, .user_table tbody td {
+    padding: 8px 5px;
+}
+
+.user_table thead {
+    background-color: rgb(235, 235, 235);
+    margin: 0;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.user_table tbody tr {
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
 .sub_list li div img {
   padding-right: 10px;
   width: 30px;
@@ -83,4 +97,25 @@
 .user_table tbody tr td:nth-child(9) {
   min-width: 10px;
   max-width: 50px;
+}
+
+.pagingArea {
+  position: absolute;
+  right: 44%;
+  transform: translateX(50%);
+  margin-top: 20px;
+}
+
+.pagingBtn{
+  margin: 4px;
+  border-radius: 6px;
+  background-color: white;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
+}
+
+.pagingBtn:hover{
+  cursor: pointer;
+  background-color: #eeba8cdd;
 }

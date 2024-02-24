@@ -11,6 +11,8 @@ export const POST_LOGIN     = 'user/POST_LOGIN';
 export const POST_SEARCHPWD  = 'user/POST_SEARCHPWD';
 export const GET_MYPAGE = 'user/GET_MYPAGE';
 export const POST_SIGNUP = 'user/POST_SIGNUP';
+export const PUT_PASSWORD = 'user/PUT_PASSWORD';
+export const MODIFY_SUCCESS = 'user/MODIFY_SUCCESS';
 
 const actions = createActions({
     [GET_USER_LIST]: () => {},
@@ -19,6 +21,8 @@ const actions = createActions({
     [POST_SEARCHPWD]: () => {},
     [GET_MYPAGE]: () => {},
     [POST_SIGNUP]: () => {},
+    [PUT_PASSWORD]: () => {},
+    [MODIFY_SUCCESS]: () => {},
 });
 
 /* 리듀서 */
@@ -48,6 +52,15 @@ export const userReducer = handleActions(
             
             return payload;
         },
+        [PUT_PASSWORD]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [MODIFY_SUCCESS]: (state, { payload }) => {
+            
+            return payload;
+        },
+
 
     },
     initialState

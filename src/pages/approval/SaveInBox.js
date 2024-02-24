@@ -48,57 +48,59 @@ function SaveInBox() {
     return (
         <div id="wrap">
   <section>
-    <article>
-      <h2>전자결재</h2>
-      <div>
-        <a href="/views/approval/newApproval.html/">
-          <button className="btn">신규기안</button>
-        </a>
-      </div>
-      <ul className="sub_list">
-        <li>
+        <article>
+          <h2>전자결재</h2>
           <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvalMain.html/">결재할 문서</a>
-            </span>
+            <a href="./newapproval">
+              <button className="btn">신규기안</button>
+            </a>
           </div>
-        </li>
-        <li className="sub_list_text">
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvaling.html/">진행중인 문서</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Mydocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/mydocument.html/">내 문서함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Temporarystoragebox.png" alt="" />
-            <span>
-              <a href="/views/approval/temporarystorage.html/">임시보관함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Shareddocumentbox.png" alt="" />
-            <span className="textcolor">
-              <a href="/views/approval/sharedinbox.html/">공유받은 문서함</a>
-            </span>
-          </div>
-        </li>
-      </ul>
-    </article>
-  </section>
+          <ul className="subList">
+            <li>
+              <div>
+                <img src="/common/Approval.png" alt="" />
+                <span>
+                  <a href="./approvalmain">결재할 문서</a>
+                </span>
+                <span className="listlist">1</span>
+              </div>
+            </li>
+            <li className="subListText">
+              <div>
+                <img src="/common/Approval.png" alt="" />
+                <span>
+                  <a href="/approvaling">진행중인 문서</a>
+                </span>
+                <span className="listlist1">1</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="/common/Mydocumentbox.png" alt="" />
+                <span>
+                  <a href="/inbox">내 문서함</a>
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="/common/Temporarystoragebox.png" alt="" />
+                <span>
+                  <a href="/saveinbox">임시보관함</a>
+                </span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="/common/Shareddocumentbox.png" alt="" />
+                <span>
+                  <a href="/sharedinbox">공유받은 문서함</a>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </section>
   <main>
     <div className="content">
       <div className="subject">

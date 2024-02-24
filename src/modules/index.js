@@ -19,6 +19,8 @@ import groupReducer from "./GroupModule";
 import groupUserReducer from "./GroupUserModule";
 import groupDeptReducer from "./GroupDeptModule";
 import groupTeamReducer from "./GroupTeamModule";
+import groupAdminReducer from "./GroupAdminModule";
+
 
 
 const rootReducer = combineReducers({
@@ -34,6 +36,7 @@ const rootReducer = combineReducers({
   groupUserReducer,
   groupDeptReducer,
   groupTeamReducer,
+  groupAdminReducer,
 
   projectReducer,
   calendarReducer,

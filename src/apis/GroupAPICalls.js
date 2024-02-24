@@ -7,6 +7,7 @@ import {
   POST_TEAM_INSERT,
   POST_DEPT_UPDATE,
   POST_TEAM_UPDATE,
+  POST_DEPT_DELETE,
 } from "../modules/GroupAdminModule";
 // import { POST_LOGIN } from '../modules/UserModule';
 
@@ -264,3 +265,40 @@ export const callTeamUpdateAPI = (teamName , teamCode) => {
     }
   };
 };
+
+
+// 부서 삭제
+export const callDeptDeletetAPI = (deptCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/dept-delete`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("부서삭제 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ deptCode }),
+      }).then((response) => response.json());
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`기존 부서가 삭제되었어요!`);
+      }
+      dispatch({ type: POST_DEPT_DELETE, payload: result });
+      console.log("부서삭제 결과===== ", result);
+    } catch (error) {
+      console.error("DETP_DELETE_API 호출 중 에러 발생:", error);
+      alert(`부서삭제 실패..`);
+      throw error;
+    }
+  };
+};
+
