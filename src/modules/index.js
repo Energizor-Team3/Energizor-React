@@ -19,6 +19,11 @@ import reservationTotalReducer from "./ReservationTotalModules ";
 import contactReducer from "./ContactModule";
 import groupReducer from "./GroupModule";
 import groupUserReducer from "./GroupUserModule";
+import groupDeptReducer from "./GroupDeptModule";
+import groupTeamReducer from "./GroupTeamModule";
+import groupAdminReducer from "./GroupAdminModule";
+
+
 
 const rootReducer = combineReducers({
   userReducer,
@@ -31,6 +36,10 @@ const rootReducer = combineReducers({
 
   groupReducer,
   groupUserReducer,
+  groupDeptReducer,
+  groupTeamReducer,
+  groupAdminReducer,
+
   projectReducer,
   calendarReducer,
   scheduleReducer,

@@ -1,32 +1,29 @@
-import "./ModifyUser.css";
-import {
-  callModifyUserAPI,
-  callTeamListAPI,
-  callUserDetailAPI,
-} from "../../apis/UserAPICalls";
+import './ModifyUser.css';
+import moment from 'moment';
+import { callModifyUserAPI, callTeamListAPI, callUserDetailAPI } from '../../apis/UserAPICalls';
 
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function ModifyUser() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userDetail = useSelector((state) => state.userReducer);
-  const { userCode } = useParams();
-  console.log("[ModifyUser] userCode1 : ", userCode);
-  const [modifyMode, setModifyMode] = useState(true);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const userDetail = useSelector((state) => state.userReducer);
+    const { userCode } = useParams();
+    console.log('[ModifyUser] userCode1 : ', userCode);
+    const [modifyMode, setModifyMode] = useState(true);
 
-  useEffect(() => {
-    console.log("[ModifyUser] userCode2 : ", userCode);
-    dispatch(
-      callUserDetailAPI({
-        userCode: userCode,
-      })
-    );
-  }, [dispatch, userCode]);
+    useEffect(() => {
+        console.log('[ModifyUser] userCode2 : ', userCode);
+        dispatch(
+            callUserDetailAPI({
+                userCode: userCode,
+            })
+        );
+    }, [userCode]);
 
-  console.log("userDetail", userDetail);
+    console.log('userDetail', userDetail);
 
     const [form, setForm] = useState({
         userName: '',
@@ -35,24 +32,27 @@ function ModifyUser() {
         entDate: '',
         email: '',
         phone: '',
-        offUsed: 0, // 'dayoffUsed' 상태 추가
+        offUsed: '',
         resignDate: '',
-        userRole: '',
+        adminRole: '',
     });
 
     useEffect(() => {
+        const hasAdminRole = userDetail.authorities?.some((role) => role.authority === 'ROLE_ADMIN');
+        setIsAdmin(hasAdminRole);
+
         if (userDetail && Object.keys(userDetail).length > 0) {
-            setForm(prevForm => ({
+            setForm((prevForm) => ({
                 ...prevForm,
                 userName: userDetail.userName || '',
                 team: userDetail.team ? userDetail.team.teamCode : '',
                 userRank: userDetail.userRank || '',
-                entDate: userDetail.entDate || '',
+                entDate: moment(userDetail.entDate).format('YYYY-MM-DD') || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
-                offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : 0,
-                resignDate: userDetail.resignDate || '',
-                // userRole: '', // 이 부분은 별도의 로직이 필요한 경우 조정
+                offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : '',
+                resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD') || '',
+                adminRole: hasAdminRole,
             }));
         }
     }, [userDetail]);
@@ -74,27 +74,20 @@ function ModifyUser() {
     }, []);
 
     // 관리자 권한 설정
-    const [isAdmin, setIsAdmin] = useState(false);
-
-    useEffect(() => {
-        const hasAdminRole = userDetail.userRole?.some((role) => role.authority === 'ROLE_ADMIN');
-        setIsAdmin(hasAdminRole);
-    }, [userDetail]);
+    const [isAdmin, setIsAdmin] = useState();
 
     const handleAdminChange = (e) => {
-        setIsAdmin(e.target.checked);
+        const isChecked = e.target.checked;
+        setIsAdmin(isChecked);
+        setForm((prevForm) => ({
+            ...prevForm,
+            isAdmin: isChecked,
+        }));
     };
-
-    // const onChangeHandler = (e) => {
-    //     setForm({
-    //         ...form,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
-        setForm(prevForm => ({
+        setForm((prevForm) => ({
             ...prevForm,
             [name]: value,
         }));
@@ -107,18 +100,17 @@ function ModifyUser() {
         // teamDTO 값을 정확하게 찾아서 설정
         const selectedTeam = teams.find((team) => team.teamCode.toString() === form.team);
 
-        const userRoles = isAdmin ? [{ authority: { authName: 'ROLE_ADMIN' } }] : [];
-
         const requestBody = {
+            userId: userDetail.userId,
             userName: form.userName,
             team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
-            entDate: form.entDate,
+            entDate: moment(userDetail.entDate).format('YYYY-MM-DD'),
             email: form.email,
             phone: form.phone,
             offUsed: form.offUsed,
-            resignDate: form.resignDate,
-            userRole: userRoles,
+            resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD'),
+            adminRole: form.isAdmin,
         };
 
         try {
@@ -215,7 +207,7 @@ function ModifyUser() {
                                     <select
                                         className="regist_user_input"
                                         name="team"
-                                        value={form.team?.teamName}
+                                        value={form.team}
                                         onChange={onChangeHandler}
                                     >
                                         {teams.map((team) => (
@@ -250,7 +242,7 @@ function ModifyUser() {
                                     <input
                                         className="regist_user_input"
                                         name="entDate"
-                                        value={form.entDate}
+                                        value={moment(userDetail.entDate).format('YYYY-MM-DD')}
                                         type="date"
                                         onChange={onChangeHandler}
                                     />
@@ -287,9 +279,7 @@ function ModifyUser() {
                                     <div className="modify_title">연차 관리</div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">총 연차</label>
-                                        <div className="regist_user_id">
-                                            {userDetail.dayoff?.offCount}
-                                        </div>
+                                        <div className="regist_user_id">{userDetail.dayoff?.offCount}</div>
                                     </div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">사용 연차</label>
@@ -302,10 +292,10 @@ function ModifyUser() {
                                         />
                                     </div>
                                     <div className="regist_user">
-                                    <label className="regist_user_label">잔여 연차</label>
-                                    <div className="regist_user_id">
-                                        {userDetail.dayoff?.offCount - form.offUsed}
-                                    </div>
+                                        <label className="regist_user_label">잔여 연차</label>
+                                        <div className="regist_user_id">
+                                            {userDetail.dayoff?.offCount - form.offUsed}
+                                        </div>
                                     </div>
                                 </form>
                             </div>
@@ -321,7 +311,7 @@ function ModifyUser() {
                                         <input
                                             className="regist_user_input"
                                             name="resignDate"
-                                            value={form.resignDate}
+                                            value={moment(userDetail.resignDate).format('YYYY-MM-DD')}
                                             type="date"
                                             onChange={onChangeHandler}
                                         />
@@ -335,6 +325,8 @@ function ModifyUser() {
                                         <label className="auth_admin">관리자 권한</label>
                                         <label className="switch">
                                             <input
+                                                name="adminRole"
+                                                value={form.isAdmin}
                                                 type="checkbox"
                                                 checked={isAdmin}
                                                 onChange={handleAdminChange}

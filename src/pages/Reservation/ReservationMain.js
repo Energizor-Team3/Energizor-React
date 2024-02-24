@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
 import { useEffect, useState } from "react";
 import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
+import { Link } from "react-router-dom";
 
 function ReservationMain() {
   const dispatch = useDispatch();
@@ -72,7 +73,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">GREEN ROOM (6F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "GREEN ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
             <div className="meeting-room-box">
               <img
@@ -81,7 +84,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">BLUE ROOM (5F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "BLUE ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
             <div className="meeting-room-box">
               <img
@@ -90,7 +95,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">PROJECT ROOM (4F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "PROJECT ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
           </div>
           <div className="time-grid">
@@ -115,14 +122,18 @@ function ReservationMain() {
                 hour12: false,
               }}
               events={reservationTotal.map((event) => {
-                console.log("199191919191919", event.userCode.userName);
+                // reservationDate 배열을 날짜 문자열로 변환
+                const year = event.reservationDate[0];
+                const month = event.reservationDate[1].toString().padStart(2, '0'); // 월을 2자리 숫자로 만듦
+                const day = event.reservationDate[2].toString().padStart(2, '0'); // 일을 2자리 숫자로 만듦
+                const isoDate = `${year}-${month}-${day}`;
+              
                 return {
-                  title: event.userCode.userName + ' - ' + event.reservationContent,
-                  start: event.reservationDate + "T08:00:00",
-                  end: event.reservationDate + "T10:00:00",
-                  color: getColorForMeetCode(event.meetCode.meetCode),
-                  textColor: 'black', // 이벤트의 텍스트 색상을 파란색으로 지정
-
+                  title: event.userCode.userName + " - " + event.reservationContent,
+                  start: isoDate + "T08:00:00",
+                  end: isoDate + "T10:00:00",
+                  color: getColorForMeetCode(event.meetCode.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
+                  textColor: "black",
                 };
               })}
             />
