@@ -42,7 +42,7 @@ function Header() {
             <nav>
                 <div id="main_list_icon">
                     <div>
-                    <a href="/group">
+                    <a href="/main">
                         <img src="/common/Home.png" alt="" />
                     </a>
                     <span style={spanStyle}>홈</span>

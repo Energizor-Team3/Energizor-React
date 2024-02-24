@@ -1,10 +1,11 @@
-main {
+.main {
     background-color: #F2F6FF;
-    margin-left: 280px;
+    margin-left: 85px;
     height: 100vh;
     display: flex;
     justify-content: space-between;
     padding: 70px;
+    width: auto;
 }
 
 .main_wrap {
@@ -40,7 +41,7 @@ main {
     border-radius: 50%; 
     overflow: hidden;
     width: 120px;
-    margin-right: 60px;
+    margin-right: 30px;
 }
 
 .go_mypage {

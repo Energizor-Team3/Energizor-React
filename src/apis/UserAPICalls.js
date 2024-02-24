@@ -13,7 +13,7 @@ export const callLoginAPI = ({ form }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                'Access-Control-Allow-Origin': '*', // 모든 도멘인에서 접근할 수 있음을 의미 (특정도메인을 넣고싶으면 * 대신 http://test.com)
+                'Access-Control-Allow-Origin': '*', // 모든 도메인에서 접근할 수 있음을 의미 (특정도메인을 넣고싶으면 * 대신 http://test.com)
             },
             body: JSON.stringify({
                 userId: form.userId,

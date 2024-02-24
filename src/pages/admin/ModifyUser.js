@@ -1,32 +1,29 @@
-import "./ModifyUser.css";
-import {
-  callModifyUserAPI,
-  callTeamListAPI,
-  callUserDetailAPI,
-} from "../../apis/UserAPICalls";
+import './ModifyUser.css';
+import moment from 'moment';
+import { callModifyUserAPI, callTeamListAPI, callUserDetailAPI } from '../../apis/UserAPICalls';
 
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function ModifyUser() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userDetail = useSelector((state) => state.userReducer);
-  const { userCode } = useParams();
-  console.log("[ModifyUser] userCode1 : ", userCode);
-  const [modifyMode, setModifyMode] = useState(true);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const userDetail = useSelector((state) => state.userReducer);
+    const { userCode } = useParams();
+    console.log('[ModifyUser] userCode1 : ', userCode);
+    const [modifyMode, setModifyMode] = useState(true);
 
-  useEffect(() => {
-    console.log("[ModifyUser] userCode2 : ", userCode);
-    dispatch(
-      callUserDetailAPI({
-        userCode: userCode,
-      })
-    );
-  }, [userCode]);
+    useEffect(() => {
+        console.log('[ModifyUser] userCode2 : ', userCode);
+        dispatch(
+            callUserDetailAPI({
+                userCode: userCode,
+            })
+        );
+    }, [userCode]);
 
-  console.log("userDetail", userDetail);
+    console.log('userDetail', userDetail);
 
     const [form, setForm] = useState({
         userName: '',
@@ -35,27 +32,28 @@ function ModifyUser() {
         entDate: '',
         email: '',
         phone: '',
-        offUsed: '', 
+        offUsed: '',
         resignDate: '',
         adminRole: '',
     });
 
     useEffect(() => {
-        const hasAdminRole = userDetail.authorities
-        ?.some((role) => role.authority === 'ROLE_ADMIN');
+        const hasAdminRole = userDetail.authorities?.some((role) => role.authority === 'ROLE_ADMIN');
         setIsAdmin(hasAdminRole);
 
         if (userDetail && Object.keys(userDetail).length > 0) {
-            setForm(prevForm => ({
+            setForm((prevForm) => ({
                 ...prevForm,
                 userName: userDetail.userName || '',
                 team: userDetail.team ? userDetail.team.teamCode : '',
                 userRank: userDetail.userRank || '',
-                entDate: userDetail.entDate || '',
+                // entDate: userDetail.entDate || '',
+                entDate: moment(userDetail.entDate).format('YYYY-MM-DD') || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
                 offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : '',
-                resignDate: userDetail.resignDate || '',
+                // resignDate: userDetail.resignDate || '',
+                resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD') || '',
                 adminRole: hasAdminRole,
             }));
         }
@@ -88,7 +86,7 @@ function ModifyUser() {
     const handleAdminChange = (e) => {
         const isChecked = e.target.checked;
         setIsAdmin(isChecked);
-        setForm(prevForm => ({
+        setForm((prevForm) => ({
             ...prevForm,
             isAdmin: isChecked,
         }));
@@ -96,7 +94,7 @@ function ModifyUser() {
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
-        setForm(prevForm => ({
+        setForm((prevForm) => ({
             ...prevForm,
             [name]: value,
         }));
@@ -291,9 +289,7 @@ function ModifyUser() {
                                     <div className="modify_title">연차 관리</div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">총 연차</label>
-                                        <div className="regist_user_id">
-                                            {userDetail.dayoff?.offCount}
-                                        </div>
+                                        <div className="regist_user_id">{userDetail.dayoff?.offCount}</div>
                                     </div>
                                     <div className="regist_user">
                                         <label className="regist_user_label">사용 연차</label>
@@ -306,10 +302,10 @@ function ModifyUser() {
                                         />
                                     </div>
                                     <div className="regist_user">
-                                    <label className="regist_user_label">잔여 연차</label>
-                                    <div className="regist_user_id">
-                                        {userDetail.dayoff?.offCount - form.offUsed}
-                                    </div>
+                                        <label className="regist_user_label">잔여 연차</label>
+                                        <div className="regist_user_id">
+                                            {userDetail.dayoff?.offCount - form.offUsed}
+                                        </div>
                                     </div>
                                 </form>
                             </div>
