@@ -107,8 +107,6 @@ function ModifyUser() {
         // teamDTO 값을 정확하게 찾아서 설정
         const selectedTeam = teams.find((team) => team.teamCode.toString() === form.team);
 
-        const userRoles = isAdmin ? [{ authority: { authName: 'ROLE_ADMIN' } }] : [];
-
         const requestBody = {
             userId: userDetail.userId,
             userName: form.userName,

@@ -1,5 +1,5 @@
 .main {
-    background-color: #F2F6FF;
+    background-color: #f2f6ff;
     margin-left: 85px;
     height: 100vh;
     display: flex;
@@ -8,19 +8,15 @@
     width: auto;
 }
 
-.main_wrap {
-    width: 30%;
-}
-
 .main_wrap > div {
-    width: 450px;
+    width: 500px;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
 }
 
 .main_wrap > div > h1 {
-    color: #415CBE;
+    color: #415cbe;
     font-size: 24px;
     padding: 20px 0 20px 30px;
 }
@@ -38,21 +34,21 @@
 }
 
 .user_photo > img {
-    border-radius: 50%; 
+    border-radius: 50%;
     overflow: hidden;
     width: 120px;
     margin-right: 30px;
 }
 
 .go_mypage {
-    background: #94A9FF;
-    border-radius: 6px; 
+    background: #94a9ff;
+    border-radius: 6px;
     border: transparent;
     width: 90px;
     height: 30px;
     font-weight: 550;
     font-size: 12px;
-    color:#353535;
+    color: #353535;
     line-height: 16px;
     text-align: center;
     letter-spacing: 0.1em;
@@ -63,7 +59,7 @@
     height: 400px;
     width: 450px;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     margin-top: 50px;
 }
@@ -76,7 +72,7 @@
     height: 200px;
     width: 450px;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     margin-top: 50px;
 }
@@ -93,7 +89,7 @@
     height: 300px;
     width: 450px;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     margin-top: 50px;
 }
@@ -102,7 +98,7 @@
     height: 300px;
     width: 450px;
     background-color: white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     margin-top: 50px;
 }

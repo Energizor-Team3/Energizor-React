@@ -1,4 +1,12 @@
-import { GET_MYPAGE, GET_USER, GET_USER_LIST, MODIFY_SUCCESS, POST_LOGIN, POST_SIGNUP, PUT_PASSWORD } from '../modules/UserModule';
+import {
+    GET_MYPAGE,
+    GET_USER,
+    GET_USER_LIST,
+    MODIFY_SUCCESS,
+    POST_LOGIN,
+    POST_SIGNUP,
+    PUT_PASSWORD,
+} from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -68,8 +76,16 @@ export const callLogoutAPI = () => {
     };
 };
 
-export const callUserListAPI = () => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
+export const callUserListAPI = ({ currentPage }) => {
+    let requestURL;
+
+    if (currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management?offset=${currentPage}`;
+    } else {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management}`;
+    }
+
+    console.log('[UserAPICalls] requestURL : ', requestURL);
 
     return async (dispatch, getState) => {
         console.log('확인!!!!!');
