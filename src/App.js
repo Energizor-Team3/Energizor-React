@@ -21,6 +21,8 @@ import NewApproval from "./pages/approval/NewApproval";
 import Vacation from "./pages/approval/Vacation";
 import SaveInBox from "./pages/approval/SaveInBox";
 import Layout from "./layouts/SubLayout";
+import ProxyApprovalLine from './pages/approval/ProxyApprovalLine';
+
 // import Group from './pages/group/Group';
 
 import ProjectDetail from "./pages/project/project_detail";
@@ -39,6 +41,11 @@ import UserList from "./pages/admin/UserList";
 import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from './pages/user/MyPage';
 import UserRegist from './pages/admin/UserRegist';
+import ChangePwd from './pages/user/ChangePwd';
+
+
+import CompanyContact from "./pages/contact/companyContactList";
+import PersonalContact from "./pages/contact/personalContactList";
 
 function App() {
   return (
@@ -58,6 +65,7 @@ function App() {
 
           <Route path="/userlist" element={ <UserList/> } />
           <Route path="/my-page" element={ <MyPage/> } />
+          <Route path="/changepwd" element={ <ChangePwd/> } />
           <Route path="/userregist" element={ <UserRegist/> } />
           <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
 
@@ -93,6 +101,8 @@ function App() {
           <Route path="/businesstripform" element={<BusinesstripForm />} />
           <Route path="/vacationform" element={<VacationForm />} />
           <Route path="/group" element={<Group />} />
+          <Route path="/proxyapprovalline" element={ <ProxyApprovalLine/> } />
+
 
           {/* 자원예약 */}
 
@@ -109,7 +119,13 @@ function App() {
           <Route path="/calendar/setting" element={<CalendarSetting />} />
           <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
           <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+
+          {/* 주소록 */}
+          <Route path="/contact/company-list" element={<CompanyContact/>} />
+          <Route path="/contact/personal-list/:userCode" element={<PersonalContact/>} />
         </Route>
+
+        
       </Routes>
     </BrowserRouter>
   );

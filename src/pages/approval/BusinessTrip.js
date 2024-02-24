@@ -8,6 +8,8 @@ import { callSelectUserDetailAPI, callSaveBusinessTripAPI, callInsertBusinessTri
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import ApprovalHeader from './approvalHeader'
+
 
 
 function BusinessTrip(){
@@ -33,6 +35,16 @@ function BusinessTrip(){
     console.log(formatdate2);
   } 
 
+  function getDaysDifference(startDate, endDate) {
+    if(startDate != null){
+
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const difference = end - start; // 밀리초 단위의 차이
+      const days = difference / (1000 * 60 * 60 * 24); // 일수로 변환
+      return Math.round(days); // 소수점 아래를 반올림하여 반환
+    }
+  }
 
   // 조회해온 임시저장문서 가 있을경우 진행
   useEffect(() => {
@@ -298,58 +310,10 @@ useEffect(() => {
 
 
 <div id="wrap">
-  <section>
-    <article>
-      <h2>전자결재</h2>
-      <div>
-        <a href="/views/approval/newApproval.html">
-          <button className="btn">신규기안</button>
-        </a>
-      </div>
-      <ul className="sub_list">
-        <li>
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvalMain.html">결재할 문서</a>
-            </span>
-          </div>
-        </li>
-        <li className="sub_list_text">
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvaling.html">진행중인 문서</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Mydocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/mydocument.html">내 문서함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Temporarystoragebox.png" alt="" />
-            <span>
-              <a href="/views/approval/temporarystorage.html">임시보관함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Shareddocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-            </span>
-          </div>
-        </li>
-      </ul>
-    </article>
-  </section>
+<section>
+<ApprovalHeader/>
+        
+      </section>
   <main>
     <div className="content">
     <div className="subject">
@@ -479,7 +443,7 @@ useEffect(() => {
             <tr>
               <td className="text">출장 일수 합계</td>
               <td className="inputsize">
-                <input type="text" className="inputtext1" defaultValue="0일" />
+                <input type="text" className="inputtext1" value={getDaysDifference(form?.btStart,form.btFinish)+1} />
               </td>
             </tr>
           </tbody>

@@ -53,7 +53,7 @@ main{
     text-indent: 15px;;
 }
 
-.subject .search_box::after{
+.subject1 .search_box::after{
     content: "";
     background-image: url("/public/common/search.png");
     position: absolute;
@@ -119,12 +119,12 @@ table thead th , table tbody tr td{
 
 
 }
-table tbody tr td:first-child{
+.table1 tbody tr td:first-child{
     max-width: 30px;
     min-width: 30px;
 }
 
-table tbody tr td{
+.table1 tbody tr td{
     max-width: 80px;
     min-width: 80px;
     overflow: hidden;

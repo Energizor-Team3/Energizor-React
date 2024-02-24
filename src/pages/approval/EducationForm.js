@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI } from '../../apis/ApprovalAPICalls';
+import { printDocument } from './pdf.js';
+import ApprovalHeader from './approvalHeader'
+
 
 
 
@@ -104,68 +107,17 @@ function EducationForm(){
     }
   }
 
-  const pendingApprovals = approvalLine.filter((approvalLine) =>
-  approvalLine.user.userCode === userDetail?.userCode &&
-  approvalLine.approvalLineStatus === '미결'
-);
+  
     return(
       <div id="wrap">
   <section>
-    <article>
-      <h2>전자결재</h2>
-      <div>
-        <a href="/views/approval/newApproval.html">
-          <button className="btn">신규기안</button>
-        </a>
-      </div>
-      <ul className="sub_list">
-        <li>
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvalMain.html">결재할 문서</a>
-            </span>
-          </div>
-        </li>
-        <li className="sub_list_text">
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvaling.html">진행중인 문서</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Mydocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/mydocument.html">내 문서함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Temporarystoragebox.png" alt="" />
-            <span>
-              <a href="/views/approval/temporarystorage.html">임시보관함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Shareddocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-            </span>
-          </div>
-        </li>
-      </ul>
-    </article>
-  </section>
+  <ApprovalHeader/>
+
+      </section>
   <main>
     <div className="content">
       <div className="subject">
-      <strong>기안서</strong>
+      <strong>기안문서</strong>
           <div className="line">
             <div className="search_box">
               <span>
@@ -188,7 +140,7 @@ function EducationForm(){
             }           
               </span>
               <span>
-              <button>PDF</button>
+              <button onClick={() => printDocument('pdf-content')}>PDF</button>
               </span>
             </div>
           </div>
@@ -196,7 +148,7 @@ function EducationForm(){
       <div className="select_line">
       </div>
       <div className='side'>
-      <div className="wrap2">
+      <div className="wrap2" id='pdf-content'>
         <div className="approval">
           <span className="texttitle">기 안</span>
           <ul className="approvalul">
@@ -265,8 +217,7 @@ function EducationForm(){
                   type="text"
                   placeholder="에브리웨어"
                   className="inputtext"
-                  value={approvalDetail?.document?.userDTO?.team?.dept?.deptName}
-                 
+                  value={approvalDetail?.document?.userDTO?.team?.dept?.deptName + '/' + approvalDetail?.document?.userDTO?.team?.teamName}
                 />
               </td>
             </tr>
@@ -291,7 +242,6 @@ function EducationForm(){
                   placeholder="기안자명 자동으로 입력됩니다."
                   className="inputtext"
                   value={approvalDetail?.document?.userDTO?.userName}
-                  
                 />
               </td>
             </tr>

@@ -1,7 +1,7 @@
 import './NewApproval.css';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-
+import ApprovalHeader from './approvalHeader'
 
 function NewApproval(){
     const navigate = useNavigate();
@@ -14,57 +14,9 @@ function NewApproval(){
 
         <div id="wrap">
   <section>
-    <article>
-      <h2>전자결재</h2>
-      <div>
-        <a href="/views/approval/newApproval.html">
-          <button className="btn">신규기안</button>
-        </a>
-      </div>
-      <ul className="sub_list">
-        <li>
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvalMain.html">결재할 문서</a>
-            </span>
-          </div>
-        </li>
-        <li className="sub_list_text">
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvaling.html">진행중인 문서</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Mydocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/mydocument.html">내 문서함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Temporarystoragebox.png" alt="" />
-            <span>
-              <a href="/views/approval/temporarystorage.html">임시보관함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Shareddocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-            </span>
-          </div>
-        </li>
-      </ul>
-    </article>
-  </section>
+  <ApprovalHeader/>
+
+      </section>
   <main>
     <div className="content">
       <div className="subject">
@@ -103,28 +55,28 @@ function NewApproval(){
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/vacation.html">휴가 신청서</a>
+              <a href="/vacation">휴가 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/businesstrip.html">출장 신청서</a>
+              <a href="/businesstrip">출장 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a href="/views/approval/education.html">교육 신청서</a>
+              <a href="/education">교육 신청서</a>
             </td>
             <td />
           </tr>
           <tr>
             <td>내부결재</td>
             <td>
-              <a onClick={onClickGeneralDraft}>기안 신청서</a>
+              <a href="/generaldraft">기안 신청서</a>
             </td>
             <td />
           </tr>

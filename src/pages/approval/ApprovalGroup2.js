@@ -50,7 +50,7 @@ function TreeNode({ name, children, depth, onUserSelect, userCode, selectedUserC
   );
 }
   
-function ApprovalGroup({ onUserSelect }) {
+function ApprovalGroup2({ onUserSelect }) {
   const dispatch = useDispatch();
   const groupAndTeam = useSelector((state) => state.groupReducer);
   const [selectedUserCode, setSelectedUserCode] = useState(null); // 현재 선택된 사용자의 코드를 상태로 관리합니다.
@@ -94,15 +94,11 @@ const data = Array.isArray(groupAndTeam) ? [
     // 결재 버튼과 참조 버튼의 클릭 핸들러에서 선택 유형을 onUserSelect에 전달합니다.
   const handleApprovalClick = () => {
     if (selectedUserCode) { // 선택된 사용자가 있을 경우에만 실행
-      onUserSelect(selectedUserCode, 'approval');
+      onUserSelect(selectedUserCode);
     }
   };
 
-  const handleReferenceClick = () => {
-    if (selectedUserCode) {
-      onUserSelect(selectedUserCode, 'reference');
-    }
-  };
+  
 
   return (
     <div className="group1">
@@ -119,8 +115,7 @@ const data = Array.isArray(groupAndTeam) ? [
             />
           </div>
           <div className="approvalbtn3">
-            <span><button onClick={handleApprovalClick}>결재</button></span>
-            <span><button onClick={handleReferenceClick}>참조</button></span>
+            <span><button onClick={handleApprovalClick}>선택</button></span>
           </div>
         </div>
       </div>
@@ -128,4 +123,4 @@ const data = Array.isArray(groupAndTeam) ? [
   );
 }
 
-  export default ApprovalGroup;
+  export default ApprovalGroup2;

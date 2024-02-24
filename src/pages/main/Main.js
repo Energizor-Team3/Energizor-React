@@ -16,10 +16,17 @@ function Main() {
     //로그아웃
     dispatch(callLogoutAPI());
 
-    alert("로그아웃이 되어 메인화면으로 이동합니다.");
+    alert("로그아웃이 되어 로그인화면으로 이동합니다.");
     navigate("/login", { replace: true });
     window.location.reload();
   };
+
+  const onClickMyPageHandler = () => {
+    console.log('마이페이지 클릭');
+    if (window.location.pathname !== '/my-page') {
+        navigate('/my-page', { replace: true });
+    }
+};
 
   return (
     <>
@@ -36,7 +43,7 @@ function Main() {
               <p>김뫄뫄</p>
               <br />
               <h4>관리본부/인사팀</h4>
-              <button className={MainCSS.go_mypage}>마이페이지</button>
+              <button className={MainCSS.go_mypage} onClick={onClickMyPageHandler}>마이페이지</button>
               <button
                 className={MainCSS.go_mypage}
                 onClick={onClickLogoutHandler}

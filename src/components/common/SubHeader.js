@@ -42,13 +42,13 @@ function Header() {
             <nav>
                 <div id="main_list_icon">
                     <div>
-                    <a href="/group">
+                    <a href="/main">
                         <img src="/common/Home.png" alt="" />
                     </a>
                     <span style={spanStyle}>홈</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/approvalmain">
                         <img src="/common/Approval.png" alt="" />
                     </a>
                     <span style={spanStyle}>전자결재</span>
@@ -66,7 +66,7 @@ function Header() {
                     </NavLink>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/contact/company-list">
                         <img src="/common/Address.png" alt="" />
                     </a>
                     <span style={spanStyle}>주소록</span>
@@ -83,14 +83,14 @@ function Header() {
                     </a>
                     <span style={spanStyle}>쪽지</span>
                     </div>
-                    <div>
+                    {/* <div>
                     <a href="/group">
                         <img src="/common/Messanger.png" alt="" />
                     </a>
                     <span style={spanStyle}>메신저</span>
-                    </div>
+                    </div> */}
                     <div>
-                    <a href="/group">
+                    <a href="/reservationmain">
                         <img src="/common/reservation.png" alt="" />
                     </a>
                     <span style={spanStyle}>자원예약</span>
@@ -100,6 +100,12 @@ function Header() {
                         <img src="/common/board.png" alt="" />
                     </a>
                     <span style={spanStyle}>게시판</span>
+                    </div>
+                    <div>
+                    <a href="/userlist">
+                        <img src="/mypage/hrm.png" alt="" />
+                    </a>
+                    <span style={spanStyle}>인사관리</span>
                     </div>
                 </div>
             </nav>

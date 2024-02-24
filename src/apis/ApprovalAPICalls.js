@@ -13,7 +13,8 @@ import {
     POST_APPROVAL_SAVEVACATION,
     GET_APPROVAL_SAVEINBOX,
     GET_APPROVAL_FINDUSERDETAIL,
-    GET_APPROVAL_APPROVALCOMPLETE
+    GET_APPROVAL_APPROVALCOMPLETE,
+    POST_APPROVAL_INSERTPROXY
 } from '../modules/ApprovalMainModule';
 import {
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
@@ -182,6 +183,8 @@ export const callSaveGeneralDraftAPI = ({form}) => {
         
     };
 }
+
+
 
 export const callInsertGeneralDraftAPI = ({form}) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/generalDraft`;
@@ -503,6 +506,39 @@ export const callRejectionAPI = (documentCode) => {
         console.log('[ApprovalAPICalls] callRejectionAPI RESULT 111: ', result);
 
         dispatch({ type: PUT_APPROVAL_REJECTION,  payload: result.data });
+        
+    };
+}
+
+
+//대리 결재 위임
+
+export const callInsertProxyAPI = ({form}) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/insertProxy`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(form,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: JSON.stringify({
+                changeUser: {
+                    userCode: form.changeUser
+                  },
+                startDate: form.startDate,
+                finishDate: form.finishDate,
+            }),
+        }).then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callInsertProxyAPI RESULT : ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTPROXY,  payload: result });
         
     };
 }

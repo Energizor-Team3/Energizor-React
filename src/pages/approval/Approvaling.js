@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
+import ApprovalHeader from './approvalHeader'
 
 function Approvaling() {
 
@@ -27,7 +28,19 @@ function Approvaling() {
   console.log('approvalingstateList',  approvalingstateList);
   
 
-  const doubleClickHandler= () =>{
+  const onClickHandler= (documentCode, form) =>{
+    console.log(documentCode,'documentCode')
+
+    switch(form){
+      case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+      break;
+      case"교육신청서": navigate('/educationform', { state: { documentCode } });
+      break;
+      case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+      break;
+      case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+      break;
+    }
 
   }
 
@@ -41,73 +54,8 @@ function Approvaling() {
     return(
         <div id="wrap">
   <section>
-    <article>
-      <h2>전자결재</h2>
-      <div>
-        <a href="/views/approval/newApproval.html">
-          <button className="btn">신규기안</button>
-        </a>
-      </div>
-      <ul className="sub_list">
-        <li>
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span>
-              <a href="/views/approval/approvalMain.html">결재할 문서</a>
-            </span>
-          </div>
-        </li>
-        <li className="sub_list_text">
-          <div>
-            <img src="/common/Approval.png" alt="" />
-            <span className="textcolor">
-              <a href="/views/approval/approvaling.html">진행중인 문서</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Mydocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/mydocument.html">내 문서함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Temporarystoragebox.png" alt="" />
-            <span>
-              <a href="/views/approval/temporarystorage.html">임시보관함</a>
-            </span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <img src="/common/Shareddocumentbox.png" alt="" />
-            <span>
-              <a href="/views/approval/sharedinbox.html">공유받은 문서함</a>
-            </span>
-          </div>
-        </li>
-      </ul>
-    </article>
-    {/* <div className="middle">
-      <div className="topbox">
-        <div id="new-plan">
-          <span>신규기안</span>
-        </div>
-        <div id="search-bar">
-          <input
-            type="text"
-            id="search-input"
-            placeholder="검색을 입력하세요."
-            aria-label="검색"
-          />
-          <button id="search-button">검색</button>
-        </div>
-      </div>
-    </div> */}
-  </section>
+        <ApprovalHeader/>
+      </section>
   <main>
     <div className="content">
       <div className="subject">
@@ -153,7 +101,10 @@ function Approvaling() {
                         <tr key={document?.documentCode} >
                             <td><input type="checkbox" value={document?.documentCode}/></td>
               <td >{document?.form}</td>
-              <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
+              <td><a href="#" onClick={(e) => { 
+          e.preventDefault(); // 기본 이벤트를 방지합니다.
+          onClickHandler(document?.documentCode, document?.form);
+        }}>{document?.documentTitle}</a></td>
               <td>{document?.userDTO?.userName}</td>
               <td>{document?.draftDay}</td>
               <td ><button className="btnStatus" onClick={toggleContent}>진행중</button></td>

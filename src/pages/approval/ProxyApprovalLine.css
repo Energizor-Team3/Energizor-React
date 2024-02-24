@@ -1,0 +1,84 @@
+.user1{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    align-items: center;
+    
+}
+
+
+
+  .profile {
+    display: flex; /* 이를 통해 자식 요소들이 가로로 정렬됨 */
+    justify-content:center; /* 자식 요소들을 컨테이너의 시작 부분에 정렬 */
+    gap: 20px; /* `<ul>` 태그 사이의 간격을 조정 */
+  }
+
+  .user1, .user2 {
+    display: flex; /* 이미지와 입력 필드를 세로로 정렬 */
+    flex-direction: column; /* 자식 요소들을 세로로 쌓기 위함 */
+    align-items: center; /* 중앙 정렬 */
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 100px; /* 기본 패딩 제거 */
+    margin-top: 50px;
+  }
+  .user1{
+    margin-left: 200px;
+  }
+
+  
+  
+  .input-field {
+      margin-bottom: 10px;
+      background-color: transparent; /* 배경색 투명 */
+      border: 1px solid #94A9FF;
+      border-radius: 6px;
+      padding-left: 10px; /* 텍스트 왼쪽 여백 */
+      padding-right: 10px; /* 텍스트 오른쪽 여백, 텍스트가 우측 끝에 붙지 않도록 */
+      height: 23px;
+      outline: none; /* 선택 시 아웃라인 없음 */
+      
+    }
+    
+    .proxybtn {
+        padding: 6px 13px;
+        border-radius: 6px;
+        border: 2px;
+        background-color: #94A9FF;
+        color: white;
+        margin-left: 160px;
+    }
+    
+    .proxybtn:hover{
+        background-color: #4f69c9;
+        color: white;
+    }
+    
+    .proxydate{
+        display: flex;
+        justify-content: center;
+        margin-left: 185px;
+    }
+    .proxydate input{
+        width: 200px;
+        margin-bottom: 10px;
+        background-color: transparent; /* 배경색 투명 */
+        border: 1px solid #94A9FF;
+        border-radius: 6px;
+        padding-left: 10px; /* 텍스트 왼쪽 여백 */
+        padding-right: 10px; /* 텍스트 오른쪽 여백, 텍스트가 우측 끝에 붙지 않도록 */
+        height: 23px;
+        outline: none; /* 선택 시 아웃라인 없음 */
+        text-align: center; /* 텍스트 가운데 정렬 */
+    }
+    .profile-image img{
+      /* 이미지 스타일링, 실제 이미지가 있을 경우 아래의 "이미지" 텍스트는 제거하고 이미지를 적용 */
+      width: 150px; /* 이미지 크기 조정 */
+      height: 150px; /* 이미지 크기 조정 */
+      margin-bottom: 10px; /* 하단 여백 */
+      border-radius: 50%; /* 이미지를 원형으로 만듦 */
+      background-size: cover; /* 이미지가 컨테이너를 꽉 채우도록 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
