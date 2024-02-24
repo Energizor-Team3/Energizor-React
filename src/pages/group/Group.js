@@ -178,7 +178,7 @@ function Group() {
 
 
   const deptDelteClick = async () => {
-      const result = await dispatch(callDeptDeletetAPI(delDeptCode));
+      await dispatch(callDeptDeletetAPI(delDeptCode));
 
       setDepartmentName("");
   };
@@ -233,10 +233,10 @@ function Group() {
   let inputDeptCode = 0;
 
   const deptModifyCeckClick = async () => {
-    console.log("수정할 부서명입력한거 확인===", modifyDeptName);
+    console.log("수정할 부서명입력한거 확인===", updateDeptCheck);
 
     for (const key in groupAndTeam) {
-      if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
+      if (groupAndTeam[key].deptName === updateDeptCheck.trim()) {
         inputDeptName = groupAndTeam[key].deptName;
         inputDeptCode = groupAndTeam[key].deptCode;
         break;
@@ -662,8 +662,8 @@ function Group() {
                           type="text"
                           id="modifyDeptName"
                           placeholder="수정할 부서명을 입력하세요"
-                          value={modifyDeptName}
-                          onChange={(e) => setModifyDeptName(e.target.value)}
+                          value={updateDeptCheck}
+                          onChange={(e) => setUpdateDeptCheck(e.target.value)}
                         />
                         <button
                           disabled={!isDeptOnlyLead}
