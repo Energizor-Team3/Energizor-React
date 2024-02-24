@@ -1,12 +1,26 @@
-import "./ReservationApply.css";
-import { useLocation } from "react-router-dom"; 
+//import "./ReservationApply.css";
+import { useLocation } from "react-router-dom";
 import React, { useState } from "react";
+import ReservationGroup from "./ReservationGroup"; // 조직도 컴포넌트 import
 
 function ReservationApply() {
   const location = useLocation();
   const [room, setRoom] = useState(location.state ? location.state.room : "");
+  const [showOrgChart, setShowOrgChart] = useState(false);
 
   console.log("999999999999999999999999999999", room);
+
+  // ReservationGroup 컴포넌트에서 사용자 선택을 처리하는 함수를 정의합니다.
+  const handleUserSelect = (userCode, actionType) => {
+    // 선택된 사용자 코드와 액션 타입을 처리합니다. (예: '결재' 또는 '참조')
+    console.log("선택된 사용자 코드:", userCode);
+    console.log("액션 타입:", actionType);
+  };
+
+  // 조직도 표시 여부를 토글하는 함수를 정의합니다.
+  const toggleOrgChart = () => {
+    setShowOrgChart(!showOrgChart);
+  };
 
   return (
     <div id="wrap">
@@ -63,12 +77,23 @@ function ReservationApply() {
               <label htmlFor="reason">신청사유:</label>
               <input id="reason" name="reason" required />
               <br />
+
               <label htmlFor="reason">참석자:</label>
               <input id="reason" name="reason" required />
               <br />
-              <button type="button" id="orgChartButton">
+              <button
+                type="button"
+                id="orgChartButton"
+                onClick={toggleOrgChart}
+              >
                 조직도
               </button>
+              {/* 조직도 컴포넌트 */}
+              {showOrgChart && (
+              <div className="orgChartContainer">
+                <ReservationGroup />
+              </div>
+            )}
               <label htmlFor="startDate">사용시작일시:</label>
               <input
                 type="datetime-local"
@@ -92,6 +117,7 @@ function ReservationApply() {
                 취소
               </button>
             </form>
+              
           </div>
         </div>
       </main>
