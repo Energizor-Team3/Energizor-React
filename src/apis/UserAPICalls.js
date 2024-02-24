@@ -1,4 +1,12 @@
-import { GET_MYPAGE, GET_USER, GET_USER_LIST, POST_LOGIN, POST_SIGNUP, PUT_PASSWORD } from '../modules/UserModule';
+import {
+    GET_MYPAGE,
+    GET_USER,
+    GET_USER_LIST,
+    MODIFY_SUCCESS,
+    POST_LOGIN,
+    POST_SIGNUP,
+    PUT_PASSWORD,
+} from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -13,7 +21,7 @@ export const callLoginAPI = ({ form }) => {
             headers: {
                 'Content-Type': 'application/json',
                 Accept: '*/*',
-                'Access-Control-Allow-Origin': '*', // 모든 도멘인에서 접근할 수 있음을 의미 (특정도메인을 넣고싶으면 * 대신 http://test.com)
+                'Access-Control-Allow-Origin': '*', // 모든 도메인에서 접근할 수 있음을 의미 (특정도메인을 넣고싶으면 * 대신 http://test.com)
             },
             body: JSON.stringify({
                 userId: form.userId,
@@ -68,8 +76,16 @@ export const callLogoutAPI = () => {
     };
 };
 
-export const callUserListAPI = () => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
+export const callUserListAPI = ({ currentPage }) => {
+    let requestURL;
+
+    if (currentPage !== undefined || currentPage !== null) {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management?offset=${currentPage}`;
+    } else {
+        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management}`;
+    }
+
+    console.log('[UserAPICalls] requestURL : ', requestURL);
 
     return async (dispatch, getState) => {
         console.log('확인!!!!!');
@@ -210,7 +226,7 @@ export const callModifyUserAPI = (userCode, requestData, navigate) => async (dis
         alert('직원 정보 수정에 성공했습니다.');
         // 성공 액션 디스패치 (필요한 경우)
         dispatch({
-            type: 'MODIFY_SUCCESS',
+            type: MODIFY_SUCCESS,
             payload: data,
         });
         navigate('/userlist', { replace: true });

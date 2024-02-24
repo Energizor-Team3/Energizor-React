@@ -1,0 +1,161 @@
+.detailCotentHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  padding-bottom: 30px;
+  
+  margin-bottom: 20px;
+}
+.headerItemWrapper {
+  display: flex;
+  align-items: center;
+
+}
+
+
+.headerItem {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  width:600px;
+}
+
+
+.headerItem > div:first-child {
+  font-weight: 700;
+  width: 100px;
+}
+
+
+.button {
+  width: 100px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  opacity:0.8;
+}
+
+.saveButton {
+  background-color: #94A9FF;
+  color: white;
+  border: 1px solid #94A9FF;
+}
+
+.commentHeader {
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.commentItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid black;
+}
+
+.commentContent {
+  flex: 1;
+}
+.commentContent > div:first-child {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.commentFooter > div:first-child {
+  font-size: 13px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.commentFooter > div:last-child {
+  display: flex;
+  gap: 10px;
+}
+
+.commentWriteWrapper > div:last-child {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.commentWrite {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.commentWrite > textarea {
+  width: 1300px;
+  height: 100px;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  resize: none;
+}
+
+.viewer {
+  width:1200px;
+  height:400px;
+  border: 10px solid #000;
+}
+
+.boardButton {
+  display:flex;
+  justify-content: end;
+}
+
+.updateButton {
+  width:50px;
+  height:20px;
+  border-style: none;
+  background:none;
+  cursor: pointer;
+  font-size: 28px;
+  margin-top:-3px;
+}
+
+.deleteButton {
+  width:50px;
+  height:20px;
+  border-style: none;
+  background:none;
+  cursor: pointer;
+  font-size:23px;
+}
+
+.toastui-editor-contents {
+  height: 300px;
+}
+
+
+.textDiv {
+  width:1300px;
+  height:300px;
+}
+
+.commentButton {
+  width:60px;
+  height:23px;
+  border-style: none;
+  background-color: #94A9FF;
+  color:#fff;
+  border-radius: 6px;
+}
+
+.commentButton2 {
+  width:60px;
+  height:23px;
+  border-style: none;
+  background-color: #F2F6FF;
+  color:#6d6d6d;
+  border-radius: 6px;
+}

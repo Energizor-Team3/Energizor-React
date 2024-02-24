@@ -1,0 +1,30 @@
+.page-controller-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.icon-container {
+  padding: 0 17px;
+  cursor: pointer;
+}
+
+.page-button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  margin: 0 6px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.page-button.selected {
+  background-color: #f3f3f3;
+}

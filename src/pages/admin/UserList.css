@@ -98,3 +98,24 @@
   min-width: 10px;
   max-width: 50px;
 }
+
+.pagingArea {
+  position: absolute;
+  right: 44%;
+  transform: translateX(50%);
+  margin-top: 20px;
+}
+
+.pagingBtn{
+  margin: 4px;
+  border-radius: 6px;
+  background-color: white;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
+}
+
+.pagingBtn:hover{
+  cursor: pointer;
+  background-color: #eeba8cdd;
+}
