@@ -105,6 +105,7 @@ main{
 
 .approvaltable thead th {
     width: 200px;
+    text-align: center;
     
 }
 
@@ -192,12 +193,23 @@ table tbody tr{
     }
 
 /* 컨텐츠 박스 스타일 */
-.content-box {
+.contentBox {
     display: none; /* 기본적으로 보이지 않음 */
     border: 1px solid #94A9FF;
     margin-top: 20px; /* 상단 여백 */
     border-radius: 6px;
+    position: absolute;
+    background-color: white;
+     
+    
+    
+    
+    
 }
+.ctbox{
+    width: 1400px;
+     }
+
     
 /* 활성화된 컨텐츠 박스 스타일 */
 .active {
@@ -210,20 +222,44 @@ table tbody tr{
 }
 
 .profileBox{
-    padding: 40px;
+    width: 261px;
+    
+    /* padding: 20px; */
+
     
 }
+
+.pfinsideStatus{
+
+background-color: #94A9FF;
+color: white;
+padding: 5px;
+border-radius: 6px;
+width: 80px;
+margin: auto;
+    
+}
+.pfinsideStatus1{
+    border: 2px solid #94A9FF;
+    
+    padding: 4px;
+    border-radius: 6px;
+    width: 80px;
+    margin: auto;
+    }
+
 /* table thead th:nth-child(n+4):nth-child(-n+5){
     width: 200px;
 } */
 
-.profile{
+.profile2{
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
 }
 
-.text{
+.pftext{
     text-align: center;
+    margin: auto!;
 }
 .insideStatus{
 background-color: #94A9FF;
@@ -231,10 +267,19 @@ color: white;
 padding: 5px;
 border-radius: 6px;
 width: 80px;
-margin-left: 24px;
+
+/* margin-left: 24px; */
+
 }
 .profileimg{
-    margin-left: 18px;
+    width: 150px; /* 이미지 크기 조정 */
+      height: 150px; /* 이미지 크기 조정 */
+      margin-bottom: 10px; /* 하단 여백 */
+      border-radius: 50%; /* 이미지를 원형으로 만듦 */
+      background-size: cover; /* 이미지가 컨테이너를 꽉 채우도록 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
 }
 
 

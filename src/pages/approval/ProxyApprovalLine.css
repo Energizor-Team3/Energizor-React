@@ -37,6 +37,8 @@
       padding-right: 10px; /* 텍스트 오른쪽 여백, 텍스트가 우측 끝에 붙지 않도록 */
       height: 23px;
       outline: none; /* 선택 시 아웃라인 없음 */
+      text-align: center; /* 텍스트 가운데 정렬 */
+
       
     }
     

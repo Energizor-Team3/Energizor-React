@@ -18,7 +18,8 @@ import {
 } from '../modules/ApprovalMainModule';
 import {
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
-    PUT_APPROVAL_APPROVEMENT
+    PUT_APPROVAL_APPROVEMENT,
+    GET_APPROVAL_SELECTPROXY
    
 } from '../modules/ApprovalsubModule';
 import {
@@ -543,3 +544,27 @@ export const callInsertProxyAPI = ({form}) => {
     };
 }
 
+
+
+export const callSelectProxyAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/proxy`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTPROXY,  payload: result.data });
+        
+    };
+}
