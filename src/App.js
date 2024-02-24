@@ -46,8 +46,8 @@ import UserRegist from "./pages/admin/UserRegist";
 import ChangePwd from './pages/user/ChangePwd';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
-import Attendance from './pages/attendance/attendanceCommuteList';
-import Employee from './pages/attendance/employeeCommuteList';
+// import Attendance from './pages/attendance/attendanceCommuteList';
+// import Employee from './pages/attendance/employeeCommuteList';
 
 const queryClient = new QueryClient();
 
@@ -85,20 +85,20 @@ function App() {
 
             {/* 결재 */}
             <Route path="/generaldraft" element={<GeneralDraft />} />
-          <Route path="/education" element={<Education />} />
-          <Route path="/businesstrip" element={<BusinessTrip />} />
-          <Route path="/saveinbox" element={<SaveInBox />} />
-          <Route path="/inbox" element={<InBox />} />
-          <Route path="/vacation" element={<Vacation />} />
-          <Route path="/approvalmain" element={<ApprovalMain />} />
-          <Route path="/sharedinbox" element={<SharedInBox />} />
-          <Route path="/approvaling" element={<Approvaling />} />
-          <Route path="/newapproval" element={<NewApproval />} />
-          <Route path="/generaldraftform" element={<GeneraldraftForm />} />
-          <Route path="/educationform" element={<EducationForm />} />
-          <Route path="/businesstripform" element={<BusinesstripForm />} />
-          <Route path="/vacationform" element={<VacationForm />} />
-          <Route path="/group" element={<Group />} />
+            <Route path="/education" element={<Education />} />
+            <Route path="/businesstrip" element={<BusinessTrip />} />
+            <Route path="/saveinbox" element={<SaveInBox />} />
+            <Route path="/inbox" element={<InBox />} />
+            <Route path="/vacation" element={<Vacation />} />
+            <Route path="/approvalmain" element={<ApprovalMain />} />
+            <Route path="/sharedinbox" element={<SharedInBox />} />
+            <Route path="/approvaling" element={<Approvaling />} />
+            <Route path="/newapproval" element={<NewApproval />} />
+            <Route path="/generaldraftform" element={<GeneraldraftForm />} />
+            <Route path="/educationform" element={<EducationForm />} />
+            <Route path="/businesstripform" element={<BusinesstripForm />} />
+            <Route path="/vacationform" element={<VacationForm />} />
+            <Route path="/group" element={<Group />} />
 
             {/* 자원예약 */}
             <Route path="/reservationdetails" element={<ReservationDetails />} />
@@ -117,8 +117,8 @@ function App() {
             {/*근태관리, 주소록 */}
           <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
           <Route path="/contact/company-list" element={ <CompanyContact/> }/>
-          <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
-          <Route path="/attendance/all-users-list" element={ <Employee/> }/>
+          {/* <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
+          <Route path="/attendance/all-users-list" element={ <Employee/> }/> */}
 
           </Route>
         </Routes>
