@@ -224,7 +224,7 @@ function Group() {
   const [teamCode, setTeamCode] = useState("");
   const [updateDeptCheck, setUpdateDeptCheck] = useState(""); // 부서 유무 체크
   const [updateDeptName, setUpdateDeptName] = useState(""); // 수정할 부서명
-
+  const [modifyDeptName, setModifyDeptName] = useState(""); // 빠져있어서 추가함 준희
   const [updateTeamCheck, setUpdateTeamCheck] = useState("");
   const [updateTeamName, setupdateTeamName] = useState("");
 
@@ -258,7 +258,7 @@ function Group() {
     try {
       console.log("체인지할 부서네임 체크===", updateDeptName);
 
-      await dispatch(callDeptUpdateAPI(updateDeptName, deptCode));
+       dispatch(callDeptUpdateAPI(updateDeptName, deptCode));
     } catch (error) {
       alert(error);
     }
@@ -547,11 +547,6 @@ function Group() {
                   {data.length > 0 && (
                     <TreeNode
                       key={data[0].index}
-                      name={
-                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-                          {data[0].name}
-                        </span>
-                      }
                       name={
                         <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                           {data[0].name}
