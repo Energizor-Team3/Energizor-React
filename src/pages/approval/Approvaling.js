@@ -4,10 +4,8 @@ import {
 } from '../../apis/ApprovalAPICalls';
 import ApprovalMainStatus from './ApprovalMainStatus';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
 import ApprovalHeader from './approvalHeader'
 
 function Approvaling() {
@@ -18,10 +16,7 @@ function Approvaling() {
   const approvalingstateList = approvalingstate?.data?.content;
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
 
-  
-
-
-  const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+   
   useEffect(()=>{
       dispatch(callApprovalingAPI());
   },[])
@@ -73,17 +68,7 @@ function Approvaling() {
         </div>
       </div>
       <div className="select_line">
-        {/* 셀렉트 문*/}
-        {/* <select name="messageLead">
-          <option value="전체">전체</option>
-          <option value="결재함">결재함</option>
-          <option value="참조함">참조함</option>
-          <option value="반려함">반려함</option>
-      </select> */}
-        {/* <div class="attention_Text">
-        <img src="/common/Exclamation.png" alt="">
-        <span>보관하지 않은 쪽지는 3개월 후 자동 삭제됩니다</span>
-      </div> */}
+        
       </div>
       <div className='approvaltable'>
       <table>
@@ -124,11 +109,11 @@ function Approvaling() {
                         </td>
                       </tr>
                     
-                  </tbody>
-                </React.Fragment>
-              ))}
-            </table>
-            </div>
+                </tbody>
+              </React.Fragment>
+            ))}
+          </table>
+        </div>
     </div>
   </main>
 </div>

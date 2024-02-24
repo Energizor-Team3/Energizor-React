@@ -19,6 +19,7 @@ export const POST_APPROVAL_SAVEVACATION = 'approval/POST_APPROVAL_SAVEVACATION';
 export const GET_APPROVAL_SAVEINBOX = 'approval/GET_APPROVAL_SAVEINBOX';
 export const GET_APPROVAL_APPROVALCOMPLETE = 'approval/GET_APPROVAL_APPROVALCOMPLETE';
 export const POST_APPROVAL_INSERTPROXY = 'approval/POST_APPROVAL_INSERTPROXY';
+export const DELETE_APPROVAL_DELETETEMPAPPROVAL = 'approval/DELETE_APPROVAL_DELETETEMPAPPROVAL';
 
 
 
@@ -42,7 +43,8 @@ const actions = createActions({
     [POST_APPROVAL_INSERTVACATION]: () => {},
     [GET_APPROVAL_SAVEINBOX]: () => {},
     [GET_APPROVAL_APPROVALCOMPLETE]: () => {},
-    [POST_APPROVAL_INSERTPROXY]: () => {}
+    [POST_APPROVAL_INSERTPROXY]: () => {},
+    [DELETE_APPROVAL_DELETETEMPAPPROVAL]: () => {}
     
 });
 
@@ -106,6 +108,10 @@ export const approvalReducer = handleActions(
             return payload;
         },
         [POST_APPROVAL_INSERTPROXY]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [DELETE_APPROVAL_DELETETEMPAPPROVAL]: (state, { payload }) => {
             
             return payload;
         }

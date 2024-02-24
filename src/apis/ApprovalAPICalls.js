@@ -14,12 +14,14 @@ import {
     GET_APPROVAL_SAVEINBOX,
     GET_APPROVAL_FINDUSERDETAIL,
     GET_APPROVAL_APPROVALCOMPLETE,
-    POST_APPROVAL_INSERTPROXY
+    POST_APPROVAL_INSERTPROXY,
+    DELETE_APPROVAL_DELETETEMPAPPROVAL
 } from '../modules/ApprovalMainModule';
 import {
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
     PUT_APPROVAL_APPROVEMENT,
-    GET_APPROVAL_SELECTPROXY
+    GET_APPROVAL_SELECTPROXY,
+    PUT_APPROVAL_UPDATEPROXY
    
 } from '../modules/ApprovalsubModule';
 import {
@@ -105,6 +107,31 @@ export const callSaveInBoxAPI = () => {
         console.log('[ApprovalAPICalls] callSharedInBoxAPI RESULT : ', result);
 
         dispatch({ type: GET_APPROVAL_SAVEINBOX,  payload: result.data });
+        
+    };
+}
+
+// 임시저장 문서 삭제
+export const callDeleteTempApprovalAPI = (documentCodes) => {
+    const queryParams = documentCodes.map(dc => `documentCode=${dc}`).join('&');
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/deleteTempApproval?${queryParams}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?',documentCodes);
+        
+        const result = await fetch(requestURL, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callDeleteTempApprovalAPI RESULT : ', result);
+
+        dispatch({ type: DELETE_APPROVAL_DELETETEMPAPPROVAL,  payload: result});
         
     };
 }
@@ -540,6 +567,32 @@ export const callInsertProxyAPI = ({form}) => {
         console.log('[ApprovalAPICalls] callInsertProxyAPI RESULT : ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTPROXY,  payload: result });
+        
+    };
+}
+
+//대리 결재 위임 취소
+
+export const callUpdateProxyAPI = (proxyCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/updateProxy/${proxyCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(proxyCode,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callUpdateProxyAPI RESULT : ', result);
+
+        dispatch({ type: PUT_APPROVAL_UPDATEPROXY,  payload: result });
         
     };
 }

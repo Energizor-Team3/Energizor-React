@@ -1,7 +1,7 @@
 import ApprovalHeader from './approvalHeader'
 import './ProxyApprovalLine.css'
 import ApprovalGroup2 from './ApprovalGroup2'
-import { callSelectUserDetailAPI, callInsertProxyAPI, callSelectProxyAPI} from '../../apis/ApprovalAPICalls';
+import { callSelectUserDetailAPI, callInsertProxyAPI, callSelectProxyAPI, callUpdateProxyAPI} from '../../apis/ApprovalAPICalls';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect, useRef, useState } from 'react';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
@@ -82,6 +82,21 @@ function ProxyApprovalLine(){
       var og = document.getElementById("og");
       og.classList.toggle("active");
       }
+      // 대리결재 위임 취소
+      const updateProxy = () =>{
+        if(proxyState !== "조회성공"){
+
+        
+        const result = window.confirm("대리결재 위임 취소 진행 하시겠습니까?")
+      if(result){
+        dispatch(callUpdateProxyAPI(proxyState.proxyCode))
+        alert('대리결재 위임 취소 완료 하셨습니다.')
+        window.location.reload()
+      }else{
+        alert('취소하셨습니다.')
+      }
+    }
+      }
 
     
 
@@ -97,16 +112,13 @@ function ProxyApprovalLine(){
 
       const result = window.confirm("진행 하시겠습니까?")
       if(result){
-
-        
-      
-        
         dispatch(callInsertProxyAPI({	
           form
           
         })); 
         alert('대리결재 위임 하셨습니다 결재메인페이지로 이동합니다.')
-        navigate('/approvalmain', { replace: true });
+                window.location.reload()
+
       }else{
         alert('취소하셨습니다.')
       }
@@ -143,6 +155,11 @@ function ProxyApprovalLine(){
               {proxyState == "조회성공" && (
                 <span>
                   <button onClick={toggleContent}>대리 결재 지정</button>
+              </span>
+              )}
+              {proxyState !== "조회성공" && (
+                <span>
+                  <button onClick={updateProxy}>대리 결재 위임 취소</button>
               </span>
               )}
               <span>          

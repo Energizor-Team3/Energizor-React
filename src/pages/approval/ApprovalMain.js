@@ -4,10 +4,8 @@ import {
 } from '../../apis/ApprovalAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
-import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
 import ApprovalHeader from './approvalHeader'
 import ApprovalMainStatus from './ApprovalMainStatus'
 
@@ -35,14 +33,9 @@ function ApprovalMain(){
       }
       }
     
-    //   // 새 창에서 열 문서에 대한 URL을 구성합니다.
-    //   const urlToOpen = `${baseURL}${path}?documentCode=${documentCode}`;
     
-    //   // 새 창(또는 탭)을 엽니다.
-    //   window.open(urlToOpen, '_blank');
-    // }
 
-    const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+    
     useEffect(()=>{
         dispatch(callInboxApprovalAPI());
     },[])
