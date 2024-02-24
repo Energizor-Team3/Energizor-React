@@ -1,19 +1,10 @@
-<<<<<<< HEAD
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Layout from './layouts/Layout';
-=======
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
->>>>>>> 62b53f009108f446890beb54f2ed71f8c441e465
+
 import Sublayout from "./layouts/SubLayout";
 import Login from "./pages/user/Login";
-import Error from "./pages/Error";
 import Main from "./pages/main/Main";
-<<<<<<< HEAD
 import ReservationMain from "./pages/Reservation/ReservationMain";
 import AddDetailSchedule from "./pages/calendar/cal_addsch_detail";
-import Message from "./pages/message/Message";
-import Layout from "./layouts/SubLayout";
-// import Group from './pages/group/Group';
 import GeneralDraft from "./pages/approval/GeneralDraft";
 import ProjectDetail from "./pages/project/project_detail";
 import List from "./pages/board/List";
@@ -25,11 +16,7 @@ import InterestList from "./pages/board/InterestList";
 import TemporaryList from "./pages/board/TemporaryList";
 import SearchBoard from "./pages/board/List";
 import TempBoardRegister from "./pages/board/TempRegister";
-=======
-import AddDetailSchedule from "./pages/calendar/cal_addsch_detail";
-import Message from "./pages/message/Message";
 import Group from "./pages/group/Group";
-import GeneralDraft from "./pages/approval/GeneralDraft";
 import ApprovalMain from "./pages/approval/ApprovalMain";
 import BusinessTrip from "./pages/approval/BusinessTrip";
 import Education from "./pages/approval/Education";
@@ -43,32 +30,10 @@ import Approvaling from "./pages/approval/Approvaling";
 import NewApproval from "./pages/approval/NewApproval";
 import Vacation from "./pages/approval/Vacation";
 import SaveInBox from "./pages/approval/SaveInBox";
-import Layout from "./layouts/SubLayout";
-// import Group from './pages/group/Group';
->>>>>>> 62b53f009108f446890beb54f2ed71f8c441e465
-
-import ProjectDetail from "./pages/project/project_detail";
 import CalendarMainPage from "./pages/calendar/CalendarMain";
 import CalendarSetting from "./pages/calendar/CalendarSetting";
 import ProjectMain from "./pages/project/projectMain";
 import EditSchedule from "./pages/calendar/editSchedule";
-
-<<<<<<< HEAD
-const queryClient = new QueryClient();
-
-function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          {/* <Route path="/" element={ <Layout/> }>
-          <Route index element={ <Main/> }/>  
-
-        </Route> */}
-
-          <Route path="/main" element={<Main />} />
-=======
-import ReservationMain from "./pages/Reservation/ReservationMain";
 import ReservationDetails from "./pages/Reservation/ReservationDetails";
 import ReservationApply from "./pages/Reservation/ReservationApply";
 import ReservationModify from "./pages/Reservation/ReservationModify";
@@ -76,63 +41,50 @@ import SearchPwd from "./pages/user/SearchPwd";
 import SearchPwdEmail from "./pages/user/SearchPwdEmail";
 import UserList from "./pages/admin/UserList";
 import ModifyUser from "./pages/admin/ModifyUser";
-import MyPage from './pages/user/MyPage';
-import UserRegist from './pages/admin/UserRegist';
+import MyPage from "./pages/user/MyPage";
+import UserRegist from "./pages/admin/UserRegist";
+import ChangePwd from './pages/user/ChangePwd';
+import PersonalContact from './pages/contact/personalContactList';
+import CompanyContact from './pages/contact/companyContactList';
+import Attendance from './pages/attendance/attendanceCommuteList';
+import Employee from './pages/attendance/employeeCommuteList';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/searchpwd" element={<SearchPwd />} />
-        <Route path="/searchpwdemail" element={<SearchPwdEmail />} />
-
-        <Route path="/" element={<Sublayout />}>
-          {/*메인 전용 헤더 붙히기 전  */}
-          <Route path="/main" element={<Main />} />
-          {/* 쪽지 */}
-          <Route path="/message" element={<Message />} />
->>>>>>> 62b53f009108f446890beb54f2ed71f8c441e465
-
-          <Route path="/main" element={<Layout />}>
-            <Route index element={<Main />} />
-          </Route>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Error />} />
-
-<<<<<<< HEAD
-          <Route path="/reservationmain" element={<ReservationMain />} />
+          <Route path="/searchpwd" element={<SearchPwd />} />
+          <Route path="/searchpwdemail" element={<SearchPwdEmail />} />
 
           <Route path="/" element={<Sublayout />}>
-            <Route path="message" element={<Message />} />
+       {/* 메인 */}
+            <Route path="/main" element={<Main />} />
 
-            <Route path="/generaldraft" element={<GeneralDraft />} />
-            <Route path="/project/:proNo" element={<ProjectDetail />} />
-            <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
+       {/* 게시판 */}
             <Route path="list/:boardTypeCode" element={<List />} />
             <Route path="/board" element={<BoardList />} />
             <Route path="/board/edit" element={<BoardRegister />} />
             <Route path="/board/edit/:id" element={<BoardRegister />} />
             <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
-            <Route path="/board/temp_list" element={<TemporaryList/>}/>
-            <Route path="/board/interest_list" element={<InterestList/>}/>
-            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-=======
-          <Route path="/userlist" element={ <UserList/> } />
-          <Route path="/my-page" element={ <MyPage/> } />
-          <Route path="/userregist" element={ <UserRegist/> } />
-          <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
+            <Route path="/board/temp_list" element={<TemporaryList />} />
+            <Route path="/board/interest_list" element={<InterestList />} />
+            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
 
+       {/* 관리자, 마이페이지 */}
+            <Route path="/userlist" element={<UserList />} />
+            <Route path="/my-page" element={<MyPage />} />
+            <Route path="/userregist" element={<UserRegist />} />
+            <Route path="/modifyuser/:userCode" element={<ModifyUser />} />
+       <Route path="/changepwd" element={ <ChangePwd/> } />
 
-          {/* 결재 */}
-
-          <Route path="/generaldraft" element={<GeneralDraft />} />
+            {/* 결재 */}
+            <Route path="/generaldraft" element={<GeneralDraft />} />
           <Route path="/education" element={<Education />} />
           <Route path="/businesstrip" element={<BusinessTrip />} />
           <Route path="/saveinbox" element={<SaveInBox />} />
@@ -148,25 +100,30 @@ function App() {
           <Route path="/vacationform" element={<VacationForm />} />
           <Route path="/group" element={<Group />} />
 
-          {/* 자원예약 */}
+            {/* 자원예약 */}
+            <Route path="/reservationdetails" element={<ReservationDetails />} />
+            <Route path="/reservationapply" element={<ReservationApply />} />
+            <Route path="/reservationmain" element={<ReservationMain />} />
+            <Route path="/reservationmodify" element={<ReservationModify />} />
 
-          <Route path="/reservationdetails" element={<ReservationDetails />} />
-          <Route path="/reservationapply" element={<ReservationApply />} />
-          <Route path="/reservationmain" element={<ReservationMain />} />
-          <Route path="/reservationmodify" element={<ReservationModify />} />
+            {/*일정관리- 캘린더, 프로젝트  */}
+            <Route path="/project/main" element={<ProjectMain />} />
+            <Route path="/project/:proNo" element={<ProjectDetail />} />
+            <Route path="/calendar" element={<CalendarMainPage />} />
+            <Route path="/calendar/setting" element={<CalendarSetting />} />
+            <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
+            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
 
-          {/*일정관리- 캘린더, 프로젝트  */}
+            {/*근태관리, 주소록 */}
+          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
+          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
+          <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
+          <Route path="/attendance/all-users-list" element={ <Employee/> }/>
 
-          <Route path="/project/main" element={<ProjectMain />} />
-          <Route path="/project/:proNo" element={<ProjectDetail />} />
-          <Route path="/calendar" element={<CalendarMainPage />} />
-          <Route path="/calendar/setting" element={<CalendarSetting />} />
-          <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
-          <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
->>>>>>> 62b53f009108f446890beb54f2ed71f8c441e465
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
