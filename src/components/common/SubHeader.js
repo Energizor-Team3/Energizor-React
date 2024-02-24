@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SubHeader.css";
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -19,7 +20,7 @@ function Header() {
     };
 
     const spanStyle = {
-        display: hover ? "inline-block" : "none",
+        display: hover ? "inline-block" : "none"
     };
 
     return (
@@ -53,16 +54,16 @@ function Header() {
                     <span style={spanStyle}>전자결재</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/calendar">
                         <img src="/common/Attendance.png" alt="" />
                     </a>
                     <span style={spanStyle}>근태관리</span>
                     </div>
                     <div>
-                    <a href="/group">
-                        <img src="/common/calendar.png" alt="" />
-                    </a>
-                    <span style={spanStyle}>일정관리</span>
+                    <NavLink to='/calendar'>
+                        <img src="/common/calendar.png" alt="캘린더 아이콘" />
+                       <span style={spanStyle}>일정관리</span>
+                    </NavLink>
                     </div>
                     <div>
                     <a href="/group">

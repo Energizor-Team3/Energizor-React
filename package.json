@@ -4,9 +4,11 @@
   "private": true,
   "proxy": "http://localhost:8031",
   "dependencies": {
+    "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",
     "@fullcalendar/interaction": "^6.1.10",
     "@fullcalendar/react": "^6.1.10",
+    "@fullcalendar/resource-timegrid": "^6.1.11",
     "@fullcalendar/timegrid": "^6.1.10",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -24,6 +26,7 @@
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "styled-components": "^6.1.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
