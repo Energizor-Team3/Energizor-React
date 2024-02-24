@@ -1,10 +1,10 @@
-// Contact.js (컴포넌트 파일)
+// (컴포넌트 파일)
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
-import { callCompanyAPI, callContactAPI } from '../../apis/ContactAPICalls';
+import { callCompanyAPI } from '../../apis/ContactAPICalls';
 
 import './contact.css';
 

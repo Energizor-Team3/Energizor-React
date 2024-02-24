@@ -97,7 +97,8 @@ function PersonalContact() {
                             <span>회사 주소록</span>
                         </div>
                     </a>
-                    <a href="http://localhost:3000/contact/personal-list/1">
+                    
+                    <a href="/contact/personal-list/{userCode}">
                         <div id="personal_contact" style={{ color: "#415CBE" }}>
                             <img src='/contact/address.png' alt=''/>
                             <span>개인 주소록</span>

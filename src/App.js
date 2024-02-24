@@ -13,6 +13,8 @@ import GeneralDraft from './pages/approval/GeneralDraft'
 import ProjectDetail from './pages/project/project_detail';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
+import Attendance from './pages/attendance/attendanceCommuteList';
+import Employee from './pages/attendance/employeeCommuteList';
 
 
 
@@ -51,6 +53,8 @@ function App() {
         
           <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
           <Route path="/contact/company-list" element={ <CompanyContact/> }/>
+          <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
+          <Route path="/attendance/all-users-list" element={ <Employee/> }/>
         </Route>
       
 
