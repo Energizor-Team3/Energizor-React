@@ -143,3 +143,29 @@ main {
 .page_number_choice_text {
   font-size: 14px;
 }
+
+.trash {
+  margin-left:1350px;
+}
+
+.search {
+  width:100px;
+  height:30px;
+}
+
+.searchInput {
+  margin-left:10px;
+  width: 400px;
+  height:30px;
+}
+
+.searchButton {
+  width:70px;
+  height:30px;
+  margin-left:5px;
+  border-radius: 6px;
+  border-style: none;
+  color:#fff;
+  background-color: #94A9FF;
+  cursor: pointer;
+}

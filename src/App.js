@@ -18,6 +18,8 @@ import { BoardRegister } from "./pages/board/Register";
 import { BoardDetail } from "./pages/board/Detail";
 import InterestList from "./pages/board/InterestList";
 import TemporaryList from "./pages/board/TemporaryList";
+import SearchBoard from "./pages/board/List";
+import TempBoardRegister from "./pages/board/TempRegister";
 
 
 const queryClient = new QueryClient();
@@ -53,8 +55,10 @@ function App() {
             <Route path="/board/edit" element={<BoardRegister />} />
             <Route path="/board/edit/:id" element={<BoardRegister />} />
             <Route path="/board/:id" element={<BoardDetail />} />
+            <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList/>}/>
             <Route path="/board/interest_list" element={<InterestList/>}/>
+            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

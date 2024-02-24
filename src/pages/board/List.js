@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -7,23 +7,34 @@ import { usePostInterestBoard } from "../../apis/board/usePostInterestBoard";
 import { BoardLayout } from "../../layouts/BoardLayout";
 import { PAGE_NUMBER_LIST } from "../../utils/constants";
 import "./List.css";
+import { deleteBoard, useDeleteBoard } from "../../apis/board/useDeleteBoard";
 
 const BoardList = ({ boardTypeCode }) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(1);
   const [pageNumber, setPageNumber] = useState(10);
+  const [searchType, setSearchType] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState(null);
+  const selectRef = useRef();
+  const inputRef = useRef();
   const { data: boardListData } = useGetBoardList({
     boardTypeCode: searchParams.get("boardTypeCode"),
+    page: page,
+    size: pageNumber,
+    type: searchType,
+    keyword: searchKeyword
   });
   const { mutate: postInterestMutate } = usePostInterestBoard();
 
-  const [boardCode, setBoardCode] = useState(null);
-
   const [interestedBoards, setInterestedBoards] = useState([]);
-
+  const [selectedBoardList, setSelectedBoardList] = useState([]);
   const registerButton = () => {
     navigate("/register");
   };
+  const { mutate } = useDeleteBoard()
+
+
 
   const onAddToInterestBoard = (id) => {
     postInterestMutate(
@@ -44,15 +55,47 @@ const BoardList = ({ boardTypeCode }) => {
     );
   };
 
-  const handleGetNewPage = (pageNum) => {};
+  const handleGetNewPage = (pageNum) => {
+    setPage(pageNum)
+  };
 
   const handleChangePageNumber = (event) => {
     setPageNumber(Number(event.target.value));
   };
 
+  const handleSearch = () => {
+    setSearchType(selectRef.current.value === '제목' ? 't' : 'w');
+    setSearchKeyword(inputRef.current.value);
+  }
+
+  const onClickBoard = (id) => {
+    if (selectedBoardList.includes(id)) {
+      setSelectedBoardList(
+        selectedBoardList.filter((selectedId) => selectedId !== id)
+      );
+    } else {
+      setSelectedBoardList([...selectedBoardList, id]);
+    }
+  };
+
+  const deleteHandler = () => {
+    console.log(selectedBoardList);   // [11]
+    selectedBoardList.map((selectedBoard) => {
+      mutate(selectedBoard);
+    });
+    
+  };
   return (
     <BoardLayout>
-      <button className="trash_button">
+      <div>
+        <select className="search" ref={selectRef}>
+          <option>제목</option>
+          <option>작성자</option>
+        </select>
+        <input className="searchInput" ref={inputRef}/>
+        <button className="searchButton" onClick={handleSearch}>검색</button>
+      </div>
+      <button className="trash_button"  onClick={deleteHandler}>
         <FaRegTrashCan className="trash"></FaRegTrashCan>
       </button>
       <table className="main_board_table">
@@ -71,7 +114,11 @@ const BoardList = ({ boardTypeCode }) => {
           {boardListData?.data?.dtoList?.map((el, index) => (
             <tr key={el.id}>
               <td>
-                <input type="checkbox" onChange={() => setBoardCode(el.id)} />
+                <input type="checkbox"
+                checked={selectedBoardList.includes(el.boardCode)}
+                onChange={() => {
+                    onClickBoard(el.boardCode);
+                  }} />
               </td>
               <td>{index + 1}</td>
 
@@ -95,13 +142,13 @@ const BoardList = ({ boardTypeCode }) => {
               <td>{el.viewCount}</td>
             </tr>
           ))}
-          <div>
+        </tbody>
+      </table>
+      <div style={{width: '100%', display: 'flex', gap: '5px', justifyContent: "center"}}>
             {boardListData?.data?.pageList?.map((el) => (
               <p onClick={() => handleGetNewPage(el)}>{el}</p>
             ))}
           </div>
-        </tbody>
-      </table>
       <select
         name="page_number_choice"
         id="page_number_choice"

@@ -1,5 +1,5 @@
 import "@toast-ui/editor/dist/toastui-editor.css";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Viewer } from "@toast-ui/react-editor";
 import { BoardLayout } from "../../layouts/BoardLayout";
@@ -34,6 +34,10 @@ export const BoardDetail = () => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   console.log(commentContent);
   const [editingCommentContent, setEditingCommentContent] = useState("");
+  const [viewerValue, setViewerValue] = useState('');
+ 
+
+
   const onPostComment = () => {
     if (!commentContent) {
       alert("댓글을 입력해주세요.");
@@ -89,6 +93,7 @@ export const BoardDetail = () => {
       }
     );
   };
+  
   const handleDelete = (id) => {
     deleteCommentMutate(id, {
       onSuccess: () => {
@@ -121,11 +126,16 @@ export const BoardDetail = () => {
   };
 
   console.log("boardFileListData", boardFileListData);
+  console.log("boardDetailData", boardDetailData);
 
   const handleEditBoardDetail = () => {
     navigate(`/board/edit/${params.id}`);
   };
 
+
+  useEffect(()=>{
+    setViewerValue(boardDetailData?.data?.content ?? '');
+  }, [boardDetailData])
   return (
     <BoardLayout>
       <div className="boardButton">
@@ -167,7 +177,7 @@ export const BoardDetail = () => {
           </div>
 
           <div className="headerItem">
-            <div>조회수</div>
+            <div className="viewCount">조회수</div>
             <div>{boardDetailData?.data.viewCount}</div>
           </div>
         </div>
@@ -175,7 +185,7 @@ export const BoardDetail = () => {
         <div className="headerItem">
           <div>첨부파일</div>
           <div>
-            {boardFileListData?.fileList?.map((file) => (
+            {boardFileListData?.data?.map((file) => (
               <a
                 href="#"
                 key={file.fileId}
@@ -189,11 +199,12 @@ export const BoardDetail = () => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="textDiv">
+        {viewerValue === '' ? null :
         <Viewer
           className="viewer"
-          initialValue={boardDetailData?.content || ""}
-        />
+          initialValue={viewerValue}
+        />}
       </div>
       <div className="commentWrapper">
         <div className="commentHeader">
@@ -219,11 +230,11 @@ export const BoardDetail = () => {
                 <div>
                   {editingCommentId === comment.commentCode ? (
                     <>
-                      <button onClick={handleEditSave}>완료</button>
-                      <button onClick={handleEditCancel}>취소</button>
+                      <button className="commentButton2" onClick={handleEditSave}>완료</button>
+                      <button className="commentButton2" onClick={handleEditCancel}>취소</button>
                     </>
                   ) : (
-                    <button
+                    <button className="commentButton"
                       onClick={() => {
                         handleEdit(comment.commentCode, comment.commentContent);
                       }}
@@ -232,7 +243,7 @@ export const BoardDetail = () => {
                     </button>
                   )}
 
-                  <button
+                  <button className="commentButton"
                     onClick={() => {
                       handleDelete(comment.commentCode);
                     }}

@@ -14,21 +14,20 @@
 
 }
 
-.writer {
-  margin-left:51px;
-}
 
 .headerItem {
   display: flex;
   align-items: center;
   gap: 70px;
-  margin-right: 300px;
+  width:600px;
 }
+
 
 .headerItem > div:first-child {
   font-weight: 700;
   width: 100px;
 }
+
 
 .button {
   width: 100px;
@@ -131,4 +130,32 @@
   background:none;
   cursor: pointer;
   font-size:23px;
+}
+
+.toastui-editor-contents {
+  height: 300px;
+}
+
+
+.textDiv {
+  width:1300px;
+  height:300px;
+}
+
+.commentButton {
+  width:60px;
+  height:23px;
+  border-style: none;
+  background-color: #94A9FF;
+  color:#fff;
+  border-radius: 6px;
+}
+
+.commentButton2 {
+  width:60px;
+  height:23px;
+  border-style: none;
+  background-color: #F2F6FF;
+  color:#6d6d6d;
+  border-radius: 6px;
 }

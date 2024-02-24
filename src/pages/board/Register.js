@@ -53,6 +53,7 @@ export const BoardRegister = () => {
         },
       });
     } else {
+      
       putBoardMutate(
         {
           boardCode: params.id,
