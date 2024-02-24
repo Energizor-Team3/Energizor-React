@@ -1,4 +1,4 @@
-import { GET_MYPAGE, GET_USER, GET_USER_LIST, POST_LOGIN, POST_SIGNUP, PUT_PASSWORD } from '../modules/UserModule';
+import { GET_MYPAGE, GET_USER, GET_USER_LIST, MODIFY_SUCCESS, POST_LOGIN, POST_SIGNUP, PUT_PASSWORD } from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
 export const callLoginAPI = ({ form }) => {
@@ -210,7 +210,7 @@ export const callModifyUserAPI = (userCode, requestData, navigate) => async (dis
         alert('직원 정보 수정에 성공했습니다.');
         // 성공 액션 디스패치 (필요한 경우)
         dispatch({
-            type: 'MODIFY_SUCCESS',
+            type: MODIFY_SUCCESS,
             payload: data,
         });
         navigate('/userlist', { replace: true });

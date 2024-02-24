@@ -24,7 +24,7 @@ function ModifyUser() {
         userCode: userCode,
       })
     );
-  }, [dispatch, userCode]);
+  }, [userCode]);
 
   console.log("userDetail", userDetail);
 
@@ -35,12 +35,16 @@ function ModifyUser() {
         entDate: '',
         email: '',
         phone: '',
-        offUsed: 0, // 'dayoffUsed' 상태 추가
+        offUsed: '', 
         resignDate: '',
-        userRole: '',
+        adminRole: '',
     });
 
     useEffect(() => {
+        const hasAdminRole = userDetail.authorities
+        ?.some((role) => role.authority === 'ROLE_ADMIN');
+        setIsAdmin(hasAdminRole);
+
         if (userDetail && Object.keys(userDetail).length > 0) {
             setForm(prevForm => ({
                 ...prevForm,
@@ -50,9 +54,9 @@ function ModifyUser() {
                 entDate: userDetail.entDate || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
-                offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : 0,
+                offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : '',
                 resignDate: userDetail.resignDate || '',
-                // userRole: '', // 이 부분은 별도의 로직이 필요한 경우 조정
+                adminRole: hasAdminRole,
             }));
         }
     }, [userDetail]);
@@ -74,23 +78,21 @@ function ModifyUser() {
     }, []);
 
     // 관리자 권한 설정
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState();
 
-    useEffect(() => {
-        const hasAdminRole = userDetail.userRole?.some((role) => role.authority === 'ROLE_ADMIN');
-        setIsAdmin(hasAdminRole);
-    }, [userDetail]);
+    // useEffect(() => {
+    //     const hasAdminRole = userDetail.userRole?.some((role) => role.authority === 'ROLE_ADMIN');
+    //     setIsAdmin(hasAdminRole);
+    // }, [userDetail]);
 
     const handleAdminChange = (e) => {
-        setIsAdmin(e.target.checked);
+        const isChecked = e.target.checked;
+        setIsAdmin(isChecked);
+        setForm(prevForm => ({
+            ...prevForm,
+            isAdmin: isChecked,
+        }));
     };
-
-    // const onChangeHandler = (e) => {
-    //     setForm({
-    //         ...form,
-    //         [e.target.name]: e.target.value,
-    //     });
-    // };
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -110,6 +112,7 @@ function ModifyUser() {
         const userRoles = isAdmin ? [{ authority: { authName: 'ROLE_ADMIN' } }] : [];
 
         const requestBody = {
+            userId: userDetail.userId,
             userName: form.userName,
             team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
@@ -118,7 +121,8 @@ function ModifyUser() {
             phone: form.phone,
             offUsed: form.offUsed,
             resignDate: form.resignDate,
-            userRole: userRoles,
+            // userRole: userRoles,
+            adminRole: form.isAdmin,
         };
 
         try {
@@ -215,7 +219,7 @@ function ModifyUser() {
                                     <select
                                         className="regist_user_input"
                                         name="team"
-                                        value={form.team?.teamName}
+                                        value={form.team}
                                         onChange={onChangeHandler}
                                     >
                                         {teams.map((team) => (
@@ -335,6 +339,8 @@ function ModifyUser() {
                                         <label className="auth_admin">관리자 권한</label>
                                         <label className="switch">
                                             <input
+                                                name="adminRole"
+                                                value={form.isAdmin}
                                                 type="checkbox"
                                                 checked={isAdmin}
                                                 onChange={handleAdminChange}
