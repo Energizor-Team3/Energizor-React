@@ -33,9 +33,14 @@ import {
     GET_APPROVAL_FINDRFUSER
    
 } from '../modules/ApprovalRfModule';
-
-
-
+import{
+    
+    GET_APPROVAL_INBOXAPPROVAL1
+} from'../modules/ApprovalHeaderModule';
+import{
+    
+    GET_APPROVAL_PROGRESS1
+} from'../modules/ApprovalHeaderSubModule';
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -61,6 +66,32 @@ export const callInboxApprovalAPI = () => {
     };
 }
 
+
+// 해더용 결재 해야할 문서 갯수 가져오기
+export const callInboxApprovalHeaderAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/inboxApproval`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInboxApprovalHeaderAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_INBOXAPPROVAL1,  payload: result.data });
+        
+    };
+}
+
+
 // 결재 완료된 문서
 export const callApprovalCompleteAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComplete`;
@@ -81,6 +112,30 @@ export const callApprovalCompleteAPI = () => {
         console.log('[ApprovalAPICalls] callApprovalCompleteAPI RESULT : ', result);
 
         dispatch({ type: GET_APPROVAL_APPROVALCOMPLETE,  payload: result.data });
+        
+    };
+}
+
+// 해더용 결재 완료된 문서
+export const callApprovalCompleteHeaderAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalProgress`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callApprovalCompleteHeaderAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_PROGRESS1,  payload: result.data });
         
     };
 }

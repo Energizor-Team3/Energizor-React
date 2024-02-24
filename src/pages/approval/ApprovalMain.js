@@ -17,7 +17,7 @@ function ApprovalMain(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const inboxDocument  = useSelector((state) => state.approvalReducer);
-    const inboxDocumentList = inboxDocument?.data?.content;  
+    
     const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
 
     const onClickHandler = (documentCode, form) => {
@@ -41,7 +41,7 @@ function ApprovalMain(){
     },[])
 
     console.log('inbox',  inboxDocument );
-    console.log('inbox list', inboxDocumentList);
+    
     
 
    

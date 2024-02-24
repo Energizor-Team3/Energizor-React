@@ -16,7 +16,9 @@ function Approvaling() {
   const approvalingstateList = approvalingstate?.data?.content;
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
 
-   
+  
+
+ 
   useEffect(()=>{
       dispatch(callApprovalingAPI());
   },[])
