@@ -162,16 +162,16 @@ function Group() {
       console.error("부서 추가 API 호출 중 에러 발생:", error);
     }
   };
+
+  const [deptName, setDeptName] = useState("");
   const [isTeamInputRock, setIsTeamInputRock] = useState(false);
   const [isDeptOnlyLead, setIsDeptOnlyLead] = useState(true);
   const [deptName, setDeptName] = useState("");
   const [deptCode, setDeptCode] = useState("");
   const [teamName, setTeamName] = useState("");
-  const [teamCode, setTeamCode] = useState("");
-  const [updateDeptCheck, setUpdateDeptCheck] = useState("");  // 부서 유무 체크
-  const [updateDeptName, setUpdateDeptName] = useState(""); // 수정할 부서명
-
-  const [updateTeamCheck, setUpdateTeamCheck] = useState(""); 
+  const [modifyDeptName, setModifyDeptName] = useState("");
+  const [modifyTeamName, setModifyTeamName] = useState("");
+  const [updateDeptName, setUpdateDeptName] = useState("");
   const [updateTeamName, setupdateTeamName] = useState("");
 
   // 부서 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -179,101 +179,44 @@ function Group() {
   let inputDeptCode = 0;
 
   const deptModifyCeckClick = async () => {
-    console.log("수정할 부서명입력한거 확인===", updateDeptCheck); //들어옴
+    console.log("수정할 부서명입력한거 확인===", modifyDeptName);
 
     for (const key in groupAndTeam) {
-      if (groupAndTeam[key].deptName === updateDeptCheck.trim()) {
+      if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
         inputDeptName = groupAndTeam[key].deptName;
         inputDeptCode = groupAndTeam[key].deptCode;
         break;
       }
     }
-
-    console.log("입력했던거==============", inputDeptName, inputDeptCode); //들어옴
-
-    if (inputDeptCode > 0) {
+    if (inputDeptName !== "") {
       alert("부서확인 성공!!");
-      setDeptCode(inputDeptCode);
-    } else if (inputDeptCode === 0) {
+    } 
+
+    if (inputDeptName === "") {
       alert("존재하지 않는 부서입니다");
       return;
     }
   };
 
-  console.log("수정할 부서코드체크===", deptCode);
+
+  console.log("수정할 부서코드체크===", inputDeptCode);
+
+
 
   const deptModifyClick = async () => {
     try {
       console.log("체인지할 부서네임 체크===", updateDeptName);
 
-      await dispatch(
-        callDeptUpdateAPI(updateDeptName, deptCode)
+      const result = await dispatch(
+        callDeptUpdateAPI(updateDeptName, inputDeptCode)
       );
-
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-
-  
-  // 팀 수정 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  let inputTeamName = "";
-  let inputTeamCode = 0;
-
-  console.log("팀수정하기전에 팀체크=============", groupAndTeam);
-
-
-  const teamModifyCeckClick = async () => {
-    console.log("수정할 팀명입력한거 확인===", updateTeamCheck); //들어옴
-
-
-    for (const key in groupAndTeam) {
-      const teamList = groupAndTeam[key].teamList; 
-      for (const teamKey in teamList) {
-      if (teamList[teamKey].teamName === updateTeamCheck.trim()) {
-        inputTeamName = teamList[teamKey].teamName;
-        inputTeamCode = teamList[teamKey].teamCode;
-        break;
+      if (result && result.status === 200) {
+        alert("부서 수정 성공!!");
       }
-    }
-  }
-
-    console.log("입력했던거==============", inputTeamName, inputTeamCode); //들어옴
-
-    if (inputTeamCode > 0) {
-      alert("팀확인 성공!!");
-      setTeamCode(inputTeamCode);
-    } else if (inputTeamCode === 0) {
-      alert("존재하지 않는 팀입니다");
-      return;
-    }
-  };
-
-  console.log("수정할 팀코드체크===", teamCode);
-
-  const teamModifyClick = async () => {
-    try {
-      console.log("체인지할 팀네임 체크===", updateTeamName);
-
-      await dispatch(
-        callTeamUpdateAPI(updateTeamName, teamCode)
-      );
-
     } catch (error) {
-      alert(error);
+      alert("부서 수정 실패!!");
     }
   };
-
-
-
-
-
-
-
-  
-
-
 
   // 팀추가할 부서선택하기 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const handleDeptConfirmation = () => {
@@ -542,66 +485,62 @@ function Group() {
               {groupModifyButton && (
                 <div className="group_modify_wrap ">
                   <ul className="group_modify">
-                    <li>
-                      <label>수정할 부서 :</label>
-                      <input
-                        type="text"
-                        id="modifyDeptName"
-                        placeholder="수정할 부서명을 입력하세요"
-                        value={updateDeptCheck}
-                        onChange={(e) => setUpdateDeptCheck(e.target.value)}
-                      />
-                      <button
-                        disabled={!isDeptOnlyLead}
-                        onClick={deptModifyCeckClick}
-                      >
-                        부서확인
-                      </button>
-                    </li>
+                    <li className="group_modify">
+                      <div>
+                        <label>수정할 부서 :</label>
+                        <input
+                          type="text"
+                          id="modifyDeptName"
+                          placeholder="수정할 부서명을 입력하세요"
+                          value={modifyDeptName}
+                          onChange={(e) => setModifyDeptName(e.target.value)}
+                        />
+                        <button
+                          disabled={!isDeptOnlyLead}
+                          onClick={deptModifyCeckClick}
+                        >
+                          부서확인
+                        </button>
+                      </div>
 
-                    <li>
-                      <label>원하는 부서명 :</label>
-                      <input
-                        type="text"
-                        id="updateDeptName"
-                        placeholder="원하는 부서명을 입력하세요"
-                        value={updateDeptName}
-                        onChange={(e) => setUpdateDeptName(e.target.value)}
-                      />
-                      <button type="button" onClick={deptModifyClick}>
-                        수정
-                      </button>
+                      <div>
+                        <label>원하는 부서명 :</label>
+                        <input
+                          type="text"
+                          id="updateDeptName"
+                          placeholder="원하는 부서명을 입력하세요"
+                          value={updateDeptName}
+                          onChange={(e) => setUpdateDeptName(e.target.value)}
+                        />
+                        <button type="button" onClick={deptModifyClick}>
+                          수정
+                        </button>
+                      </div>
                     </li>
-                  </ul>
-                  <hr />
-                  <ul className="group_modify">
-                    <li>
-                      <label>수정할 팀 :</label>
-                      <input
-                        type="text"
-                        id="modifyTeamName"
-                        placeholder="수정할 팀을 입력하세요"
-                        value={updateTeamCheck}
-                        onChange={(e) => setUpdateTeamCheck(e.target.value)}
-                      />
-                      <button 
-                      type="text" 
-                      disabled={!isDeptOnlyLead}
-                      onClick={teamModifyCeckClick}
-                      >팀확인</button>
-                    </li>
-                    <li>
-                      <label>원하는 팀명 :</label>
-                      <input
-                        type="text"
-                        id="updateDeptName"
-                        placeholder="원하는 팀명을 입력하세요"
-                        value={updateTeamName}
-                        onChange={(e) => setupdateTeamName(e.target.value)}
-                      />
-                      <button type="button"
-                      onClick={teamModifyClick}
-                      >수정</button>
+                    <hr />
+                    <li className="group_modify">
+                      <div>
+                        <label>수정할 팀 :</label>
+                        <input
+                          type="text"
+                          id="modifyTeamName"
+                          placeholder="수정할 팀을 입력하세요"
+                          value={modifyTeamName}
+                          onChange={(e) => setModifyTeamName(e.target.value)}
+                        />
+                        <button disabled={!isDeptOnlyLead}>팀확인</button>
+                      </div>
+                      <div>
+                        <label>원하는 팀명 :</label>
+                        <input
+                          type="text"
+                          id="updateDeptName"
+                          placeholder="원하는 팀명을 입력하세요"
+                          value={updateTeamName}
+                          onChange={(e) => setupdateTeamName(e.target.value)}
+                        />
+                        <button type="button">수정</button>
+                      </div>
                     </li>
                   </ul>
                 </div>

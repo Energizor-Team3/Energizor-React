@@ -211,9 +211,9 @@
 
 /* 그룹 추가 */
 
-.main_group .group_insert_wrap,
-.group_modify_wrap {
-  margin-top: 50px;
+.group_insert_wrap,
+.group_modify {
+  margin-top: 80px;
 }
 
 .main_group .group_insert,
@@ -258,8 +258,8 @@
   margin-bottom: 30px;
 }
 
-.main_group .group_insert li button,
-.group_modify button {
+.group_insert li button,
+.group_modify li button {
   margin: 0 10px;
   padding: 6px 0;
   width: 70px;
@@ -280,6 +280,25 @@
   border: none;
 }
 
-.main_group .group_style {
-  line-height: 26px;
+.group_modify li {
+  display: flex;
+  flex-direction: column;
+}
+
+.group_modify div {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.group_modify div label {
+  width: 140px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.group_modify div input {
+  width: 400px;
+  height: 30px;
+  border: 1px solid rgb(141, 141, 141);
+  background-color: white;
 }

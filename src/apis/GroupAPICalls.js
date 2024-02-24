@@ -8,6 +8,35 @@ import {
   POST_DEPT_UPDATE,
   POST_TEAM_UPDATE,
 } from "../modules/GroupAdminModule";
+// import { POST_LOGIN } from '../modules/UserModule';
+
+
+
+
+// export const callLoginAPI = ({ form }) => {
+//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/login`;
+
+//   return async (dispatch, getState) => {
+//       // 클라이언트 fetch mode : no-cors 사용시 application/json 방식으로 요청이 불가능
+//       // 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP요청을 제한한다.
+//       // 서버에서 cors 허용을 해주어야 함
+//       const result = await fetch(requestURL, {
+//           method: 'POST',
+//           headers: {
+//               'Content-Type': 'application/json',
+//               Accept: '*/*',
+//           },
+//       }).then((response) => response.json());
+
+//       console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
+//       if (result.status === 200) {
+//           window.localStorage.setItem('accessToken', result.userInfo.accessToken);
+//       }
+//       dispatch({ type: POST_LOGIN, payload: result });
+//   };
+// };
+
+
 
 export const callOrganizationAPI = () => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/groupList`;
@@ -172,7 +201,7 @@ export const callDeptUpdateAPI = (deptName , deptCode) => {
 
   return async (dispatch, getState) => {
     try {
-      console.log("부서추가 API체크!!====?");
+      console.log("api로넘어온 수정할 부서이름=== ", deptName , deptCode);
 
       const result = await fetch(requestURL, {
         method: "POST",
@@ -180,6 +209,7 @@ export const callDeptUpdateAPI = (deptName , deptCode) => {
           "Content-Type": "application/json",
           Accept: "*/*",
           Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+          
         },
         body: JSON.stringify({ deptCode: deptCode, deptName: deptName }),
       }).then((response) => response.json());
