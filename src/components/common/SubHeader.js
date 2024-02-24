@@ -42,13 +42,13 @@ function Header() {
             <nav>
                 <div id="main_list_icon">
                     <div>
-                    <a href="/group">
+                    <a href="/main">
                         <img src="/common/Home.png" alt="" />
                     </a>
                     <span style={spanStyle}>홈</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/approvalmain">
                         <img src="/common/Approval.png" alt="" />
                     </a>
                     <span style={spanStyle}>전자결재</span>
@@ -100,6 +100,12 @@ function Header() {
                         <img src="/common/board.png" alt="" />
                     </a>
                     <span style={spanStyle}>게시판</span>
+                    </div>
+                    <div>
+                    <a href="/userlist">
+                        <img src="/mypage/hrm.png" alt="" />
+                    </a>
+                    <span style={spanStyle}>인사관리</span>
                     </div>
                 </div>
             </nav>
