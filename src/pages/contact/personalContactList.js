@@ -114,7 +114,7 @@ function PersonalContact() {
                         <div className="line"></div>
                     </div>
 
-                    <table className='table table-hover' id='listArea'>
+                    <table className='table_co' id='listArea'>
                         <thead>
                             <tr>
                                 <th>이름</th>

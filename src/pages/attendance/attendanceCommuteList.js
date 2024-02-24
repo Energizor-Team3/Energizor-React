@@ -86,7 +86,7 @@ function AttendanceCommute() {
                     </div>
                     <h2 style={{ textAlign: "center", paddingTop: 200 }}>2024-02</h2>
 
-                    <table>
+                    <table className="table_at">
                         <thead>
                             <tr>
                                 <th>직원</th>

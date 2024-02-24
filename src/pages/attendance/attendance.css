@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
-main{
+.main{
     width: 1500px;
     display: flex;
     justify-content: center;
@@ -64,7 +64,7 @@ main{
     right: 8px;
 }
 
-select {
+.select {
     margin-right: 10px;
     margin-bottom: 20px;
 }
@@ -94,7 +94,7 @@ select {
 
 /* 테이블 */
 
-table {
+.table_at {
 
     width: 100%;
     border-collapse: collapse;
@@ -104,7 +104,7 @@ table {
 
 }
 
-table thead{
+.table_at thead{
     background-color: rgb(235, 235, 235);
     text-align: left;
     margin: 0;
@@ -114,17 +114,17 @@ table thead{
 
 }
 
-table thead th , table tbody tr td{
+.table_at thead th , table_at tbody tr td{
     padding: 8px 5px;
 
 
 }
-table tbody tr td:first-child{
+.table_at tbody tr td:first-child{
     max-width: 30px;
     min-width: 30px;
 }
 
-table tbody tr td{
+.table_at tbody tr td{
     max-width: 80px;
     min-width: 80px;
     overflow: hidden;
@@ -132,7 +132,7 @@ table tbody tr td{
     text-overflow: ellipsis;
 }
 
-table tbody tr td:nth-child(3){
+.table_at tbody tr td:nth-child(3){
     min-width: 80px;
     max-width: 80px;
     overflow: hidden;
@@ -140,7 +140,7 @@ table tbody tr td:nth-child(3){
     white-space: nowrap;
 }
 
-table tbody tr{
+.table_at tbody tr{
     border-bottom: 1px solid rgb(156, 156, 156);
 }
 
@@ -315,202 +315,20 @@ table tbody tr{
     letter-spacing:0;
 }
 
-/* 페이징 */
-/* .e233_1600 { 
-	overflow:hidden;
-}
-.e233_1600 { 
-	width:123.46484375px;
-	height:27.64129638671875px;
-	position:absolute;
-}
-.e233_1601 { 
-	color:rgba(105.47125205397606, 103.83575901389122, 103.83575901389122, 1);
-	width:8.284294128417969px;
-	height:21.89420509338379px;
-	position:absolute;
-	left:58.143310546875px;
-	top:0px;
-	font-family:Roboto;
-	text-align:left;
-	font-size:20px;
-	letter-spacing:0;
-	line-height:px;
-}
-.e233_1602 { 
-	width:46.09371566772461px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:0px;
-	top:8.435708999633789px;
-}
-.e233_1603 { 
-	transform: rotate(180deg);
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:15.913288116455078px;
-	top:2.7435836791992188px;
-}
-.e233_1604 { 
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:-0.000244140625px;
-	top:0.00048828125px;
-}
-.e233_1605 { 
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-.e233_1606 { 
-	background-color:rgba(0, 0, 0, 1);
-	width:4.208259105682373px;
-	height:7.305805683135986px;
-	position:absolute;
-	left:4.571235656738281px;
-	top:2.938511371612549px;
-}
-.e233_1607 { 
-	width:8.779696464538574px;
-	height:8.779696464538574px;
-	position:absolute;
-	left:31.82666015625px;
-	top:4.9384765625px;
-}
-.e233_1608 { 
-	border:1.8196059465408325px solid rgba(0, 0, 0, 1);
-}
-.e233_1608 { 
-	width:5.212944984436035px;
-	height:4.664214134216309px;
-	position:absolute;
-	left:1.5090051889419556px;
-	top:2.057680606842041px;
-}
-.e233_1609 { 
-	border:1.2130706310272217px solid rgba(105.00000134110451, 104.00000140070915, 104.00000140070915, 1);
-}
-.e233_1609 { 
-	width:19.20558738708496px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-.e233_1610 { 
-	border:1.2130706310272217px solid rgba(105.00000134110451, 104.00000140070915, 104.00000140070915, 1);
-}
-.e233_1610 { 
-	width:19.20558738708496px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:26.88818359375px;
-	top:0px;
-}
-.e233_1611 { 
-	width:46.093135833740234px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:77.37158203125px;
-	top:8.435546875px;
-}
-.e233_1612 { 
-	width:8.779696464538574px;
-	height:8.779696464538574px;
-	position:absolute;
-	left:4.9385666847229px;
-	top:4.938609600067139px;
-}
-.e233_1613 { 
-	border:1.8196059465408325px solid rgba(0, 0, 0, 1);
-}
-.e233_1613 { 
-	width:5.212944984436035px;
-	height:4.664214134216309px;
-	position:absolute;
-	left:2.057129383087158px;
-	top:2.057680606842041px;
-}
-.e233_1614 { 
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:29.630802154541016px;
-	top:2.7435836791992188px;
-}
-.e233_1615 { 
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:0.000520671543199569px;
-	top:0.0002533392107579857px;
-}
-.e233_1616 { 
-	width:13.16954517364502px;
-	height:13.16954517364502px;
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-.e233_1617 { 
-	background-color:rgba(0, 0, 0, 1);
-	width:4.208259105682373px;
-	height:7.305805683135986px;
-	position:absolute;
-	left:4.571145057678223px;
-	top:2.938563585281372px;
-}
-.e233_1618 { 
-	border:1.2130706310272217px solid rgba(105.00000134110451, 104.00000140070915, 104.00000140070915, 1);
-}
-.e233_1618 { 
-	width:19.20558738708496px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:0px;
-	top:0px;
-}
-.e233_1619 { 
-	border:1.2130706310272217px solid rgba(105.00000134110451, 104.00000140070915, 104.00000140070915, 1);
-}
-.e233_1619 { 
-	width:19.20558738708496px;
-	height:19.20558738708496px;
-	position:absolute;
-	left:26.887670516967773px;
-	top:0.00016244639118667692px;
-} */
-
 
 #attendance_employee,
-#attendance_commute,
-#favorites_contact {
+#attendance_commute {
     margin-top: 30px;
     margin-bottom: 5px;
     display: flex;
     /* align-items: center; */
 }
 
-#attendance_commute,
-#favorites_contact {
+#attendance_commute {
     margin-top: 50px;
 }
 
 #attendance_commute span {
-    /* vertical-align: middle; */
-    margin-top: -2px;
-    margin-left: 10px;
-    font-size: 23px;
-    /* color: #686868; */
-    font-weight: bold;
-
-}
-
-#favorites_contact span {
     /* vertical-align: middle; */
     margin-top: -2px;
     margin-left: 10px;

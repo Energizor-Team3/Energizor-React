@@ -77,7 +77,7 @@ function CompanyContact() {
                         <h3 style={{ textAlign: 'center' }}>2024-02</h3>
                     </div> */}
 
-                    <table className='table table-hover' id='listArea'>
+                    <table className='table_co' id='listArea'>
                         <thead>
                             <tr>
                                 {/* <th>#</th> */}
