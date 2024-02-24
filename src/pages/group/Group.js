@@ -163,7 +163,6 @@ function Group() {
     }
   };
 
-  const [deptName, setDeptName] = useState("");
   const [isTeamInputRock, setIsTeamInputRock] = useState(false);
   const [isDeptOnlyLead, setIsDeptOnlyLead] = useState(true);
   const [deptName, setDeptName] = useState("");
@@ -190,7 +189,7 @@ function Group() {
     }
     if (inputDeptName !== "") {
       alert("부서확인 성공!!");
-    } 
+    }
 
     if (inputDeptName === "") {
       alert("존재하지 않는 부서입니다");
@@ -198,10 +197,7 @@ function Group() {
     }
   };
 
-
   console.log("수정할 부서코드체크===", inputDeptCode);
-
-
 
   const deptModifyClick = async () => {
     try {
@@ -458,7 +454,11 @@ function Group() {
                   {data.length > 0 && (
                     <TreeNode
                       key={data[0].index}
-                      name={<span style={{ fontWeight: 'bold', fontSize: '18px' }}>{data[0].name}</span>}
+                      name={
+                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                          {data[0].name}
+                        </span>
+                      }
                       children={data[0].children}
                       depth={1}
                       onUserSelect={handleUserSelect}
