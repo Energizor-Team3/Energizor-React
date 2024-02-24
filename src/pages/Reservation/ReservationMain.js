@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
 import { useEffect, useState } from "react";
 import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
+import { Link } from "react-router-dom";
 
 function ReservationMain() {
   const dispatch = useDispatch();
@@ -28,7 +29,6 @@ function ReservationMain() {
         return "#dcb2f9"; // 연한 보라색
     }
   }
-
 
   return (
     <div id="wrap">
@@ -73,7 +73,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">GREEN ROOM (6F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "GREEN ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
             <div className="meeting-room-box">
               <img
@@ -82,7 +84,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">BLUE ROOM (5F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "BLUE ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
             <div className="meeting-room-box">
               <img
@@ -91,7 +95,9 @@ function ReservationMain() {
                 className="meeting-room-image"
               />
               <div className="meeting-room-text">PROJECT ROOM (4F)</div>
-              <button className="threebtn">예약하기</button>
+              <Link to="/reservationapply" state={{ room: "PROJECT ROOM" }}>
+                <button className="threebtn">예약하기</button>
+              </Link>
             </div>
           </div>
           <div className="time-grid">
@@ -118,12 +124,12 @@ function ReservationMain() {
               events={reservationTotal.map((event) => {
                 console.log("199191919191919", event.userCode.userName);
                 return {
-                  title: event.userCode.userName + ' - ' + event.reservationContent,
+                  title:
+                    event.userCode.userName + " - " + event.reservationContent,
                   start: event.reservationDate + "T08:00:00",
                   end: event.reservationDate + "T10:00:00",
                   color: getColorForMeetCode(event.meetCode.meetCode),
-                  textColor: 'black', // 이벤트의 텍스트 색상을 파란색으로 지정
-
+                  textColor: "black", // 이벤트의 텍스트 색상을 파란색으로 지정
                 };
               })}
             />

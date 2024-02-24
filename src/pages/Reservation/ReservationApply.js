@@ -1,12 +1,13 @@
-import React from "react";
 import "./ReservationApply.css";
-import { useLocation } from "react-router-dom"; // 리액트 라우터에서 useLocation 가져오기
+import { useLocation } from "react-router-dom"; 
+import React, { useState } from "react";
 
 function ReservationApply() {
+  const location = useLocation();
+  const [room, setRoom] = useState(location.state ? location.state.room : "");
 
+  console.log("999999999999999999999999999999", room);
 
-  
-  
   return (
     <div id="wrap">
       <section>
@@ -49,7 +50,10 @@ function ReservationApply() {
           <div className="reservation-container">
             <form className="reservation-form">
               <label htmlFor="place">장소:</label>
-              <select>
+              <select
+                value={room || ""}
+                onChange={(e) => setRoom(e.target.value)}
+              >
                 <option value="">장소를 선택하세요</option>
                 <option value="GREEN ROOM">GREEN ROOM</option>
                 <option value="BLUE ROOM">BLUE ROOM</option>
