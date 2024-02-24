@@ -1,6 +1,9 @@
 import {
   GET_CALENDAR,
-  POST_CALENDAR
+  POST_CALENDAR,
+  DELETE_CALENDAR
+ 
+  
 
 } from '../modules/CalendarModule.js';
 import {
@@ -172,6 +175,26 @@ export const callDeleteScheduleAPI = ({ schNo }) => {
     };
 }
 
+
+export const callDeleteCalendarAPI = ({ calNo }) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/deleteCalendar/${ calNo }`; 
+
+  return async (dispatch, getState) => {
+    const result = 
+      await fetch(requestURL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: '*/*',
+          Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+      })
+      .then(response => response.json());
+
+      console.log('[CalendarAPICalls] callDeleteCalendarAPI RESULT : ', result);
+      dispatch({ type: DELETE_CALENDAR, payload: result});
+    };
+}
 
 // export const callSchedulUpdateAPI = ({ form })=> {
 //   console.log('[CalendarAPICalls] callScheduleUpdateAPI Call');
