@@ -47,12 +47,10 @@ function ModifyUser() {
                 userName: userDetail.userName || '',
                 team: userDetail.team ? userDetail.team.teamCode : '',
                 userRank: userDetail.userRank || '',
-                // entDate: userDetail.entDate || '',
                 entDate: moment(userDetail.entDate).format('YYYY-MM-DD') || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
                 offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : '',
-                // resignDate: userDetail.resignDate || '',
                 resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD') || '',
                 adminRole: hasAdminRole,
             }));
@@ -77,11 +75,6 @@ function ModifyUser() {
 
     // 관리자 권한 설정
     const [isAdmin, setIsAdmin] = useState();
-
-    // useEffect(() => {
-    //     const hasAdminRole = userDetail.userRole?.some((role) => role.authority === 'ROLE_ADMIN');
-    //     setIsAdmin(hasAdminRole);
-    // }, [userDetail]);
 
     const handleAdminChange = (e) => {
         const isChecked = e.target.checked;
@@ -112,12 +105,11 @@ function ModifyUser() {
             userName: form.userName,
             team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
-            entDate: form.entDate,
+            entDate: moment(userDetail.entDate).format('YYYY-MM-DD'),
             email: form.email,
             phone: form.phone,
             offUsed: form.offUsed,
-            resignDate: form.resignDate,
-            // userRole: userRoles,
+            resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD'),
             adminRole: form.isAdmin,
         };
 
@@ -250,7 +242,7 @@ function ModifyUser() {
                                     <input
                                         className="regist_user_input"
                                         name="entDate"
-                                        value={form.entDate}
+                                        value={moment(userDetail.entDate).format('YYYY-MM-DD')}
                                         type="date"
                                         onChange={onChangeHandler}
                                     />
@@ -319,7 +311,7 @@ function ModifyUser() {
                                         <input
                                             className="regist_user_input"
                                             name="resignDate"
-                                            value={form.resignDate}
+                                            value={moment(userDetail.resignDate).format('YYYY-MM-DD')}
                                             type="date"
                                             onChange={onChangeHandler}
                                         />

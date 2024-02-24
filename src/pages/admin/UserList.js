@@ -1,4 +1,5 @@
 import './UserList.css';
+import moment from 'moment';
 import { callUserListAPI } from '../../apis/UserAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -127,17 +128,21 @@ function UserList() {
                                         <td>{user?.team?.teamName}</td>
                                         <td>{user?.phone}</td>
                                         <td>{user?.email}</td>
-                                        <td>{user?.entDate}</td>
+                                        <td>{moment.utc(user.entDate).format('YYYY-MM-DD')}</td>
                                         <td>{user?.dayoff?.offCount}</td>
                                         <td>{user?.dayoff?.offUsed}</td>
                                         <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
-                                        <td>{user?.resignDate === '9999-12-31' ? '재직 중' : user?.resignDate}</td>
+                                        <td>
+                                            {moment.utc(user.resignDate).format('YYYY-MM-DD') === '9999-12-31'
+                                                ? '재직 중'
+                                                : moment(user.resignDate).format('YYYY-MM-DD')}
+                                        </td>
                                     </tr>
                                 ))}
                         </tbody>
                     </table>
-                
-                    <div className='pagingArea'>
+
+                    <div className="pagingArea">
                         <div style={{ listStyleType: 'none', display: 'flex' }}>
                             {Array.isArray(userListContent) && (
                                 <button

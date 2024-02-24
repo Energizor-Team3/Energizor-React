@@ -59,7 +59,7 @@ function App() {
           {/* 쪽지 */}
           <Route path="/message" element={<Message />} />
 
-
+          {/* 관리자, 마이페이지 */}  
           <Route path="/userlist" element={ <UserList/> } />
           <Route path="/my-page" element={ <MyPage/> } />
           <Route path="/changepwd" element={ <ChangePwd/> } />
