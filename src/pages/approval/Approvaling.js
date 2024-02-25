@@ -18,6 +18,8 @@ function Approvaling() {
   const approvalingstateList = approvalingstate?.data?.content;
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
   const [selected, setSelected] = useState('전체');
+  const [isLoading, setIsLoading] = useState(true);
+
 
 
   const allDocuments = [
@@ -27,11 +29,25 @@ function Approvaling() {
   ];
 
  
-  useEffect(()=>{
-      dispatch(callApprovalingAPI());
-      dispatch(callRfDocumentAPI());
-      dispatch(callLineDocumentAPI());
-  },[])
+  
+
+  useEffect(() => {
+    async function fetchData() {
+      // 여러 데이터를 가져오는 비동기 함수들을 호출합니다.
+      await dispatch(callApprovalingAPI());
+      await dispatch(callRfDocumentAPI());
+      await dispatch(callLineDocumentAPI());
+      // 데이터 로딩이 완료되면 로딩 상태를 false로 설정합니다.
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, [dispatch]);
+
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   console.log('approvalingstate',  approvalingstate );
   console.log('approvalingstateList',  approvalingstateList);
