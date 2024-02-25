@@ -22,6 +22,7 @@ import groupUserReducer from "./GroupUserModule";
 import groupDeptReducer from "./GroupDeptModule";
 import groupTeamReducer from "./GroupTeamModule";
 import groupAdminReducer from "./GroupAdminModule";
+import approvalFileReducer from "./ApprovalFileModule";
 
 
 
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
   contactReducer,
   approvalHeaderReducer,
   approvalHeaderSubReducer,
+  approvalFileReducer,
 });
 
 export default rootReducer;

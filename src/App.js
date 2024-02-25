@@ -46,6 +46,7 @@ import ChangePwd from './pages/user/ChangePwd';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
 import ProxyApprovalLine from './pages/approval/ProxyApprovalLine';
+import FilePopup from "./pages/approval/FilePopup";
 
 
 // import Attendance from './pages/attendance/attendanceCommuteList';
@@ -118,6 +119,7 @@ function App() {
           <Route path="/vacationform" element={<VacationForm />} />
           <Route path="/group" element={<Group />} />
           <Route path="/proxyapprovalline" element={ <ProxyApprovalLine/> } />
+          <Route path="/proxyapprovalline" element={ <FilePopup/> } />
 
             {/* 자원예약 */}
 

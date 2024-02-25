@@ -2,9 +2,11 @@ import './BusinessTrip.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI } from '../../apis/ApprovalAPICalls';
+import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI,callShareDocumentAPI } from '../../apis/ApprovalAPICalls';
 import { printDocument } from './pdf.js';
 import ApprovalHeader from './approvalHeader'
+import ApprovalGroup2 from './ApprovalGroup2.js';
+import FilePopup from './FilePopup.js';
 
 function BusinesstripForm(){
     let formatdate,formatdate2,formatdate3;
@@ -24,6 +26,19 @@ function BusinesstripForm(){
     console.log(userDetail, 'userDetail');
     const [isLoading, setIsLoading] = useState(true);
 
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+    const [popupContent, setPopupContent] = useState('');
+    const openPopupWithContent = (content) => {
+      setPopupContent(content);
+      setIsPopupOpen(true);
+    };
+
+    // 조직도 띄우기
+    const toggleContent =() =>{
+      var og = document.getElementById("og");
+      og.classList.toggle("active");
+      }
   
   
     if (approvalDetail && Array.isArray(approvalDetail?.document?.draftDay)) {
@@ -120,6 +135,19 @@ function BusinesstripForm(){
     }
 
 
+    const handleUserSelect = (code) => {
+      console.log(code);
+      if (userDetail.userCode === code) {
+        alert('문서 공유는 본인에게 안됩니다.');
+        return;
+      }
+  
+      alert('문서 공유 완료')
+      dispatch(callShareDocumentAPI(documentCodeData,code));
+      }
+
+      
+
     return(
         <div id="wrap">
         <section>
@@ -154,6 +182,10 @@ function BusinesstripForm(){
               <span>
               <button onClick={() => printDocument('pdf-content')}>PDF</button>
               </span>
+              <span>
+              <button onClick={toggleContent} >공유하기</button>
+              </span>
+              <span><button onClick={() => openPopupWithContent(documentCodeData)}>첨부파일</button></span>
             </div>
           </div>
         </div>
@@ -350,8 +382,10 @@ function BusinesstripForm(){
               
             </div>
               <div className='og' id='og' >
+                <ApprovalGroup2 onUserSelect={handleUserSelect} />
               
               </div>
+              <FilePopup isOpen={isPopupOpen} handleClose={() => setIsPopupOpen(false)} content={popupContent}/>
               </div>
           </div>
         </main>

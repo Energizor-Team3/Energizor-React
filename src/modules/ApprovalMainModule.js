@@ -28,6 +28,7 @@ export const DELETE_APPROVAL_DELETETEMPAPPROVAL = 'approval/DELETE_APPROVAL_DELE
 
 
 
+
 const actions = createActions({
     [GET_APPROVAL_InboxApproval]: () => {},
     [GET_APPROVAL_SHAREDINBOX]: () => {},
@@ -45,6 +46,7 @@ const actions = createActions({
     [GET_APPROVAL_APPROVALCOMPLETE]: () => {},
     [POST_APPROVAL_INSERTPROXY]: () => {},
     [DELETE_APPROVAL_DELETETEMPAPPROVAL]: () => {}
+    
     
 });
 
