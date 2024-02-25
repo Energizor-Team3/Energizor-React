@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
+import ApprovalSubHeader from '../approval/ApprovalSubHeader'
+
 
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
@@ -95,6 +97,7 @@ function Main() {
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_approval}>
                         <h1>결재</h1>
+                        <ApprovalSubHeader/>
                     </div>
                     <div className={MainCSS.main_board}>
                         <h1>내 게시판</h1>
