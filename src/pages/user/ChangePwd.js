@@ -40,21 +40,22 @@ function ChangePwd() {
         });
     };
 
-    const onClickChangePwdHandler = () => {
+    const onClickChangePwdHandler = async () => {
 
         console.log('[ChangePwd] onClickChangePwdHandler');
 
-        const formData = new FormData();
-        formData.append("currentPassword", form.currentPassword);
-        formData.append("newPassword", form.newPassword);
-        formData.append("confirmPassword", form.confirmPassword);
+        const requestBody = {
+            currentPassword: form.currentPassword,
+            newPassword: form.newPassword,
+            confirmPassword: form.confirmPassword,
+        }
 
-        dispatch(callPasswordUpdateAPI({
-            form: formData
-        }));         
+        try {
+            dispatch(callPasswordUpdateAPI(navigate, requestBody)); 
+        } catch (error) {
+            alert(error.message);
+        }
 
-        // navigate('/login', { replace: true});
-        // window.location.reload();
     }
 
     return (

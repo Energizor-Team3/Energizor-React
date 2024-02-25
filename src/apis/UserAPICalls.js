@@ -1,4 +1,5 @@
 import {
+    DELETE_PROFILE,
     GET_MYPAGE,
     GET_USER,
     GET_USER_LIST,
@@ -6,6 +7,7 @@ import {
     POST_LOGIN,
     POST_SIGNUP,
     PUT_PASSWORD,
+    PUT_PROFILE,
 } from '../modules/UserModule';
 import { POST_SEARCHPWD } from '../modules/UserModule';
 
@@ -277,24 +279,81 @@ export const callUserDetailAPI = ({ userCode }) => {
     };
 };
 
-export const callPasswordUpdateAPI = ({ form }) => {
+export const callPasswordUpdateAPI = (navigate, requestData) => async (dispatch) => {
     console.log('[UserAPICalls] callPasswordUpdateAPI Call');
 
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/change-password`;
+
+    const response = await fetch(requestURL, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+        },
+        body: JSON.stringify(requestData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        // 서버에서 에러 메시지를 반환한 경우, 직접 에러 처리
+        throw new Error(data.message || '비밀번호 변경에 실패했습니다.');
+    }
+
+    // 성공 처리 로직 (예: 상태 업데이트, 성공 메시지 표시 등)
+    alert('비밀번호 변경에 성공했습니다.');
+    // 성공 액션 디스패치 (필요한 경우)
+    dispatch({
+        type: PUT_PASSWORD,
+        payload: data,
+    });
+
+    navigate('/login', { replace: true});
+    window.location.reload();
+};
+
+export const callUpdateProfileAPI = ({ form }) => {
+    console.log('[UserAPICalls] callUpdateProfileAPI Call');
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/change-profile`;
 
     return async (dispatch, getState) => {
         const result = await fetch(requestURL, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
                 Accept: '*/*',
                 Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
             },
             body: form,
         }).then((response) => response.json());
 
-        console.log('[UserAPICalls] callPasswordUpdateAPI RESULT : ', result);
+        console.log('[UserAPICalls] callUpdateProfileAPI RESULT : ', result);
 
-        dispatch({ type: PUT_PASSWORD, payload: result });
+        alert('프로필 사진 변경이 완료되었습니다.')
+
+        dispatch({ type: PUT_PROFILE, payload: result });
+    };
+};
+
+export const callDeleteProfileAPI = () => {
+    console.log('[UserAPICalls] callDeleteProfileAPI Call');
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/delete-profile`;
+
+    return async (dispatch) => {
+        const result = await fetch(requestURL, {
+            method: 'PUT',
+            headers: {
+                Accept: '*/*',
+                Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+            },
+        }).then((response) => response.json());
+
+        console.log('[UserAPICalls] callUpdateProfileAPI RESULT : ', result);
+
+        alert('프로필 사진이 삭제되었습니다.')
+
+        dispatch({ type: DELETE_PROFILE, payload: result });
     };
 };

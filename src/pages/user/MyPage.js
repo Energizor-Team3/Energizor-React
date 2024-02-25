@@ -1,19 +1,26 @@
-import  './MyPage.css';
-import { callMyPageAPI } from '../../apis/UserAPICalls';
+import './MyPage.css';
+import { callMyPageAPI, callUpdateProfileAPI, callDeleteProfileAPI } from '../../apis/UserAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
 
 function MyPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const myInfo = useSelector((state) => state.userReducer);
+    const profileImageInput = useRef(null);
+    const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
 
     useEffect(() => {
         dispatch(callMyPageAPI());
     }, []);
+
+    useEffect(() => {
+        // myInfo의 profilePath가 변경될 때마다 profileImagePath 상태 업데이트
+        setProfileImagePath(myInfo.profilePath);
+    }, [myInfo.profilePath]);
 
     console.log('myInfo', myInfo);
 
@@ -31,13 +38,52 @@ function MyPage() {
         }
     };
 
+    // 이미지 파일을 formData로 넘기는 핸들러
+    const handleProfileImageChange = (e) => {
+        const file = e.target.files[0]; // 선택된 파일 가져오기
+        if (!file) {
+            console.error('선택된 파일이 없습니다.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profilePath', file); // 'profileImage'는 서버에서 기대하는 필드 이름
+
+        dispatch(
+            callUpdateProfileAPI({
+                form: formData,
+            })
+        )
+            .then(() => {
+                navigate('/my-page');
+            })
+            .then((response) => {
+                // 이미지 업로드 성공 후, 이미지 경로 상태 업데이트
+                // 이 부분은 실제로 응답에 따라 달라질 수 있으므로 적절히 조정해야 합니다.
+                setProfileImagePath(myInfo.profilePath);
+            })
+            .catch((error) => {
+                console.error('Profile update failed:', error);
+            });
+    };
+
+    const handleProfileImageDelete = () => {
+        dispatch(callDeleteProfileAPI())
+            .then(() => {
+                navigate('/my-page');
+            })
+            .catch((error) => {
+                console.error('Profile deletion failed:', error);
+            });
+    };
+
     return (
         <div id="wrap">
             <section>
                 <article>
                     <h2 style={{ marginBottom: 50 }}>마이페이지</h2>
                     <ul className="sub_list">
-                        <li  onClick={onClickMyInfoHandler}>
+                        <li onClick={onClickMyInfoHandler}>
                             <div>
                                 <img
                                     src="/mypage/profile.png"
@@ -46,7 +92,10 @@ function MyPage() {
                                 <span>내 정보</span>
                             </div>
                         </li>
-                        <li className="sub_list_text" onClick={onClickChangePWHandler}>
+                        <li
+                            className="sub_list_text"
+                            onClick={onClickChangePWHandler}
+                        >
                             <div>
                                 <img
                                     src="/mypage/password.png"
@@ -63,9 +112,7 @@ function MyPage() {
                 <div className="content">
                     <div className="subject">
                         <strong>내 프로필</strong>
-                        <div className="line">
-                            <div className="search_box"></div>
-                        </div>
+                        <div className="line"></div>
                     </div>
 
                     <div className="sub_content">
@@ -78,15 +125,24 @@ function MyPage() {
                                     />
                                 </div>
                                 <div className="user_photo_edit">
+                                    <input
+                                        type="file"
+                                        ref={profileImageInput}
+                                        name="profilePath"
+                                        accept="image/jpg,image/png,image/jpeg,image/gif"
+                                        onChange={handleProfileImageChange}
+                                        style={{ display: 'none' }}
+                                    />
                                     <button
-                                        type="submit"
+                                        onClick={() => profileImageInput.current.click()}
                                         className="photo_regist"
                                     >
-                                        사진 등록
+                                        사진 변경
                                     </button>
                                     <button
-                                        type="submit"
+                                        type="button"
                                         className="photo_delete"
+                                        onClick={handleProfileImageDelete}
                                     >
                                         사진 삭제
                                     </button>
@@ -111,21 +167,15 @@ function MyPage() {
                             </div>
                             <div className="user_info">
                                 <span className="user_info_label">직급</span>
-                                <strong className="user_info_content">
-                                    {myInfo?.userRank}  
-                                </strong>
+                                <strong className="user_info_content">{myInfo?.userRank}</strong>
                             </div>
                             <div className="user_info">
                                 <span className="user_info_label">이메일</span>
-                                <strong className="user_info_content">
-                                    {myInfo?.email}
-                                </strong>
+                                <strong className="user_info_content">{myInfo?.email}</strong>
                             </div>
                             <div className="user_info">
                                 <span className="user_info_label">휴대폰</span>
-                                <strong className="user_info_content">
-                                    {myInfo?.phone}
-                                </strong>
+                                <strong className="user_info_content">{myInfo?.phone}</strong>
                             </div>
                         </div>
                     </div>
