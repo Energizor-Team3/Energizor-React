@@ -122,3 +122,8 @@ button.org-chart-button {
 button.org-chart-button:hover {
     background-color: #314b94;
 }
+
+input#attendees {
+    width: 938px;
+    height: 41px;
+}
