@@ -76,7 +76,7 @@ function App() {
           {/* <Route path="*" element={<Error />} /> */}
 
 
-          <Route path="/reservationmain" element={<ReservationMain />} />
+          
 
           <Route path="/" element={<Sublayout />}>
        {/* 메인 */}
@@ -101,49 +101,6 @@ function App() {
        <Route path="/changepwd" element={ <ChangePwd/> } />
 
             {/* 결재 */}
-            <Route path="/generaldraft" element={<GeneralDraft />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/businesstrip" element={<BusinessTrip />} />
-            <Route path="/saveinbox" element={<SaveInBox />} />
-            <Route path="/inbox" element={<InBox />} />
-            <Route path="/vacation" element={<Vacation />} />
-            <Route path="/approvalmain" element={<ApprovalMain />} />
-            <Route path="/sharedinbox" element={<SharedInBox />} />
-            <Route path="/approvaling" element={<Approvaling />} />
-            <Route path="/newapproval" element={<NewApproval />} />
-            <Route path="/generaldraftform" element={<GeneraldraftForm />} />
-            <Route path="/educationform" element={<EducationForm />} />
-            <Route path="/businesstripform" element={<BusinesstripForm />} />
-            <Route path="/vacationform" element={<VacationForm />} />
-            <Route path="/group" element={<Group />} />
-
-            {/* 자원예약 */}
-            <Route path="/reservationdetails" element={<ReservationDetails />} />
-            <Route path="/reservationapply" element={<ReservationApply />} />
-            <Route path="/reservationmain" element={<ReservationMain />} />
-            <Route path="/reservationmodify" element={<ReservationModify />} />
-
-            {/*일정관리- 캘린더, 프로젝트  */}
-            <Route path="/project/main" element={<ProjectMain />} />
-            <Route path="/project/:proNo" element={<ProjectDetail />} />
-            <Route path="/calendar" element={<CalendarMainPage />} />
-            <Route path="/calendar/setting" element={<CalendarSetting />} />
-            <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
-            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
-
-            {/*근태관리, 주소록 */}
-          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
-          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
-          {/* <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
-          <Route path="/attendance/all-users-list" element={ <Employee/> }/> */}
-          </Route>
-          <Route path="/userlist" element={ <UserList/> } />
-          <Route path="/my-page" element={ <MyPage/> } />
-          <Route path="/userregist" element={ <UserRegist/> } />
-          <Route path="/modifyuser/:userCode" element={ <ModifyUser/> } />
-
-
-          {/* 결재 */}
 
           <Route path="/generaldraft" element={<GeneralDraft />} />
           <Route path="/education" element={<Education />} />
@@ -161,16 +118,15 @@ function App() {
           <Route path="/vacationform" element={<VacationForm />} />
           <Route path="/group" element={<Group />} />
           <Route path="/proxyapprovalline" element={ <ProxyApprovalLine/> } />
-          
 
-          {/* 자원예약 */}
+            {/* 자원예약 */}
 
           <Route path="/reservationdetails" element={<ReservationDetails />} />
           <Route path="/reservationapply" element={<ReservationApply />} />
           <Route path="/reservationmain" element={<ReservationMain />} />
           <Route path="/reservationmodify" element={<ReservationModify />} />
 
-          {/*일정관리- 캘린더, 프로젝트  */}
+            {/*일정관리- 캘린더, 프로젝트  */}
 
           <Route path="/project/main" element={<ProjectMain />} />
           <Route path="/project/:proNo" element={<ProjectDetail />} />
@@ -178,6 +134,22 @@ function App() {
           <Route path="/calendar/setting" element={<CalendarSetting />} />
           <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
           <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+
+            {/*근태관리, 주소록 */}
+          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
+          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
+          {/* <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
+          <Route path="/attendance/all-users-list" element={ <Employee/> }/> */}
+          </Route>
+          
+
+
+          
+          
+
+          
+
+          
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
