@@ -1,24 +1,36 @@
-//import "./ReservationApply.css";
-import { useLocation } from "react-router-dom";
+import "./ReservationApply.css";
 import React, { useState } from "react";
 import ReservationGroup from "./ReservationGroup"; // 조직도 컴포넌트 import
 import { FaTimes } from "react-icons/fa";
+import { callReservationInsertAPI } from "./../../apis/ReservationAPICalls";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function ReservationApply() {
-  const location = useLocation();
-  const [room, setRoom] = useState(location.state ? location.state.room : "");
+  const [room, setRoom] = useState("");
   const [showOrgChart, setShowOrgChart] = useState(false);
   const [attendees, setAttendees] = useState([]); // 선택된 참석자 목록
+  const [startTime, setStartTime] = useState("08:00");
+  const [endTime, setEndTime] = useState("08:30");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  console.log("999999999999999999999999999999", room);
-
-  // ReservationGroup 컴포넌트에서 사용자를 선택했을 때 실행되는 함수
-  const handleUserSelect = ({ userCode, name }) => {
-    // 이미 선택된 사용자인지 확인
-    if (!attendees.find((attendee) => attendee.userCode === userCode)) {
-      // 선택된 사용자가 중복되지 않으면 추가
-      setAttendees([...attendees, { userCode, name }]);
+  // generateAvailableTimes 함수 수정
+  const generateAvailableTimes = () => {
+    const times = [];
+    for (let hour = 8; hour <= 19; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const formattedHour = hour.toString().padStart(2, "0");
+        const formattedMinute = minute.toString().padStart(2, "0");
+        times.push(`${formattedHour}:${formattedMinute}`);
+      }
     }
+    return times;
+  };
+
+  // 예약 저장 버튼 클릭 시 실행되는 함수
+  const handleSaveReservation = () => {
+    // 예약 정보를 저장하는 로직
   };
 
   // 참석자 목록을 삭제하는 함수
@@ -33,6 +45,15 @@ function ReservationApply() {
   // 조직도 표시 여부를 토글하는 함수를 정의합니다.
   const toggleOrgChart = () => {
     setShowOrgChart(!showOrgChart);
+  };
+
+  // ReservationGroup 컴포넌트에서 사용자를 선택했을 때 실행되는 함수
+  const handleUserSelect = ({ userCode, name }) => {
+    // 이미 선택된 사용자인지 확인
+    if (!attendees.find((attendee) => attendee.userCode === userCode)) {
+      // 선택된 사용자가 중복되지 않으면 추가
+      setAttendees([...attendees, { userCode, name }]);
+    }
   };
 
   return (
@@ -70,17 +91,13 @@ function ReservationApply() {
         <div className="content">
           <div className="subject">
             <strong>예약신청</strong>
-
             <div className="line"></div>
           </div>
 
           <div className="reservation-container">
             <form className="reservation-form">
               <label htmlFor="place">장소:</label>
-              <select
-                value={room || ""}
-                onChange={(e) => setRoom(e.target.value)}
-              >
+              <select value={room} onChange={(e) => setRoom(e.target.value)}>
                 <option value="">장소를 선택하세요</option>
                 <option value="GREEN ROOM">GREEN ROOM</option>
                 <option value="BLUE ROOM">BLUE ROOM</option>
@@ -103,7 +120,6 @@ function ReservationApply() {
                   </span>
                 ))}
               </div>
-              
 
               <br />
               <button
@@ -119,23 +135,61 @@ function ReservationApply() {
                   <ReservationGroup onUserSelect={handleUserSelect} />
                 </div>
               )}
-              <label htmlFor="startDate">사용시작일시:</label>
-              <input
-                type="datetime-local"
-                id="startDate"
-                name="startDate"
-                required
-              />
+
+              <div>
+                <label htmlFor="startDate">시작 날짜:</label>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date || new Date())}
+                  minDate={new Date()}
+                  maxDate={
+                    new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+                  } // 7 days ahead
+                  dateFormat="yyyy-MM-dd"
+                />
+
+                <label htmlFor="startTime">시작 시간:</label>
+                <select
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                >
+                  {generateAvailableTimes().map((time, index) => (
+                    <option key={index} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+
+                <label htmlFor="endDate">종료 날짜:</label>
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date || new Date())}
+                  minDate={startDate}
+                  maxDate={
+                    new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+                  } // 7 days ahead
+                  dateFormat="yyyy-MM-dd"
+                />
+
+                <label htmlFor="endTime">종료 시간:</label>
+                <select
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                >
+                  {generateAvailableTimes().map((time, index) => (
+                    <option key={index} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <br />
-              <label htmlFor="endDate">사용종료일시:</label>
-              <input
-                type="datetime-local"
-                id="endDate"
-                name="endDate"
-                required
-              />
-              <br />
-              <button type="button" id="saveReservationButton">
+              <button
+                type="button"
+                id="saveReservationButton"
+                onClick={handleSaveReservation}
+              >
                 저장
               </button>
               <button type="button" id="cancelButton">

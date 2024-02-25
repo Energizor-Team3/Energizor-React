@@ -138,3 +138,33 @@ export const callResevationModifyAPI = () => {
     });
   };
 };
+
+//예약신청 등록
+export const callReservationInsertAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/create`;
+
+  return async (dispatch, getState) => {
+    console.log("예약신청 등록");
+
+    const result = await fetch(requestURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+      },
+    }).then((response) => response.json());
+
+    console.log(
+      "[ReservationAPICall] callResevationInsertAPI RESULT : ",
+      result
+    );
+
+    dispatch({
+      type: "reservation/POST_RESERVATION_INSERT",
+      payload: result.data,
+    });
+  };
+};
+
+
