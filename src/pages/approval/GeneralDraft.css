@@ -202,6 +202,7 @@ li {
       width: 1000px;
   
       overflow-y: auto; /* 세로 스크롤바 활성화 */
+      
   }
 
   .side{
