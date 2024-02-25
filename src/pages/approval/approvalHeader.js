@@ -1,5 +1,5 @@
 import {
-  callInboxApprovalHeaderAPI,callApprovalCompleteHeaderAPI
+  callInboxApprovalHeaderAPI,callTotalDocumentProceedingAPI
 } from '../../apis/ApprovalAPICalls';
 import { useSelector, useDispatch } from 'react-redux';
 import React,{ useEffect, useState } from 'react';
@@ -9,19 +9,21 @@ function ApprovalHeader(){
   
   const dispatch = useDispatch();
   const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer);
-  const ap123  = useSelector((state) => state.approvalHeaderSubReducer);
+  const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer);
+  
   
 
   
   console.log('inboxDocumentHeader',  inboxDocumentHeader );
-  console.log('ap123',  ap123 );
+  console.log('totaldocumentproceeding',  totaldocumentproceeding );
   
+
   
   
   
   useEffect(()=>{
     dispatch(callInboxApprovalHeaderAPI());
-    dispatch(callApprovalCompleteHeaderAPI())
+    dispatch(callTotalDocumentProceedingAPI())
   },[])
 
 
@@ -49,7 +51,7 @@ function ApprovalHeader(){
                 <span>
                   <a href="/approvaling">진행중인 문서</a>
                 </span>
-                <span className="listlist1">{ap123.length}</span>
+                <span className="listlist1">{totaldocumentproceeding}</span>
               </div>
             </li>
             <li>

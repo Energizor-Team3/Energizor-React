@@ -1,8 +1,5 @@
 import {
-    callInboxApprovalHeaderAPI,callApprovalCompleteHeaderAPI,
-    callTotalDocumentAPI,
-    callRejection2API,
-    callApprovalCompleteAPI
+    callInboxApprovalHeaderAPI,callTotalDocumentAPI,callTotalDocumentProceedingAPI
   } from '../../apis/ApprovalAPICalls';
   import { useSelector, useDispatch } from 'react-redux';
   import React,{ useEffect, useState } from 'react';
@@ -12,35 +9,26 @@ import {
   
     
     const dispatch = useDispatch();
-    const inboxDocumentHeader = useSelector((state) => state.approvalHeaderReducer || []);
-    const ap123 = useSelector((state) => state.approvalHeaderSubReducer || []);
-    const total = useSelector((state) => state.approvalLineReducer || []);
-    const rejection = useSelector((state) => state.approvalSubReducer?.data?.content || []);
-    const complete = useSelector((state) => state.approvalReducer?.data?.content || []);
-    
+    const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer);
+    const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer);
 
+  
+    const totalInbox  = useSelector((state) => state.approvalLineReducer);
     
   
     
-    console.log('rejection',  rejection );
-    console.log('total',  total );
-    console.log('complete',  complete );
     console.log('inboxDocumentHeader',  inboxDocumentHeader );
-    console.log('ap123',  ap123 );
+    console.log('totaldocumentproceeding',  totaldocumentproceeding );
+    console.log('totalInbox',  totalInbox );
     
-    const num = 
-            total +
-            (Array.isArray(rejection) ? rejection.length : 0) +
-            (Array.isArray(complete) ? complete.length : 0);
     
-    console.log(num, '갯수')
+    
     
     useEffect(()=>{
       dispatch(callInboxApprovalHeaderAPI());
-      dispatch(callApprovalCompleteHeaderAPI())
+      
       dispatch(callTotalDocumentAPI())
-      dispatch(callRejection2API())
-      dispatch(callApprovalCompleteAPI())
+      dispatch(callTotalDocumentProceedingAPI())
     },[])
   
     
@@ -55,11 +43,11 @@ import {
         </div>
         <div className="stat-item">
           <div className="stat-label"><a href="/approvaling">결재 진행</a></div>
-          <div className="stat-value"><a href="/approvaling">{ap123.length}</a></div>
+          <div className="stat-value"><a href="/approvaling">{totaldocumentproceeding}</a></div>
         </div>
         <div className="stat-item">
-          <div className="stat-label"><a href="/inbox">내문서함</a></div>
-          <div className="stat-value"><a href="/inbox">{num}</a></div>
+          <div className="stat-label">내문서함</div>
+          <div className="stat-value">{totalInbox}</div>
         </div>
       </div>
           

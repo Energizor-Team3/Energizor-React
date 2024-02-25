@@ -5,12 +5,12 @@ const initialState = [];
 
 /* 액션 */
 export const GET_APPROVAL_PROGRESS1 = 'approval/GET_APPROVAL_PROGRESS1';
-export const GET_APPROVAL_TOTALDOCUMENT = 'approval/GET_APPROVAL_TOTALDOCUMENT';
+export const GET_APPROVAL_TOTALDOCUMENTPROCEEDING = 'approval/GET_APPROVAL_TOTALDOCUMENTPROCEEDING';
 
 
 const actions = createActions({
     [GET_APPROVAL_PROGRESS1]: () => {},
-    [GET_APPROVAL_TOTALDOCUMENT]: () => {}
+    [GET_APPROVAL_TOTALDOCUMENTPROCEEDING]: () => {}
     
 });
 
@@ -21,7 +21,7 @@ export const approvalHeaderSubReducer = handleActions(
             
             return payload;
         },
-        [GET_APPROVAL_TOTALDOCUMENT]: (state, { payload }) => {
+        [GET_APPROVAL_TOTALDOCUMENTPROCEEDING]: (state, { payload }) => {
             
             return payload;
         },

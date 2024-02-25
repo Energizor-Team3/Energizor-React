@@ -24,6 +24,8 @@ function VacationForm(){
   console.log(approvalRf, 'approvalRf');
   console.log(approvalDetail, 'approvalDetail');
   console.log(userDetail, 'userDetail');
+  const [isLoading, setIsLoading] = useState(true);
+
 
 
   if (approvalDetail && Array.isArray(approvalDetail?.document?.draftDay)) {
@@ -79,11 +81,23 @@ function VacationForm(){
   
 
   useEffect(() => {
-    dispatch(callSelectUserDetailAPI());
-    dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
-    dispatch(callSelectRfUserAPI(documentCodeData));
-    dispatch(callSelectLineUserAPI(documentCodeData));
-  },[])
+    async function fetchData() {
+      // 여러 데이터를 가져오는 비동기 함수들을 호출합니다.
+      await dispatch(callSelectUserDetailAPI());
+      await dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+      await dispatch(callSelectRfUserAPI(documentCodeData));
+      await dispatch(callSelectLineUserAPI(documentCodeData));
+      // 데이터 로딩이 완료되면 로딩 상태를 false로 설정합니다.
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, [dispatch, documentCodeData]);
+
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const testBtn = () =>{
     const result = window.confirm("진행 하시겠습니까?")

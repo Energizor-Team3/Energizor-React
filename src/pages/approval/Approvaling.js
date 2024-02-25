@@ -1,6 +1,6 @@
 import './Approvaling.css';
 import {
-  callApprovalingAPI
+  callApprovalingAPI, callRfDocumentAPI, callLineDocumentAPI
 } from '../../apis/ApprovalAPICalls';
 import ApprovalMainStatus from './ApprovalMainStatus';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -13,18 +13,30 @@ function Approvaling() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const approvalingstate  = useSelector((state) => state.approvalReducer);
+  const rfdocument  = useSelector((state) => state.approvalRfReducer);
+  const linedocument  = useSelector((state) => state.approvalLineReducer);
   const approvalingstateList = approvalingstate?.data?.content;
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
+  const [selected, setSelected] = useState('전체');
 
-  
+
+  const allDocuments = [
+    ...(approvalingstate || []),
+  ...(linedocument || []),
+  ...(rfdocument || [])
+  ];
 
  
   useEffect(()=>{
       dispatch(callApprovalingAPI());
+      dispatch(callRfDocumentAPI());
+      dispatch(callLineDocumentAPI());
   },[])
 
   console.log('approvalingstate',  approvalingstate );
   console.log('approvalingstateList',  approvalingstateList);
+  console.log('rfdocument',  rfdocument);
+  console.log('linedocument',  linedocument);
   
 
   const onClickHandler= (documentCode, form) =>{
@@ -50,6 +62,10 @@ function Approvaling() {
       contentBox.classList.toggle("active");
   };
 
+  const onSelectChange = (e) => {
+    setSelected(e.target.value); // 선택된 값으로 상태를 업데이트합니다.
+  };
+
 
     return(
         <div id="wrap">
@@ -70,7 +86,12 @@ function Approvaling() {
         </div>
       </div>
       <div className="select_line">
-        
+      <select name="messageLead" value={selected} onChange={onSelectChange} >
+          <option value="전체"  >전체</option>
+          <option value="결재">결재함</option>
+          <option value="참조">참조함</option>
+          <option value="기안">기안함</option>
+      </select>
       </div>
       <div className='approvaltable'>
       <table>
@@ -84,9 +105,10 @@ function Approvaling() {
                   <th>상태</th>
                 </tr>
               </thead>
-              {approvalingstate  && approvalingstate .map((document) => (
-                <React.Fragment key={document?.documentCode}>
-                  <tbody>
+              {selected == "전체" &&  (
+                <tbody>
+                {allDocuments  && allDocuments .map((document) => (
+                  <React.Fragment key={document?.documentCode}>
                     <tr>
                       <td><input type="checkbox" value={document?.documentCode} /></td>
                       <td>{document?.form}</td>
@@ -111,9 +133,106 @@ function Approvaling() {
                         </td>
                       </tr>
                     
-                </tbody>
-              </React.Fragment>
+                      </React.Fragment>
             ))}
+                </tbody>
+              )}
+              {selected == "기안" &&  (
+                <tbody>
+                {approvalingstate  && approvalingstate .map((document) => (
+                  <React.Fragment key={document?.documentCode}>
+                    <tr>
+                      <td><input type="checkbox" value={document?.documentCode} /></td>
+                      <td>{document?.form}</td>
+                      <td>
+                        <a href="#" onClick={(e) => {
+                          e.preventDefault();
+                          onClickHandler(document?.documentCode, document?.form);
+                        }}>{document?.documentTitle}</a>
+                      </td>
+                      <td>{document?.userDTO?.userName}</td>
+                      <td>{document?.draftDay}</td>
+                      <td>
+                        <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
+                          진행중
+                        </button>
+                      </td>
+                    </tr>
+                   
+                      <tr className="contentBox" id='contentBox'>
+                        <td colSpan="6" className='cblist'  >
+                          <ApprovalMainStatus documentCode={selectedDocumentCode} />
+                        </td>
+                      </tr>
+                    
+                      </React.Fragment>
+            ))}
+                </tbody>
+              )}
+              {selected == "참조" &&  (
+                <tbody>
+                {rfdocument  && rfdocument .map((document) => (
+                  <React.Fragment key={document?.documentCode}>
+                    <tr>
+                      <td><input type="checkbox" value={document?.documentCode} /></td>
+                      <td>{document?.form}</td>
+                      <td>
+                        <a href="#" onClick={(e) => {
+                          e.preventDefault();
+                          onClickHandler(document?.documentCode, document?.form);
+                        }}>{document?.documentTitle}</a>
+                      </td>
+                      <td>{document?.userDTO?.userName}</td>
+                      <td>{document?.draftDay}</td>
+                      <td>
+                        <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
+                          진행중
+                        </button>
+                      </td>
+                    </tr>
+                   
+                      <tr className="contentBox" id='contentBox'>
+                        <td colSpan="6" className='cblist'  >
+                          <ApprovalMainStatus documentCode={selectedDocumentCode} />
+                        </td>
+                      </tr>
+                    
+                      </React.Fragment>
+            ))}
+                </tbody>
+              )}
+              {selected == "결재" &&  (
+                <tbody>
+                {linedocument  && linedocument .map((document) => (
+                  <React.Fragment key={document?.documentCode}>
+                    <tr>
+                      <td><input type="checkbox" value={document?.documentCode} /></td>
+                      <td>{document?.form}</td>
+                      <td>
+                        <a href="#" onClick={(e) => {
+                          e.preventDefault();
+                          onClickHandler(document?.documentCode, document?.form);
+                        }}>{document?.documentTitle}</a>
+                      </td>
+                      <td>{document?.userDTO?.userName}</td>
+                      <td>{document?.draftDay}</td>
+                      <td>
+                        <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
+                          진행중
+                        </button>
+                      </td>
+                    </tr>
+                   
+                      <tr className="contentBox" id='contentBox'>
+                        <td colSpan="6" className='cblist'  >
+                          <ApprovalMainStatus documentCode={selectedDocumentCode} />
+                        </td>
+                      </tr>
+                    
+                      </React.Fragment>
+            ))}
+                </tbody>
+              )}
           </table>
         </div>
     </div>
