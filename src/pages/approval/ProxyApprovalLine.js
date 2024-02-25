@@ -173,7 +173,7 @@ function ProxyApprovalLine(){
           <div className='side'>
           {proxyState !== "조회성공" &&  (
             <div>
-              <strong>대리결재 위임자 및 기간, 대리결재 위임은 한명만 할 수 있습니다.</strong>
+              <strong>대리결재 위임은 한명만 할 수 있습니다. 취소하거나 바꾸시려면 위임 취소를 하세요</strong>
             <div className='profile'>
             <ul className='user1'>
               <div className="profile-image" ><img   src={userDetail?.imgName}
