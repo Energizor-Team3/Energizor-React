@@ -14,6 +14,8 @@ function ReservationApply() {
   const [endTime, setEndTime] = useState("08:30");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [reason, setReason] = useState(""); // 신청 사유 상태 추가
+
 
   // generateAvailableTimes 함수 수정
   const generateAvailableTimes = () => {
@@ -28,9 +30,43 @@ function ReservationApply() {
     return times;
   };
 
-  // 예약 저장 버튼 클릭 시 실행되는 함수
-  const handleSaveReservation = () => {
-    // 예약 정보를 저장하는 로직
+   // 예약 저장 버튼 클릭 시 실행되는 함수
+   const handleSaveReservation = async () => {
+    // 필요한 데이터 준비
+    const reservationData = {
+      room,
+      reason ,// 추가: 신청 사유
+      startTime,
+      endTime,
+      startDate,
+      endDate,
+      attendees // 추가: 선택된 참석자 목록도 함께 전송
+      
+    };
+
+    console.log("저장할 예약 데이터:", reservationData); // 폼 데이터 콘솔 출력
+
+    try {
+      // API 호출을 통해 예약 등록 요청
+      const response = await callReservationInsertAPI(reservationData);
+      
+    
+      // 예약 등록 성공 시 처리
+      console.log("예약이 성공적으로 등록되었습니다.", response);
+    
+      // 알림창 띄우기
+      window.alert("예약이 성공적으로 등록되었습니다.");
+    
+      // 예약 등록 후 페이지 이동
+      window.location.href = "/reservationmain";
+    
+    } catch (error) {
+      // 예약 등록 실패 시 처리
+      console.error("예약 등록 중 오류가 발생했습니다.", error);
+    
+      // 오류 처리 방법에 따라 적절한 조치를 취함
+      // 예: 사용자에게 오류 메시지 표시, 재시도 요청 등
+    }
   };
 
   // 참석자 목록을 삭제하는 함수
@@ -105,7 +141,8 @@ function ReservationApply() {
               </select>
               <br />
               <label htmlFor="reason">신청사유:</label>
-              <input id="reason" name="reason" required />
+              {/* 추가: 신청 사유 입력란 */}
+              <input id="reason" name="reason" value={reason} onChange={(e) => setReason(e.target.value)} required />
               <br />
 
               <label htmlFor="attendees">참석자:</label>

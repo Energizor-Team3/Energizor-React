@@ -2,7 +2,7 @@ import { GET_RESERVATION_DETAILS } from "../modules/ReservationModules";
 import { PUT_RESERVATION_MODIFY } from "../modules/ReservationModifyModule";
 import { GET_RESERVATION_ATTENDEE } from "../modules/ReservationAttendeeModule";
 import { GET_RESERVATION_TOTAL_DETAILS } from './../modules/ReservationTotalModules ';
-
+import { POST_RESERVATION_INSERT } from "../modules/ReservationInsertModule";
 
 // 전체 예약내역  조회
 export const callResevationTotalDetailAPI = () => {
@@ -140,31 +140,37 @@ export const callResevationModifyAPI = () => {
 };
 
 //예약신청 등록
-export const callReservationInsertAPI = () => {
+export const callReservationInsertAPI = (formData) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/create`;
 
   return async (dispatch, getState) => {
     console.log("예약신청 등록");
 
-    const result = await fetch(requestURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "*/*",
-        Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
-      },
-    }).then((response) => response.json());
+    try {
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(formData), // 폼 데이터를 요청에 포함
+      }).then((response) => response.json());
 
-    console.log(
-      "[ReservationAPICall] callResevationInsertAPI RESULT : ",
-      result
-    );
+      console.log("[ReservationAPICall] callReservationInsertAPI RESULT : ", result);
 
-    dispatch({
-      type: "reservation/POST_RESERVATION_INSERT",
-      payload: result.data,
-    });
+      // 예약 등록 성공 시 액션 디스패치
+      dispatch({
+        type: "reservation/POST_RESERVATION_INSERT",
+        payload: result.data,
+      });
+
+      // 예약 등록 성공 메시지 또는 다른 작업 수행
+      // 예: 사용자에게 알림 표시, 페이지 리디렉션 등
+    } catch (error) {
+      console.error("예약 등록 중 오류가 발생했습니다.", error);
+      // 예약 등록 실패 메시지 또는 오류 처리
+      // 예: 사용자에게 오류 메시지 표시, 재시도 요청 등
+    }
   };
 };
-
-
