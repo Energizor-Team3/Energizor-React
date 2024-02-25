@@ -232,25 +232,25 @@ function Group() {
   let inputDeptName = "";
   let inputDeptCode = 0;
 
-  const deptModifyCeckClick = async () => {
-    console.log("수정할 부서명입력한거 확인===", modifyDeptName);
+  // const deptModifyCeckClick = async () => {
+  //   console.log("수정할 부서명입력한거 확인===", modifyDeptName);
 
-    for (const key in groupAndTeam) {
-      if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
-        inputDeptName = groupAndTeam[key].deptName;
-        inputDeptCode = groupAndTeam[key].deptCode;
-        break;
-      }
-    }
-    if (inputDeptName !== "") {
-      alert("부서확인 성공!!");
-    }
+  //   for (const key in groupAndTeam) {
+  //     if (groupAndTeam[key].deptName === modifyDeptName.trim()) {
+  //       inputDeptName = groupAndTeam[key].deptName;
+  //       inputDeptCode = groupAndTeam[key].deptCode;
+  //       break;
+  //     }
+  //   }
+  //   if (inputDeptName !== "") {
+  //     alert("부서확인 성공!!");
+  //   }
 
-    if (inputDeptName === "") {
-      alert("존재하지 않는 부서입니다");
-      return;
-    }
-  };
+  //   if (inputDeptName === "") {
+  //     alert("존재하지 않는 부서입니다");
+  //     return;
+  //   }
+  // };
 
   console.log("수정할 부서코드체크===", inputDeptCode);
 
@@ -552,11 +552,11 @@ function Group() {
                           {data[0].name}
                         </span>
                       }
-                      name={
-                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-                          {data[0].name}
-                        </span>
-                      }
+                      // name={
+                      //   <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                      //     {data[0].name}
+                      //   </span>
+                      // }
                       children={data[0].children}
                       depth={1}
                       onUserSelect={handleUserSelect}
@@ -651,7 +651,7 @@ function Group() {
                   </ul>
                 </div>
               )}
-
+{/* 
               {groupModifyButton && (
                 <div className="group_modify_wrap ">
                   <ul className="group_modify">
@@ -722,7 +722,7 @@ function Group() {
                     </li>
                   </ul>
                 </div>
-              )}
+              )} */}
 
               {groupInsertButton && (
                 <div className="group_insert_wrap">

@@ -54,7 +54,9 @@ body{
   margin-top: 10px;
 }
 
-
+/* .fc-theme-standard td, .fc-theme-standard th {
+  border:none;
+} */
 
 .cal_ul li.cal_menu .dot {
   width: 10px;

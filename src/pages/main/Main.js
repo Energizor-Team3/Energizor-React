@@ -1,9 +1,14 @@
+
 import MainCSS from './Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { callLogoutAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
+import MainPageCalendar from './MainPageCalendar';
+
+ 
+
 
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
@@ -32,9 +37,10 @@ function Main() {
         }
     };
 
+
     return (
-        <>
-            <main className={MainCSS.main}>
+        < >
+            <main className={MainCSS.main} >
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_profile}>
                         <div className={MainCSS.user_photo}>
@@ -88,7 +94,9 @@ function Main() {
 
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_project}>
-                        <h1>프로젝트</h1>
+                        
+                         <MainPageCalendar />
+
                     </div>
                 </div>
 

@@ -223,14 +223,14 @@ const deleteline = (userCode) => {
                             {calendar === selectedCalendar && (
                               <>
                                 <img
-                                  src="/calendar/editIcon 1.png"
+                                  src="/calendar/editcon.png"
                                   alt="editIcon"
                                   className="editbtn"
                                   // 수정 버튼의 클릭 핸들러를 여기에 추가하세요
                                 />
                                 <img
-                                  src="/calendar/trash 1.png"
-                                  alt="editIcon"
+                                  src="/calendar/caltrash.png"
+                                  alt="deleteIcon"
                                   className="deletebtn"
                                   onClick={() => handleDeleteButtonClick(calendar.calNo)}
                                   // 삭제 버튼의 클릭 핸들러를 여기에 추가하세요
@@ -254,14 +254,14 @@ const deleteline = (userCode) => {
                               {calendar === selectedCalendar && (
                                 <>
                                   <img
-                                    src="/calendar/editIcon 1.png"
+                                    src="/calendar/editcon.png"
                                     alt="editIcon"
                                     className="editbtn"
                                      
                                   />
                                   <img
-                                    src="/calendar/trash 1.png"
-                                    alt="editIcon"
+                                    src="/calendar/caltrash.png"
+                                    alt="deleteIcon"
                                     className="deletebtn"
                                     onClick={() => handleDeleteButtonClick(calendar.calNo)}
                                      

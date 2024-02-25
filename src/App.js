@@ -48,6 +48,7 @@ import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
 // import Attendance from './pages/attendance/attendanceCommuteList';
 // import Employee from './pages/attendance/employeeCommuteList';
+ 
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/searchpwd" element={<SearchPwd />} />
