@@ -97,8 +97,6 @@ function ChangePwd() {
                     <div className="subject">
                         <strong>비밀번호 변경</strong>
                         <div className="line">
-                            <div className="search_box">
-                            </div>
                         </div>
                     </div>
 

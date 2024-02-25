@@ -4,7 +4,6 @@ import { callMyPageAPI, callUpdateProfileAPI, callDeleteProfileAPI } from '../..
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import { decodeJwt } from '../../utils/tokenUtils';
 
 function MyPage() {
     const dispatch = useDispatch();
@@ -54,13 +53,16 @@ function MyPage() {
                 form: formData,
             })
         )
+            .then((response) => {
+                if (response && response.newImagePath) {
+                    setProfileImagePath(response.newImagePath); // Update state with the new image path
+                    console.log('Profile image updated:', response.newImagePath);
+                } else {
+                    console.error('No image path in response');
+                }
+            })
             .then(() => {
                 navigate('/my-page');
-            })
-            .then((response) => {
-                // 이미지 업로드 성공 후, 이미지 경로 상태 업데이트
-                // 이 부분은 실제로 응답에 따라 달라질 수 있으므로 적절히 조정해야 합니다.
-                setProfileImagePath(myInfo.profilePath);
             })
             .catch((error) => {
                 console.error('Profile update failed:', error);

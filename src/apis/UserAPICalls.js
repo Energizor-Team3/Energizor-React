@@ -78,13 +78,22 @@ export const callLogoutAPI = () => {
     };
 };
 
-export const callUserListAPI = ({ currentPage }) => {
-    let requestURL;
+export const callUserListAPI = ({ currentPage, searchTerm }) => {
+    // Base URL
+    let requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
 
-    if (currentPage !== undefined || currentPage !== null) {
-        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management?offset=${currentPage}`;
-    } else {
-        requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management}`;
+    // Append query parameters
+    const queryParams = [];
+    if (currentPage !== undefined && currentPage !== null) {
+        queryParams.push(`offset=${currentPage}`);
+    }
+    if (searchTerm) {
+        queryParams.push(`search=${encodeURIComponent(searchTerm)}`);
+    }
+
+    // Join all query parameters with '&'
+    if (queryParams.length > 0) {
+        requestURL += '?' + queryParams.join('&');
     }
 
     console.log('[UserAPICalls] requestURL : ', requestURL);
