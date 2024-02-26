@@ -19,7 +19,6 @@ import SearchBoard from "./pages/board/List";
 import TempBoardRegister from "./pages/board/TempRegister";
 import Group from "./pages/group/Group";
 import Message from "./pages/message/Message";
-import Group from "./pages/group/Group";
 import ApprovalMain from "./pages/approval/ApprovalMain";
 import BusinessTrip from "./pages/approval/BusinessTrip";
 import Education from "./pages/approval/Education";
