@@ -115,7 +115,7 @@ function App() {
             <Route path="/calendar" element={<CalendarMainPage />} />
             <Route path="/calendar/setting" element={<CalendarSetting />} />
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
-            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />          
+            <Route path="/schedule/edit" element={<EditSchedule />} />          
             <Route path="/calendar/setting/edit" element={<CalendarSettingedit/>}/>
 
             {/*근태관리, 주소록 */}

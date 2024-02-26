@@ -101,27 +101,22 @@ function EditSchedule(){
       [e.target.name]: e.target.value
     });
   };
-
   const onClickScheduleUpdateHandler = () => {
-    const formData = new FormData();
-    formData.append("schNo", form.schNo);
-    formData.append("schTitle", form.schTitle);
-    formData.append("schStartDate", form.schStartDate);
-    formData.append("schEndDate", form.schEndDate);
-    formData.append("schDetail", form.schDetail);
-    formData.append("schLocal", form.schLocal);
-    formData.append("calNo",form.calNo);
+    // formData 사용 부분 제거
 
-
-
-    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: formData })).then(() => {
+    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: form })).then(() => {
       alert('수정이 완료되었습니다.');
-      navigate('/calendar'); 
-    });         
+      navigate('/calendar'); // 성공적으로 업데이트 후 캘린더 페이지로 리디렉션
+      // 필요하다면, 여기서 수정된 스케줄 데이터를 다시 불러오는 로직을 추가할 수 있습니다.
+    }).catch((error) => {
+      console.error('업데이트 실패:', error);
+      // 실패한 경우에 대한 처리
+    });
+}        
   
   
   
-  } 
+  
     return(
         <div id="wrap">
                    <section>
@@ -204,8 +199,7 @@ function EditSchedule(){
                       </div>
                     </td>
                     <td className="cb_zone">
-                      <input type="checkbox" id="allday" />
-                      <label htmlFor="allday">종일</label>
+ 
                     </td>
                   </tr>
                   <tr>
@@ -222,13 +216,7 @@ function EditSchedule(){
                       <button id="find_map">찾기</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>참석자</td>
-                    <td>
-                      <span className="attlist">김땡땡</span>
-                      <button className="add_att">+</button>
-                    </td>
-                  </tr>
+ 
                   <tr>
                     <td>내용</td>
                     <td>

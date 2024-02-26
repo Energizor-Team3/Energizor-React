@@ -185,8 +185,7 @@ function AddDetailSchedule(){
                         </div>
                     </td>
                     <td className="cb_zone">
-                        <input type="checkbox" id="allday" />
-                        <label htmlFor="allday">종일</label>
+ 
                     </td>
                     </tr>
                     <tr>

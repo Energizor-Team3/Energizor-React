@@ -395,7 +395,9 @@ const deleteline = (userCode) => {
                                 <td className='addllist'>
                                   {selectedCalendar.participantNames.map((name, index) => (
                                   <div className='cal_partname' key={index} > 
-                                     {name} 
+                                   <button className='cpdeletebtn'></button>
+                                   <div class='cal_partnamedd'>{name} </div>
+                                     
                                 </div> ))}
                                 </td>
                                 

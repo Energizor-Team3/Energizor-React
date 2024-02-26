@@ -96,19 +96,7 @@ function CalendarSettingedit(){
       
     } }
 
-    // useEffect(() => {
-    //   // calpartlistuser가 유효한지 확인
-    //   if (calpartlistuser && calpartlistuser.userCode) {
-    //     if (!calpartlist.some(user => user.userCode === calpartlistuser.userCode)) {
-    //       setCalPartList(prev => [...prev, calpartlistuser]);
-    //     }
-    //     // calpartlistuser의 값을 form의 userCodes에 설정
-    //     setForm(prevForm => ({
-    //       ...prevForm,
-    //       userCodes: [calpartlistuser.userCode]
-    //     }));
-    //   }
-    // }, [calpartlist, calpartlistuser]);
+ 
     
  
 
@@ -116,14 +104,7 @@ function CalendarSettingedit(){
 
    console.log('calpartlistuser',calpartlistuser);
    
-//    useEffect(() => {
-//     const partUserCode = calpartlist.map(user => user.userCode);
-
-//     setForm(prevForm => ({
-//       ...prevForm,
-//       userCodes: partUserCode,
-//     }));
-// }, [calpartlist]);
+ 
  
 
     

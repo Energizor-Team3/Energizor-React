@@ -39,7 +39,7 @@ export const callUpdateCalendarAPI = ({ calNo, form }) => {
 
 export const callUpdateScheduleAPI = ({ schNo, form }) => {
   console.log('[CalendarAPICalls] callScheduleUpdateAPI Call');
-  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/update/${ schNo }`; 
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/update/${schNo}`;
 
   return async (dispatch, getState) => {
     const result = await fetch(requestURL, {
@@ -49,14 +49,15 @@ export const callUpdateScheduleAPI = ({ schNo, form }) => {
         Accept: '*/*',
         Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
       },
-      body: form,
+      body: JSON.stringify(form),
     })
     .then(response => response.json());
 
     console.log('[CalendarAPICalls] callUpdateScheduleAPI RESULT : ', result);
-    dispatch({ type: PATCH_SCHEDULE, payload: result});
+    dispatch({ type: PATCH_SCHEDULE, payload: result });
   };
-}
+};
+
 
 export const callScheduleDetailAPI = ({ schNo }) => {
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/schedule/detail/${ schNo }`;
