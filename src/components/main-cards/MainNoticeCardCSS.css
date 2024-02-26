@@ -1,0 +1,29 @@
+.mainBoardDiv p {
+    margin-top: 12px; 
+    margin-bottom: 12px; 
+}
+
+.titleSeq {
+    width: 40px;
+}
+
+.titleName {
+    width: 170px;
+}
+
+.titleAuthor {
+    width: 140px;
+}
+
+.titleDate {
+    width: 80px;
+}
+
+/* 추가적으로 flexbox 아이템들이 각각 설정한 너비를 반영하도록 설정 */
+.mainBoardTitles p {
+    flex: 0 0 auto; /* flex-grow, flex-shrink, flex-basis 설정 */
+    overflow: hidden; /* 내용이 넘치면 숨김 */
+    white-space: nowrap; /* 내용을 한 줄로 처리 */
+    text-overflow: ellipsis; /* 내용이 넘칠 경우 말줄임표로 표시 */
+    color:#3d3d3d;
+}

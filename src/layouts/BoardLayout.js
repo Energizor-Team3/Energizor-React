@@ -1,7 +1,7 @@
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import SubHeader from "../components/common/SubHeader";
 import "./BoardLayout.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegFileLines } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
@@ -39,23 +39,36 @@ const MENU_LIST = [
   }
 ];
 
-
+const mapPathToTitle = {
+  '/board/temp_list': '임시보관함',
+  '/board/interest_list': '관심게시함',
+  '/board?boardTypeCode=1': '공지 게시판',
+  '/board?boardTypeCode=3': '관리본부',
+  '/board?boardTypeCode=4': '영업본부',
+  '/board?boardTypeCode=5': '기술본부',
+  '/board?boardTypeCode=6': '마케팅본부',
+  '/board?boardTypeCode=2': '자유 게시판',
+}
 
 export function BoardLayout({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const [currentBoardType, setCurrentBoardType] = useState();
   const [currentBoardTitle,setCurrentBoardTitle] = useState();
 
   const handleMenuClick = (menu) => {
     setCurrentBoardType(menu);
-    setCurrentBoardTitle(menu.title); // 선택된 메뉴의 제목으로 currentBoardTitle 상태 업데이트
   };
 
-  // 하위 메뉴 클릭 시 실행될 함수
-  const handleSubMenuClick = (title) => {
-    setCurrentBoardTitle(title); // 선택된 하위 메뉴의 제목으로 currentBoardTitle 상태 업데이트
-  };
+
+  useEffect(()=>{
+    if (Object.keys(mapPathToTitle).includes(location.pathname + location.search)) setCurrentBoardTitle(mapPathToTitle[location.pathname + location.search])
+    else if (location.pathname === '/board/register') setCurrentBoardTitle('게시글 작성')
+    else if (location.pathname.startsWith('/board/edit')) setCurrentBoardTitle('수정하기')
+    else if (location.pathname.startsWith('/board/temp')) setCurrentBoardTitle('수정하기')
+    else setCurrentBoardTitle('게시글 상세')
+  }, [location])
   
 
   return (
@@ -67,7 +80,7 @@ export function BoardLayout({ children }) {
             <h2>게시판</h2>
             <div>
               <button className={"writeButton"}>
-                <Link to="/board/edit" className={"writeButton"}>글쓰기</Link>
+                <Link to="/board/register" className={"writeButton"}>글쓰기</Link>
               </button>
             </div>
             <ul className="sub_list">
@@ -100,7 +113,6 @@ export function BoardLayout({ children }) {
                             {currentBoardType.children.map((child) => (
                               <li className="subBoradItem" key={child.link} onClick={(e) => {
                                 e.stopPropagation(); // 상위 메뉴의 onClick 이벤트가 호출되는 것을 방지
-                                handleSubMenuClick(child.title);
                               }}>
                                 <Link to={child.link}>{child.title}</Link>
                               </li>
@@ -122,13 +134,6 @@ export function BoardLayout({ children }) {
             <div className="subject">
               <strong>{currentBoardTitle}</strong>
               <div className="line">
-                <div className="search_box">
-                  <input
-                    type="search"
-                    placeholder="제목, 작성자를 입력하세요."  
-                  />
-                  <IoSearch />
-                </div>
               </div>
             </div>
             {children}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SubHeader.css";
+import { NavLink } from 'react-router-dom';
 
 
 
@@ -19,7 +20,7 @@ function Header() {
     };
 
     const spanStyle = {
-        display: hover ? "inline-block" : "none",
+        display: hover ? "inline-block" : "none"
     };
 
     return (
@@ -41,28 +42,28 @@ function Header() {
             <nav>
                 <div id="main_list_icon">
                     <div>
-                    <a href="/group">
+                    <a href="/main">
                         <img src="/common/Home.png" alt="" />
                     </a>
                     <span style={spanStyle}>홈</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/approvalmain">
                         <img src="/common/Approval.png" alt="" />
                     </a>
                     <span style={spanStyle}>전자결재</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/calendar">
                         <img src="/common/Attendance.png" alt="" />
                     </a>
                     <span style={spanStyle}>근태관리</span>
                     </div>
                     <div>
-                    <a href="/group">
-                        <img src="/common/calendar.png" alt="" />
-                    </a>
-                    <span style={spanStyle}>일정관리</span>
+                    <NavLink to='/calendar'>
+                        <img src="/common/calendar.png" alt="캘린더 아이콘" />
+                       <span style={spanStyle}>일정관리</span>
+                    </NavLink>
                     </div>
                     <div>
                     <a href="/group">
@@ -95,10 +96,16 @@ function Header() {
                     <span style={spanStyle}>자원예약</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/board?boardTypeCode=1">
                         <img src="/common/board.png" alt="" />
                     </a>
                     <span style={spanStyle}>게시판</span>
+                    </div>
+                    <div>
+                    <a href="/userlist">
+                        <img src="/mypage/hrm.png" alt="" />
+                    </a>
+                    <span style={spanStyle}>인사관리</span>
                     </div>
                 </div>
             </nav>

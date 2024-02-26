@@ -1,0 +1,64 @@
+.sub_list li div img {
+    padding-right: 10px;
+    width: 30px;
+    height: 20px;
+}
+
+.sub_content {
+    display: flex;
+    width: 1400px;
+    height: 860px;
+    padding: 90px 0 0px 150px;
+    box-sizing: border-box;
+    gap: 180px;
+}
+
+.subject .search_box::after{
+    background-image: none;
+}
+
+.info_photo_wrap {
+    margin-left: 50px;
+}
+
+.user_photo > img {
+    border-radius: 50%; 
+    overflow: hidden;
+    width: 280px;
+    margin-top: 20px;
+}
+
+.photo_regist, .photo_delete {
+    background: #94A9FF;
+    border-radius: 6px; 
+    border: transparent;
+    width: 120px;
+    height: 55px;
+    font-weight: 550;
+    font-size: 16px;
+    color:#353535;
+    line-height: 16px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin: 35px 10px 0 10px;
+}
+
+.photo_delete {
+    background: #B9B9C3;
+}
+
+.user_info {
+    display: flex;
+    position: relative;
+    min-width: 350px;
+    min-height: 31px;
+    line-height: 31px;
+    padding: 3px;
+    font-weight: 540;
+    font-size: 20px;
+}
+
+.user_info_label {
+    width: 220px;
+    height: 90px;
+}        

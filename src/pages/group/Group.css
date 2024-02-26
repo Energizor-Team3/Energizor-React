@@ -1,0 +1,327 @@
+.main_group {
+  background-color: white;
+}
+
+.main_group .group_list {
+  background-color: #fff !important;
+}
+
+.main_group .group_wrap {
+  display: flex;
+  margin-top: 80px;
+}
+
+.main_group .group_content {
+  border: 1px solid rgb(155, 155, 155);
+  padding: 10px;
+}
+
+.main_group .group_view {
+  width: 400px;
+  height: 510px;
+  overflow-y: auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border: 1px solid rgb(177, 177, 177);
+  padding: 10px 0;
+}
+
+.main_group .group_search input[type="search"] {
+  width: 400px;
+  height: 32px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.main_group .group_search img {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.main_group .group_list label {
+  cursor: pointer;
+}
+
+/* 조직도 멤버 정보 */
+
+.main_group .group_member_info_wrap {
+  margin-top: 40px;
+}
+
+.main_group .group_info {
+  width: 100%;
+  display: flex;
+}
+
+.group_info_wrap {
+  margin-left: 100px;
+}
+
+.main_group .group_info_wrap .note_btn {
+  border: 1px solid rgb(117, 117, 117);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: 200ms;
+}
+
+.main_group .group_info_wrap .note_btn:hover {
+  border: 1px solid #94a9ff;
+  background-color: #94a9ff;
+}
+
+.main_group .group_info_wrap hr {
+  margin: 20px 0;
+}
+
+.main_group .group_info_wrap .note_btn:hover {
+  border: 1px solid #94a9ff;
+  background-color: #94a9ff;
+}
+
+.main_group .group_info_wrap hr {
+  margin: 20px 0;
+}
+
+.main_group .group_info img {
+  width: 180px;
+  height: 180px;
+}
+
+.main_group .group_member_info li strong {
+  width: 250px;
+  height: 50px;
+  line-height: 50px;
+  display: inline-block;
+  font-size: 18px;
+}
+
+.main_group .group_member_info li span {
+  width: 250px;
+  display: inline-block;
+}
+
+/* 조직도 부서 정보 */
+
+.main_group .group_department_info {
+  margin-top: 40px;
+}
+
+.main_group .group_department_info li {
+  margin-bottom: 40px;
+}
+
+.main_group .group_department_info li strong {
+  width: 240px;
+}
+
+.main_group .group_team_dept_info {
+  margin-top: 40px;
+}
+
+.main_group .group_team_dept_info li {
+  margin-bottom: 40px;
+  display: flex;
+  width: 680px;
+  text-align: center;
+}
+
+.main_group .group_team_dept_info li strong {
+  display: inline-block;
+  font-size: 18px;
+  width: 170px;
+  text-align: left;
+}
+
+.main_group .department_member {
+  display: flex;
+}
+
+.main_group .group_department_info li > span {
+  display: inline-block;
+  border: 1px solid rgb(95, 95, 95);
+  width: 380px;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.main_group .department_member div {
+  border: 1px solid rgb(95, 95, 95);
+  width: 380px;
+  height: 480px;
+  margin-left: 5px;
+  padding: 10px;
+}
+
+.main_group .department_member div span {
+  transform: translate(-8px, -5px);
+  display: inline-block;
+}
+
+.main_group .group_team_dept_info li > span {
+  display: flex;
+  width: 400px !important;
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid rgb(95, 95, 95);
+  text-align: center;
+  justify-content: center;
+}
+
+.main_group .group_team_dept_info li div {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 400px;
+  border: 1px solid rgb(95, 95, 95);
+  padding: 8px 0;
+}
+
+.main_group .group_team_dept_info li div span {
+  padding: 5px 0;
+}
+
+/* 관리자 버튼 */
+
+.main_group .admin_btn {
+  width: 600px;
+}
+
+.main_group .admin_btn button {
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid rgb(170, 170, 170);
+  margin-right: 10px;
+  cursor: pointer !important;
+  pointer-events: auto;
+  box-shadow: 0 -3px 10px #335cff inset;
+  background-color: #94a9ff;
+  font-size: 15px;
+}
+
+.main_group .admin_btn button:hover {
+  color: #fff;
+  cursor: pointer !important;
+}
+
+.main_group .admin_btn button:active {
+  box-shadow: none;
+}
+
+/* 그룹 추가 */
+
+.main_group 
+.group_insert_wrap,
+.group_modify_wrap,
+.group_delete_wrap {
+  margin-top: 50px;
+}
+
+.main_group 
+.group_insert,
+.group_modify,
+.team_delete{
+  display: flex;
+  flex-direction: column;
+}
+
+.main_group 
+.group_insert li,
+.group_modify li,
+.group_delete li {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.main_group 
+.group_insert li label,
+.group_modify li label,
+.group_delete li label {
+  width: 140px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.main_group 
+.group_insert input,
+.group_modify input,
+.group_delete input {
+  width: 400px;
+  height: 30px;
+  border: 1px solid rgb(141, 141, 141);
+  background-color: white;
+  text-indent: 14px;
+}
+
+.main_group 
+.group_insert hr,
+.group_modify hr,
+.group_delete hr {
+  margin-bottom: 50px;
+}
+
+.main_group 
+.team_insert{
+  display: flex;
+  flex-direction: column;
+}
+
+.main_group 
+.team_insert div,
+.team_delete div {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.main_group 
+.group_insert button,
+.group_modify button,
+.group_delete button {
+  margin: 0 10px;
+  padding: 6px 0;
+  width: 70px;
+  border-radius: 6px;
+  border: 1px solid rgb(129, 129, 129);
+  background-color: white;
+  cursor: pointer;
+  background-color: #94a9ff;
+}
+
+.main_group 
+.group_insert li button:hover,
+.group_delete li button:hover,
+.group_modify li button:hover{
+  box-shadow: 0 -3px 10px #335cff inset;
+  color: white;
+}
+
+.main_group 
+.group_insert li button:active,
+.group_delete li button:active,
+.group_modify li button:active {
+  box-shadow: none;
+  border: none;
+}
+
+.group_modify li {
+  display: flex;
+  flex-direction: column;
+}
+
+.group_modify div {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.group_modify div label {
+  width: 140px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.group_modify div input {
+  width: 400px;
+  height: 30px;
+  border: 1px solid rgb(141, 141, 141);
+  background-color: white;
+}

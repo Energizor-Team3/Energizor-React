@@ -1,116 +1,187 @@
 import asdCSS from './cal_addsch_detail.css';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { decodeJwt } from '../../utils/tokenUtils';
+import { NavLink } from 'react-router-dom';
 
+import {
+    callCalendarListAPI, callAddScheduleAPI
+} from '../../apis/CalendarAPICalls'
 
-
+import calendarReducer from '../../modules/CalendarModule';
 
 function AddDetailSchedule(){
-    // const dispatch = useDispatch();
-    // console.log('---------------',window.localStorage.getItem('accessToken'));
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const calendar = useSelector(state => state.calendarReducer);  
+    const calendarList = calendar.data;
+    const token = decodeJwt(window.localStorage.getItem("accessToken"));  
+
+    const [selectedCalendar, setSelectedCalendar] = useState(null);
+
+    const calendarRef = useRef(null);
+    const [isExpanded, setIsExpanded] = useState(false); 
+    const [allCalChecked, setAllCalChecked] = useState(false);
+ 
+
+    const onSelectCalendar = (event) => {
+        const selectedCalName = event.target.value;
+        const selectedCal = calendarList.find(calendar => calendar.calName === selectedCalName);
+        console.log("선택된 캘린더의 calNo:", selectedCal.calNo);
+        setForm(prevForm => ({
+            ...prevForm,
+            calNo: selectedCal.calNo
+        }));
+    };
+
+
+    const [form, setForm] = useState({
+        schTitle : '',
+        schDetail : '',
+        schStartDate : '',
+        schEndDate : '',
+        schAllDay : '',
+        schLocal : '',
+        calNo: selectedCalendar
+    });
+
+    const onChangeHandler = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const onClickPurchaseHandler = () => {
+        console.log('[Schedule] Schedule event Started!!');
+        console.log('form', form);
+
+        if(form.schTitle === '' || form.schStartDate === '' 
+            || form.calNo === '' ){
+                alert('필수 정보를 다 입력해주세요.');
+                return ;
+        }   
+
+    dispatch(callAddScheduleAPI({	
+            form: form
+        }));      
+        
+        alert('일정 등록이 완료 되었습니다');
+        
+        navigate("/calendar", { replace: true });        
+
+    };
+
+    useEffect(() => {
+        console.log("useEffect의 token---->", token);
+        console.log("useEffect의 token.userCode--->", token.userCode);
+
+        if(token !== null) {
+            dispatch(callCalendarListAPI({	
+                userCode : token.userCode
+            }));            
+        }
+    }, []);
+    // useEffect(() => {
+    //     setForm(prevForm => ({
+    //         ...prevForm,
+    //         calNo: selectedCalendar
+    //     }));
+    // }, [selectedCalendar]);
+
+    const handleAllCalChange = (event) => {
+        const isChecked = event.target.checked;
+        setAllCalChecked(isChecked);
+  
+        const checkboxes = document.querySelectorAll('.cal_nav input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = isChecked;
+        });
+    };
 
     return(
       <div id="wrap">
         <section>
-            <article>
+        <article>
             <h2 className="menu_schedule">일정관리</h2>
             <div id="menu_1">
-                <a href="#">
-                <img src="/resources/images/calendarIcon.png" alt="" />
-                </a>
-                <span>캘린더</span>
+
+                <img src="/calendar/calendarIcon.png" alt="" />
+                <NavLink to='/calendar'>
+                <span>캘린더</span></NavLink>
             </div>
             <div>
-                <button className="cal_btn">일정추가</button>
-                <button className="cal_btn">캘린더 설정</button>
+               
+            <NavLink to='/schedule/add/detail'> <button className="cal_btn">일정추가</button></NavLink>
+                <NavLink to='/calendar/setting'> <button className="cal_btn">캘린더 설정</button></NavLink>
             </div>
-            <nav className="cal_nav">
-                <ul className="cal_ul">
-                <li>
-                    <input type="checkbox" id="allcal_checkbox" />
-                    <label htmlFor="allcal_checkbox">전체일정</label>
-                </li>
-                <li className="cal_menu">
-                    <a href="#내캘린더">내 캘린더</a>
-                    <ul>
-                    <li>
-                        <input type="checkbox" id="cal_checkbox_1" />
-                        <label htmlFor="cal_checkbox_1">
-                        개인일정
-                        <span className="dot" style={{ backgroundColor: "red" }} />
-                        </label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="cal_checkbox_2" />
-                        <label htmlFor="cal_checkbox_2">
-                        외부일정
-                        <span className="dot" style={{ backgroundColor: "blue" }} />
-                        </label>
-                    </li>
-                    </ul>
-                </li>
-                <li className="cal_menu">
-                    <a href="#내캘린더">공유 캘린더</a>
-                    <ul>
-                    <li>
-                        <input type="checkbox" id="companysch_cb" />
-                        <label htmlFor="companysch_cb">
-                        회사일정
-                        <span
-                            className="dot_2"
-                            style={{ backgroundColor: "orange" }}
-                        />
-                        </label>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="departsch_cb" />
-                        <label htmlFor="departsch_cb">
-                        부서일정
-                        <span
-                            className="dot_2"
-                            style={{ backgroundColor: "green" }}
-                        />
-                        </label>
-                    </li>
-                    </ul>
-                </li>
-                </ul>
-            </nav>
+ 
+            <div id="menu_2">
+
+                <img src="/project/projectIcon.png" alt="" />
+
+                <NavLink to='/project/main'>  <span>프로젝트</span></NavLink>
+            </div>
             </article>
            </section>
-           <main>
+           <main className='calendarmain'>
             <div className="add_detail_box">
-             <h2 className="h222"> 일정 상세 등록 </h2>
+             <h2 className="h222"> <NavLink to='/calendar'> &lt;</NavLink> &nbsp; &nbsp;일정 상세 등록 </h2>
              <div className="addbox">
                 <table className="inputtb">
                 <tbody>
                     <tr>
                     <td>일정명</td>
                     <td>
-                        <input id="sch_title" />
+                        <input
+                            name='schTitle'
+                            placeholder='일정 제목'
+                            id="sch_title"
+                            autoComplete='off'
+                            onChange={ onChangeHandler }
+                         />
                     </td>
                     </tr>
                     <tr>
                     <td>캘린더</td>
                     <td>
-                        <select id="sch_cal">
-                        <optgroup label="내 캘린더">
-                            <option value="개인일정"> 개인일정</option>
-                            <option value="외부일정">외부 일정</option>
-                        </optgroup>
-                        <optgroup label="공유 캘린더">
-                            <option value="회사일정">회사 일정</option>
-                            <option value="부서일정">부서 일정</option>
-                        </optgroup>
+                        <select id="sch_cal" onChange={onSelectCalendar}>
+                        <option disabled selected value="">-----캘린더를 선택하시오-------</option>
+                            <optgroup label="개인 캘린더">
+
+                                {calendarList && calendarList.map((calendar) => (
+                                    calendar.calType === "개인 캘린더" && 
+                                    <option key={calendar.calNo} value={calendar.calName}>{calendar.calName}</option>
+                                ))}
+                            </optgroup>
+                            <optgroup label="공유 캘린더">
+                                {calendarList && calendarList.map((calendar) => (
+                                    calendar.calType === "공유 캘린더" && 
+                                    <option key={calendar.calNo} value={calendar.calName}>{calendar.calName}</option>
+                                ))}
+                            </optgroup>
                         </select>
                     </td>
+    
                     </tr>
                     <tr>
                     <td>일시</td>
                     <td>
                         <div className="datebox">
-                        <input type="datetime-local" id="start_date" /> ~{" "}
-                        <input type="datetime-local" id="end_date" />
+                        <input 
+                            type="datetime-local"
+                            name='schStartDate' 
+                            id="start_date"
+                            className="start_date"
+                            onChange={ onChangeHandler } 
+                            /> ~{" "}
+                        <input 
+                            type="datetime-local" 
+                            id="end_date"
+                            className="end_date"
+                            name='schEndDate' 
+                            onChange={ onChangeHandler }  />
                         </div>
                     </td>
                     <td className="cb_zone">
@@ -121,18 +192,14 @@ function AddDetailSchedule(){
                     <tr>
                     <td>장소</td>
                     <td>
-                        <input />
+                        <input                             
+                            name='schLocal'
+                            placeholder='주소'
+                            autoComplete='off'
+                            onChange={ onChangeHandler }/>
                     </td>
                     <td>
                         <button id="find_map">찾기</button>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>참석자</td>
-                    <td>
-                        <button id="add_att" onclick="toggleChartbox()">
-                        +
-                        </button>
                     </td>
                     </tr>
                     <tr>
@@ -142,6 +209,8 @@ function AddDetailSchedule(){
                         id="sch_detail"
                         style={{ resize: "none" }}
                         defaultValue={""}
+                        name='schDetail'
+                        onChange={ onChangeHandler }
                         />
                     </td>
                     </tr>
@@ -152,16 +221,13 @@ function AddDetailSchedule(){
                     </div>
                 </div>
                 <div className="asd_btns">
-                    <button className="asd_sub_btn" type="submit">등록</button>
+                    <button className="asd_sub_btn" onClick={ onClickPurchaseHandler }>등록</button>
                     <button className="asd_cancle_btn">취소</button>
                 </div>
             </div>
         </main>
         </div>
- 
     );
-
 }
-
 
 export default AddDetailSchedule;

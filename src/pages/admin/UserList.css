@@ -1,0 +1,121 @@
+.content {
+    width: 1400px;
+}
+
+.user_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.user_table thead th, .user_table tbody td {
+    padding: 8px 5px;
+}
+
+.user_table thead {
+    background-color: rgb(235, 235, 235);
+    margin: 0;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.user_table tbody tr {
+    border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.sub_list li div img {
+  padding-right: 10px;
+  width: 30px;
+  height: 20px;
+}
+.user_table thead th, .user_table tbody td{
+    padding: 8px 5px;
+}
+
+.user_table tbody tr td:first-child {
+  max-width: 80px;
+  min-width: 80px;
+}
+.user_table tbody tr{
+    border-bottom: 1px solid rgb(156, 156, 156);
+} 
+.user_table thead {
+    background-color: rgb(235, 235, 235);
+    text-align: center;
+    margin: 0;
+    border-top: 1px solid rgb(156, 156, 156);
+    border-bottom: 1px solid rgb(156, 156, 156);}
+
+.user_table tbody tr td {
+  max-width: 90px;
+  min-width: 90px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  text-align: center;
+}
+
+.user_table thead tr th:first-child {
+  max-width: 10px;
+  min-width: 50px;
+}
+
+.user_table thead th:nth-child(3) {
+  min-width: 10px;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user_table tbody tr td:nth-child(3) {
+  min-width: 10px;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user_table thead th:nth-child(2),
+.user_table tbody tr td:nth-child(2) {
+  min-width: 10px;
+  max-width: 80px;
+}
+
+.user_table thead th:nth-child(5),
+.user_table tbody tr td:nth-child(5) {
+  min-width: 10px;
+  max-width: 160px;
+}
+
+.user_table thead th:nth-child(7),
+.user_table tbody tr td:nth-child(7),
+.user_table thead th:nth-child(8),
+.user_table tbody tr td:nth-child(8),
+.user_table thead th:nth-child(9),
+.user_table tbody tr td:nth-child(9) {
+  min-width: 10px;
+  max-width: 50px;
+}
+
+.pagingArea {
+  position: absolute;
+  right: 44%;
+  transform: translateX(50%);
+  margin-top: 20px;
+}
+
+.pagingBtn{
+  margin: 4px;
+  border-radius: 6px;
+  background-color: white;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 8px;
+}
+
+.pagingBtn:hover{
+  cursor: pointer;
+  background-color: #eeba8cdd;
+}
