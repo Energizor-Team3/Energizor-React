@@ -45,6 +45,7 @@ import UserRegist from './pages/admin/UserRegist';
 import ChangePwd from './pages/user/ChangePwd';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
+import CalendarSettingedit from './pages/calendar/CalendarSettingedit'
 // import Attendance from './pages/attendance/attendanceCommuteList';
 // import Employee from './pages/attendance/employeeCommuteList';
  
@@ -114,7 +115,8 @@ function App() {
             <Route path="/calendar" element={<CalendarMainPage />} />
             <Route path="/calendar/setting" element={<CalendarSetting />} />
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
-            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />          
+            <Route path="/calendar/setting/edit" element={<CalendarSettingedit/>}/>
 
             {/*근태관리, 주소록 */}
           <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
@@ -161,6 +163,7 @@ function App() {
           <Route path="/calendar/setting" element={<CalendarSetting />} />
           <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
           <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
