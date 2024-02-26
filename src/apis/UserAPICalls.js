@@ -339,9 +339,14 @@ export const callUpdateProfileAPI = ({ form }) => {
 
         console.log('[UserAPICalls] callUpdateProfileAPI RESULT : ', result);
 
-        alert('프로필 사진 변경이 완료되었습니다.')
-
-        dispatch({ type: PUT_PROFILE, payload: result });
+        if (result) { // 결과가 성공적으로 반환되었는지 확인
+            alert('프로필 사진 변경이 완료되었습니다.');
+            dispatch({ type: PUT_PROFILE, payload: result }); // 프로필 업데이트 액션 디스패치
+            dispatch(callMyPageAPI()); // 사용자 정보를 새로고침하는 액션 디스패치
+        } else {
+            // 에러 처리
+            console.error('Profile update failed');
+        }
     };
 };
 
@@ -359,10 +364,15 @@ export const callDeleteProfileAPI = () => {
             },
         }).then((response) => response.json());
 
-        console.log('[UserAPICalls] callUpdateProfileAPI RESULT : ', result);
+        console.log('[UserAPICalls] callDeleteProfileAPI RESULT : ', result);
 
-        alert('프로필 사진이 삭제되었습니다.')
-
-        dispatch({ type: DELETE_PROFILE, payload: result });
+        if (result) { 
+            alert('프로필 사진이 삭제되었습니다.');
+            dispatch({ type: DELETE_PROFILE, payload: result }); // 프로필 업데이트 액션 디스패치
+            dispatch(callMyPageAPI()); // 사용자 정보를 새로고침하는 액션 디스패치
+        } else {
+            // 에러 처리
+            console.error('Profile update failed');
+        }
     };
 };

@@ -18,7 +18,8 @@ function MyPage() {
 
     useEffect(() => {
         // myInfo의 profilePath가 변경될 때마다 profileImagePath 상태 업데이트
-        setProfileImagePath(myInfo.profilePath);
+        const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
+        setProfileImagePath(newPath);
     }, [myInfo.profilePath]);
 
     console.log('myInfo', myInfo);
@@ -46,7 +47,7 @@ function MyPage() {
         }
 
         const formData = new FormData();
-        formData.append('profilePath', file); // 'profileImage'는 서버에서 기대하는 필드 이름
+        formData.append('profilePath', file); 
 
         dispatch(
             callUpdateProfileAPI({
@@ -55,14 +56,10 @@ function MyPage() {
         )
             .then((response) => {
                 if (response && response.newImagePath) {
-                    setProfileImagePath(response.newImagePath); // Update state with the new image path
                     console.log('Profile image updated:', response.newImagePath);
                 } else {
                     console.error('No image path in response');
                 }
-            })
-            .then(() => {
-                navigate('/my-page');
             })
             .catch((error) => {
                 console.error('Profile update failed:', error);
@@ -71,9 +68,6 @@ function MyPage() {
 
     const handleProfileImageDelete = () => {
         dispatch(callDeleteProfileAPI())
-            .then(() => {
-                navigate('/my-page');
-            })
             .catch((error) => {
                 console.error('Profile deletion failed:', error);
             });
