@@ -83,7 +83,7 @@ function ApprovalMain(){
                   <th>상태</th>
                 </tr>
               </thead>
-              {inboxDocument && inboxDocument.map((document) => (
+              {Array.from(inboxDocument) && inboxDocument.map((document) => (
                 <React.Fragment key={document?.documentCode}>
                   <tbody>
                     <tr>
