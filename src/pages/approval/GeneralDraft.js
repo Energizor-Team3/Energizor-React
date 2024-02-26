@@ -283,7 +283,7 @@ useEffect(() => {
         onChange={onFileChange}
         style={{ display: 'none' }} // 시각적으로 숨김 처리
       />
-              <span>
+              <span className='filebutton'>
                 <button onClick={ onClickImageUpload }>첨부파일</button>
               </span>
             </div>

@@ -181,7 +181,7 @@ function VacationForm(){
               <span>
               <button onClick={toggleContent} >공유하기</button>
               </span>
-              <span><button onClick={() => openPopupWithContent(documentCodeData)}>첨부파일</button></span>
+              <span className='filebutton'><button onClick={() => openPopupWithContent(documentCodeData)}>첨부파일</button></span>
             </div>
         </div>
       </div>
