@@ -68,7 +68,7 @@ function ReservationMain() {
           <div className="meeting-room-container">
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (1).jpg"
+                src="/reservation/meetingRoom1.jpg"
                 alt="Meeting Room 1"
                 className="meeting-room-image"
               />

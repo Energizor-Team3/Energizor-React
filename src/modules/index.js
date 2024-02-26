@@ -20,6 +20,7 @@ import groupUserReducer from "./GroupUserModule";
 import groupDeptReducer from "./GroupDeptModule";
 import groupTeamReducer from "./GroupTeamModule";
 import groupAdminReducer from "./GroupAdminModule";
+import taskReducer from "./TaskModule";
 
 
 
@@ -44,9 +45,9 @@ const rootReducer = combineReducers({
   approvalSubReducer,
   approvalLineReducer,
   approvalRfReducer,
+  taskReducer,
 
-  userReducer,
-  projectReducer,
+ 
   contactReducer,
 });
 
