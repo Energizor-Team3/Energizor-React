@@ -9,7 +9,9 @@ import DonutChart from './projectDonutChart';
 import'./project_detail.css';
 import { 
     callProjectDetailAPI,
-    callTasksAPI
+    callTasksAPI,
+    callDeleteProjectAPI,
+    callDeleteTaskAPI
 } from '../../apis/ProjectAPICalls'
 
 import projectReducer from '../../modules/ProjectModule';
@@ -33,8 +35,9 @@ function ProjectDetail(){
     const renderTasks = (tasks) => tasks.map(task => (
         <div key={task.taskNo} className="task_1">
             <div className="task_top">
-                <div className="task_title">{task.taskContent}</div>
-                <div className="task_delete">X</div>
+                <div className="task_title" style={{marginBottom:'10px'}}>{task.taskContent}</div>
+                <div className="task_delete"
+                 onClick={() => handleDeleteButtonClick(task.taskNo)}>X</div>
             </div>
             <div className="task_att">
                 <span>담당자 : </span>
@@ -74,7 +77,35 @@ function ProjectDetail(){
         return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     };
 
-
+    const handleDeleteButtonClick = async (taskNo) => {
+        const isConfirmed = window.confirm('task를 삭제하시겠습니까?');
+      
+        if (isConfirmed) {
+          try {
+            await dispatch(callDeleteTaskAPI({ taskNo }));
+            window.location.reload(); 
+          } catch (error) {
+            console.error('task 삭제 중 오류가 발생했습니다:', error);
+          }
+        } else {
+          console.log('삭제가 취소되었습니다.');
+        }
+      };
+      const handleDeletePJButtonClick = async (proNo) => {
+        const isConfirmed = window.confirm('project를 삭제하시겠습니까?');
+    
+        if (isConfirmed) {
+          try {
+            await dispatch(callDeleteProjectAPI({ proNo }));
+            // 페이지 리로드 대신 navigate를 사용하여 특정 페이지로 이동
+            navigate('/project/main');
+          } catch (error) {
+            console.error('project 삭제 중 오류가 발생했습니다:', error);
+          }
+        } else {
+          console.log('삭제가 취소되었습니다.');
+        }
+      };
      
     return(
       
@@ -105,7 +136,7 @@ function ProjectDetail(){
         
         <main className="projectmain">
             <div className="project_detail_box">
-                <h1 className="back_btn"> &lt; </h1>
+            <NavLink to='/project/main'>   <h1 className="back_btn"> &lt; </h1> </NavLink>
                 <div className="pro_detail">
                 <div className="pro_info">
                     <div className="detail_top">
@@ -114,7 +145,8 @@ function ProjectDetail(){
                         <button className="edit_btn">
                             <img src="/calendar/editcon.png" alt="수정" />
                         </button>
-                        <button className="delete_btn">
+                        <button className="delete_btn"
+                        onClick={() => handleDeletePJButtonClick(project.proNo)}>
                         <img src="/calendar/caltrash.png"  alt='삭제'/>
                         </button>
                     </div>

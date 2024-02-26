@@ -9,11 +9,13 @@ const initialState = {
   };
 
   export const GET_TASKS     ="project/GET_TASKS";
+  export const DELETE_TASK   ="calendar/DELETE_TASK";
 
 
   const actions = createActions({
  
     [GET_TASKS]:() => {},
+    [DELETE_TASK]:() => {}
  
 
 });
@@ -26,6 +28,10 @@ const taskReducer = handleActions(
 
         return payload;
     },
+    [DELETE_TASK]: (state, { payload }) => {
+
+      return payload;
+  },
        
     },
  

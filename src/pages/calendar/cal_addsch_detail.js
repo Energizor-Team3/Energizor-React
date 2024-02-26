@@ -6,7 +6,8 @@ import { decodeJwt } from '../../utils/tokenUtils';
 import { NavLink } from 'react-router-dom';
 
 import {
-    callCalendarListAPI, callAddScheduleAPI
+    callCalendarListAPI,
+     callAddScheduleAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';

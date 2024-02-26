@@ -17,7 +17,7 @@ function CalendarSetting(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const calendar = useSelector(state => state.calendarReducer); 
-  const calpartlistuser = useSelector((state) => state.groupUserReducer); // 캘린더 참여자 불러옴
+  const calpartlistuser = useSelector((state) => state.groupUserReducer); //캘린더 참여자 불러옴
   const [calpartlist, setCalPartList] = useState([]);  //캘린더 참여자 상태
   const calendarList = calendar.data;
   const token = decodeJwt(window.localStorage.getItem("accessToken"));  
@@ -45,8 +45,6 @@ function CalendarSetting(){
     alert('이미 추가된 사용자입니다.');
     console.log(calpartlistuser);
     console.log(calpartlistuser.userName);
-    
-      
     } }
 
     useEffect(() => {
@@ -279,13 +277,11 @@ const deleteline = (userCode) => {
                             <li className='calicons'>
                               {calendar === selectedCalendar && (
                                 <>
-    
                                   <img
                                     src="/calendar/caltrash.png"
                                     alt="deleteIcon"
                                     className="deletebtn"
-                                    onClick={() => handleDeleteButtonClick(calendar.calNo)}
-                                     
+                                    onClick={() => handleDeleteButtonClick(calendar.calNo)}                           
                                   />
                                 </>
                               )}
@@ -430,11 +426,8 @@ const deleteline = (userCode) => {
         </table>
         <div className="chartbox" id='chartbox'>
           <CalendarGroup onUserSelect={handleUserSelect}  />
- 
         </div>
       </div>
-
- 
 
       <div className="setting_btns">
         <button className="setting_submit_btn"  onClick={ onClickPurchaseHandler } type="submit">
