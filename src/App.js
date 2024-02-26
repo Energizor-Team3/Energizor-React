@@ -46,8 +46,7 @@ import UserRegist from "./pages/admin/UserRegist";
 import ChangePwd from './pages/user/ChangePwd';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
-import Attendance from './pages/attendance/attendanceCommuteList';
-import Employee from './pages/attendance/employeeCommuteList';
+
 
 const queryClient = new QueryClient();
 
@@ -117,8 +116,6 @@ function App() {
             {/*근태관리, 주소록 */}
           <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
           <Route path="/contact/company-list" element={ <CompanyContact/> }/>
-          <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
-          <Route path="/attendance/all-users-list" element={ <Employee/> }/>
 
           </Route>
         </Routes>
