@@ -171,12 +171,12 @@ const deleteline = (userCode) => {
       console.log('삭제가 취소되었습니다.');
     }
   };
-  
+ 
 
-
-
+  const [activeButton, setActiveButton] = useState('add');  
+  const backgroundPosition = activeButton === 'add' ? '0%' : '100%';
     return(
-        <div id="wrap">
+        <div id="wrap"> 
 
 <section>
         <article>
@@ -207,6 +207,30 @@ const deleteline = (userCode) => {
       <div className="setbox">
         <table className="set_tb">
           <tbody>
+            <tr>
+              <td> </td>
+              <td className='calsettingbtn'  > 
+              <div className='settingbtns'>
+                      <div
+                        className="background-slide"
+                        style={{ transform: `translateX(${backgroundPosition})` }}
+                      ></div>
+                      <button
+                        className={`settingbtn1 ${activeButton === 'add' ? 'settingbtn2-active' : ''}`}
+                        onClick={() => setActiveButton('add')}
+                      >
+                        추가
+                      </button>
+                      <button
+                        className='settingbtn2'
+                        onClick={() => setActiveButton('edit')}
+                      >
+                        수정
+                      </button>
+              </div>
+ 
+              </td>
+            </tr>
             <tr className="tr_1">
               <td>캘린더 목록</td>
               <td className="cal_list">
@@ -215,25 +239,19 @@ const deleteline = (userCode) => {
                   <ul>
                   {calendarList && calendarList.map((calendar) => (
                       calendar.calType === "개인 캘린더" && (
-                        <div className='caliconandname' key={calendar.calNo}>
-                          <li className='calnames' onClick={() => handleCalendarClick(calendar)}>
+                        <div className= {`caliconandname  ${selectedCalendar && selectedCalendar.calNo === calendar.calNo ? 'selectedCalendar' : ''}`} key={calendar.calNo}  onClick={() => handleCalendarClick(calendar)}>
+                          <li className='calnames'>
                             {calendar.calName}
                           </li>
                           <li className='calicons'>
                             {calendar === selectedCalendar && (
                               <>
                                 <img
-                                  src="/calendar/editcon.png"
-                                  alt="editIcon"
-                                  className="editbtn"
-                                  // 수정 버튼의 클릭 핸들러를 여기에 추가하세요
-                                />
-                                <img
                                   src="/calendar/caltrash.png"
                                   alt="deleteIcon"
                                   className="deletebtn"
                                   onClick={() => handleDeleteButtonClick(calendar.calNo)}
-                                  // 삭제 버튼의 클릭 핸들러를 여기에 추가하세요
+                                  
                                 />
                               </>
                             )}
@@ -242,23 +260,21 @@ const deleteline = (userCode) => {
                       )
                     ))}
                       </ul>
-                  
-                  <span className="cal-header2">공유 캘린더</span>
+                  {/* style={{textDecorationLine:'underline',textDecorationColor : 'blue'} } */}
+                  <span className="cal-header2"  >공유 캘린더</span>
                   {calendarList && calendarList.map((calendar) => (
                     calendar.calType === "공유 캘린더" && (
-                          <div className='caliconandname' key={calendar.calNo}>
-                            <li className='calnames' onClick={() => handleCalendarClick(calendar)}>
+                          <div className={`caliconandname  ${selectedCalendar && selectedCalendar.calNo === calendar.calNo ? 'selectedCalendar' : ''}`} key={calendar.calNo}  onClick={() => handleCalendarClick(calendar)}>
+                              <li
+                                className='calnames '
+
+                              >
                               {calendar.calName}
                             </li>
                             <li className='calicons'>
                               {calendar === selectedCalendar && (
                                 <>
-                                  <img
-                                    src="/calendar/editcon.png"
-                                    alt="editIcon"
-                                    className="editbtn"
-                                     
-                                  />
+    
                                   <img
                                     src="/calendar/caltrash.png"
                                     alt="deleteIcon"
@@ -276,6 +292,7 @@ const deleteline = (userCode) => {
                 </div>
               </td>
             </tr>
+            {!selectedCalendar && (
             <tr className="tr_2" id="calendarAddRow">
               <td>캘린더 추가</td>
               <td className="add_cal_td">
@@ -321,7 +338,64 @@ const deleteline = (userCode) => {
                   </tbody>
                 </table>
               </td>
+            </tr>)}
+            {selectedCalendar && (
+             <tr className="tr_2" id="calendarAddRow">
+              <td>캘린더 조회</td>
+              <td className="add_cal_td">
+                <table className="dd">
+                  <tbody>
+                    <tr>
+                      <td  >
+                        색상 : 
+                      </td>
+                      <td                   >
+                       <p   style={{ 
+                      display: 'inline-block', 
+                      width: '20px', 
+                      height: '20px', 
+                      backgroundColor: selectedCalendar.calColor,
+                      borderRadius: '10px',
+                      
+                    }}></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td >
+                         캘린더명 :
+                      </td>
+                      <td>
+                         {selectedCalendar.calName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td  >
+                         캘린더 유형 :
+                      </td>
+                      <td>
+                      {selectedCalendar.calType}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
             </tr>
+                           
+            )} 
+            {selectedCalendar && selectedCalendar.calType === '공유 캘린더' && selectedCalendar.participantNames && (
+                              <tr className="tr_3" id="dateboxRow">
+                                <td>참여자:</td>
+                                <td className='addllist'>
+                                  {selectedCalendar.participantNames.map((name, index) => (
+                                  <div className='cal_partname' key={index} > 
+                                     {name} 
+                                </div> ))}
+                                </td>
+                                
+                              </tr>
+                            )}
+            
+           
             {/* datebox */}
             {calendarType === '공유 캘린더' && (
                 <tr className="tr_3" id="dateboxRow">
@@ -350,6 +424,9 @@ const deleteline = (userCode) => {
  
         </div>
       </div>
+
+ 
+
       <div className="setting_btns">
         <button className="setting_submit_btn"  onClick={ onClickPurchaseHandler } type="submit">
           등록

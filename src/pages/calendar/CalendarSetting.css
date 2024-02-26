@@ -327,3 +327,56 @@ background-color: #94A9FF;
 border:none;
 }
 
+.caliconandname:hover {
+  background-color: #f0f0f0; /* 호버 배경 색상 */
+  cursor: pointer;
+
+  /* height: 30px; */
+}
+
+.settingbtns{
+  position: relative;
+  width: 104px;
+  height: 40px;
+  background-color: #d8dffb;
+  border: 2px solid #d8dffb;
+
+  display: flex;
+  overflow: hidden; 
+  border-radius: 20px;
+
+}
+.settingbtns .background-slide{
+  position: absolute;
+  width: 50px; /* 버튼 너비와 동일 */
+  height: 35px; /* 컨테이너 높이와 동일 */
+  background-color: rgb(255, 255, 255);
+  transition: transform 0.5s ease; /* 슬라이드 효과 */
+  z-index: 0;
+  border-radius: 100px;
+  
+}
+.settingbtn1,.settingbtn2{
+  position: relative;
+  width: 50px;
+  height: 30px;
+  font-size: 16px;
+  border: none;
+  background-color: transparent; /* 배경색을 투명하게 */
+  z-index: 1;/* 배경색 변경시 슬라이드 효과 적용 */
+  border-radius: 50px;
+  color: #5d616f;
+  margin-top: 3px;
+}
+
+.settingbtns{
+  margin-left: 450px;
+  
+}
+
+ 
+
+
+
+
+ 
