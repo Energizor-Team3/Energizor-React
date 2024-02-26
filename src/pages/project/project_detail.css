@@ -92,7 +92,13 @@ font-weight: bold;
     margin-top: 20px; /* 추가: 위쪽 여백을 조절하여 중앙 정렬 보정 */
   }
   .pro_progress{
-  padding: 30px;}
+  padding: 30px;
+}
+.donut{
+  margin-left: 130px;
+  margin-top:-50px;
+  width: 310px;
+}
   
   .pro_detail,.pro_progress{
     width: 600px;
@@ -266,3 +272,5 @@ font-weight: bold;
     left: 15px;
     top: -15px;
   }
+
+   

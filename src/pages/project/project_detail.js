@@ -75,9 +75,7 @@ function ProjectDetail(){
     };
 
 
-    const todoCount = todoTasks.length;
-    const inProgressCount = inProgressTasks.length;
-    const doneCount = doneTasks.length;
+     
     return(
       
     <div id="wrap"> 
@@ -139,11 +137,17 @@ function ProjectDetail(){
                         </div>
                 </div>
                 </div>
+
                 <div className="pro_progress">
-                <h3>진행률</h3>
-                 
-                 
-            </div>
+                    <h3> 진행률 </h3>
+                    <div className='donut'>
+                    <DonutChart
+                        todoCount={todoTasks.length}
+                        inProgressCount={inProgressTasks.length}
+                        doneCount={doneTasks.length}
+                         
+                    /></div>
+                </div>
                 <div className="pro_task">
                 <div className="todo">
                     <h4>TO DO</h4>
