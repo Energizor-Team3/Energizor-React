@@ -11,6 +11,7 @@ import ApprovalSubHeader from '../approval/ApprovalSubHeader'
  
 
 
+import AttendanceDetailModalMain from "./AttendanceDetailModalMain";
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
@@ -85,7 +86,10 @@ function Main() {
 
                     <div className={MainCSS.main_commute}>
                         <h1>근태</h1>
-                        {/*     <div className={MainCSS.attendance-container}>
+
+                        <AttendanceDetailModalMain/>
+
+                            {/* <div className={MainCSS.attendance}>
                             <div className={MainCSS.info}>
                                 <p id="date-info">오늘 날짜: </p>
                                 <p id="time-info">현재 시각: </p>
@@ -93,11 +97,15 @@ function Main() {
                                 <p id="end-time-info">퇴근 시각: </p>
                             </div>
                     
-                            <div className={MainCSS.button-container}>
+                            <div className={MainCSS.button}>
                                 <button id="in-btn" onclick="recordTime('start')">출근</button>
                                 <button id="out-btn" onclick="recordTime('end')">퇴근</button>
                             </div>
                         </div> */}
+
+                    
+
+
                     </div>
 
                     <div className={MainCSS.main_note}>
