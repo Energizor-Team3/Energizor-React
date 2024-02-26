@@ -98,4 +98,4 @@ function AttendanceDetailModal ({ setIsModalOpen, handleClose, userCode }) {
     )
 }
 
-export default AttendanceDetailModal
+export default AttendanceDetailModal;

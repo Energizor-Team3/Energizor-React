@@ -25,11 +25,6 @@ import reservationInsertReducer from "./ReservationInsertModule";
 import groupAdminReducer from "./GroupAdminModule";
 import approvalFileReducer from "./ApprovalFileModule";
 
-
-import { combineReducers } from 'redux';
-import userReducer from './UserModule';
-import projectReducer from './ProjectModule';
-import contactReducer from './ContactModule';
 import attendanceReducer from './AttendanceModule';
 
 const rootReducer = combineReducers({

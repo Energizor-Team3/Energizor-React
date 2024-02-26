@@ -44,11 +44,10 @@ import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from "./pages/user/MyPage";
 import UserRegist from "./pages/admin/UserRegist";
 import ChangePwd from './pages/user/ChangePwd';
-import PersonalContact from './pages/contact/personalContactList';
-import CompanyContact from './pages/contact/companyContactList';
-import Attendance from './pages/attendance/attendanceCommuteList';
-import Employee from './pages/attendance/employeeCommuteList';
-
+import PersonalContact from "./pages/contact/personalContactList";
+import CompanyContact from "./pages/contact/companyContactList";
+import EmployeeCommute from "./pages/attendance/employeeCommuteList";
+import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
 
 const queryClient = new QueryClient();
 
@@ -63,10 +62,10 @@ function App() {
           <Route path="/searchpwdemail" element={<SearchPwdEmail />} />
 
           <Route path="/" element={<Sublayout />}>
-       {/* 메인 */}
+	    {/* 메인 */}
             <Route path="/main" element={<Main />} />
 
-       {/* 게시판 */}
+	    {/* 게시판 */}
             <Route path="list/:boardTypeCode" element={<List />} />
             <Route path="/board" element={<BoardList />} />
             <Route path="/board/edit" element={<BoardRegister />} />
@@ -77,12 +76,12 @@ function App() {
             <Route path="/board/interest_list" element={<InterestList />} />
             <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
 
-       {/* 관리자, 마이페이지 */}
+	    {/* 관리자, 마이페이지 */}
             <Route path="/userlist" element={<UserList />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/userregist" element={<UserRegist />} />
             <Route path="/modifyuser/:userCode" element={<ModifyUser />} />
-       <Route path="/changepwd" element={ <ChangePwd/> } />
+	    <Route path="/changepwd" element={ <ChangePwd/> } />
 
             {/* 결재 */}
             <Route path="/generaldraft" element={<GeneralDraft />} />
@@ -114,17 +113,19 @@ function App() {
             <Route path="/calendar/setting" element={<CalendarSetting />} />
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
             <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+            <Route path="/project/:proNo" element={<ProjectDetail />} />
+            <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
 
-            {/*근태관리, 주소록 */}
+                        {/*근태관리, 주소록 */}
           <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
           <Route path="/contact/company-list" element={ <CompanyContact/> }/>
-          <Route path="/attendance/user-list/:userCode" element={ <Attendance/> }/>
-          <Route path="/attendance/all-users-list" element={ <Employee/> }/>
-        </Route>
-      
+          <Route path="/attendance/user-list/:userCode" element={ <AttendanceCommute/> }/>
+          <Route path="/attendance/all-users-list" element={ <EmployeeCommute/> }/>
 
-      </Routes>
-    </BrowserRouter>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 

@@ -12,6 +12,8 @@ function EmployeeCommute() {
     const navigate = useNavigate();
     const params = useParams();
     const employee = useSelector((state) => state.attendanceReducer);
+    const employeeInfo = employee.data;
+    console.log('employeeInfo', employeeInfo);
     
     const [currentDate, setCurrentDate] = useState(new Date());
 
