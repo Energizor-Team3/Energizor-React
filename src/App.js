@@ -49,6 +49,8 @@ import ChangePwd from './pages/user/ChangePwd';
 import PersonalContact from './pages/contact/personalContactList';
 import CompanyContact from './pages/contact/companyContactList';
 import CalendarSettingedit from './pages/calendar/CalendarSettingedit'
+import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
+import EmployeeCommute from "./pages/attendance/employeeCommuteList";
 // import Attendance from './pages/attendance/attendanceCommuteList';
 // import Employee from './pages/attendance/employeeCommuteList';
  
@@ -135,7 +137,7 @@ function App() {
             <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
             <Route path="/contact/company-list" element={ <CompanyContact/> }/>
             <Route path="/attendance/user-list/:userCode" element={ <AttendanceCommute/> }/>
-            <Route path="/attendance/all-users-list" element={ <EmployeeCommute/> }/>
+            <Route path="/attendance/all-users-list" element={ <EmployeeCommute /> }/>
 
           </Route>
           <Route path="/userlist" element={ <UserList/> } />
