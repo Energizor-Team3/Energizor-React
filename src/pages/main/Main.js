@@ -3,7 +3,7 @@ import MainCSS from './Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { callLogoutAPI } from '../../apis/UserAPICalls';
+import { callLogoutAPI, callMyPageAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
 import MainPageCalendar from './MainPageCalendar';
 import ApprovalSubHeader from '../approval/ApprovalSubHeader'
@@ -16,8 +16,20 @@ function Main() {
     const dispatch = useDispatch();
     console.log('---------------', window.localStorage.getItem('accessToken'));
     const token = decodeJwt(window.localStorage.getItem('accessToken'));
+    const myInfo = useSelector((state) => state.userReducer);
+    const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
 
     console.log('token 정보', token);
+    console.log('myInfo', myInfo);
+
+    useEffect(() => {
+        dispatch(callMyPageAPI());
+    }, []);
+
+    useEffect(() => {
+        const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
+        setProfileImagePath(newPath);
+    }, [myInfo.profilePath]);
 
     const navigate = useNavigate();
 
@@ -46,15 +58,15 @@ function Main() {
                     <div className={MainCSS.main_profile}>
                         <div className={MainCSS.user_photo}>
                             <img
-                                src={`http://localhost:8031/imgs/` + token.profilePath}
+                                src={myInfo.profilePath}
                                 alt="프로필사진"
                             />
                         </div>
                         <div className={MainCSS.main_profile_info}>
-                            <p>{token.userName}</p>
+                            <p>{myInfo.userName}</p>
                             <br />
                             <h4>
-                                {token.teamDTO?.dept?.deptName}/{token.teamDTO?.teamName}
+                                {myInfo.team?.dept?.deptName}/{myInfo.team?.teamName}
                             </h4>
                             <button
                                 className={MainCSS.go_mypage}
