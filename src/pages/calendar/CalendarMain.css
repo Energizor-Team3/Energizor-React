@@ -54,7 +54,9 @@ body{
   margin-top: 10px;
 }
 
-
+/* .fc-theme-standard td, .fc-theme-standard th {
+  border:none;
+} */
 
 .cal_ul li.cal_menu .dot {
   width: 10px;
@@ -106,7 +108,7 @@ text-decoration:overline 2px;
  
 }
 .fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 1.5em !important;}
+  margin-bottom: 0em !important;}
 
 .fc .fc-button-primary:disabled{
 background-color: #c9c9c9;

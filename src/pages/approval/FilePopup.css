@@ -1,0 +1,28 @@
+.popup-overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-box1 {
+    background: white;
+    border-radius: 5px;
+    padding: 20px;
+    min-width: 300px;
+    z-index: 1001;
+  }
+  
+  .popup-close1 {
+    margin-top: 20px;
+  }
+  
+  .popup-content1 {
+    /* Content specific styles if needed */
+  }

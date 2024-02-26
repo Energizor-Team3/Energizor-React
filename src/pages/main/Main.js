@@ -1,17 +1,35 @@
+
 import MainCSS from './Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { callLogoutAPI } from '../../apis/UserAPICalls';
+import { callLogoutAPI, callMyPageAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
+import MainPageCalendar from './MainPageCalendar';
+import ApprovalSubHeader from '../approval/ApprovalSubHeader'
+
+ 
+
 
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
     console.log('---------------', window.localStorage.getItem('accessToken'));
     const token = decodeJwt(window.localStorage.getItem('accessToken'));
+    const myInfo = useSelector((state) => state.userReducer);
+    const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
 
     console.log('token 정보', token);
+    console.log('myInfo', myInfo);
+
+    useEffect(() => {
+        dispatch(callMyPageAPI());
+    }, []);
+
+    useEffect(() => {
+        const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
+        setProfileImagePath(newPath);
+    }, [myInfo.profilePath]);
 
     const navigate = useNavigate();
 
@@ -32,22 +50,23 @@ function Main() {
         }
     };
 
+
     return (
-        <>
-            <main className={MainCSS.main}>
+        < >
+            <main className={MainCSS.main} >
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_profile}>
                         <div className={MainCSS.user_photo}>
                             <img
-                                src={`http://localhost:8031/imgs/` + token.profilePath}
+                                src={myInfo.profilePath}
                                 alt="프로필사진"
                             />
                         </div>
                         <div className={MainCSS.main_profile_info}>
-                            <p>{token.userName}</p>
+                            <p>{myInfo.userName}</p>
                             <br />
                             <h4>
-                                {token.teamDTO?.dept?.deptName}/{token.teamDTO?.teamName}
+                                {myInfo.team?.dept?.deptName}/{myInfo.team?.teamName}
                             </h4>
                             <button
                                 className={MainCSS.go_mypage}
@@ -88,13 +107,16 @@ function Main() {
 
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_project}>
-                        <h1>프로젝트</h1>
+                        
+                         <MainPageCalendar />
+
                     </div>
                 </div>
 
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_approval}>
                         <h1>결재</h1>
+                        <ApprovalSubHeader/>
                     </div>
                     <div className={MainCSS.main_board}>
                         <h1>내 게시판</h1>

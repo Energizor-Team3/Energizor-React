@@ -54,7 +54,7 @@ function CompanyContact() {
 
             <main>
                 <div className="content">
-                    <div className="subject">
+                    <div className="subject1">
                         <strong>회사 주소록</strong>
                         <div className="line"></div>
                     </div>

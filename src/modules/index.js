@@ -13,13 +13,17 @@ import calendarReducer from "./CalendarModule";
 import scheduleReducer from "./ScheduleModule";
 import approvalLineReducer from "./ApprovalLineModule";
 import approvalRfReducer from "./ApprovalRfModule";
+import approvalHeaderReducer from "./ApprovalHeaderModule";
+import approvalHeaderSubReducer from "./ApprovalHeaderSubModule";
 import reservationTotalReducer from "./ReservationTotalModules ";
 import contactReducer from "./ContactModule";
 import groupReducer from "./GroupModule";
 import groupUserReducer from "./GroupUserModule";
 import groupDeptReducer from "./GroupDeptModule";
 import groupTeamReducer from "./GroupTeamModule";
+import reservationInsertReducer from "./ReservationInsertModule";
 import groupAdminReducer from "./GroupAdminModule";
+import approvalFileReducer from "./ApprovalFileModule";
 
 
 
@@ -31,6 +35,8 @@ const rootReducer = combineReducers({
   reservationModifyReducer,
   reservationCodeReducer,
   reservationTotalReducer,
+  reservationInsertReducer,
+  
 
   groupReducer,
   groupUserReducer,
@@ -45,9 +51,10 @@ const rootReducer = combineReducers({
   approvalLineReducer,
   approvalRfReducer,
 
-  userReducer,
-  projectReducer,
   contactReducer,
+  approvalHeaderReducer,
+  approvalHeaderSubReducer,
+  approvalFileReducer,
 });
 
 export default rootReducer;

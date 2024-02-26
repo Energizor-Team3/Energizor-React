@@ -1,6 +1,7 @@
 import  './SaveInBox.css';
 import {
-  callSaveInBoxAPI
+  callSaveInBoxAPI,
+  callDeleteTempApprovalAPI
 } from '../../apis/ApprovalAPICalls';
 
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
@@ -8,6 +9,8 @@ import queryString from 'query-string';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { decodeJwt } from '../../utils/tokenUtils';
+import ApprovalHeader from './approvalHeader'
+
 
     
 
@@ -17,6 +20,9 @@ function SaveInBox() {
   const dispatch = useDispatch();
   const SaveInBoxState  = useSelector((state) => state.approvalReducer);
   const SaveInBoxStateList = SaveInBoxState?.data?.content;
+
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
    
   useEffect(()=>{
       dispatch(callSaveInBoxAPI());
@@ -26,6 +32,10 @@ function SaveInBox() {
 
   console.log('shared',  SaveInBoxState );
   console.log('shared123',  SaveInBoxStateList);
+
+  useEffect(() => {
+    console.log('변하는값',selectedDocuments)
+  },[selectedDocuments])
   
 
   const doubleClickHandler= (documentCode,form) =>{
@@ -44,62 +54,53 @@ function SaveInBox() {
     }
   }
 
+  // 맨 위의 체크박스를 처리하는 함수
+  const handleSelectAll = (e) => {
+    setSelectAll(e.target.checked);
+    if (e.target.checked) {
+      // 모든 documentCode를 선택
+      const allDocumentCodes = SaveInBoxStateList.map((doc) => doc.documentCode);
+      setSelectedDocuments(allDocumentCodes);
+    } else {
+      // 선택 해제
+      setSelectedDocuments([]);
+    }
+  };
+
+
+  // 개별 문서를 처리하는 함수
+  const handleSelectDocument = (documentCode) => {
+    if (selectedDocuments.includes(documentCode)) {
+      setSelectedDocuments(selectedDocuments.filter(code => code !== documentCode));
+    } else {
+      setSelectedDocuments([...selectedDocuments, documentCode]);
+    }
+  };
+
+  // SaveInBoxStateList가 변경될 때마다 selectAll 상태를 초기화합니다.
+  useEffect(() => {
+    setSelectAll(false);
+    setSelectedDocuments([]);
+  }, [SaveInBoxStateList]);
+
+  
+ const deleteTemp =() =>{
+  const result = window.confirm("진행 하시겠습니까?")
+    if(result){
+      dispatch(callDeleteTempApprovalAPI(selectedDocuments))
+      alert('삭제되었습니다.')
+      window.location.reload()
+    }else{
+      alert('취소하셨습니다.')
+    }
+ }
+
+
 
     return (
         <div id="wrap">
   <section>
-        <article>
-          <h2>전자결재</h2>
-          <div>
-            <a href="./newapproval">
-              <button className="btn">신규기안</button>
-            </a>
-          </div>
-          <ul className="subList">
-            <li>
-              <div>
-                <img src="/common/Approval.png" alt="" />
-                <span>
-                  <a href="./approvalmain">결재할 문서</a>
-                </span>
-                <span className="listlist">1</span>
-              </div>
-            </li>
-            <li className="subListText">
-              <div>
-                <img src="/common/Approval.png" alt="" />
-                <span>
-                  <a href="/approvaling">진행중인 문서</a>
-                </span>
-                <span className="listlist1">1</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <img src="/common/Mydocumentbox.png" alt="" />
-                <span>
-                  <a href="/inbox">내 문서함</a>
-                </span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <img src="/common/Temporarystoragebox.png" alt="" />
-                <span>
-                  <a href="/saveinbox">임시보관함</a>
-                </span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <img src="/common/Shareddocumentbox.png" alt="" />
-                <span>
-                  <a href="/sharedinbox">공유받은 문서함</a>
-                </span>
-              </div>
-            </li>
-          </ul>
-        </article>
+    <ApprovalHeader/>
       </section>
   <main>
     <div className="content">
@@ -107,7 +108,10 @@ function SaveInBox() {
         <strong>임시보관함</strong>
         <div className="line">
           <div className="search_box">
-            <input type="search" placeholder="제목,분류를 입력하세요." />
+            
+            <span>
+                <button onClick={deleteTemp} >삭제</button>
+              </span>
           </div>
         </div>
       </div>
@@ -117,7 +121,7 @@ function SaveInBox() {
         <thead>
           <tr>
             <th className='check'>
-              <input type="checkbox" />
+              <input type='checkbox' checked={selectAll} onChange={handleSelectAll}/>
             </th>
             <th>분류</th>
             <th>제목</th>
@@ -128,7 +132,7 @@ function SaveInBox() {
   {Array.isArray(SaveInBoxStateList) &&
     SaveInBoxStateList.map((document) => (
       <tr key={document?.documentCode}>
-        <td><input type="checkbox" value={document?.documentCode}/></td>
+        <td><input type="checkbox" value={document?.documentCode} checked={selectedDocuments.includes(document?.documentCode)} onChange={() => handleSelectDocument(document?.documentCode)}/></td>
         <td>{document?.form}</td>
         
         <td><a href="#" onClick={(e) => { 
@@ -140,95 +144,7 @@ function SaveInBox() {
     ))}
 </tbody>
         </div>
-      <div id="contentBox" className="content-box">
-        <div className="statustitle">
-          <span>결재 현황</span>
-          <span>[개발 1팀] 연차사용 신청서</span>
-        </div>
-        <div className="profile">
-          <ul className="profileBox">
-            <li>
-              <img
-                className="profileimg"
-                alt=""
-                src="/common/profileimg1.png"
-              />
-            </li>
-            <li>
-              <ul className="text">
-                <li>[사원 이준희]</li>
-                <li>개발본부/개발1팀</li>
-                <li className="insideStatus">기안자</li>
-              </ul>
-            </li>
-          </ul>
-          <ul className="profileBox">
-            <li>
-              <img
-                className="profileimg"
-                alt=""
-                src="/common/profileimg1.png"
-              />
-            </li>
-            <li>
-              <ul className="text">
-                <li>[팀장 장재영]</li>
-                <li>개발본부/개발1팀</li>
-                <li className="insideStatus">결재</li>
-              </ul>
-            </li>
-          </ul>
-          <ul className="profileBox">
-            <li>
-              <img
-                className="profileimg"
-                alt=""
-                src="/common/profileimg1.png"
-              />
-            </li>
-            <li>
-              <ul className="text">
-                <li>[본부장 우지선]</li>
-                <li>개발본부/개발본부</li>
-                <li className="insideStatus">결재</li>
-              </ul>
-            </li>
-          </ul>
-          <ul className="profileBox">
-            <li>
-              <img
-                className="profileimg"
-                alt=""
-                src="/common/profileimg1.png"
-              />
-            </li>
-            <li>
-              <ul className="text">
-                <li>[사장 축온청]</li>
-                <li>경영본부/경영본부</li>
-                <li className="insideStatus1">미결</li>
-              </ul>
-            </li>
-          </ul>
-          <ul className="profileBox">
-            <li>
-              <img
-                className="profileimg"
-                alt=""
-                src="/common/profileimg1.png"
-              />
-            </li>
-            <li>
-              <ul className="text">
-                <li>[대장 김수연]</li>
-                <li>경영본부/경영본부</li>
-                <li className="insideStatus1">미결</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        {/* 이미지, 텍스트 및 기타 컨텐츠 포함 가능 */}
-      </div>
+      
       <select name="page_number_choice" id="page_number_choice">
         <option value={5}>5</option>
         <option value={10}>10</option>

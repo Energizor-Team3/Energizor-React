@@ -293,14 +293,14 @@ function CalendarMainPage(){
                         </div>
                         <div className="sch_btns">
                         <img
-                            src="/calendar/editIcon 1.png"
+                            src=" /calendar/editcon.png"
                             alt="editIcon"
                             className="editbtn"
                             onClick={() => handleEditButtonClick(schedule.schNo)}   
                         />
                         <img
-                            src="/calendar/trash 1.png"
-                            alt="editIcon"
+                            src="/calendar/caltrash.png"
+                            alt="trashIcon"
                             className="deletebtn"
                             onClick={() => handleDeleteButtonClick(schedule.schNo)}
                         />
