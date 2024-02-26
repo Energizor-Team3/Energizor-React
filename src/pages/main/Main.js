@@ -103,6 +103,7 @@ function Main() {
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_approval}>
                         <h1>결재</h1>
+                        <ApprovalSubHeader/>
                     </div>
                     <div className={MainCSS.main_board}>
                         <h1>내 게시판</h1>

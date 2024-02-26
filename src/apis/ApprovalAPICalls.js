@@ -14,25 +14,46 @@ import {
     GET_APPROVAL_SAVEINBOX,
     GET_APPROVAL_FINDUSERDETAIL,
     GET_APPROVAL_APPROVALCOMPLETE,
-    POST_APPROVAL_INSERTPROXY
+    POST_APPROVAL_INSERTPROXY,
+    DELETE_APPROVAL_DELETETEMPAPPROVAL
+    
 } from '../modules/ApprovalMainModule';
 import {
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
-    PUT_APPROVAL_APPROVEMENT
+    PUT_APPROVAL_APPROVEMENT,
+    GET_APPROVAL_SELECTPROXY,
+    PUT_APPROVAL_UPDATEPROXY,
+    GET_APPROVAL_REJECTION2
    
 } from '../modules/ApprovalsubModule';
 import {
     GET_APPROVAL_FINDLINEUSER,
-    PUT_APPROVAL_REJECTION
+    PUT_APPROVAL_REJECTION,
+    GET_APPROVAL_LINEDOCUMENTCOMPLETE,
+    GET_APPROVAL_TOTALDOCUMENT,
+    GET_APPROVAL_LINEDOCUMENT
    
 } from '../modules/ApprovalLineModule';
 import {
-    GET_APPROVAL_FINDRFUSER
+    GET_APPROVAL_FINDRFUSER,
+    GET_APPROVAL_RFDOCUMENTCOMPLETE,
+    GET_APPROVAL_RFDOCUMENT
    
 } from '../modules/ApprovalRfModule';
-
-
-
+import{
+    
+    GET_APPROVAL_INBOXAPPROVAL1,
+    POST_APPROVAL_INSERTSHAREDDOCUMENT
+} from'../modules/ApprovalHeaderModule';
+import{
+    
+    GET_APPROVAL_PROGRESS1,
+    GET_APPROVAL_TOTALDOCUMENTPROCEEDING
+    
+} from'../modules/ApprovalHeaderSubModule';
+import{
+    GET_APPROVAL_SELECTFILE
+} from'../modules/ApprovalFileModule';
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -58,6 +79,80 @@ export const callInboxApprovalAPI = () => {
     };
 }
 
+// 첨부 파일 조회
+export const callSelectFileAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectfile/${documentCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?', documentCode);
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectFileAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTFILE,  payload: result.data });
+        
+    };
+}
+
+
+// 해더용 결재 해야할 문서 갯수 가져오기
+export const callInboxApprovalHeaderAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/inboxApproval`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInboxApprovalHeaderAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_INBOXAPPROVAL1,  payload: result.data });
+        
+    };
+}
+
+// 해더용 내 문서 갯수 가져오기
+export const callTotalDocumentAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/totaldocument`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callTotalDocumentAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_TOTALDOCUMENT,  payload: result.data });
+        
+    };
+}
+
+
 // 결재 완료된 문서
 export const callApprovalCompleteAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComplete`;
@@ -78,6 +173,78 @@ export const callApprovalCompleteAPI = () => {
         console.log('[ApprovalAPICalls] callApprovalCompleteAPI RESULT : ', result);
 
         dispatch({ type: GET_APPROVAL_APPROVALCOMPLETE,  payload: result.data });
+        
+    };
+}
+
+// 기안한 문서 중에 반려된 문서 조회
+export const callRejection2API = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/rejection`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callRejection2API RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_REJECTION2,  payload: result.data });
+        
+    };
+}
+
+// 결재한 문서중에 완료된 문서
+export const callLineDocumentCompleteAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/linedocumentcomplete`;
+
+    return async (dispatch, getState) => {
+        console.log('결재한 문서중에 완료된 문서?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callLineDocumentCompleteAPI  RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_LINEDOCUMENTCOMPLETE,  payload: result.data });
+        
+    };
+}
+
+// 해더용 결재 완료된 문서
+export const callApprovalCompleteHeaderAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalProgress`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callApprovalCompleteHeaderAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_PROGRESS1,  payload: result.data });
         
     };
 }
@@ -108,6 +275,31 @@ export const callSaveInBoxAPI = () => {
     };
 }
 
+// 임시저장 문서 삭제
+export const callDeleteTempApprovalAPI = (documentCodes) => {
+    const queryParams = documentCodes.map(dc => `documentCode=${dc}`).join('&');
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/deleteTempApproval?${queryParams}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?',documentCodes);
+        
+        const result = await fetch(requestURL, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callDeleteTempApprovalAPI RESULT : ', result);
+
+        dispatch({ type: DELETE_APPROVAL_DELETETEMPAPPROVAL,  payload: result});
+        
+    };
+}
+
 
 // 공유문서함
 export const callSharedInBoxAPI = () => {
@@ -132,6 +324,7 @@ export const callSharedInBoxAPI = () => {
         
     };
 }
+// 기안한 문서중 진행중인 문서
 
 export const callApprovalingAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalProgress`;
@@ -152,6 +345,79 @@ export const callApprovalingAPI = () => {
         console.log('[ApprovalAPICalls] callApprovalingAPI RESULT : ', result);
 
         dispatch({ type: GET_APPROVAL_Progress,  payload: result.data });
+        
+    };
+}
+
+// 기안한 문서중 진행중인 문서
+
+export const callTotalDocumentProceedingAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/totaldocumentproceeding`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callTotalDocumentProceedingAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_TOTALDOCUMENTPROCEEDING,  payload: result.data });
+        
+    };
+}
+
+// 참조받은 문서중 진행중인 문서
+export const callRfDocumentAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/rfdocument`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callRfDocumentAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_RFDOCUMENT,  payload: result.data });
+        
+    };
+}
+
+// 결재한 문서중 진행중인 문서
+export const callLineDocumentAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/linedocument`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callLineDocumentAPI RESULT : ', result);
+
+        dispatch({ type: GET_APPROVAL_LINEDOCUMENT,  payload: result.data });
         
     };
 }
@@ -461,6 +727,53 @@ export const callSelectRfUserAPI = (documentCode) => {
         
     };
 }
+//문서 공유하기
+export const callShareDocumentAPI = (documentCode,userCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/insertSharedDocument/${documentCode}/${userCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callShareDocumentAPI RESULT 111: ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTSHAREDDOCUMENT,  payload: result });
+        
+    };
+}
+
+//참조받은 문서중 완료된 문서 조회
+export const callRfdocumentcompleteAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/rfdocumentcomplete`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callRfdocumentcompleteAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_RFDOCUMENTCOMPLETE,  payload: result.data });
+        
+    };
+} 
 
 //결재하기
 export const callApprovementAPI = (documentCode) => {
@@ -543,3 +856,53 @@ export const callInsertProxyAPI = ({form}) => {
     };
 }
 
+//대리 결재 위임 취소
+
+export const callUpdateProxyAPI = (proxyCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/updateProxy/${proxyCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        console.log(proxyCode,'api에서 폼이다');
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+        
+
+        console.log('[ApprovalAPICalls] callUpdateProxyAPI RESULT : ', result);
+
+        dispatch({ type: PUT_APPROVAL_UPDATEPROXY,  payload: result });
+        
+    };
+}
+
+
+
+export const callSelectProxyAPI = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/proxy`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTPROXY,  payload: result.data });
+        
+    };
+}

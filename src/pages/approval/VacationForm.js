@@ -2,10 +2,11 @@ import './Vacation.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI } from '../../apis/ApprovalAPICalls.js';
+import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI, callShareDocumentAPI } from '../../apis/ApprovalAPICalls.js';
 import ApprovalHeader from './approvalHeader'
 import { printDocument } from './pdf.js';
-
+import ApprovalGroup2 from './ApprovalGroup2.js';
+import FilePopup from './FilePopup.js';
 
 
 function VacationForm(){
@@ -24,6 +25,16 @@ function VacationForm(){
   console.log(approvalRf, 'approvalRf');
   console.log(approvalDetail, 'approvalDetail');
   console.log(userDetail, 'userDetail');
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const [popupContent, setPopupContent] = useState('');
+
+  const openPopupWithContent = (content) => {
+    setPopupContent(content);
+    setIsPopupOpen(true);
+  };
+
 
 
   if (approvalDetail && Array.isArray(approvalDetail?.document?.draftDay)) {
@@ -79,11 +90,23 @@ function VacationForm(){
   
 
   useEffect(() => {
-    dispatch(callSelectUserDetailAPI());
-    dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
-    dispatch(callSelectRfUserAPI(documentCodeData));
-    dispatch(callSelectLineUserAPI(documentCodeData));
-  },[])
+    async function fetchData() {
+      // 여러 데이터를 가져오는 비동기 함수들을 호출합니다.
+      await dispatch(callSelectUserDetailAPI());
+      await dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
+      await dispatch(callSelectRfUserAPI(documentCodeData));
+      await dispatch(callSelectLineUserAPI(documentCodeData));
+      // 데이터 로딩이 완료되면 로딩 상태를 false로 설정합니다.
+      setIsLoading(false);
+    }
+
+    fetchData();
+  }, [dispatch, documentCodeData]);
+
+  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const testBtn = () =>{
     const result = window.confirm("진행 하시겠습니까?")
@@ -105,6 +128,22 @@ function VacationForm(){
       alert('취소하셨습니다.')
     }
   }
+
+  const handleUserSelect = (code) => {
+    console.log(code);
+    if (userDetail.userCode === code) {
+      alert('문서 공유는 본인에게 안됩니다.');
+      return;
+    }
+
+    alert('문서 공유 완료')
+    dispatch(callShareDocumentAPI(documentCodeData,code));
+    }
+    // 조직도 띄우기
+    const toggleContent =() =>{
+      var og = document.getElementById("og");
+      og.classList.toggle("active");
+      }
 
     return(
         <div id="wrap">
@@ -139,6 +178,10 @@ function VacationForm(){
               <span>
               <button onClick={() => printDocument('pdf-content')}>PDF</button>
               </span>
+              <span>
+              <button onClick={toggleContent} >공유하기</button>
+              </span>
+              <span><button onClick={() => openPopupWithContent(documentCodeData)}>첨부파일</button></span>
             </div>
         </div>
       </div>
@@ -312,8 +355,10 @@ function VacationForm(){
         
       </div>
       <div className='og' id='og' >
-        
+      <ApprovalGroup2 onUserSelect={handleUserSelect} />
+
         </div>
+        <FilePopup isOpen={isPopupOpen} handleClose={() => setIsPopupOpen(false)} content={popupContent}/>
       </div>
     </div>
   </main>
