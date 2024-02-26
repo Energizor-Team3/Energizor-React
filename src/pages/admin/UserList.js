@@ -17,6 +17,8 @@ function UserList() {
     const [start, setStart] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageEnd, setPageEnd] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     const pageNumber = [];
     if (pageInfo) {
@@ -25,14 +27,26 @@ function UserList() {
         }
     }
 
+    const initiateSearch = () => {
+        setStart(0); // Reset to the first page or as needed
+        setCurrentPage(1); // Reset to the first page if your logic requires
+        dispatch(
+            callUserListAPI({
+                currentPage: 1, // Assuming you want to search from the first page
+                searchTerm: searchTerm,
+            })
+        );
+    };
+
     useEffect(() => {
         setStart((currentPage - 1) * 5);
         dispatch(
             callUserListAPI({
                 currentPage: currentPage,
+                searchTerm: searchTerm,
             })
         );
-    }, [currentPage]);
+    }, [currentPage, searchTerm]);
 
     console.log('userList', userList);
     console.log('userListContent', userListContent);
@@ -95,7 +109,15 @@ function UserList() {
                             <div className="search_box">
                                 <input
                                     type="search"
-                                    placeholder="사번, 직원명을 입력하세요."
+                                    placeholder="직원명을 입력하세요."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            console.log('검색!!!!');
+                                            initiateSearch(); 
+                                        }
+                                    }}
                                 />
                             </div>
                         </div>

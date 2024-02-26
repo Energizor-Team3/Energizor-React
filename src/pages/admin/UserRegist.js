@@ -116,12 +116,6 @@ function UserRegist() {
                     <div className="subject">
                         <strong>직원 등록</strong>
                         <div className="line">
-                            <div className="search_box">
-                                {/* <input
-                                    type="search"
-                                    placeholder="사번, 직원명을 입력하세요."
-                                /> */}
-                            </div>
                         </div>
                     </div>
 
