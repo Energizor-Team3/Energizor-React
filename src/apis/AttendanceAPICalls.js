@@ -66,6 +66,7 @@ export const callAttendancePOSTAPI = ({ form }) => {
                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 },
                 body: JSON.stringify({
+                    cCode: form.cCode,
                     cStartTime: form.cStartTime,
                     cEndTime: form.cEndTime,
                     cState: form.cState,

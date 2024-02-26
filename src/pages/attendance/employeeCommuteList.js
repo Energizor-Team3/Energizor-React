@@ -1,46 +1,72 @@
-// (컴포넌트 파일)
-
+import "./attendance.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { decodeJwt } from "../../utils/tokenUtils";
 import { callEmployeeAPI } from "../../apis/AttendanceAPICalls";
+import { decodeJwt } from "../../utils/tokenUtils";
 
-import "./attendance.css";
 
 function EmployeeCommute() {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const params = useParams();
     const employee = useSelector((state) => state.attendanceReducer);
+    
+    const [currentDate, setCurrentDate] = useState(new Date());
 
-    console.log('employee', employee);
+
+    const formatDate = (date) => {
+        const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
+        const formattedDate = date.toLocaleString('ko-KR', options);
+        return formattedDate.replace('.', '-');
+    };
+
+    let formatdate;
+
+    if (employee && Array.isArray(employee)) {
+        const formatedDate = employee.map((item) => Array.isArray(item.cDate) ? item.cDate.join('-') : item.cDate);
+        formatdate = formatedDate.join('-');
+    }
+            console.log(formatdate);
+
+        console.log('employee', employee);
+
+
+
+
+
+
+
+
 
     useEffect(() => {
     dispatch(
         callEmployeeAPI({
-        userCode: params.userCode,
+            userCode: params.userCode,
         })
     );
     }, []);
+
+
+
+
+
+
+
 
     return (
         <div id="wrap">
             <section>
                 <article>
                     <h2 className="attendance">근태관리</h2>
-
-                    <div>
-                        <button className="btn">근태 등록</button>
-                    </div>
-
                     <a href="/attendance/all-users-list">
                         <div id='attendance_employee' style={{ color: "#415CBE" }}>
                             <img src='/attendance/Attendance.png' alt=''/>
                             <span>전직원 출근부</span>
                         </div>
                     </a>
-                    <a href="/attendance/user-list/{userCode}">
+                    <a href="/attendance/user-list/1">
                         <div id="attendance_commute">
                             <img src='/attendance/Attendance.png' alt=''/>
                             <span>내 출근부</span>
@@ -56,11 +82,6 @@ function EmployeeCommute() {
                         <div className="line" />
                     </div>
                     <div className="select_line">
-                    {/* <select name="messageLead">
-                                <option value="전체">전체</option>
-                                <option value="읽음">읽음</option>
-                                <option value="안읽음">안읽음</option>
-                            </select> */}
                     </div>
 
                     {/* -------------------------------------------------------------------------------------------- */}
@@ -84,7 +105,7 @@ function EmployeeCommute() {
                         <span className="e233_2880">19:30</span>
                         <span className="e233_1679">퇴근</span>
                         <div className="e233_1684" />
-                        <span className="e233_2877">2024-02-29 (THU)</span>
+                        <span className="e233_2877">{formatDate(currentDate)}</span>
                     </div>
                     <h2 style={{ textAlign: "center", paddingTop: 200 }}>2024-02</h2>
 
@@ -92,31 +113,24 @@ function EmployeeCommute() {
                         <thead>
                             <tr>
                                 <th>직원</th>
-                                <th>날짜</th>
                                 <th>근태상태</th>
+                                <th>날짜</th>
                                 <th>출근시간</th>
                                 <th>퇴근시간</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(employee) && employee.map((employeeList, index) => (
+                            {Array.isArray(employee) && employee.map((employeeData, index) => (
                                 <tr key={index}>
-                                    {/* <td>{employeeList?.userCode}</td> */}
-                                    <td>{employeeList?.userName}</td>
-                                    <td>{employeeList.cDate}</td>
-                                    <td>{employeeList.cStartTime}</td>
-                                    <td>{employeeList.cEndTime}</td>
-                                    <td>{employeeList.cStete}</td>
-                                    {/* <td>{employeeList.cCode}</td> */}
+                                    <td>{employeeData.userName}</td>
+                                    <td>{employeeData.cDate}</td>
+                                    <td>{employeeData.cStartTime}</td>
+                                    <td>{employeeData.cEndTime}</td>
+                                    <td>{employeeData.cState}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-
-                    {/* <select name="page_number_choice" id="page_number_choice">
-                        <option value="" />
-                    </select>
-                    <label className="page_number_choice_text" htmlFor="page_number_choice">페이지당 항목수</label> */}
                 </div>
             </main>
         </div>

@@ -53,7 +53,7 @@ function Header() {
                     <span style={spanStyle}>전자결재</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/attendance/all-users-list">
                         <img src="/common/Attendance.png" alt="" />
                     </a>
                     <span style={spanStyle}>근태관리</span>
@@ -65,7 +65,7 @@ function Header() {
                     <span style={spanStyle}>일정관리</span>
                     </div>
                     <div>
-                    <a href="/group">
+                    <a href="/contact/company-list">
                         <img src="/common/Address.png" alt="" />
                     </a>
                     <span style={spanStyle}>주소록</span>

@@ -13,8 +13,8 @@ export const PUT_ATTENDACE_COMMUTE = 'attendace/end-register/PUT_ATTENDACE_COMMU
 const actions = createActions({
     [GET_EMPLOYEE_COMMUTE]: () => {},
     [GET_ATTENDANCE_COMMUTE]: () => {},
-    [POST_ATTENDANCE_COMMUTE]: () => {},
-    [PUT_ATTENDACE_COMMUTE]: () => {}
+    [POST_ATTENDANCE_COMMUTE]: (data) => ({ data }),
+    [PUT_ATTENDACE_COMMUTE]: (data) => ({ data })
 });
 
 // 리듀서
@@ -27,10 +27,10 @@ const attendanceReducer = handleActions(
             return payload;
         },
         [POST_ATTENDANCE_COMMUTE]: (state, { payload }) => {
-            return payload;
+            return state;
         },
         [PUT_ATTENDACE_COMMUTE]: (state, { payload }) => {
-            return payload;
+            return state;
         }
     }, initialState
 );

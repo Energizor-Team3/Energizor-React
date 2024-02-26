@@ -63,28 +63,15 @@ function PersonalContact() {
         setIsDetailOpen(false);
     };
 
-    // const editContactHandler = (editedContact) => {
-    //     dispatch(callPersonalPUTAPI(editedContact));
-    //     setIsDetailOpen(false);
-    // };
     const editContactHandler = (editedContact) => {
         dispatch(callPersonalPUTAPI({ pcCode: editedContact.pcCode, form: editedContact }));
         setIsDetailOpen(false);
     };
 
-
     const deleteContactHandler = () => {
         dispatch(callPersonalDELETEAPI(selectedContact.pcCode));
         setIsDetailOpen(false);
     };
-
-    /* 지울예정 */
-    // const navigate = useNavigate();
-    // const params = useParams();
-    // const personalList = contactList.data;
-    // const token = decodeJwt(window.localStorage.getItem("accessToken"));
-    // console.log('contact', contactList);
-
 
     return (
         <div id='wrap'>
@@ -166,7 +153,7 @@ function PersonalContact() {
                         closeModal={closeDetailModalHandler}
                         contact={selectedContact}
                         handleEdit={editContactHandler}
-                        handleDelete={deleteContactHandler} // deleteContactHandler 함수를 모달에 전달한다.
+                        handleDelete={deleteContactHandler}
                     />
                 </div>
             </main>

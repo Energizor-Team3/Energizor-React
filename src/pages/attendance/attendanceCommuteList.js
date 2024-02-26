@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { decodeJwt } from "../../utils/tokenUtils";
-import { callEmployeeAPI } from "../../apis/AttendanceAPICalls";
+import { callAttendancePOSTAPI, callAttendancePUTAPI, callAttendanceAPI } from "../../apis/AttendanceAPICalls";
+import AttendanceDetailModal from "./AttendanceDetailModal";
 
 import "./attendance.css";
 
@@ -13,14 +14,43 @@ function AttendanceCommute() {
     const navigate = useNavigate();
     const params = useParams();
     const attendance = useSelector((state) => state.attendanceReducer);
+    const [isModalOpen, setIsModalOpen] = useState(false);  // 모달 상태를 관리하는 useState
+
+
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     useEffect(() => {
-    dispatch(
-        callEmployeeAPI({
-        userCode: params.userCode,
-        })
-    );
+        const timer = setInterval(() => {
+        setCurrentDate(new Date());
+        }, 1000); // 1초마다 현재 시간 업데이트
+
+        return () => clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머 정리
     }, []);
+    const formatDate = (date) => {
+        const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
+        const formattedDate = date.toLocaleString('ko-KR', options);
+        return formattedDate.replace('.', '-');
+    };
+
+
+    useEffect(() => {
+        // 출퇴근 기록 조회
+        dispatch(callAttendanceAPI({userCode: params.userCode,}));
+    }, []);
+
+        // 모달 보이기 함수
+        const openModal = () => {
+            console.log("모달이 열립니다.");
+            setIsModalOpen(true);
+        };
+    
+        // 모달 숨기기 함수
+        const closeModal = () => {
+            setIsModalOpen(false);
+        };
+
+        
+
 
     return (
         <div id="wrap">
@@ -28,9 +58,7 @@ function AttendanceCommute() {
                 <article>
                     <h2 className="attendance">근태관리</h2>
 
-                    {/* <div>
-                        <button className="btn">근태등록</button>
-                    </div> */}
+
 
                     <a href="/attendance/all-users-list">
                         <div id='attendance_employee' >
@@ -38,12 +66,21 @@ function AttendanceCommute() {
                             <span>전직원 출근부</span>
                         </div>
                     </a>
-                    <a href="/attendance/user-list/{userCode}">
+                    
+                    <a href="/attendance/user-list/1">
                         <div id="attendance_commute" style={{ color: "#415CBE" }}>
                             <img src='/attendance/Attendance.png' alt=''/>
                             <span>내 출근부</span>
                         </div>
                     </a>
+
+
+
+                    <div>
+                    <button className="btn" onClick={openModal}>근태 등록</button>
+                    
+                    {isModalOpen && <AttendanceDetailModal setIsModalOpen={setIsModalOpen}/>}
+                    </div>
                 </article>
             </section>
 
@@ -82,7 +119,8 @@ function AttendanceCommute() {
                         <span className="e233_2880">19:30</span>
                         <span className="e233_1679">퇴근</span>
                         <div className="e233_1684" />
-                        <span className="e233_2877">2024-02-29 (THU)</span>
+                        <span className="e233_2877">{formatDate(currentDate)}</span>
+                        {/* <span className="e233_2877">2024-02-29 (THU)</span> */}
                     </div>
                     <h2 style={{ textAlign: "center", paddingTop: 200 }}>2024-02</h2>
 
@@ -90,7 +128,7 @@ function AttendanceCommute() {
                         <thead>
                             <tr>
                                 <th>직원</th>
-                                <th>부서</th>
+                                {/* <th>부서</th> */}
                                 <th>날짜</th>
                                 <th>근태상태</th>
                                 <th>출근시간</th>
@@ -98,23 +136,18 @@ function AttendanceCommute() {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(attendance) && attendance.map((attendanceList) => (
-                                <tr key={attendanceList?.userCode}>
+                            {Array.isArray(attendance) && attendance.map((attendanceList, index) => (
+                                <tr key={index}>
                                 {/* <td><input type="checkbox"></td> */}
+                                    <td>{attendanceList?.userName}</td>
                                     <td>{attendanceList?.cDate}</td>
                                     <td>{attendanceList?.cStartTime}</td>
                                     <td>{attendanceList?.cEndTime}</td>
                                     <td>{attendanceList?.cState}</td>
-                                    <td>{attendanceList?.cCode}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-
-                    {/* <select name="page_number_choice" id="page_number_choice">
-                        <option value="" />
-                    </select>
-                    <label className="page_number_choice_text" htmlFor="page_number_choice">페이지당 항목수</label> */}
                 </div>
             </main>
         </div>
