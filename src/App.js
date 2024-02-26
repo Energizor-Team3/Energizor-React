@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
+
 import Sublayout from "./layouts/SubLayout";
 import Login from "./pages/user/Login";
 import Main from "./pages/main/Main";
@@ -16,6 +17,8 @@ import InterestList from "./pages/board/InterestList";
 import TemporaryList from "./pages/board/TemporaryList";
 import SearchBoard from "./pages/board/List";
 import TempBoardRegister from "./pages/board/TempRegister";
+import Group from "./pages/group/Group";
+import Message from "./pages/message/Message";
 import Group from "./pages/group/Group";
 import ApprovalMain from "./pages/approval/ApprovalMain";
 import BusinessTrip from "./pages/approval/BusinessTrip";
@@ -62,10 +65,10 @@ function App() {
           <Route path="/searchpwdemail" element={<SearchPwdEmail />} />
 
           <Route path="/" element={<Sublayout />}>
-	    {/* 메인 */}
+	          {/* 메인 */}
             <Route path="/main" element={<Main />} />
 
-	    {/* 게시판 */}
+	          {/* 게시판 */}
             <Route path="list/:boardTypeCode" element={<List />} />
             <Route path="/board" element={<BoardList />} />
             <Route path="/board/edit" element={<BoardRegister />} />
@@ -74,14 +77,25 @@ function App() {
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList />} />
             <Route path="/board/interest_list" element={<InterestList />} />
-            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
+            <Route
+              path="list/:boardTypeCode/:type/:keyword"
+              element={<SearchBoard />}
+            />
 
-	    {/* 관리자, 마이페이지 */}
+            {/* 관리자, 마이페이지 */}
             <Route path="/userlist" element={<UserList />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/userregist" element={<UserRegist />} />
             <Route path="/modifyuser/:userCode" element={<ModifyUser />} />
-	    <Route path="/changepwd" element={ <ChangePwd/> } />
+	          <Route path="/changepwd" element={ <ChangePwd/> } />
+
+
+            {/* 조직도 */}
+            <Route path="/group" element={<Group />} />
+
+            {/* 쪽지 */}
+            <Route path="/message" element={<Message />} />
+
 
             {/* 결재 */}
             <Route path="/generaldraft" element={<GeneralDraft />} />
@@ -100,6 +114,7 @@ function App() {
             <Route path="/vacationform" element={<VacationForm />} />
             <Route path="/group" element={<Group />} />
 
+
             {/* 자원예약 */}
             <Route path="/reservationdetails" element={<ReservationDetails />} />
             <Route path="/reservationapply" element={<ReservationApply />} />
@@ -116,11 +131,11 @@ function App() {
             <Route path="/project/:proNo" element={<ProjectDetail />} />
             <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
 
-                        {/*근태관리, 주소록 */}
-          <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
-          <Route path="/contact/company-list" element={ <CompanyContact/> }/>
-          <Route path="/attendance/user-list/:userCode" element={ <AttendanceCommute/> }/>
-          <Route path="/attendance/all-users-list" element={ <EmployeeCommute/> }/>
+            {/*근태관리, 주소록 */}
+            <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
+            <Route path="/contact/company-list" element={ <CompanyContact/> }/>
+            <Route path="/attendance/user-list/:userCode" element={ <AttendanceCommute/> }/>
+            <Route path="/attendance/all-users-list" element={ <EmployeeCommute/> }/>
 
           </Route>
         </Routes>
