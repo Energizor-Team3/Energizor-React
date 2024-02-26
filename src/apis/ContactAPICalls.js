@@ -1,33 +1,10 @@
 import {
-    GET_PERSONAL_CONTACT,
     GET_COMPANY_CONTACT,
+    GET_PERSONAL_CONTACT,
     POST_PERSONAL_CONTACT,
     PUT_PERSONAL_CONTACT,
     DELETE_PERSONAL_CONTACT
 } from '../modules/ContactModule';
-
-// 개인 연락처 조회
-export const callPersonalAPI = ({ userCode }) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/contact/personal-list/${userCode}`;
-
-    return async (dispatch, getState) => {
-        try {
-            const result = await fetch ( requestURL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: '*/*',
-                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-                },
-            }).then((response) => response.json());
-    
-            console.log('[ContactAPICalls] callPersonalAPI RESULT : ', result);
-            dispatch({type: GET_PERSONAL_CONTACT, payload: result.data});
-        } catch (error) {
-            console.error('Error fetchng personal contacts:', error);
-        }
-    };
-};
 
 // 회사 연락처 조회
 export const callCompanyAPI = () => {
@@ -48,6 +25,29 @@ export const callCompanyAPI = () => {
             dispatch({type: GET_COMPANY_CONTACT, payload: result.data});
         } catch (error) {
             console.error('Error fetching company contacts:', error);
+        }
+    };
+};
+
+// 개인 연락처 조회
+export const callPersonalAPI = ({ userCode }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/contact/personal-list/${userCode}`;
+
+    return async (dispatch, getState) => {
+        try {
+            const result = await fetch ( requestURL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: '*/*',
+                    Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+                },
+            }).then((response) => response.json());
+    
+            console.log('[ContactAPICalls] callPersonalAPI RESULT : ', result);
+            dispatch({type: GET_PERSONAL_CONTACT, payload: result.data});
+        } catch (error) {
+            console.error('Error fetching personal contacts:', error);
         }
     };
 };

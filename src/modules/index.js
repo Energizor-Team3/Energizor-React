@@ -26,6 +26,11 @@ import groupAdminReducer from "./GroupAdminModule";
 import approvalFileReducer from "./ApprovalFileModule";
 
 
+import { combineReducers } from 'redux';
+import userReducer from './UserModule';
+import projectReducer from './ProjectModule';
+import contactReducer from './ContactModule';
+import attendanceReducer from './AttendanceModule';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -55,6 +60,10 @@ const rootReducer = combineReducers({
   approvalHeaderReducer,
   approvalHeaderSubReducer,
   approvalFileReducer,
+    userReducer,
+    projectReducer,
+    contactReducer,
+    attendanceReducer
 });
 
 export default rootReducer;

@@ -54,7 +54,7 @@ function Header() {
                     <span style={spanStyle}>전자결재</span>
                     </div>
                     <div>
-                    <a href="/calendar">
+                    <a href="/attendance/all-users-list">
                         <img src="/common/Attendance.png" alt="" />
                     </a>
                     <span style={spanStyle}>근태관리</span>

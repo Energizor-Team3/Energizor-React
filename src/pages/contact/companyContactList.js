@@ -1,10 +1,10 @@
-// Contact.js (컴포넌트 파일)
+// (컴포넌트 파일)
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { decodeJwt } from '../../utils/tokenUtils';
-import { callCompanyAPI, callContactAPI } from '../../apis/ContactAPICalls';
+import { callCompanyAPI } from '../../apis/ContactAPICalls';
 
 import './contact.css';
 
@@ -77,7 +77,7 @@ function CompanyContact() {
                         <h3 style={{ textAlign: 'center' }}>2024-02</h3>
                     </div> */}
 
-                    <table className='table table-hover' id='listArea'>
+                    <table className='table_co' id='listArea'>
                         <thead>
                             <tr>
                                 {/* <th>#</th> */}

@@ -63,28 +63,15 @@ function PersonalContact() {
         setIsDetailOpen(false);
     };
 
-    // const editContactHandler = (editedContact) => {
-    //     dispatch(callPersonalPUTAPI(editedContact));
-    //     setIsDetailOpen(false);
-    // };
     const editContactHandler = (editedContact) => {
         dispatch(callPersonalPUTAPI({ pcCode: editedContact.pcCode, form: editedContact }));
         setIsDetailOpen(false);
     };
 
-
     const deleteContactHandler = () => {
         dispatch(callPersonalDELETEAPI(selectedContact.pcCode));
         setIsDetailOpen(false);
     };
-
-    /* 지울예정 */
-    // const navigate = useNavigate();
-    // const params = useParams();
-    // const personalList = contactList.data;
-    // const token = decodeJwt(window.localStorage.getItem("accessToken"));
-    // console.log('contact', contactList);
-
 
     return (
         <div id='wrap'>
@@ -97,7 +84,8 @@ function PersonalContact() {
                             <span>회사 주소록</span>
                         </div>
                     </a>
-                    <a href="http://localhost:3000/contact/personal-list/1">
+                    
+                    <a href="/contact/personal-list/{userCode}">
                         <div id="personal_contact" style={{ color: "#415CBE" }}>
                             <img src='/contact/address.png' alt=''/>
                             <span>개인 주소록</span>
@@ -113,7 +101,7 @@ function PersonalContact() {
                         <div className="line"></div>
                     </div>
 
-                    <table className='table table-hover' id='listArea'>
+                    <table className='table_co' id='listArea'>
                         <thead>
                             <tr>
                                 <th>이름</th>
@@ -165,7 +153,7 @@ function PersonalContact() {
                         closeModal={closeDetailModalHandler}
                         contact={selectedContact}
                         handleEdit={editContactHandler}
-                        handleDelete={deleteContactHandler} // deleteContactHandler 함수를 모달에 전달한다.
+                        handleDelete={deleteContactHandler}
                     />
                 </div>
             </main>
