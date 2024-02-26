@@ -17,7 +17,6 @@ function MyPage() {
     }, []);
 
     useEffect(() => {
-        // myInfo의 profilePath가 변경될 때마다 profileImagePath 상태 업데이트
         const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
         setProfileImagePath(newPath);
     }, [myInfo.profilePath]);
