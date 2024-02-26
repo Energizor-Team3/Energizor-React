@@ -18,7 +18,7 @@ function UserList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageEnd, setPageEnd] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
-
+    const [showRetired, setShowRetired] = useState(false);
 
     const pageNumber = [];
     if (pageInfo) {
@@ -106,7 +106,19 @@ function UserList() {
                     <div className="subject">
                         <strong>전직원 목록</strong>
                         <div className="line">
+                            
+
                             <div className="search_box">
+                                <div className="retiredEmp">
+                                    <input
+                                        type="checkbox"
+                                        className="retiredCheck"
+                                        checked={showRetired}
+                                        onChange={(e) => setShowRetired(e.target.checked)}
+                                    />
+                                    <label> 퇴사자 보기</label>
+                                    <span></span>
+                                </div>
                                 <input
                                     type="search"
                                     placeholder="직원명을 입력하세요."
@@ -115,7 +127,7 @@ function UserList() {
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                             console.log('검색!!!!');
-                                            initiateSearch(); 
+                                            initiateSearch();
                                         }
                                     }}
                                 />
@@ -139,28 +151,34 @@ function UserList() {
                         </thead>
                         <tbody>
                             {Array.isArray(userListContent) &&
-                                userListContent.map((user) => (
-                                    <tr
-                                        key={user?.userCode}
-                                        className="user-row"
-                                        onClick={() => handleUserClick(user.userCode)}
-                                    >
-                                        <td>{user?.userId}</td>
-                                        <td>{user?.userName}</td>
-                                        <td>{user?.team?.teamName}</td>
-                                        <td>{user?.phone}</td>
-                                        <td>{user?.email}</td>
-                                        <td>{moment.utc(user.entDate).format('YYYY-MM-DD')}</td>
-                                        <td>{user?.dayoff?.offCount}</td>
-                                        <td>{user?.dayoff?.offUsed}</td>
-                                        <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
-                                        <td>
-                                            {moment.utc(user.resignDate).format('YYYY-MM-DD') === '9999-12-31'
-                                                ? '재직 중'
-                                                : moment(user.resignDate).format('YYYY-MM-DD')}
-                                        </td>
-                                    </tr>
-                                ))}
+                                userListContent
+                                    .filter((user) => {
+                                        return showRetired
+                                            ? moment.utc(user.resignDate).format('YYYY-MM-DD') !== '9999-12-31'
+                                            : true;
+                                    })
+                                    .map((user) => (
+                                        <tr
+                                            key={user?.userCode}
+                                            className="user-row"
+                                            onClick={() => handleUserClick(user.userCode)}
+                                        >
+                                            <td>{user?.userId}</td>
+                                            <td>{user?.userName}</td>
+                                            <td>{user?.team?.teamName}</td>
+                                            <td>{user?.phone}</td>
+                                            <td>{user?.email}</td>
+                                            <td>{moment.utc(user.entDate).format('YYYY-MM-DD')}</td>
+                                            <td>{user?.dayoff?.offCount}</td>
+                                            <td>{user?.dayoff?.offUsed}</td>
+                                            <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
+                                            <td>
+                                                {moment.utc(user.resignDate).format('YYYY-MM-DD') === '9999-12-31'
+                                                    ? '재직 중'
+                                                    : moment(user.resignDate).format('YYYY-MM-DD')}
+                                            </td>
+                                        </tr>
+                                    ))}
                         </tbody>
                     </table>
 
