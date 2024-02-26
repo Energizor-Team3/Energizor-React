@@ -9,6 +9,8 @@ export const POST_TEAM_INSERT  = 'group/POST_TEAM_INSERT';
 export const POST_DEPT_UPDATE = 'group/POST_DEPT_UPDATE';
 export const POST_TEAM_UPDATE = 'group/POST_TEAM_UPDATE';
 export const POST_DEPT_DELETE = 'group/POST_DEPT_DELETE';
+export const POST_TEAM_DELETE = 'group/POST_TEAM_DELETE';
+export const GET_LOGIN_USER = 'group/GET_LOGIN_USER';
 
 
 const actions = createActions({
@@ -17,7 +19,8 @@ const actions = createActions({
     [POST_DEPT_UPDATE]: () => {},
     [POST_TEAM_UPDATE]: () => {},
     [POST_DEPT_DELETE]: () => {},
-
+    [POST_TEAM_DELETE]: () => {},
+    [GET_LOGIN_USER]: () => {},
     
 });
 
@@ -43,6 +46,14 @@ const groupAdminReducer = handleActions(
             return payload;
         },
         [POST_DEPT_DELETE]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [POST_TEAM_DELETE]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [GET_LOGIN_USER]: (state, { payload }) => {
             
             return payload;
         }
