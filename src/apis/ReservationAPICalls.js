@@ -154,7 +154,7 @@ export const callReservationInsertAPI = (formData) => {
           Accept: "*/*",
           Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
         },
-        body: JSON.stringify(formData), // 폼 데이터를 요청에 포함
+        body: JSON.stringify(formData),
       }).then((response) => response.json());
 
       console.log("[ReservationAPICall] callReservationInsertAPI RESULT : ", result);
