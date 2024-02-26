@@ -68,7 +68,7 @@ function ReservationMain() {
           <div className="meeting-room-container">
             <div className="meeting-room-box">
               <img
-                src="/public/reservation/meetingRoom (1).png"
+                src="/reservation/meetingRoom1.png"
                 alt="Meeting Room 1"
                 className="meeting-room-image"
               />
@@ -79,7 +79,7 @@ function ReservationMain() {
             </div>
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (2).png"
+                src="/reservation/meetingRoom2.png"
                 alt="Meeting Room 2"
                 className="meeting-room-image"
               />
@@ -90,7 +90,7 @@ function ReservationMain() {
             </div>
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (3).png"
+                src="/reservation/meetingRoom3.png"
                 alt="Meeting Room 3"
                 className="meeting-room-image"
               />
