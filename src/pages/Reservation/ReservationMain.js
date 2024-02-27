@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from "react-redux";
-import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
+import { callReservationInsertAPI, callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
 import { useEffect, useState } from "react";
 import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
 import { Link } from "react-router-dom";
