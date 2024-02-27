@@ -68,7 +68,7 @@ function ReservationMain() {
           <div className="meeting-room-container">
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (1).jpg"
+                src="/reservation/meetingRoom1.jpg"
                 alt="Meeting Room 1"
                 className="meeting-room-image"
               />
@@ -79,7 +79,7 @@ function ReservationMain() {
             </div>
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (2).jpg"
+                src="/reservation/meetingRoom2.png"
                 alt="Meeting Room 2"
                 className="meeting-room-image"
               />
@@ -90,7 +90,7 @@ function ReservationMain() {
             </div>
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom (3).jpg"
+                src="/reservation/meetingRoom3.png"
                 alt="Meeting Room 3"
                 className="meeting-room-image"
               />
@@ -124,12 +124,17 @@ function ReservationMain() {
               events={reservationTotal.map((event) => {
                 // reservationDate 배열을 날짜 문자열로 변환
                 const year = event.reservationDate[0];
-                const month = event.reservationDate[1].toString().padStart(2, '0'); // 월을 2자리 숫자로 만듦
-                const day = event.reservationDate[2].toString().padStart(2, '0'); // 일을 2자리 숫자로 만듦
+                const month = event.reservationDate[1]
+                  .toString()
+                  .padStart(2, "0"); // 월을 2자리 숫자로 만듦
+                const day = event.reservationDate[2]
+                  .toString()
+                  .padStart(2, "0"); // 일을 2자리 숫자로 만듦
                 const isoDate = `${year}-${month}-${day}`;
-              
+
                 return {
-                  title: event.userCode.userName + " - " + event.reservationContent,
+                  title:
+                    event.userCode.userName + " - " + event.reservationContent,
                   start: isoDate + "T08:00:00",
                   end: isoDate + "T10:00:00",
                   color: getColorForMeetCode(event.meetCode.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요

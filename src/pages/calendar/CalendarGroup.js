@@ -50,7 +50,7 @@ function TreeNode({ name, children, depth, onUserSelect, userCode, selectedUserC
   );
 }
   
-function ApprovalGroup({ onUserSelect }) {
+function CalenderGroup({ onUserSelect }) {
   const dispatch = useDispatch();
   const groupAndTeam = useSelector((state) => state.groupReducer);
   const [selectedUserCode, setSelectedUserCode] = useState(null); // 현재 선택된 사용자의 코드를 상태로 관리합니다.
@@ -58,8 +58,9 @@ function ApprovalGroup({ onUserSelect }) {
   useEffect(() => {
     dispatch(callOrganizationAPI());
   }, [dispatch]);
+ 
 
-
+ 
 // teamList 안의 userList를 순회하여 children을 생성하는 함수
 const createUserListStructure = (userList) => {
 return userList.map(user => ({
@@ -91,20 +92,21 @@ const data = Array.isArray(groupAndTeam) ? [
 
     
   
-    // 결재 버튼과 참조 버튼의 클릭 핸들러에서 선택 유형을 onUserSelect에 전달합니다.
+
   const handleCParticipantClick = () => {
     if (selectedUserCode) { // 선택된 사용자가 있을 경우에만 실행
-      onUserSelect(selectedUserCode, 'approval');
+      onUserSelect(selectedUserCode,"calpart");
     }
+    
   };
 
 
   return (
-    <div className="group">
-      <div className="group_content">
-        <div className="group_list">
+    <div className="group2">
+      <div className="group_content2">
+        <div className="group_list2">
           {/* 나머지 마크업 */}
-          <div className="Group">
+          <div className="Group2">
             <TreeNode
               name={data[0].name}
               children={data[0].children}
@@ -115,7 +117,6 @@ const data = Array.isArray(groupAndTeam) ? [
           </div>
           <div className="approvalbtn3">
             <span><button onClick={handleCParticipantClick}>선택</button></span>
-
           </div>
         </div>
       </div>
@@ -123,4 +124,4 @@ const data = Array.isArray(groupAndTeam) ? [
   );
 }
 
-  export default ApprovalGroup;
+  export default CalenderGroup;

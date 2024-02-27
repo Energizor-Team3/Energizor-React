@@ -1,27 +1,4 @@
-
-
-              /* 
-                
-                
-                
-                캘린더 잔잔바리 빼고 완료 
-                잔잔바리 : 공휴일 띄우기, 페이지 들어올때 전체일정 기본적으로 체크되어 모든 일정 보이게, ㅇ
-                
-                
-            
-                
-                */
-
-            /* 
-                
-                
-                
-                일정 다 띄움, 이제 클릭했을때 토글 하나씩 만 나와야함 지금은 다나옴 
-                
-                
-            
-                
-                */
+ 
 import "./CalendarMain.css"
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -41,7 +18,7 @@ import {
 
 import calendarReducer from '../../modules/CalendarModule';
 import scheduleReducer from '../../modules/ScheduleModule';
-import EditSchedule from './editSchedule';
+ 
 
 
 
@@ -293,14 +270,14 @@ function CalendarMainPage(){
                         </div>
                         <div className="sch_btns">
                         <img
-                            src="/calendar/editIcon 1.png"
+                            src=" /calendar/editcon.png"
                             alt="editIcon"
                             className="editbtn"
                             onClick={() => handleEditButtonClick(schedule.schNo)}   
                         />
                         <img
-                            src="/calendar/trash 1.png"
-                            alt="editIcon"
+                            src="/calendar/caltrash.png"
+                            alt="trashIcon"
                             className="deletebtn"
                             onClick={() => handleDeleteButtonClick(schedule.schNo)}
                         />

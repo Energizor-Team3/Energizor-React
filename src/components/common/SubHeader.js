@@ -54,7 +54,7 @@ function Header() {
                         </a>
                     </div>
                     <div>
-                        <a href="/calendar">
+                        <a href="/attendance/all-users-list">
                             <img src="/common/Attendance.png" alt="" />
                             <span style={spanStyle}>근태관리</span>
                         </a>

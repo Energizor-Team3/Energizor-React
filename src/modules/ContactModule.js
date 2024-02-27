@@ -37,8 +37,7 @@ const contactReducer = handleActions(
         [DELETE_PERSONAL_CONTACT]: (state, { payload }) => {
             return payload;
         }
-    },
-    initialState
+    }, initialState
 );
 
 export default contactReducer;
