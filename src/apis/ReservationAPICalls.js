@@ -229,7 +229,8 @@ export const callReservationInsertAPI = ({ form }) => {
     meet: form.meetCode,
     member: form.member, // 배열 그대로 전송합니다.
     startTime: form.startTime,
-    endTime: form.endTime
+    endTime: form.endTime,
+    reservationDate: form.reservationDate,
   };
 
   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/reservation/create`;
@@ -252,6 +253,7 @@ export const callReservationInsertAPI = ({ form }) => {
       "[ReservationAPICalls]@@@@@@@@@@callReservationInsertAPI RESULT : ",
       result
     );
+    
 
     dispatch({ type: POST_RESERVATION_INSERT, payload: result });
   };

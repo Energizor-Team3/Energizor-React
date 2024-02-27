@@ -19,9 +19,11 @@ function ReservationApply() {
     startTime: "",
     endTime: "",
     member: [], // 수정: 초기값을 빈 배열로 설정
-    startDate: new Date(), // 시작 날짜를 현재 날짜로 초기화
-    endDate: new Date(), // 종료 날짜를 현재 날짜로 초기화
+    reservationDate: "" // 예약 날짜
+
   });
+
+  
 
   useEffect(() => {
     console.log(form);
@@ -38,14 +40,7 @@ function ReservationApply() {
   const handleSaveReservation = () => {
     // 예약 가능 여부 확인
     if (isReservationAvailable()) {
-      // 시작 날짜와 종료 날짜를 현재 날짜로 설정하지 않고 선택한 값으로 설정
-      const updatedForm = {
-        ...form,
-        startDate: form.startDate || new Date(),
-        endDate: form.endDate || new Date(),
-      };
-  
-      dispatch(callReservationInsertAPI({ form: updatedForm }));
+      dispatch(callReservationInsertAPI({ form }));
       // 예약이 완료되었습니다 알림창
       window.alert("예약이 완료되었습니다.");
       // 확인을 누르면 reservationmain으로 이동
@@ -104,6 +99,8 @@ function ReservationApply() {
       });
     }
   };
+
+  
 
   return (
     <div id="wrap">
@@ -196,20 +193,15 @@ function ReservationApply() {
                 </div>
               )}
 
-              <div>
-                <label htmlFor="startDate">시작 날짜:</label>
-                <DatePicker
-                  selected={form.startDate}
-                  onChange={(date) =>
-                    setForm({ ...form, startDate: date || new Date() })
-                  }
-                  minDate={new Date()}
-                  maxDate={
-                    new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
-                  } // 7 days ahead
-                  dateFormat="yyyy-MM-dd"
-                />
+<div>
+  <label htmlFor="reservationDate">예약 날짜:</label>
+  <DatePicker
+  selected={form.reservationDate}
+  onChange={(date) => setForm({ ...form, reservationDate: date })}
+  minDate={new Date()}
+  maxDate={new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)} // 7 days ahead
 
+/>
                 <label htmlFor="startTime">시작 시간:</label>
                 <select
                   value={form.startTime}
@@ -224,18 +216,7 @@ function ReservationApply() {
                   ))}
                 </select>
 
-                <label htmlFor="endDate">종료 날짜:</label>
-                <DatePicker
-                  selected={form.endDate}
-                  onChange={(date) =>
-                    setForm({ ...form, endDate: date || new Date() })
-                  }
-                  minDate={form.startDate}
-                  maxDate={
-                    new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
-                  } // 7 days ahead
-                  dateFormat="yyyy-MM-dd"
-                />
+               
 
                 <label htmlFor="endTime">종료 시간:</label>
                 <select
