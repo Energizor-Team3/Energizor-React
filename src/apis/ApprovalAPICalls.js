@@ -355,7 +355,7 @@ export const callTotalDocumentProceedingAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/totaldocumentproceeding`;
 
     return async (dispatch, getState) => {
-        console.log('들옴?');
+        console.log('기안한 문서중 진행중인 문서 들어왔니??');
         
         const result = await fetch(requestURL, {
             method: "GET",

@@ -33,6 +33,8 @@ function GeneraldraftForm(){
 
   const [popupContent, setPopupContent] = useState('');
 
+
+  
   const openPopupWithContent = (content) => {
     setPopupContent(content);
     setIsPopupOpen(true);

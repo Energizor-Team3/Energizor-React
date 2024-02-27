@@ -9,16 +9,17 @@ import {
   
     
     const dispatch = useDispatch();
-    const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer);
-    const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer);
-
-  
+    const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer || []);
+    const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer || "");
     const totalInbox  = useSelector((state) => state.approvalLineReducer);
+
     
   
     
-    console.log('inboxDocumentHeader',  inboxDocumentHeader );
-    console.log('totaldocumentproceeding',  totaldocumentproceeding );
+  
+    
+    console.log('inboxDocumentHeader',  inboxDocumentHeader.length );
+    console.log('기안한 문서중 진행중인 문서 들어왔냐',  totaldocumentproceeding );
     console.log('totalInbox',  totalInbox );
     
     
@@ -29,7 +30,8 @@ import {
       
       dispatch(callTotalDocumentAPI())
       dispatch(callTotalDocumentProceedingAPI())
-    },[])
+      
+    },[dispatch])
   
     
     

@@ -1,28 +1,76 @@
+/* 기본 배경 및 팝업 컨테이너 스타일 */
 .popup-overlay1 {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .popup-box1 {
-    background: white;
-    border-radius: 5px;
-    padding: 20px;
-    min-width: 300px;
-    z-index: 1001;
-  }
-  
-  .popup-close1 {
-    margin-top: 20px;
-  }
-  
-  .popup-content1 {
-    /* Content specific styles if needed */
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* 반투명한 검정색 배경 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* 다른 요소보다 위에 표시 */
+}
+
+/* 문서를 감싸는 요소 스타일 */
+.document-container {
+  max-width: 1000px; /* 변경된 최대 너비 */
+  overflow-x: auto; /* 문서가 너무 크면 가로 스크롤을 표시 */
+}
+
+
+/* 팝업 컨테이너 스타일 수정 */
+.popup-container1 {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 900px; /* 변경된 너비 */
+  position: relative;
+}
+
+/* 이미지 스타일 유지 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+/* 닫기 버튼 스타일 */
+.popup-close-btn1 {
+  background-color: #4f69c9; /* 메인 색상 2 */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px; /* 우측 마진 추가 */
+}
+
+/* 닫기 버튼에 hover 효과 추가 */
+.popup-close-btn1:hover {
+  background-color: #94A9FF; /* 메인 색상 1 */
+}
+
+/* 다운로드 버튼 스타일 */
+.popup-download-btn1 {
+  background-color: #94A9FF; /* 메인 색상 1 */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 다운로드 버튼에 hover 효과 추가 */
+.popup-download-btn1:hover {
+  background-color: #4f69c9; /* 메인 색상 2 */
+}
+
+/* 파일이 없을 때 텍스트 스타일 */
+p {
+  color: #333;
+  text-align: center;
+}

@@ -42,7 +42,7 @@ function ApprovalHeader(){
                 <span>
                   <a href="./approvalmain">결재할 문서</a>
                 </span>
-                <span className="listlist">{inboxDocumentHeader.length}</span>
+                <span className="listlist">{inboxDocumentHeader?.length}</span>
               </div>
             </li>
             <li className="subListText">

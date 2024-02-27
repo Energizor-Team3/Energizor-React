@@ -15,6 +15,7 @@ import approvalLineReducer from "./ApprovalLineModule";
 import approvalRfReducer from "./ApprovalRfModule";
 import approvalHeaderReducer from "./ApprovalHeaderModule";
 import approvalHeaderSubReducer from "./ApprovalHeaderSubModule";
+import approvalFileReducer from "./ApprovalFileModule";
 import reservationTotalReducer from "./ReservationTotalModules ";
 import contactReducer from "./ContactModule";
 import groupReducer from "./GroupModule";
@@ -29,7 +30,6 @@ import attendanceReducer from './AttendanceModule';
 
 const rootReducer = combineReducers({
   userReducer,
-  approvalReducer,
   reservationReducer,
   reservationAttendeeReducer,
   reservationModifyReducer,
@@ -37,19 +37,26 @@ const rootReducer = combineReducers({
   reservationTotalReducer,
   reservationInsertReducer,
   
-
+  
   groupReducer,
   groupUserReducer,
   groupDeptReducer,
   groupTeamReducer,
   groupAdminReducer,
-
+  
   projectReducer,
   calendarReducer,
   scheduleReducer,
+  
+  approvalReducer,
   approvalSubReducer,
   approvalLineReducer,
   approvalRfReducer,
+  approvalHeaderReducer,
+  approvalHeaderSubReducer,
+  approvalFileReducer,
+
+
   taskReducer,
 
  
