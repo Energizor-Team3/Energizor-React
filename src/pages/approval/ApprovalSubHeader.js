@@ -39,7 +39,7 @@ import {
         <div className="stats-box">
         <div className="stat-item">
           <div className="stat-label"><a href="./approvalmain">결재 대기</a></div>
-          <div className="stat-value"><a href="./approvalmain">{inboxDocumentHeader.length}</a></div>
+          <div className="stat-value"><a href="./approvalmain">{inboxDocumentHeader?.length}</a></div>
         </div>
         <div className="stat-item">
           <div className="stat-label"><a href="/approvaling">결재 진행</a></div>

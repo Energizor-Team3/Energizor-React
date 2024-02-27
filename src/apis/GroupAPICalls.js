@@ -8,34 +8,9 @@ import {
   POST_DEPT_UPDATE,
   POST_TEAM_UPDATE,
   POST_DEPT_DELETE,
+  POST_TEAM_DELETE,
+  GET_LOGIN_USER,
 } from "../modules/GroupAdminModule";
-// import { POST_LOGIN } from '../modules/UserModule';
-
-
-
-
-// export const callLoginAPI = ({ form }) => {
-//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/auth/login`;
-
-//   return async (dispatch, getState) => {
-//       // 클라이언트 fetch mode : no-cors 사용시 application/json 방식으로 요청이 불가능
-//       // 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP요청을 제한한다.
-//       // 서버에서 cors 허용을 해주어야 함
-//       const result = await fetch(requestURL, {
-//           method: 'POST',
-//           headers: {
-//               'Content-Type': 'application/json',
-//               Accept: '*/*',
-//           },
-//       }).then((response) => response.json());
-
-//       console.log('[UserAPICalls] callLoginAPI RESULT : ', result);
-//       if (result.status === 200) {
-//           window.localStorage.setItem('accessToken', result.userInfo.accessToken);
-//       }
-//       dispatch({ type: POST_LOGIN, payload: result });
-//   };
-// };
 
 
 
@@ -302,3 +277,64 @@ export const callDeptDeletetAPI = (deptCode) => {
   };
 };
 
+
+// 팀 삭제
+export const callTeamDeletetAPI = (teamCode) => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/group/team-delete`;
+
+  return async (dispatch, getState) => {
+    try {
+      console.log("팀삭제 API체크!!====?");
+
+      const result = await fetch(requestURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "*/*",
+          Authorization: "Bearer " + window.localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify({ teamCode }),
+      }).then((response) => response.json());
+
+      console.log("접근권한확인하기=============== ", result.status);
+
+      if (result.status === 403) {
+        alert("접근 권한이 없습니다.");
+      } else if (result.status === 200) {
+        alert(`기존 팀이 삭제되었어요!`);
+      }
+      dispatch({ type: POST_TEAM_DELETE, payload: result });
+      console.log("팀삭제 결과===== ", result);
+    } catch (error) {
+      console.error("DETP_DELETE_API 호출 중 에러 발생:", error);
+      alert(`팀삭제 실패..`);
+      throw error;
+    }
+  };
+};
+
+// 로그인 유저 정보
+// export const callLoginUserAPI = () => {
+//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
+
+//   return async (dispatch, getState) => {
+//       console.log('확인!!!!!');
+
+//       const result = await fetch(requestURL, {
+//           method: 'GET',
+//           headers: {
+//               'Content-Type': 'application/json',
+//               Accept: '*/*',
+//               Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+//           },
+//       }).then((response) => response.json());
+
+//       console.log('[UserAPICalls] callUserListAPI RESULT : ', result);
+
+//       if (result.status === 403) {
+//         alert('관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.');
+//     }
+
+//       dispatch({ type: GET_LOGIN_USER, payload: result.data });
+//   };
+// };

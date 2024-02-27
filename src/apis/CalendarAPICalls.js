@@ -1,7 +1,8 @@
 import {
   GET_CALENDAR,
   POST_CALENDAR,
-  DELETE_CALENDAR
+  DELETE_CALENDAR,
+  PATCH_CALENDAR
  
   
 
@@ -13,6 +14,28 @@ GET_ONESCHEDULE,
 DELETE_SCHEDULE,
 PATCH_SCHEDULE
 } from '../modules/ScheduleModule.js';
+
+
+export const callUpdateCalendarAPI = ({ calNo, form }) => {
+  console.log('[CalendarAPICalls] callScheduleUpdateAPI Call');
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/calendar/update/${ calNo }`; 
+
+  return async (dispatch, getState) => {
+    const result = await fetch(requestURL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+        Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+      },
+      body: form,
+    })
+    .then(response => response.json());
+
+    console.log('[CalendarAPICalls] callUpdateCalendarAPI RESULT : ', result);
+    dispatch({ type: PATCH_CALENDAR, payload: result});
+  };
+}
 
 export const callUpdateScheduleAPI = ({ schNo, form }) => {
   console.log('[CalendarAPICalls] callScheduleUpdateAPI Call');

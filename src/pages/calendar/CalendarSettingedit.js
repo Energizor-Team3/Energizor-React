@@ -1,4 +1,4 @@
-import './CalendarSetting.css'
+import './CalendarSettingedit.css'
 import CalendarGroup from './CalendarGroup';
 import { NavLink,useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
@@ -7,13 +7,12 @@ import { decodeJwt } from '../../utils/tokenUtils';
 import { callGetuserDetailAPI } from '../../apis/GroupAPICalls';
 import {
   callCalendarListAPI,
-  callADDCalendarAPI,
   callDeleteCalendarAPI,
   callUpdateCalendarAPI
 } from '../../apis/CalendarAPICalls'
 import calendarReducer from '../../modules/CalendarModule';
  
-function CalendarSetting(){
+function CalendarSettingedit(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const calendar = useSelector(state => state.calendarReducer); 
@@ -28,13 +27,61 @@ function CalendarSetting(){
 
   const [calendarType, setCalendarType] = useState('개인 캘린더');
   const [selectedCalendar, setSelectedCalendar] = useState(null);
-  const [showAddForm, setShowAddForm] = useState(false);
+
+  const [editCalName, setEditCalName] = useState('');
+  const [editCalColor, setEditCalColor] = useState('');
 
   const handleCalendarClick = (calendar) => {
     setSelectedCalendar(calendar);
   };
 
+  useEffect(() => {
+    if (token !== null) {
+      dispatch(callCalendarListAPI({ userCode: token.userCode }));
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedCalendar) {
+      setEditCalName(selectedCalendar.calName);
+      setEditCalColor(selectedCalendar.calColor);
+    }
+  }, [selectedCalendar]);
+
+  const handleCalNameChange = (e) => {
+    setEditCalName(e.target.value);
+  };
+
+  const handleCalColorChange = (e) => {
+    setEditCalColor(e.target.value);
+  };
+
+  const handleUpdateCalendar = async () => {
+    if (!selectedCalendar) return;
+
+    const updateForm = JSON.stringify({
+      calName: editCalName,
+      calColor: editCalColor,
+    });
+  
  
+
+    await dispatch(callUpdateCalendarAPI(
+      { calNo: selectedCalendar.calNo, form: updateForm }));
+
+    alert('캘린더가 성공적으로 수정되었습니다.');
+    window.location.reload();
+  };
+  useEffect(() => {
+    // 상태가 변경될 때마다 실행되어 updateForm을 콘솔에 출력
+    const updateForm = JSON.stringify({
+      calName: editCalName,
+      calColor: editCalColor,
+    });
+  
+    console.log('updateForm:', updateForm);
+  }, [editCalName, editCalColor]); 
 
   const handleUserSelect = (code) => {
     if (calpartlist.every(user => user.userCode !== code)) {
@@ -49,19 +96,19 @@ function CalendarSetting(){
       
     } }
 
-    useEffect(() => {
-      // calpartlistuser가 유효한지 확인
-      if (calpartlistuser && calpartlistuser.userCode) {
-        if (!calpartlist.some(user => user.userCode === calpartlistuser.userCode)) {
-          setCalPartList(prev => [...prev, calpartlistuser]);
-        }
-        // calpartlistuser의 값을 form의 userCodes에 설정
-        setForm(prevForm => ({
-          ...prevForm,
-          userCodes: [calpartlistuser.userCode]
-        }));
-      }
-    }, [calpartlist, calpartlistuser]);
+    // useEffect(() => {
+    //   // calpartlistuser가 유효한지 확인
+    //   if (calpartlistuser && calpartlistuser.userCode) {
+    //     if (!calpartlist.some(user => user.userCode === calpartlistuser.userCode)) {
+    //       setCalPartList(prev => [...prev, calpartlistuser]);
+    //     }
+    //     // calpartlistuser의 값을 form의 userCodes에 설정
+    //     setForm(prevForm => ({
+    //       ...prevForm,
+    //       userCodes: [calpartlistuser.userCode]
+    //     }));
+    //   }
+    // }, [calpartlist, calpartlistuser]);
     
  
 
@@ -69,14 +116,14 @@ function CalendarSetting(){
 
    console.log('calpartlistuser',calpartlistuser);
    
-   useEffect(() => {
-    const partUserCode = calpartlist.map(user => user.userCode);
+//    useEffect(() => {
+//     const partUserCode = calpartlist.map(user => user.userCode);
 
-    setForm(prevForm => ({
-      ...prevForm,
-      userCodes: partUserCode,
-    }));
-}, [calpartlist]);
+//     setForm(prevForm => ({
+//       ...prevForm,
+//       userCodes: partUserCode,
+//     }));
+// }, [calpartlist]);
  
 
     
@@ -85,76 +132,24 @@ function CalendarSetting(){
     return "#" + ((1 << 24) + (parseInt(r) << 16) + (parseInt(g) << 8) + parseInt(b)).toString(16).slice(1);
   
    }  
-  const [form, setForm] = useState({
-    calType: '',
-    calColor: '',
-    calName: '',
-    userCodes: ''// 공유 캘린더를 추가할 때만 필요
-  });
+ 
 
   console.log(calpartlist, "캘린더 참여자")   
 
 
-const deleteline = (userCode) => {
-  setCalPartList(prevCalPartList => {
-    // 새로운 calpartlist를 만들어 특정 사용자 제거
-    const updatedList = prevCalPartList.filter(user => user.userCode !== userCode);
+ 
 
-    // 새로운 userCodes 배열 생성
-    const updatedUserCodes = updatedList.map(user => user.userCode);
-
-    // userCodes를 업데이트
-    setForm(prevForm => ({
-      ...prevForm,
-      userCodes: updatedUserCodes
-    }));
-
-    return updatedList;
-  });
-};
-
-  const handleCalTypeChange = (e) => {
-    const selectedCalType = e.target.value;
-    setForm({
-      ...form,
-      calType: selectedCalType
-    });
-    setCalendarType(e.target.value);
-  };
 
   const toggleContent = () => {
     var chartbox = document.getElementById("chartbox");
     chartbox.classList.toggle("active");
   };
 
-  const onChangeHandler = (e) => {
-    let value = e.target.value;
-    if (value.startsWith("rgb") || value.startsWith("hsl")) {
-      value = rgbToHex(value);
-    }
-    setForm({
-      ...form,
-      [e.target.name]: value
-    
-      
-    });  console.log('폼 업데이트', form);
-  };
+ 
 
-  const onClickPurchaseHandler = () => {
-    if (form.calType === '' || form.calColor === '' || form.calName === '') {
-      alert('필수 정보를 다 입력해주세요.');
-      return;
-    }   
-    dispatch(callADDCalendarAPI({ form: form }));
-    alert('캘린더 등록이 완료 되었습니다');
-    navigate("/calendar/setting", { replace: true });        
-  };
 
-  useEffect(() => {
-    if (token !== null) {
-      dispatch(callCalendarListAPI({ userCode: token.userCode }));
-    }
-  }, []);
+
+
 
   const handleDeleteButtonClick = async (calNo) => {
     const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
@@ -175,7 +170,7 @@ const deleteline = (userCode) => {
   };
  
 
-  const [activeButton, setActiveButton] = useState('add');  
+  const [activeButton, setActiveButton] = useState('edit');  
   const backgroundPosition = activeButton === 'add' ? '0%' : '100%';
     return(
         <div id="wrap"> 
@@ -217,18 +212,15 @@ const deleteline = (userCode) => {
                         className="background-slide"
                         style={{ transform: `translateX(${backgroundPosition})` }}
                       ></div>
-                        <button
-                          className={`settingbtn1 ${activeButton === 'add' ? 'settingbtn2-active' : ''}`}
-                          onClick={() => {
-                            setActiveButton('add');
-                            setSelectedCalendar(null); // "추가" 버튼 클릭 시 selectedCalendar를 null로 설정
-                          }}
-                        >
+                      <button
+                        className={`settingbtn1 ${activeButton === 'add' ? 'settingbtn2-active' : ''}`}
+                        onClick={() => navigate('/calendar/setting')}
+                      >
                         추가
                       </button>
                       <button
                         className='settingbtn2'
-                        onClick={() => navigate('/calendar/setting/edit')}
+                        onClick={() => setActiveButton('edit')}
                       >
                         수정
                       </button>
@@ -299,7 +291,7 @@ const deleteline = (userCode) => {
             </tr>
             {!selectedCalendar && (
             <tr className="tr_2" id="calendarAddRow">
-              <td>캘린더 추가</td>
+              <td>캘린더 수정</td>
               <td className="add_cal_td">
                 <table className="dd">
                   <tbody>
@@ -312,7 +304,7 @@ const deleteline = (userCode) => {
                           type="color" 
                           id="colors"
                           name='calColor'
-                          onChange={ onChangeHandler } />
+                           />
                       </td>
                     </tr>
                     <tr>
@@ -325,7 +317,7 @@ const deleteline = (userCode) => {
                           id="cal_title"
                           name='calName'
                           autoComplete='off'
-                          onChange={ onChangeHandler } />
+                            />
 
                       </td>
                     </tr>
@@ -334,7 +326,7 @@ const deleteline = (userCode) => {
                         <label>캘린더 유형</label>
                       </td>
                       <td>
-                        <select className="cal_select" onChange={handleCalTypeChange}>
+                        <select className="cal_select"  >
                           <option value="개인 캘린더">개인 캘린더</option>
                           <option value="공유 캘린더">공유 캘린더</option>
                         </select>
@@ -346,7 +338,7 @@ const deleteline = (userCode) => {
             </tr>)}
             {selectedCalendar && (
              <tr className="tr_2" id="calendarAddRow">
-              <td>캘린더 조회</td>
+              <td>캘린더 수정</td>
               <td className="add_cal_td">
                 <table className="dd">
                   <tbody>
@@ -355,16 +347,13 @@ const deleteline = (userCode) => {
                         색상 : 
                       </td>
                       <td                   >
-                       <p   style={{ 
-                      display: 'inline-block', 
-                      width: '20px', 
-                      height: '20px', 
-                      backgroundColor: selectedCalendar.calColor,
-                      borderRadius: '10px',
-                      
-                    }}>
+                      <input 
+                          type="color" 
+                          id="colors"
+                          name='calColor'
+                          value={editCalColor}
+                          onChange={handleCalColorChange} />
 
-                    </p>
                       </td>
                     </tr>
                     <tr>
@@ -372,7 +361,14 @@ const deleteline = (userCode) => {
                          캘린더명 :
                       </td>
                       <td>
-                         {selectedCalendar.calName}
+                      <input 
+                          type="text" 
+                          id="cal_title"
+                          name='calName'
+                          autoComplete='off'
+                          value={editCalName}
+                          onChange={handleCalNameChange}
+                            />
                       </td>
                     </tr>
                     <tr>
@@ -393,9 +389,15 @@ const deleteline = (userCode) => {
                               <tr className="tr_3" id="dateboxRow">
                                 <td>참여자:</td>
                                 <td className='addllist'>
+
+                                <button className="add_att" onClick={toggleContent}>
+                                    +
+                                  </button>
                                   {selectedCalendar.participantNames.map((name, index) => (
                                   <div className='cal_partname' key={index} > 
-                                     {name} 
+                                  <button className='cpdeletebtn'  > X </button>
+                                  <div className='cal_partnamedd' > 
+                                     {name} </div>
                                 </div> ))}
                                 </td>
                                 
@@ -404,26 +406,7 @@ const deleteline = (userCode) => {
             
            
             {/* datebox */}
-            {calendarType === '공유 캘린더' && (
-                <tr className="tr_3" id="dateboxRow">
-                  <td>캘린더 공유하기</td>
-                  <td className='addllist'>
-                    <button className="add_att" onClick={toggleContent}>
-                      +
-                    </button>
-
-                    {calpartlist.length > 0 && calpartlist.map((calpartlistuser, index) => (
-                      <div className='cal_partname' key={index}> 
-                        <button className='cpdeletebtn'  onClick={() => deleteline(calpartlistuser?.userCode)}> X </button>
-                        <div className='cal_partnamedd' > 
-                        {calpartlistuser.userName}
-                        
-                      </div>
-                      </div>
-                    ))}
-                  </td>
-                </tr>
-              )}
+ 
           </tbody>
         </table>
         <div className="chartbox" id='chartbox'>
@@ -435,7 +418,7 @@ const deleteline = (userCode) => {
  
 
       <div className="setting_btns">
-        <button className="setting_submit_btn"  onClick={ onClickPurchaseHandler } type="submit">
+      <button className="setting_submit_btn" onClick={handleUpdateCalendar}>
           등록
         </button>
         <button className="setting_cancle_btn">취소</button>
@@ -447,4 +430,4 @@ const deleteline = (userCode) => {
     );
 
 }
-export default CalendarSetting;
+export default CalendarSettingedit;

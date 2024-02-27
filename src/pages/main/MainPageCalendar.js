@@ -114,7 +114,7 @@ function MainPageCalendar() {
                   </div>
               ))
           ) : (
-              <div>어제의 일정이 없습니다.</div>
+              <div className={MainCSS.noschedule}  >어제의 일정이 없습니다.</div>
           )}</div>
          </div>
          {/* 오늘  일정  */}
@@ -138,7 +138,7 @@ function MainPageCalendar() {
                         </div>
                     ))
                 ) : (
-                    <div>오늘의 일정이 없습니다.</div>
+                    <div  className={MainCSS.noschedule}  >오늘의 일정이 없습니다.</div>
                 )}</div>
         </div>
   {/* 내일  일정   */}
@@ -163,7 +163,7 @@ function MainPageCalendar() {
                     </div>
                 ))
             ) : (
-                <div>내일의 일정이 없습니다.</div>
+                <div className={MainCSS.noschedule}  >내일의 일정이 없습니다.</div>
             )}</div>
         </div>
         </div>

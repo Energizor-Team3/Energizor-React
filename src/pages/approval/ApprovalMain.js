@@ -17,6 +17,7 @@ function ApprovalMain(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const inboxDocument  = useSelector((state) => state.approvalReducer);
+    console.log('inboxDocument--------------------', inboxDocument);
     
     const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
 
@@ -30,6 +31,7 @@ function ApprovalMain(){
         break;
         case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
         break;
+        default: break;
       }
       }
     
@@ -83,14 +85,14 @@ function ApprovalMain(){
                   <th>상태</th>
                 </tr>
               </thead>
-              {inboxDocument && inboxDocument.map((document) => (
+              {Array.isArray(inboxDocument) && inboxDocument.map((document) => (
                 <React.Fragment key={document?.documentCode}>
                   <tbody>
                     <tr>
                       <td><input type="checkbox" value={document?.documentCode} /></td>
                       <td>{document?.form}</td>
                       <td>
-                        <a href="#" onClick={(e) => {
+                        <a href="/" onClick={(e) => {
                           e.preventDefault();
                           onClickHandler(document?.documentCode, document?.form);
                         }}>{document?.documentTitle}</a>
