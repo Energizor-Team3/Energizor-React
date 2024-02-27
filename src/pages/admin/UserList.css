@@ -1,3 +1,27 @@
+.retiredEmp {
+  display: flex; /* flexbox를 사용하여 아이템들을 가로로 배치 */
+  align-items: center; /* 수평 중앙 정렬 */
+  margin-right: 30px;
+}
+
+.retiredCheck {
+  margin-right: 10px; /* label과의 간격 조정 */
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+/* label 스타일 (필요한 경우) */
+label {
+  margin: 0; /* 필요에 따라 조정 */
+  color: #666;
+  font-size: 16px; /* 필요에 따라 조정 */
+}
+
+
 .content {
     width: 1400px;
 }
@@ -101,7 +125,7 @@
 
 .pagingArea {
   position: absolute;
-  right: 44%;
+  right: 50%;
   transform: translateX(50%);
   margin-top: 20px;
 }
