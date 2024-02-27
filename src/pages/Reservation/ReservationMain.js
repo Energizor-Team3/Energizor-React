@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from "react-redux";
-import { callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
+import { callReservationInsertAPI, callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
 import { useEffect, useState } from "react";
 import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
 import { Link } from "react-router-dom";
@@ -137,7 +137,7 @@ function ReservationMain() {
                     event.userCode.userName + " - " + event.reservationContent,
                   start: isoDate + "T08:00:00",
                   end: isoDate + "T10:00:00",
-                  color: getColorForMeetCode(event.meetCode.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
+                  color: getColorForMeetCode(event.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
                   textColor: "black",
                 };
               })}
