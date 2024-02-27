@@ -103,7 +103,7 @@ function ApprovalMain() {
                           <td>{document?.userDTO?.userName}</td>
                           <td>{document?.draftDay}</td>
                           <td>
-                            <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
+                          <button className="btnStatus" onClick={(e) =>{e.preventDefault(); toggleContent(document?.documentCode)}}>
                               진행중
                             </button>
                           </td>

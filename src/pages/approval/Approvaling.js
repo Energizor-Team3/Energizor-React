@@ -12,7 +12,7 @@ function Approvaling() {
   const dispatch = useDispatch();
   const approvalingstate = useSelector((state) => state.approvalReducer);
   const rfdocument = useSelector((state) => state.approvalRfReducer);
-  const linedocument = useSelector((state) => state.approvalLineReducer);
+  const linedocument = useSelector((state) => state.approvalReducer);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
   const [selected, setSelected] = useState('전체');
@@ -101,11 +101,9 @@ function Approvaling() {
 
   // 선택된 문서를 토글하는 함수
   const toggleContent = (documentCode) => {
-    if (selectedDocumentCode === documentCode) {
-      setSelectedDocumentCode(null);
-    } else {
-      setSelectedDocumentCode(documentCode);
-    }
+    setSelectedDocumentCode(documentCode);
+    var contentBox = document.getElementById('contentBox');
+    contentBox.classList.toggle('active');
   };
 
   return (
@@ -167,18 +165,19 @@ function Approvaling() {
                       <td>{document.userDTO.userName}</td>
                       <td>{document.draftDay}</td>
                       <td>
-                        <button className="btnStatus" onClick={() => toggleContent(document.documentCode)}>
-                          {selectedDocumentCode === document.documentCode ? '숨기기' : '토글'}
-                        </button>
+                      <button className="btnStatus" onClick={(e) =>{e.preventDefault(); toggleContent(document?.documentCode)}}>
+                              진행중
+                            </button>
                       </td>
                     </tr>
-                    {selectedDocumentCode === document.documentCode && (
+                    
+                    
                       <tr className="contentBox" id="contentBox">
                         <td colSpan="6" className="cblist">
                           <ApprovalMainStatus documentCode={selectedDocumentCode} />
                         </td>
                       </tr>
-                    )}
+                    
                   </React.Fragment>
                 ))}
               </tbody>

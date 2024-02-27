@@ -26,6 +26,7 @@ function PersonalContact() {
     });
 
     useEffect(() => {
+        
         dispatch(callPersonalAPI({ userCode: params.userCode}));
     }, []);
 

@@ -6,6 +6,7 @@ import { callEmployeeAPI } from "../../apis/AttendanceAPICalls";
 import { decodeJwt } from "../../utils/tokenUtils";
 
 
+
 function EmployeeCommute() {
 
     const dispatch = useDispatch();
@@ -19,9 +20,12 @@ function EmployeeCommute() {
 
 
     const formatDate = (date) => {
-        const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
-        const formattedDate = date.toLocaleString('ko-KR', options);
-        return formattedDate.replace('.', '-');
+        if(date != undefined){
+
+            const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
+            const formattedDate = date.toLocaleString('ko-KR', options);
+            return formattedDate.replace('.', '-');
+        }
     };
 
     let formatdate;
@@ -43,12 +47,15 @@ function EmployeeCommute() {
 
 
     useEffect(() => {
-    dispatch(
-        callEmployeeAPI({
-            userCode: params.userCode,
-        })
-    );
-    }, []);
+        
+
+            dispatch(
+                callEmployeeAPI({
+                    userCode: params.userCode,
+                })
+            );
+        
+    }, [params]);
 
 
 
@@ -125,10 +132,10 @@ function EmployeeCommute() {
                             {Array.isArray(employee) && employee.map((employeeData, index) => (
                                 <tr key={index}>
                                     <td>{employeeData.userName}</td>
-                                    <td>{employeeData.cDate}</td>
-                                    <td>{employeeData.cStartTime}</td>
-                                    <td>{employeeData.cEndTime}</td>
-                                    <td>{employeeData.cState}</td>
+                                    <td>{employeeData.cdate}</td>
+                                    <td>{employeeData.cstartTime}</td>
+                                    <td>{employeeData.cendTime}</td>
+                                    <td>{employeeData.cstate}</td>
                                 </tr>
                             ))}
                         </tbody>

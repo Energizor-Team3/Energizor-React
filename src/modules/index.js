@@ -26,6 +26,8 @@ import groupTeamReducer from "./GroupTeamModule";
 import reservationInsertReducer from "./ReservationInsertModule";
 import groupAdminReducer from "./GroupAdminModule";
 import taskReducer from "./TaskModule";
+import approvalCommentReducer from "./ApprovalCommentModule";
+import approvalfinduserReducer from "./ApprovalfinduserModule";
 
 import attendanceReducer from './AttendanceModule';
 
@@ -57,12 +59,15 @@ const rootReducer = combineReducers({
   approvalHeaderSubReducer,
   approvalFileReducer,
   approvalSubSubReducer,
+  approvalCommentReducer,
+  approvalfinduserReducer,
 
 
   taskReducer,
 
  
   contactReducer,
+  attendanceReducer,
 });
 
 export default rootReducer;

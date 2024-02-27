@@ -7,6 +7,8 @@ import { printDocument } from './pdf.js';
 import ApprovalHeader from './approvalHeader'
 import FilePopup from './FilePopup.js';
 import ApprovalGroup2 from './ApprovalGroup2.js';
+import Comment from './Comment.js';
+
 
 
 
@@ -343,6 +345,7 @@ function GeneraldraftForm(){
       <ApprovalGroup2 onUserSelect={handleUserSelect} />
 
         </div>
+      <Comment documentCode={documentCodeData}/>
         <FilePopup isOpen={isPopupOpen} handleClose={() => setIsPopupOpen(false)} content={popupContent}/>
           </div>
           </div>

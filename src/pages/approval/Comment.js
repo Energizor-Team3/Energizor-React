@@ -1,33 +1,39 @@
 import React, { useState } from 'react';
 import './Comment.css'
+import { useSelector, useDispatch } from 'react-redux';
+import {callInsetCommentAPI} from '../../apis/ApprovalAPICalls'
 
-function Comment() {
-  const [comments, setComments] = useState([]);
+
+function Comment( documentCode) {
+  const dispatch = useDispatch();
   const [newComment, setNewComment] = useState("");
-
+  
   const handleInputChange = (e) => {
     setNewComment(e.target.value);
   };
 
   const handleSubmit = () => {
     if (newComment.trim() !== "") {
-      setComments([...comments, newComment]);
+      
+
+      dispatch(callInsetCommentAPI(documentCode, newComment))
       setNewComment("");
     }
   };
 
+  
   return (
     <div className="comment-section">
     <h2>댓글</h2>
     
-    {/* 댓글 목록 */}
+    {/* 댓글 목록
     <ul className="comment-list">
       {comments.map((comment, index) => (
         <li key={index} className="comment-item">
           <p className="comment-text">{comment}</p>
         </li>
       ))}
-    </ul>
+    </ul> */}
 
     {/* 댓글 입력 폼 */}
     <div className="comment-form">

@@ -27,7 +27,7 @@ import {
    
 } from '../modules/ApprovalsubModule';
 import {
-    GET_APPROVAL_FINDLINEUSER,
+    
     PUT_APPROVAL_REJECTION,
     GET_APPROVAL_LINEDOCUMENTCOMPLETE,
     GET_APPROVAL_TOTALDOCUMENT,
@@ -57,6 +57,12 @@ import{
 import{
     GET_APPROVAL_SELECTPROXY2
 } from'../modules/ApprovalSubSubModule';
+import{
+    POST_APPROVAL_INSERTCOMMENT
+} from'../modules/ApprovalCommentModule';
+import{
+    GET_APPROVAL_FINDLINEUSER
+}from '../modules/ApprovalfinduserModule'
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -685,7 +691,8 @@ export const callSelectTempDocumentDetailAPI = (documentCode) => {
 
 //결재자 조회
 export const callSelectLineUserAPI = (documentCode) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalLine/${documentCode}`;
+    const intValue = parseInt(documentCode);
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalLine/${intValue}`;
 
     return async (dispatch, getState) => {
         console.log('들옴?');
@@ -750,6 +757,30 @@ export const callShareDocumentAPI = (documentCode,userCode) => {
         console.log('[ApprovalAPICalls] callShareDocumentAPI RESULT 111: ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTSHAREDDOCUMENT,  payload: result });
+        
+    };
+}
+
+//댓글달기
+export const callInsetCommentAPI = (documentCode,userCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComment/${documentCode}/${userCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInsetCommentAPI RESULT 111: ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTCOMMENT,  payload: result });
         
     };
 }
