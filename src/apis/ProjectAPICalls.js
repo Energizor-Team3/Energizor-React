@@ -2,11 +2,13 @@
 import{
     GET_PROJECTS,
     GET_PROJECT,
+    DELETE_PROJECT
     
 } from '../modules/ProjectModule.js';
 
 import{
     GET_TASKS,
+    DELETE_TASK
 } from'../modules/TaskModule.js';
 
 
@@ -76,3 +78,44 @@ export const callProjectDetailAPI = ({ proNo }) => {
     };
 };
 
+
+export const callDeleteProjectAPI = ({ proNo }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/project/delete/${ proNo }`; 
+  
+    return async (dispatch, getState) => {
+      const result = 
+        await fetch(requestURL, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+          },
+        })
+        .then(response => response.json());
+  
+        console.log('[ProduceAPICalls] callDeleteProjectAPI RESULT : ', result);
+        dispatch({ type: DELETE_PROJECT, payload: result});
+      };
+  }
+
+  
+export const callDeleteTaskAPI = ({ taskNo }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/project/delete/tasks/${ taskNo }`; 
+  
+    return async (dispatch, getState) => {
+      const result = 
+        await fetch(requestURL, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: '*/*',
+            Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+          },
+        })
+        .then(response => response.json());
+  
+        console.log('[ProduceAPICalls] callDeleteTaskAPI RESULT : ', result);
+        dispatch({ type: DELETE_TASK, payload: result});
+      };
+  }

@@ -12,7 +12,8 @@ import './editSchedule.css';
 import {
   callCalendarListAPI, 
   callScheduleDetailAPI,
-  callUpdateScheduleAPI
+  callUpdateScheduleAPI,
+ 
 } from '../../apis/CalendarAPICalls';
 
 
@@ -22,7 +23,6 @@ import calendarReducer from '../../modules/CalendarModule';
 function EditSchedule(){
 
 
-  let formatstartdate, formatenddate;
   const dispatch = useDispatch();
   const params = useParams();
   const schedule  = useSelector(state => state.scheduleReducer);
@@ -34,6 +34,10 @@ function EditSchedule(){
   const [isExpanded, setIsExpanded] = useState(false); 
     
   const [userCode, setuserCode] = useState(0);
+  const [selectedCalendar, setSelectedCalendar] = useState(null);
+
+   
+
   useEffect(() => {
     console.log("useEffect의 token---->", token);
     console.log("useEffect의 token.userCode--->", token.userCode);
@@ -50,6 +54,7 @@ function EditSchedule(){
   
   
   console.log('scheduleInfo', schedule);
+ 
 
 
   const navigate = useNavigate();
@@ -89,9 +94,9 @@ function EditSchedule(){
         schTitle: schedule.schTitle,
         schDetail: schedule.schDetail,
         schLocal: schedule.schLocal,
-        calNo: schedule.calNo,
+        calNo: selectedCalendar,
 
-      });
+      }); 
     }
   }, [schedule]);
 
@@ -101,30 +106,25 @@ function EditSchedule(){
       [e.target.name]: e.target.value
     });
   };
-
   const onClickScheduleUpdateHandler = () => {
-    const formData = new FormData();
-    formData.append("schNo", form.schNo);
-    formData.append("schTitle", form.schTitle);
-    formData.append("schStartDate", form.schStartDate);
-    formData.append("schEndDate", form.schEndDate);
-    formData.append("schDetail", form.schDetail);
-    formData.append("schLocal", form.schLocal);
-    formData.append("calNo",form.calNo);
+    // formData 사용 부분 제거
 
-
-
-    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: formData })).then(() => {
+    dispatch(callUpdateScheduleAPI({ schNo: form.schNo, form: form })).then(() => {
       alert('수정이 완료되었습니다.');
-      navigate('/calendar'); 
-    });         
+      navigate('/calendar'); // 성공적으로 업데이트 후 캘린더 페이지로 리디렉션
+      // 필요하다면, 여기서 수정된 스케줄 데이터를 다시 불러오는 로직을 추가할 수 있습니다.
+    }).catch((error) => {
+      console.error('업데이트 실패:', error);
+      // 실패한 경우에 대한 처리
+    });
+}        
   
   
   
-  } 
+  
     return(
-        <div id="wrap">
-                   <section>
+     <div id="wrap">
+      <section>
         <article>
             <h2 className="menu_schedule">일정관리</h2>
             <div id="menu_1">
@@ -171,14 +171,36 @@ function EditSchedule(){
                     <td>캘린더</td>
                     <td>
 
-                      <select id="edit_sch_cal">
+                    <select
+                        id="edit_sch_cal"
+                        onChange={(e) => {
+                          setForm({
+                            ...form,
+                            calNo: e.target.value, // 선택된 캘린더의 calNo로 form 상태 업데이트
+                          });
+                        }}
+                      >
                         <optgroup label="내 캘린더">
-                          <option value="개인일정"> 개인일정</option>
-                          <option value="외부일정">외부 일정</option>
+                          {calendarList &&
+                            calendarList.map(
+                              (calendar) =>
+                                calendar.calType === "개인 캘린더" && (
+                                  <option key={calendar.calNo} value={calendar.calNo}>
+                                    {calendar.calName}
+                                  </option>
+                                )
+                            )}
                         </optgroup>
                         <optgroup label="공유 캘린더">
-                          <option value="회사일정">회사 일정</option>
-                          <option value="부서일정">부서 일정</option>
+                          {calendarList &&
+                            calendarList.map(
+                              (calendar) =>
+                                calendar.calType === "공유 캘린더" && (
+                                  <option key={calendar.calNo} value={calendar.calNo}>
+                                    {calendar.calName}
+                                  </option>
+                                )
+                            )}
                         </optgroup>
                       </select>
                     </td>
@@ -204,8 +226,7 @@ function EditSchedule(){
                       </div>
                     </td>
                     <td className="cb_zone">
-                      <input type="checkbox" id="allday" />
-                      <label htmlFor="allday">종일</label>
+ 
                     </td>
                   </tr>
                   <tr>
@@ -222,13 +243,7 @@ function EditSchedule(){
                       <button id="find_map">찾기</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>참석자</td>
-                    <td>
-                      <span className="attlist">김땡땡</span>
-                      <button className="add_att">+</button>
-                    </td>
-                  </tr>
+ 
                   <tr>
                     <td>내용</td>
                     <td>

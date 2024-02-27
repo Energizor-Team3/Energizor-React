@@ -20,7 +20,7 @@ const FilePopup = ({ isOpen, handleClose, content }) => {
     }, [content, dispatch, handleClose]);
 
     const imageContent = content ? (
-      <img src={image.apFileNameChange} alt="파일 첨부 이미지" />
+      <img className='imgkkk' src={image.apFileNameChange} alt="파일 첨부 이미지" />
     ) : (
       <p>파일이 없습니다.</p>
     );

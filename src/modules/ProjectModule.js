@@ -9,10 +9,12 @@ const initialState = [];
 
 export const GET_PROJECTS         ='projects/GET_PROJECTS';
 export const GET_PROJECT          ='project/GET_PROJECT';
+export const DELETE_PROJECT   ="calendar/DELETE_PROJECT";
 
 const actions = createActions ( {
     [GET_PROJECTS]:() => {},
-    [GET_PROJECT]: () => {}
+    [GET_PROJECT]: () => {},
+    [DELETE_PROJECT]:() => {}
 });
 
 /*리듀서*/
@@ -24,6 +26,10 @@ const projectReducer = handleActions(
             return payload;
         },
         [GET_PROJECT]: (state, { payload }) => {
+            
+            return payload;
+        },
+        [DELETE_PROJECT]: (state, { payload }) => {
             
             return payload;
         },

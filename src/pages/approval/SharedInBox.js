@@ -31,8 +31,20 @@ function SharedInBox() {
   console.log('shared123',  SharedInBoxStateList);
   
 
-  const doubleClickHandler= () =>{
+  const doubleClickHandler= ( documentCode, form) =>{
 
+    console.log(documentCode,'documentCode')
+
+    switch(form){
+      case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+      break;
+      case"교육신청서": navigate('/educationform', { state: { documentCode } });
+      break;
+      case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+      break;
+      case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+      break;
+    }
   }
 
 
@@ -82,7 +94,10 @@ function SharedInBox() {
                         <tr key={document?.documentCode} >
                             <td><input type="checkbox" value={document?.documentCode}/></td>
               <td >{document?.form}</td>
-              <td><a href='' onDoubleClick={doubleClickHandler(document?.documentCode)}>{document?.documentTitle}</a></td>
+              <td><a href="#" onClick={(e) => { 
+          e.preventDefault(); // 기본 이벤트를 방지합니다.
+          doubleClickHandler(document?.documentCode, document?.form);
+        }}>{document?.documentTitle}</a></td>
 
               <td>{document?.draftDay}</td>
               
