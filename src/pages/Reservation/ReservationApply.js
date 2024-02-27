@@ -7,18 +7,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
 
-
 function ReservationApply() {
   const dispatch = useDispatch();
 
-  // const [room, setRoom] = useState("");
   const [showOrgChart, setShowOrgChart] = useState(false);
-  // const [attendees, setAttendees] = useState([]); // 선택된 참석자 목록
-  // const [startTime, setStartTime] = useState("08:00");
-  // const [endTime, setEndTime] = useState("08:30");
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
-  // const [reason, setReason] = useState(""); // 신청 사유 상태 추가
 
   // form 상태 변수 추가
   const [form, setForm] = useState({
@@ -27,6 +19,8 @@ function ReservationApply() {
     startTime: "",
     endTime: "",
     member: [], // 수정: 초기값을 빈 배열로 설정
+    startDate: new Date(), // 시작 날짜를 현재 날짜로 초기화
+    endDate: new Date(), // 종료 날짜를 현재 날짜로 초기화
   });
 
   useEffect(() => {
@@ -39,6 +33,27 @@ function ReservationApply() {
       ...form,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSaveReservation = () => {
+    // 예약 가능 여부 확인
+    if (isReservationAvailable()) {
+      // 시작 날짜와 종료 날짜를 현재 날짜로 설정하지 않고 선택한 값으로 설정
+      const updatedForm = {
+        ...form,
+        startDate: form.startDate || new Date(),
+        endDate: form.endDate || new Date(),
+      };
+  
+      dispatch(callReservationInsertAPI({ form: updatedForm }));
+      // 예약이 완료되었습니다 알림창
+      window.alert("예약이 완료되었습니다.");
+      // 확인을 누르면 reservationmain으로 이동
+      window.open("/reservationmain", "_self");
+    } else {
+      // 예약이 불가능한 경우 알림창 표시
+      window.alert("해당 시간에 이미 예약이 있습니다. 다른 시간을 선택해주세요.");
+    }
   };
 
   // generateAvailableTimes 함수 수정
@@ -54,21 +69,12 @@ function ReservationApply() {
     return times;
   };
 
-  // 예약 저장 함수 수정
-  const handleSaveReservation = () => {
-
-
-
-    // dispatch(callReservationInsertAPI(form));
-
-    dispatch(callReservationInsertAPI({	
-      form
-      
-    }));   
-
-    console.log(form,'form');
-    }
-  
+  // 예약 가능 여부 확인하는 함수
+  const isReservationAvailable = () => {
+    // 같은 meetCode와 날짜, 시간이 겹치는 예약이 있는지 확인
+    // 여기에 해당 로직 구현
+    return true; // 일단은 항상 true로 반환하도록 임시 구현
+  };
 
   // 참석자 목록 삭제 함수 수정
   const handleRemoveAttendee = (userCodeToRemove) => {
@@ -88,11 +94,10 @@ function ReservationApply() {
   };
 
   // 사용자 선택 시 실행되는 함수 수정
-  const handleUserSelect = ({ userCode, name  }) => {
+  const handleUserSelect = ({ userCode, name }) => {
     // 이미 선택된 사용자인지 확인
     if (!form.member.some((attendee) => attendee.userCode === userCode)) {
       // 선택된 사용자가 중복되지 않으면 추가
-
       setForm({
         ...form,
         member: [...form.member, { userCode, name }],
@@ -264,8 +269,6 @@ function ReservationApply() {
       </main>
     </div>
   );
-
 }
-
 
 export default ReservationApply;
