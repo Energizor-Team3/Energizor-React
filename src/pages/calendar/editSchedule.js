@@ -12,7 +12,8 @@ import './editSchedule.css';
 import {
   callCalendarListAPI, 
   callScheduleDetailAPI,
-  callUpdateScheduleAPI
+  callUpdateScheduleAPI,
+ 
 } from '../../apis/CalendarAPICalls';
 
 
@@ -22,7 +23,6 @@ import calendarReducer from '../../modules/CalendarModule';
 function EditSchedule(){
 
 
-  let formatstartdate, formatenddate;
   const dispatch = useDispatch();
   const params = useParams();
   const schedule  = useSelector(state => state.scheduleReducer);
@@ -34,6 +34,10 @@ function EditSchedule(){
   const [isExpanded, setIsExpanded] = useState(false); 
     
   const [userCode, setuserCode] = useState(0);
+  const [selectedCalendar, setSelectedCalendar] = useState(null);
+
+   
+
   useEffect(() => {
     console.log("useEffect의 token---->", token);
     console.log("useEffect의 token.userCode--->", token.userCode);
@@ -50,6 +54,7 @@ function EditSchedule(){
   
   
   console.log('scheduleInfo', schedule);
+ 
 
 
   const navigate = useNavigate();
@@ -89,9 +94,9 @@ function EditSchedule(){
         schTitle: schedule.schTitle,
         schDetail: schedule.schDetail,
         schLocal: schedule.schLocal,
-        calNo: schedule.calNo,
+        calNo: selectedCalendar,
 
-      });
+      }); 
     }
   }, [schedule]);
 
@@ -166,14 +171,36 @@ function EditSchedule(){
                     <td>캘린더</td>
                     <td>
 
-                      <select id="edit_sch_cal">
+                    <select
+                        id="edit_sch_cal"
+                        onChange={(e) => {
+                          setForm({
+                            ...form,
+                            calNo: e.target.value, // 선택된 캘린더의 calNo로 form 상태 업데이트
+                          });
+                        }}
+                      >
                         <optgroup label="내 캘린더">
-                          <option value="개인일정"> 개인일정</option>
-                          <option value="외부일정">외부 일정</option>
+                          {calendarList &&
+                            calendarList.map(
+                              (calendar) =>
+                                calendar.calType === "개인 캘린더" && (
+                                  <option key={calendar.calNo} value={calendar.calNo}>
+                                    {calendar.calName}
+                                  </option>
+                                )
+                            )}
                         </optgroup>
                         <optgroup label="공유 캘린더">
-                          <option value="회사일정">회사 일정</option>
-                          <option value="부서일정">부서 일정</option>
+                          {calendarList &&
+                            calendarList.map(
+                              (calendar) =>
+                                calendar.calType === "공유 캘린더" && (
+                                  <option key={calendar.calNo} value={calendar.calNo}>
+                                    {calendar.calName}
+                                  </option>
+                                )
+                            )}
                         </optgroup>
                       </select>
                     </td>
