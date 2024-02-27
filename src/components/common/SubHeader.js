@@ -96,10 +96,10 @@ function Header() {
                         </a>
                     </div>
                     <div>
-                        <a href="/board">
-                            <img src="/common/board.png" alt="" />
-                            <span style={spanStyle}>게시판</span>
-                        </a>
+                    <a href="/board?boardTypeCode=1">
+                        <img src="/common/board.png" alt="" />
+                    </a>
+                    <span style={spanStyle}>게시판</span>
                     </div>
                     <div>
                         <a href="/userlist">

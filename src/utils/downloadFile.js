@@ -1,5 +1,5 @@
 const convertBase64ToBlob = (base64, fileType) => {
-  const byteCharacters = atob(base64.split(",")[1]);
+  const byteCharacters = window.atob(base64);
   const byteArrays = [];
 
   for (let offset = 0; offset < byteCharacters.length; offset += 512) {

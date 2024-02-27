@@ -7,11 +7,9 @@ import { callLogoutAPI, callMyPageAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
 import MainPageCalendar from './MainPageCalendar';
 import ApprovalSubHeader from '../approval/ApprovalSubHeader'
-
- 
-
-
+import MainNoticeCard from '../../components/main-cards/MainNoticeCard';
 import AttendanceDetailModalMain from "./AttendanceDetailModalMain";
+
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
@@ -126,11 +124,9 @@ function Main() {
                         <h1>결재</h1>
                         <ApprovalSubHeader/>
                     </div>
-                    <div className={MainCSS.main_board}>
-                        <h1>내 게시판</h1>
-                    </div>
                     <div className={MainCSS.main_notice}>
                         <h1>공지사항</h1>
+                        <MainNoticeCard/>
                     </div>
                 </div>
             </main>

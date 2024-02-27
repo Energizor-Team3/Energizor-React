@@ -5,50 +5,35 @@ import React, { useEffect, useRef, useState } from "react";
 import { BoardLayout } from "../../layouts/BoardLayout";
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetTempBoardDetail } from "../../apis/board/useGetTempBoardDetail";
+import { useGetBoardDetail } from "../../apis/board/useGetBoardDetail";
 import { postBoard } from "../../apis/board/usePostBoard";
-import { deleteTemporaryBoard } from "../../apis/board/useDeleteTemporaryBoard";
 import { usePutBoard } from "../../apis/board/usePutBoard";
 import "./Register.css";
 
 const BOARD_LIST = [
-  { value: "1", label: "공지게시판" },
-  { value: "2", label: "자유게시판" },
-  { value: "3", label: "관리본부" },
-  { value: "4", label: "영업본부" },
-  { value: "5", label: "기술본부" },
-  { value: "6", label: "마케팅본부" },
+  { value: 1, label: "공지게시판" },
+  { value: 2, label: "자유게시판" },
+  { value: 3, label: "관리본부" },
+  { value: 4, label: "영업본부" },
+  { value: 5, label: "기술본부" },
+  { value: 6, label: "마케팅본부" },
 ];
 
-export const TempBoardRegister = () => {
-  const params = useParams();
+export const BoardUpdate = () => {
+  const { id }  = useParams();
+  // alert(id);
   const navigate = useNavigate();
-  const { data: boardDetailData } = useGetTempBoardDetail(params.id);
-  console.log(boardDetailData);
+  useEffect(() => console.log('id : ',id), [id])
+  
   const { mutate: postBoardMutate } = useMutation({
     mutationFn: postBoard,
   });
-  const { mutate: deleteTemporaryBoardMutaet } = useMutation({
-    mutationFn: deleteTemporaryBoard,
-  })
+  console.log('postBoardMutate : ', postBoardMutate)
+
   const { mutate: putBoardMutate } = usePutBoard();
-  // const [title, setTitle] = useState("");
-  // const [boardTypeCode, setBoardTypeCode] = useState(1);
-  const [fileList, setFileList] = useState([]);
 
-  const [title, setTitle] = useState(boardDetailData?.data?.title || "");
-  useEffect(() => console.log('title : ', title))
-
-  const chageTitle = (e) =>{
-    const inputValue = e.target.value;
-    // 입력값이 비어있는 경우에만 제목을 초기화합니다.
-    if (inputValue === "") {
-      setTitle("");
-    } else {
-      setTitle(inputValue);
-    }
-    
-  }
+  const { data: boardDetailData } = useGetBoardDetail(id);
+  console.log('boardDetailData : ', boardDetailData);
 
   // const [boardTypeCode, setBoardTypeCode] = useState(1);
   const [boardTypeCode, setBoardTypeCode] = useState(boardDetailData?.data?.boardTypeCode || "");
@@ -65,61 +50,85 @@ export const TempBoardRegister = () => {
     
   }
 
+  //const [title, setTitle] = useState(boardDetailData?.data?.title || "");
+  //const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(boardDetailData?.data?.title || "");
+  useEffect(() => console.log('title : ', title))
+
+  const chageTitle = (e) =>{
+    const inputValue = e.target.value;
+    // 입력값이 비어있는 경우에만 제목을 초기화합니다.
+    if (inputValue === "") {
+      setTitle("");
+    } else {
+      setTitle(inputValue);
+    }
+    
+  }
+  
+  const [fileList, setFileList] = useState([]);
+
   const ref = useRef(null);
   const editorRef = useRef(null);
 
   const onSaveBoard = () => {
-    const formData = new FormData();
+    console.log('id : ', id)
+
+    if (id) {
+      // alert('수정 id :'+id);
+      // alert('수정 title :'+title);
+      // alert('수정 boardTypeCode :'+boardTypeCode);
+      // alert('수정 content :'+editorRef.current.getInstance().getMarkdown());
+      putBoardMutate(
+        {
+          boardCode: id,
+          updateTitle: title,
+          boardTypeCode: boardTypeCode,
+          // boardTypeCode,
+          // fileList,
+          updateContent: editorRef.current.getInstance().getMarkdown(),
+          updateDate: new Date()
+        },
+        {
+          onSuccess: () => {
+            alert("게시글이 수정되었습니다");
+            navigate(`/board/${id}`);
+          },
+        }
+      );
+    } else {
+
+      const formData = new FormData();
+      // alert("title :"+title);
+      // alert("boardTypeCode :"+boardTypeCode);
+      // alert("content :"+editorRef.current.getInstance().getMarkdown());
+
       formData.append("title", title);
       formData.append("boardTypeCode", boardTypeCode);
       fileList.forEach((file) => {
         formData.append("uploadFiles", file);
       });
       formData.append("content", editorRef.current.getInstance().getMarkdown());
+
+      console.log('formData : ', formData)
       postBoardMutate(formData, {
         onSuccess: () => {
           alert("게시글이 작성되었습니다");
-          deleteTemporaryBoardMutaet( params.id, {
-            onSuccess: () => {
-              alert("임시 게시글 삭제되었습니다");
-            },
-            onError: (e) =>{
-              console.error(e);
-            }
-
-          });
         },
         onError: (e) => {
           console.error(e);
         },
       });
-  };
-
-  const onSaveTemporaryBoard = () => {
-    postBoardMutate(
-      {
-        title,
-        boardTypeCode,
-        fileList,
-        content: editorRef.current.getInstance().getMarkdown(),
-        isTemporaryOpt: true,
-      },
-      {
-        onSuccess: () => {
-          alert("임시 게시글이 작성되었습니다");
-        },
-        onError: (e) => {
-          console.error(e);
-        },
-      }
-    );
+      
+   
+    }
   };
 
   const onFileUploadStart = () => {
     ref.current.click();
   };
 
-  console.log(fileList);
+  
   const onFileUpload = async (e) => {
     try {
       const files = e.target.files;
@@ -128,22 +137,26 @@ export const TempBoardRegister = () => {
       console.error(e);
     }
   };
+  useEffect(() => console.log('fileList : ', fileList), [])
   useEffect(() => {
     const prevContent = boardDetailData?.data?.content;
+    // const prevContent = "";
+    console.log('prevContent : ', prevContent)
     if (prevContent && editorRef.current.getInstance().getMarkdown() === "") {
       editorRef.current.getInstance().insertText(prevContent);
     }
   }, [boardDetailData]);
+  useEffect(() => console.log(' editorRef.current.getInstance() : ',  editorRef.current.getInstance()))
 
   return (
     <BoardLayout>
       <div className="cotentHeader">
         <button className="saveButton button" onClick={onSaveBoard}>
-          저장
+          수정
         </button>
-        <button className="button" onClick={onSaveTemporaryBoard}>
+        {/* <button className="button" onClick={onSaveTemporaryBoard}>
           임시저장
-        </button>
+        </button> */}
         <button className="button" onClick={() => navigate(-1)}>
           취소
         </button>
@@ -172,7 +185,6 @@ export const TempBoardRegister = () => {
             value={boardTypeCode}
             // onChange={(e) => setBoardTypeCode(Number(e.target.value))}
             onChange={chageBoardType}
-            // onChange={(e) => setBoardTypeCode(Number(e.target.value))}
           >
             {BOARD_LIST.map((item) => {
               return (
@@ -218,4 +230,4 @@ export const TempBoardRegister = () => {
   );
 };
 
-export default TempBoardRegister;
+export default BoardUpdate;
