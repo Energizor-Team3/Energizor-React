@@ -46,15 +46,12 @@ import ModifyUser from "./pages/admin/ModifyUser";
 import MyPage from "./pages/user/MyPage";
 import UserRegist from "./pages/admin/UserRegist";
 import ChangePwd from './pages/user/ChangePwd';
-import PersonalContact from './pages/contact/personalContactList';
-import CompanyContact from './pages/contact/companyContactList';
-import CalendarSettingedit from './pages/calendar/CalendarSettingedit'
-import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
+import PersonalContact from "./pages/contact/personalContactList";
+import CompanyContact from "./pages/contact/companyContactList";
 import EmployeeCommute from "./pages/attendance/employeeCommuteList";
+import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
 import ProxyApprovalLine from "./pages/approval/ProxyApprovalLine";
 import FilePopup from "./pages/approval/FilePopup";
-// import Attendance from './pages/attendance/attendanceCommuteList';
-// import Employee from './pages/attendance/employeeCommuteList';
  
 
 const queryClient = new QueryClient();
@@ -82,10 +79,7 @@ function App() {
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList />} />
             <Route path="/board/interest_list" element={<InterestList />} />
-            <Route
-              path="list/:boardTypeCode/:type/:keyword"
-              element={<SearchBoard />}
-            />
+            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
 
             {/* 관리자, 마이페이지 */}
             <Route path="/userlist" element={<UserList />} />
@@ -134,24 +128,17 @@ function App() {
             <Route path="/calendar" element={<CalendarMainPage />} />
             <Route path="/calendar/setting" element={<CalendarSetting />} />
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
-            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />          
-            <Route path="/calendar/setting/edit" element={<CalendarSettingedit/>}/>
+            <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
+            <Route path="/project/:proNo" element={<ProjectDetail />} />
+            <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
 
             {/*근태관리, 주소록 */}
             <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>
             <Route path="/contact/company-list" element={ <CompanyContact/> }/>
             <Route path="/attendance/user-list/:userCode" element={ <AttendanceCommute/> }/>
-            <Route path="/attendance/all-users-list" element={ <EmployeeCommute /> }/>
+            <Route path="/attendance/all-users-list" element={ <EmployeeCommute/> }/>
 
           </Route>
-          
-
-          
-
-          
-
-    
-
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

@@ -57,7 +57,7 @@ function MainPageCalendar() {
 
 
       function filterSchedules(schedules, startOfDay, endOfDay) {
-        return schedules.filter(({ schStartDate, schEndDate }) => {
+        return schedules?.filter(({ schStartDate, schEndDate }) => {
             const startDate = moment([schStartDate[0], schStartDate[1] - 1, schStartDate[2], schStartDate[3], schStartDate[4]]);
             const endDate = schEndDate ? moment([schEndDate[0], schEndDate[1] - 1, schEndDate[2], schEndDate[3], schEndDate[4]]) : startDate.clone().endOf('day');
             
@@ -101,7 +101,7 @@ function MainPageCalendar() {
               <div className={MainCSS.separator}></div>
               <div className={MainCSS.schzone}    > 
           
-          {yesterdaySchedules.length > 0 ? (
+          {yesterdaySchedules?.length > 0 ? (
               yesterdaySchedules.map((schedule) => (
                   <div className={MainCSS.schcon} key={schedule.schNo}>
                       <div className={MainCSS.schname}>
@@ -125,7 +125,7 @@ function MainPageCalendar() {
             </div>
             <div className={MainCSS.separator}></div>
             <div className={MainCSS.schzone}  style={{ backgroundColor:'#F2F6FF'}}> 
-                {todaySchedules.length > 0 ? (
+                {todaySchedules?.length > 0 ? (
                     todaySchedules.map((schedule) => (
                         <div className={MainCSS.schcon} key={schedule.schNo}>
                             <div className={MainCSS.schname}>
@@ -150,7 +150,7 @@ function MainPageCalendar() {
             <div className={MainCSS.separator}></div>
             <div className={MainCSS.schzone}  > 
           
-            {tomorrowSchedules.length > 0 ? (
+            {tomorrowSchedules?.length > 0 ? (
                 tomorrowSchedules.map((schedule) => (
                     <div className={MainCSS.schcon} key={schedule.schNo}>
                         <div className={MainCSS.schname}>
