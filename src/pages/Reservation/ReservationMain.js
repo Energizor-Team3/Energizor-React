@@ -137,7 +137,7 @@ function ReservationMain() {
                     event.userCode.userName + " - " + event.reservationContent,
                   start: isoDate + "T08:00:00",
                   end: isoDate + "T10:00:00",
-                  color: getColorForMeetCode(event.meetCode.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
+                  color: getColorForMeetCode(event.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
                   textColor: "black",
                 };
               })}
