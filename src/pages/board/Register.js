@@ -64,9 +64,9 @@ export const BoardRegister = () => {
     } else {
 
       const formData = new FormData();
-      // alert("title :"+title);
-      // alert("boardTypeCode :"+boardTypeCode);
-      // alert("content :"+editorRef.current.getInstance().getMarkdown());
+      alert("title :"+title);
+      alert("boardTypeCode :"+boardTypeCode);
+      alert("content :"+editorRef.current.getInstance().getMarkdown());
 
       formData.append("title", title);
       formData.append("boardTypeCode", boardTypeCode);

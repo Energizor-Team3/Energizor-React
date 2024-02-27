@@ -1,5 +1,5 @@
 const convertBase64ToBlob = (base64, fileType) => {
-  const byteCharacters = atob(base64.split(",")[1]);
+  const byteCharacters = window.atob(base64);
   const byteArrays = [];
 
   for (let offset = 0; offset < byteCharacters.length; offset += 512) {
@@ -21,7 +21,6 @@ export const downloadFile = (base64, fileName) => {
   link.href = url;
   link.download = fileName;
   document.body.appendChild(link);
-  alert("link :"+link);
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(url);

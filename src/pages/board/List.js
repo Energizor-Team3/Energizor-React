@@ -18,6 +18,7 @@ const BoardList = ({ boardTypeCode }) => {
   const [searchKeyword, setSearchKeyword] = useState(null);
   const selectRef = useRef();
   const inputRef = useRef();
+  const [isActive,setIsActive]=useState(false);
   const { data: boardListData } = useGetBoardList({
     boardTypeCode: searchParams.get("boardTypeCode"),
     page: page,
@@ -25,7 +26,6 @@ const BoardList = ({ boardTypeCode }) => {
     type: searchType,
     keyword: searchKeyword
   });
-
   const { mutate: postInterestMutate } = usePostInterestBoard();
 
   const [interestedBoards, setInterestedBoards] = useState([]);
@@ -84,7 +84,7 @@ const BoardList = ({ boardTypeCode }) => {
     selectedBoardList.map((selectedBoard) => {
       mutate(selectedBoard);
     });
-    setSelectedBoardList([]);
+    
   };
   return (
     <BoardLayout>
@@ -122,13 +122,12 @@ const BoardList = ({ boardTypeCode }) => {
                   }} />
               </td>
               <td>{index + 1}</td>
-
               <td>
                 <button
                   className="interest_button"
                   onClick={() => onAddToInterestBoard(el.boardCode)}
                 >
-                  <FaRegStar color={interestedBoards.includes(el.boardCode) ? 'yellow' : 'currentColor'} />
+                  <FaRegStar></FaRegStar>
                 </button>
               </td>
               <td onClick={() => navigate(`/board/${el.boardCode}`)}>
@@ -145,26 +144,30 @@ const BoardList = ({ boardTypeCode }) => {
           ))}
         </tbody>
       </table>
-      <div style={{width: '100%', display: 'flex', gap: '5px', justifyContent: "center"}}>
+      <div className="pageContainer">
+        <div className="page" style={{width: '100%', display: 'flex', gap: '5px', justifyContent: "center"}}>
             {boardListData?.data?.pageList?.map((el) => (
               <p onClick={() => handleGetNewPage(el)}>{el}</p>
             ))}
-          </div>
-      <select
-        name="page_number_choice"
-        id="page_number_choice"
-        onChange={handleChangePageNumber}
-        value={pageNumber}
-      >
-        {PAGE_NUMBER_LIST.map((page) => (
-          <option key={page} value={page}>
-            {page}
-          </option>
-        ))}
-      </select>
-      <label className="page_number_choice_text" htmlFor="page_number_choice">
-        페이지당 항목수
-      </label>
+      </div>
+      </div>
+      <div className="pageSelector">
+        <select
+            name="page_number_choice"
+            id="page_number_choice"
+            onChange={handleChangePageNumber}
+            value={pageNumber}
+          >
+            {PAGE_NUMBER_LIST.map((page) => (
+              <option key={page} value={page}>
+                {page}
+              </option>
+            ))}
+          </select>
+          <label className="page_number_choice_text" htmlFor="page_number_choice">
+            페이지당 항목수
+          </label>
+      </div>
     </BoardLayout>
   );
 };
