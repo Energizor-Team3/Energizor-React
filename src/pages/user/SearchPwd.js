@@ -41,6 +41,11 @@ function SearchPwd() {
         }
     };
     
+    const onKeyPressHandler = (e) => {
+        if (e.key === 'Enter') {
+            onClickSearchPwdHandler();
+        }
+    };
 
 
     return (
@@ -49,7 +54,7 @@ function SearchPwd() {
                 <img src={process.env.PUBLIC_URL + '/common/Logo.png'} alt="로고" />
                 <span className={SearchPwdCSS.find_pw_title}>비밀번호 찾기</span>
                 <input className={SearchPwdCSS.find_pw} name='userId' type="text" onChange={ onChangeHandler } placeholder="ID" />
-                <input className={SearchPwdCSS.find_pw} name='email' type="text" onChange={ onChangeHandler } placeholder="Email" />
+                <input className={SearchPwdCSS.find_pw} name='email' type="text" onChange={ onChangeHandler } onKeyDown={onKeyPressHandler} placeholder="Email" />
                 <button type="submit" className={SearchPwdCSS.find_pw_btn} onClick={ onClickSearchPwdHandler }>인증메일 발송</button>
             </div>
         </div>

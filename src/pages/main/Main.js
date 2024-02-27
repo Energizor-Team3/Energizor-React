@@ -3,20 +3,32 @@ import MainCSS from './Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { callLogoutAPI } from '../../apis/UserAPICalls';
+import { callLogoutAPI, callMyPageAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
 import MainPageCalendar from './MainPageCalendar';
-
- 
-
+import ApprovalSubHeader from '../approval/ApprovalSubHeader'
+import MainNoticeCard from '../../components/main-cards/MainNoticeCard';
+import AttendanceDetailModalMain from "./AttendanceDetailModalMain";
 
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
     console.log('---------------', window.localStorage.getItem('accessToken'));
     const token = decodeJwt(window.localStorage.getItem('accessToken'));
+    const myInfo = useSelector((state) => state.userReducer);
+    const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
 
     console.log('token 정보', token);
+    console.log('myInfo', myInfo);
+
+    useEffect(() => {
+        dispatch(callMyPageAPI());
+    }, []);
+
+    useEffect(() => {
+        const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
+        setProfileImagePath(newPath);
+    }, [myInfo.profilePath]);
 
     const navigate = useNavigate();
 
@@ -45,15 +57,15 @@ function Main() {
                     <div className={MainCSS.main_profile}>
                         <div className={MainCSS.user_photo}>
                             <img
-                                src={`http://localhost:8031/imgs/` + token.profilePath}
+                                src={myInfo.profilePath}
                                 alt="프로필사진"
                             />
                         </div>
                         <div className={MainCSS.main_profile_info}>
-                            <p>{token.userName}</p>
+                            <p>{myInfo.userName}</p>
                             <br />
                             <h4>
-                                {token.teamDTO?.dept?.deptName}/{token.teamDTO?.teamName}
+                                {myInfo.team?.dept?.deptName}/{myInfo.team?.teamName}
                             </h4>
                             <button
                                 className={MainCSS.go_mypage}
@@ -72,7 +84,10 @@ function Main() {
 
                     <div className={MainCSS.main_commute}>
                         <h1>근태</h1>
-                        {/*     <div className={MainCSS.attendance-container}>
+
+                        <AttendanceDetailModalMain/>
+
+                            {/* <div className={MainCSS.attendance}>
                             <div className={MainCSS.info}>
                                 <p id="date-info">오늘 날짜: </p>
                                 <p id="time-info">현재 시각: </p>
@@ -80,11 +95,15 @@ function Main() {
                                 <p id="end-time-info">퇴근 시각: </p>
                             </div>
                     
-                            <div className={MainCSS.button-container}>
+                            <div className={MainCSS.button}>
                                 <button id="in-btn" onclick="recordTime('start')">출근</button>
                                 <button id="out-btn" onclick="recordTime('end')">퇴근</button>
                             </div>
                         </div> */}
+
+                    
+
+
                     </div>
 
                     <div className={MainCSS.main_note}>
@@ -103,12 +122,11 @@ function Main() {
                 <div className={MainCSS.main_wrap}>
                     <div className={MainCSS.main_approval}>
                         <h1>결재</h1>
-                    </div>
-                    <div className={MainCSS.main_board}>
-                        <h1>내 게시판</h1>
+                        <ApprovalSubHeader/>
                     </div>
                     <div className={MainCSS.main_notice}>
                         <h1>공지사항</h1>
+                        <MainNoticeCard/>
                     </div>
                 </div>
             </main>

@@ -30,7 +30,7 @@ function ReservationModify() {
   }, [dispatch, reservationCode]);
 
   
-
+  console.log("7979797979797", reservation);
   console.log('555555555555555555555', reservationCode);
   console.log('Reservation Detail:', reservationDetail);
   console.log('attendee Detail:', attendee);

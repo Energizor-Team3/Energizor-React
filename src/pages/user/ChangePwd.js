@@ -40,22 +40,28 @@ function ChangePwd() {
         });
     };
 
-    const onClickChangePwdHandler = () => {
+    const onClickChangePwdHandler = async () => {
 
         console.log('[ChangePwd] onClickChangePwdHandler');
 
-        const formData = new FormData();
-        formData.append("currentPassword", form.currentPassword);
-        formData.append("newPassword", form.newPassword);
-        formData.append("confirmPassword", form.confirmPassword);
+        const requestBody = {
+            currentPassword: form.currentPassword,
+            newPassword: form.newPassword,
+            confirmPassword: form.confirmPassword,
+        }
 
-        dispatch(callPasswordUpdateAPI({
-            form: formData
-        }));         
-
-        // navigate('/login', { replace: true});
-        // window.location.reload();
+        try {
+            dispatch(callPasswordUpdateAPI(navigate, requestBody)); 
+        } catch (error) {
+            alert(error.message);
+        }
     }
+
+    const onKeyPressHandler = (e) => {
+        if (e.key === 'Enter') {
+            onClickChangePwdHandler();
+        }
+    };
 
     return (
         <div id="wrap">
@@ -96,8 +102,6 @@ function ChangePwd() {
                     <div className="subject">
                         <strong>비밀번호 변경</strong>
                         <div className="line">
-                            <div className="search_box">
-                            </div>
                         </div>
                     </div>
 
@@ -133,6 +137,7 @@ function ChangePwd() {
                                     name='confirmPassword'
                                     value={form.confirmPassword}
                                     onChange={onChangeHandler}
+                                    onKeyDown={onKeyPressHandler}
                                 />
                             </div>
                         </form>

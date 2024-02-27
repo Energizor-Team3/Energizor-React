@@ -105,11 +105,11 @@ function ModifyUser() {
             userName: form.userName,
             team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
-            entDate: moment(userDetail.entDate).format('YYYY-MM-DD'),
+            entDate: moment(form.entDate).format('YYYY-MM-DD'),
             email: form.email,
             phone: form.phone,
             offUsed: form.offUsed,
-            resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD'),
+            resignDate: moment(form.resignDate).format('YYYY-MM-DD'),
             adminRole: form.isAdmin,
         };
 
@@ -175,12 +175,6 @@ function ModifyUser() {
                     <div className="subject">
                         <strong>직원 정보 수정</strong>
                         <div className="line">
-                            <div className="search_box">
-                                {/* <input
-                                    type="search"
-                                    placeholder="사번, 직원명을 입력하세요."
-                                /> */}
-                            </div>
                         </div>
                     </div>
 
@@ -242,7 +236,7 @@ function ModifyUser() {
                                     <input
                                         className="regist_user_input"
                                         name="entDate"
-                                        value={moment(userDetail.entDate).format('YYYY-MM-DD')}
+                                        value={moment(form.entDate).format('YYYY-MM-DD')}
                                         type="date"
                                         onChange={onChangeHandler}
                                     />
@@ -311,7 +305,7 @@ function ModifyUser() {
                                         <input
                                             className="regist_user_input"
                                             name="resignDate"
-                                            value={moment(userDetail.resignDate).format('YYYY-MM-DD')}
+                                            value={moment(form.resignDate).format('YYYY-MM-DD')}
                                             type="date"
                                             onChange={onChangeHandler}
                                         />
