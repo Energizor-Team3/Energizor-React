@@ -2,7 +2,7 @@ import './GeneralDraft.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI, callShareDocumentAPI } from '../../apis/ApprovalAPICalls';
+import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI, callShareDocumentAPI, callSelectProxy2API } from '../../apis/ApprovalAPICalls';
 import { printDocument } from './pdf.js';
 import ApprovalHeader from './approvalHeader'
 import FilePopup from './FilePopup.js';
@@ -23,6 +23,8 @@ function GeneraldraftForm(){
   const approvalRf = useSelector((state) => state.approvalRfReducer); //참조자
   const approvalDetail = useSelector((state) => state.approvalSubReducer);// 문서 상세 정보
   const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
+  const proxyuser = useSelector((state) => state.approvalSubSubReducer); // 대리결재자 확인용
+  
   console.log(approvalLine, 'approvalLine');
   console.log(approvalRf, 'approvalRf');
   console.log(approvalDetail, 'approvalDetail');
@@ -107,6 +109,7 @@ function GeneraldraftForm(){
     async function fetchData() {
       // 여러 데이터를 가져오는 비동기 함수들을 호출합니다.
       await dispatch(callSelectUserDetailAPI());
+      await dispatch(callSelectProxy2API());
       await dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
       await dispatch(callSelectRfUserAPI(documentCodeData));
       await dispatch(callSelectLineUserAPI(documentCodeData));
@@ -165,23 +168,28 @@ function GeneraldraftForm(){
             <div className="line">
               <div className="search_box">
                 <span>
-              {
-              approvalLine.filter((line) =>
-              line.user.userCode === userDetail?.userCode &&
-               line.approvalLineStatus === '미결'
-              ).length > 0 && (
-                <button onClick={testBtn}>승인</button>
-               )
-              }
-              </span>
-              <span>{
-              approvalLine.filter((line) =>
-              line.user.userCode === userDetail?.userCode &&
-              line.approvalLineStatus === '미결'
-              ).length > 0 && (            
-              <button onClick={testBtn1}>반려</button>   
-              )
-            }           
+                <span>
+{
+  approvalLine.filter((line) =>
+    (line.user.userCode === userDetail?.userCode ||
+    line.user.userCode === proxyuser?.originUser.userCode) &&
+    line.approvalLineStatus === '미결'
+  ).length > 0 && (
+    <button onClick={testBtn}>승인</button>
+  )
+}
+</span>
+<span>
+{
+  approvalLine.filter((line) =>
+    (line.user.userCode === userDetail?.userCode ||
+    line.user.userCode === proxyuser?.originUser.userCode) &&
+    line.approvalLineStatus === '미결'
+  ).length > 0 && (            
+    <button onClick={testBtn1}>반려</button>   
+  )
+}     
+</span> 
               </span>
               <span>
               <button onClick={() => printDocument('pdf-content')}>PDF</button>

@@ -54,6 +54,9 @@ import{
 import{
     GET_APPROVAL_SELECTFILE
 } from'../modules/ApprovalFileModule';
+import{
+    GET_APPROVAL_SELECTPROXY2
+} from'../modules/ApprovalSubSubModule';
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -903,6 +906,29 @@ export const callSelectProxyAPI = () => {
         console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
 
         dispatch({ type: GET_APPROVAL_SELECTPROXY,  payload: result.data });
+        
+    };
+}
+// 대리결재시 조건용도
+export const callSelectProxy2API = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/proxy2`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTPROXY2,  payload: result.data });
         
     };
 }

@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import userReducer from "./UserModule";
 import approvalReducer from "./ApprovalMainModule";
 import approvalSubReducer from "./ApprovalsubModule";
+import approvalSubSubReducer from "./ApprovalSubSubModule";
 
 import reservationReducer from "./ReservationModules";
 import reservationAttendeeReducer from "./ReservationAttendeeModule";
@@ -55,6 +56,7 @@ const rootReducer = combineReducers({
   approvalHeaderReducer,
   approvalHeaderSubReducer,
   approvalFileReducer,
+  approvalSubSubReducer,
 
 
   taskReducer,
