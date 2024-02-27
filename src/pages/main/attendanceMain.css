@@ -377,7 +377,7 @@
 	position:absolute;
 	left:358px;
 	top:18px;
-	background-image:url(/public/attendance/close.png);
+	/* background-image:url(/attendance/close.png); */
 	background-repeat:no-repeat;
 	background-size:cover;
 }

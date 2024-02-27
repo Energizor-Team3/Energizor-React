@@ -65,7 +65,6 @@ function UserList() {
         }
     };
 
-    // 사용자 행을 클릭했을 때 호출될 이벤트 핸들러
     const handleUserClick = (userCode) => {
         navigate(`/modifyuser/${userCode}`);
     };
@@ -117,7 +116,6 @@ function UserList() {
                                         onChange={(e) => setShowRetired(e.target.checked)}
                                     />
                                     <label> 퇴사자 보기</label>
-                                    <span></span>
                                 </div>
                                 <input
                                     type="search"
