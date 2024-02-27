@@ -12,6 +12,7 @@ import {
     const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer || []);
     const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer || "");
     const totalInbox  = useSelector((state) => state.approvalLineReducer);
+    const [isLoading, setIsLoading] = useState(true);
 
     
   
@@ -25,13 +26,23 @@ import {
     
     
     
-    useEffect(()=>{
-      dispatch(callInboxApprovalHeaderAPI());
+    
+
+    useEffect(() => {
+      async function fetchData() {
+        dispatch(callInboxApprovalHeaderAPI());
       
-      dispatch(callTotalDocumentAPI())
-      dispatch(callTotalDocumentProceedingAPI())
-      
+        dispatch(callTotalDocumentAPI())
+        dispatch(callTotalDocumentProceedingAPI())
+      setIsLoading(false);
+    }
+    fetchData();
     },[dispatch])
+  
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
   
     
     

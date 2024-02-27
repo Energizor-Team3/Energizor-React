@@ -139,8 +139,11 @@ main{
 }
 
 .approvaltables thead th , .approvaltables tbody tr td{
+    
     padding: 8px 5px;
 }
+
+
 
 .approvaltables thead th input[type="checkbox"]{
     margin-left: 10px;

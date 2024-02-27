@@ -1,64 +1,55 @@
-import  './ApprovalMain.css';
-import {
-    callInboxApprovalAPI
-} from '../../apis/ApprovalAPICalls';
-
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import './ApprovalMain.css';
+import { callInboxApprovalAPI } from '../../apis/ApprovalAPICalls';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import React,{ useEffect, useState } from 'react';
-import ApprovalHeader from './approvalHeader'
-import ApprovalMainStatus from './ApprovalMainStatus'
+import React, { useEffect, useState } from 'react';
+import ApprovalHeader from './approvalHeader';
+import ApprovalMainStatus from './ApprovalMainStatus';
+import Pagination from './Pagination'; // Pagination 컴포넌트 추가
 
+function ApprovalMain() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const inboxDocument = useSelector((state) => state.approvalReducer);
+  const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
+  const itemsPerPage = 10; // 페이지 당 아이템 수 설정
 
+  useEffect(() => {
+    dispatch(callInboxApprovalAPI());
+  }, []);
 
-
-function ApprovalMain(){
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const inboxDocument  = useSelector((state) => state.approvalReducer);
-    console.log('inboxDocument--------------------', inboxDocument);
-    
-    const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
-
-    const onClickHandler = (documentCode, form) => {
-      switch(form){
-        case"휴가신청서": navigate('/vacationform', { state: { documentCode } });
+  const onClickHandler = (documentCode, form) => {
+    switch (form) {
+      case '휴가신청서':
+        navigate('/vacationform', { state: { documentCode } });
         break;
-        case"교육신청서": navigate('/educationform', { state: { documentCode } });
+      case '교육신청서':
+        navigate('/educationform', { state: { documentCode } });
         break;
-        case"출장신청서": navigate('/businesstripform', { state: { documentCode } });
+      case '출장신청서':
+        navigate('/businesstripform', { state: { documentCode } });
         break;
-        case"기안신청서": navigate('/generaldraftform', { state: { documentCode } });
+      case '기안신청서':
+        navigate('/generaldraftform', { state: { documentCode } });
         break;
-        default: break;
-      }
-      }
-    
-    
+      default:
+        break;
+    }
+  };
 
-    
-    useEffect(()=>{
-        dispatch(callInboxApprovalAPI());
-    },[])
+  const toggleContent = (documentCode) => {
+    setSelectedDocumentCode(documentCode);
+    var contentBox = document.getElementById('contentBox');
+    contentBox.classList.toggle('active');
+  };
 
-    console.log('inbox',  inboxDocument );
-    
-    
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-   
-
-
-    const toggleContent = (documentCode) => {
-      setSelectedDocumentCode(documentCode)
-      var contentBox = document.getElementById("contentBox");
-        contentBox.classList.toggle("active");
-    };
- 
-
-
-    return(
-      <div id="wrap">
+  return (
+    <div id="wrap">
       <section>
         <ApprovalHeader />
       </section>
@@ -77,7 +68,9 @@ function ApprovalMain(){
             <table>
               <thead>
                 <tr>
-                  <th><input type="checkbox" /></th>
+                  <th>
+                    <input type="checkbox" />
+                  </th>
                   <th>분류</th>
                   <th>제목</th>
                   <th>기안자</th>
@@ -85,37 +78,53 @@ function ApprovalMain(){
                   <th>상태</th>
                 </tr>
               </thead>
-              {Array.isArray(inboxDocument) && inboxDocument.map((document) => (
-                <React.Fragment key={document?.documentCode}>
-                  <tbody>
-                    <tr>
-                      <td><input type="checkbox" value={document?.documentCode} /></td>
-                      <td>{document?.form}</td>
-                      <td>
-                        <a href="/" onClick={(e) => {
-                          e.preventDefault();
-                          onClickHandler(document?.documentCode, document?.form);
-                        }}>{document?.documentTitle}</a>
-                      </td>
-                      <td>{document?.userDTO?.userName}</td>
-                      <td>{document?.draftDay}</td>
-                      <td>
-                        <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
-                          진행중
-                        </button>
-                      </td>
-                    </tr>
-                   
-                      <tr className="contentBox" id='contentBox'>
-                        <td colSpan="6" className='cblist'  >
-                          <ApprovalMainStatus documentCode={selectedDocumentCode} />
-                        </td>
-                      </tr>
-                    
-                  </tbody>
-                </React.Fragment>
-              ))}
+              <tbody>
+                {Array.isArray(inboxDocument) &&
+                  inboxDocument
+                    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+                    .map((document) => (
+                      <React.Fragment key={document?.documentCode}>
+                        <tr>
+                          <td>
+                            <input type="checkbox" value={document?.documentCode} />
+                          </td>
+                          <td>{document?.form}</td>
+                          <td>
+                            <a
+                              href="/"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onClickHandler(document?.documentCode, document?.form);
+                              }}
+                            >
+                              {document?.documentTitle}
+                            </a>
+                          </td>
+                          <td>{document?.userDTO?.userName}</td>
+                          <td>{document?.draftDay}</td>
+                          <td>
+                            <button className="btnStatus" onClick={() => toggleContent(document?.documentCode)}>
+                              진행중
+                            </button>
+                          </td>
+                        </tr>
+                        <tr className="contentBox" id="contentBox">
+                          <td colSpan="6" className="cblist">
+                            <ApprovalMainStatus documentCode={selectedDocumentCode} />
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    ))}
+              </tbody>
             </table>
+          </div>
+          <div className="pagination-container">
+          <Pagination // Pagination 컴포넌트 추가
+            itemsPerPage={itemsPerPage}
+            totalItems={inboxDocument.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
           </div>
         </div>
       </main>

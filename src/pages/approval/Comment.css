@@ -1,0 +1,41 @@
+.comment-section {
+    margin-top: 20px;
+  }
+  
+  .comment-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .comment-item {
+    margin-bottom: 10px;
+  }
+  
+  .comment-text {
+    margin: 0;
+  }
+  
+  .comment-form {
+    margin-top: 20px;
+  }
+  
+  .comment-input {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  .submit-button {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
