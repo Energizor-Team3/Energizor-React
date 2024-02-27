@@ -64,7 +64,7 @@ function AttendanceDetailModal ({setIsModalOpen, handleClose, userCode}) {
     const formatDate = (date) => {
         const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
         const formattedDate = date.toLocaleString('ko-KR', options);
-        return formattedDate.replace('.', '-');
+        return formattedDate.replace('-', '-');
     };
 
 

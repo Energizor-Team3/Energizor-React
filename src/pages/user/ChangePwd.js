@@ -55,8 +55,13 @@ function ChangePwd() {
         } catch (error) {
             alert(error.message);
         }
-
     }
+
+    const onKeyPressHandler = (e) => {
+        if (e.key === 'Enter') {
+            onClickChangePwdHandler();
+        }
+    };
 
     return (
         <div id="wrap">
@@ -132,6 +137,7 @@ function ChangePwd() {
                                     name='confirmPassword'
                                     value={form.confirmPassword}
                                     onChange={onChangeHandler}
+                                    onKeyDown={onKeyPressHandler}
                                 />
                             </div>
                         </form>

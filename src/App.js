@@ -80,10 +80,7 @@ function App() {
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList />} />
             <Route path="/board/interest_list" element={<InterestList />} />
-            <Route
-              path="list/:boardTypeCode/:type/:keyword"
-              element={<SearchBoard />}
-            />
+            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
 
             {/* 관리자, 마이페이지 */}
             <Route path="/userlist" element={<UserList />} />
