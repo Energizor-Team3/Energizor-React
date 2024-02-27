@@ -50,6 +50,7 @@ import PersonalContact from "./pages/contact/personalContactList";
 import CompanyContact from "./pages/contact/companyContactList";
 import EmployeeCommute from "./pages/attendance/employeeCommuteList";
 import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
+import BoardUpdate from "./pages/board/Update";
 import ProxyApprovalLine from "./pages/approval/ProxyApprovalLine";
 import FilePopup from "./pages/approval/FilePopup";
  
@@ -73,8 +74,9 @@ function App() {
 	          {/* 게시판 */}
             <Route path="list/:boardTypeCode" element={<List />} />
             <Route path="/board" element={<BoardList />} />
-            <Route path="/board/edit" element={<BoardRegister />} />
-            <Route path="/board/edit/:id" element={<BoardRegister />} />
+            {/* <Route path="/board/:edit" element={<BoardUpdate />} /> */}
+            <Route path="/board/register" element={<BoardRegister />} />
+            <Route path="/board/edit/:id" element={<BoardUpdate />} />
             <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList />} />

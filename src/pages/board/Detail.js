@@ -226,7 +226,7 @@ export const BoardDetail = () => {
                 )}
               </div>
               <div className="commentFooter">
-                <div>{`${comment.registerDate[0]}.${comment.registerDate[1]}.${comment.registerDate[2]}`}</div>
+                <div>{`${comment.updateDate[0]}.${comment.updateDate[1]}.${comment.updateDate[2]}`}</div>
                 <div>
                   {editingCommentId === comment.commentCode ? (
                     <>
