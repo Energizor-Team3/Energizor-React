@@ -78,7 +78,7 @@ function Header() {
                         </a>
                     </div>
                     <div>
-                        <a href="/message">
+                        <a href="/rec-message">
                             <img src="/common/Mail.png" alt="" />
                             <span style={spanStyle}>쪽지</span>
                         </a>

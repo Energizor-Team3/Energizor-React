@@ -103,6 +103,9 @@ function Group() {
   const team = useSelector((state) => state.groupTeamReducer);
   const dept = useSelector((state) => state.groupDeptReducer);
   const deptInset = useSelector((state) => state.groupAdminReducer);
+  const loginUser = useSelector((state) => state.groupAdminReducer);
+  
+
 
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
@@ -120,7 +123,8 @@ function Group() {
 
   const handleGroupAdminClick = async () => {
       setShowAdminButtons(true);
-    
+      setGroupShow(false);
+
   };
 
   // const handleGroupAdminClick = async () => {
@@ -542,10 +546,7 @@ function Group() {
             <button
               href="writingNote.html"
               className="btn"
-              onClick={(event) => {
-                handleGroupAdminClick(event);
-                setGroupShow(false);
-              }}
+              onClick={handleGroupAdminClick}
             >
               새그룹
             </button>
@@ -570,10 +571,7 @@ function Group() {
                     cursor: "pointer",
                   }}
                   type="button"
-                  onClick={(event) => {
-                    handleGroupAdminClick(event);
-                    setGroupShow(false);
-                  }}
+                  onClick={handleGroupAdminClick}
                 >
                   그룹관리
                 </button>
