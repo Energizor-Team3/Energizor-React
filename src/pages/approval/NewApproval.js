@@ -171,14 +171,14 @@ function NewApproval(){
         </div>
         {/* 이미지, 텍스트 및 기타 컨텐츠 포함 가능 */}
       </div>
-      <select name="page_number_choice" id="page_number_choice">
+      {/* <select name="page_number_choice" id="page_number_choice">
         <option value={5}>5</option>
         <option value={10}>10</option>
         <option value={15}>15</option>
       </select>
       <label className="page_number_choice_text" htmlFor="page_number_choice">
         페이지당 항목수
-      </label>
+      </label> */}
     </div>
   </main>
 </div>

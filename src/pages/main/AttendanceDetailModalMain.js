@@ -7,36 +7,8 @@ import { redirect } from 'react-router';
 import ReactDOM from 'react-dom';
 import store from '../../Store';
 
-
-
-// ReactDOM.render(
-//     <Provider store={store}>
-//     </Provider>,
-//     document.getElementById('root')
-// );
-
-// reportWebVitals();
-
-
-
 function AttendanceDetailModal ({setIsModalOpen, handleClose, userCode}) {
     const dispatch = useDispatch();
-
-
-    // const closeModal = () => {
-    //     setIsModalOpen(false);
-    // };
-
-    // const handleCheckIn = () => {
-    //     dispatch(callAttendancePOSTAPI({ form: { userCode, cState: '출근' } }));
-    //     handleClose();
-    // }
-
-    // const handleCheckOut = () => {
-    //     dispatch(callAttendancePUTAPI({ cCode: userCode, form: { cState: '퇴근' } }));
-    //     handleClose();
-    // }
-
 
     /* today */
     const [time, setTime] = useState(new Date());
@@ -47,9 +19,6 @@ function AttendanceDetailModal ({setIsModalOpen, handleClose, userCode}) {
         }, 1000);
         return (() => clearInterval(id))
     }, []);
-
-
-
 
     /* 날짜 */
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -67,9 +36,7 @@ function AttendanceDetailModal ({setIsModalOpen, handleClose, userCode}) {
         return formattedDate.replace('-', '-');
     };
 
-
-
-
+    
     return (
         <section className="e233_28631">
             <span className="e233_28641">출퇴근 등록</span>
@@ -77,7 +44,7 @@ function AttendanceDetailModal ({setIsModalOpen, handleClose, userCode}) {
             <span className="e233_28661">출근 시간 :</span>
             <span className="e233_28671">퇴근 시간 :</span>
             <span className="e233_28681">08:53:15</span>
-            <span className="e1243_671">08:53:15</span>
+            <span className="e1243_671">19:30:31</span>
             <span className="e233_28691">{formatDate(currentDate)}</span>
             <span className="e233_28701">{time.toLocaleTimeString('en-US', {hour12: false})}</span>
             <div className="e233_28711">

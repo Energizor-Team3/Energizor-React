@@ -19,7 +19,7 @@ import {
     
 } from '../modules/ApprovalMainModule';
 import {
-    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
+    
     PUT_APPROVAL_APPROVEMENT,
     GET_APPROVAL_SELECTPROXY,
     PUT_APPROVAL_UPDATEPROXY,
@@ -27,7 +27,7 @@ import {
    
 } from '../modules/ApprovalsubModule';
 import {
-    GET_APPROVAL_FINDLINEUSER,
+    
     PUT_APPROVAL_REJECTION,
     GET_APPROVAL_LINEDOCUMENTCOMPLETE,
     GET_APPROVAL_TOTALDOCUMENT,
@@ -54,6 +54,18 @@ import{
 import{
     GET_APPROVAL_SELECTFILE
 } from'../modules/ApprovalFileModule';
+import{
+    GET_APPROVAL_SELECTPROXY2
+} from'../modules/ApprovalSubSubModule';
+import{
+    POST_APPROVAL_INSERTCOMMENT
+} from'../modules/ApprovalCommentModule';
+import{
+    GET_APPROVAL_FINDLINEUSER
+}from '../modules/ApprovalfinduserModule'
+import{
+    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL
+}from '../modules/ApprovalDetailModule'
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -682,7 +694,8 @@ export const callSelectTempDocumentDetailAPI = (documentCode) => {
 
 //결재자 조회
 export const callSelectLineUserAPI = (documentCode) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalLine/${documentCode}`;
+    const intValue = parseInt(documentCode);
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/selectApprovalLine/${intValue}`;
 
     return async (dispatch, getState) => {
         console.log('들옴?');
@@ -747,6 +760,30 @@ export const callShareDocumentAPI = (documentCode,userCode) => {
         console.log('[ApprovalAPICalls] callShareDocumentAPI RESULT 111: ', result);
 
         dispatch({ type: POST_APPROVAL_INSERTSHAREDDOCUMENT,  payload: result });
+        
+    };
+}
+
+//댓글달기
+export const callInsetCommentAPI = (documentCode,userCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComment/${documentCode}/${userCode}`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callInsetCommentAPI RESULT 111: ', result);
+
+        dispatch({ type: POST_APPROVAL_INSERTCOMMENT,  payload: result });
         
     };
 }
@@ -903,6 +940,29 @@ export const callSelectProxyAPI = () => {
         console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
 
         dispatch({ type: GET_APPROVAL_SELECTPROXY,  payload: result.data });
+        
+    };
+}
+// 대리결재시 조건용도
+export const callSelectProxy2API = () => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/proxy2`;
+
+    return async (dispatch, getState) => {
+        console.log('들옴?');
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectProxyAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTPROXY2,  payload: result.data });
         
     };
 }

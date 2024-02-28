@@ -108,6 +108,7 @@ main{
 
 
 .approvaltable thead th , .approvaltable tbody tr td{
+    text-align: center;
     
     padding: 8px 5px;
 }
@@ -272,3 +273,42 @@ margin-left: 24px;
 
 
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    padding-top: 50px;
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination li a {
+    color: #94A9FF;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #F2F6FF;
+    background-color: #F2F6FF;
+    border-radius: 5px;
+  }
+  
+  .pagination li a:hover {
+    background-color: #94A9FF;
+    color: #fff;
+  }
+
+  .pagination-container {
+    /* position: fixed; */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+    
+    padding: 10px 0; /* 페이징 버튼 위아래의 여백을 조절합니다. */
+    z-index: 1000; /* 다른 요소들 위에 올라오도록 z-index를 설정합니다. */
+}
+
+
+  

@@ -8,21 +8,29 @@ import React, { useEffect, useState } from 'react';
 export default function ApprovalMainStatus(props){
     const { documentCode } = props;
     const dispatch = useDispatch();
-    console.log(documentCode);
+   
+
     
-    const approvalLine = useSelector((state) => state.approvalLineReducer); // 겱재자
-    console.log(approvalLine, 'approvalLine');
+    
+    const approvalLine = useSelector((state) => state.approvalfinduserReducer); // 겱재자
+    
+    
 
 
-    useEffect(() => {
-        if(documentCode){
+   
+
+      useEffect(() => {
+        
+          if(documentCode != undefined){
+
             dispatch(callSelectLineUserAPI(documentCode));
-
-        }
-      },[documentCode])
-
-
-
+          }
+    
+        
+      }, [dispatch,documentCode]);
+    
+      
+      
     
     
     return(

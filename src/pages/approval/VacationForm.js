@@ -2,11 +2,13 @@ import './Vacation.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI, callShareDocumentAPI } from '../../apis/ApprovalAPICalls.js';
+import { callSelectRfUserAPI, callSelectLineUserAPI, callSelectTempDocumentDetailAPI, callSelectUserDetailAPI, callApprovementAPI,callRejectionAPI, callShareDocumentAPI, callSelectProxy2API } from '../../apis/ApprovalAPICalls.js';
 import ApprovalHeader from './approvalHeader'
 import { printDocument } from './pdf.js';
 import ApprovalGroup2 from './ApprovalGroup2.js';
 import FilePopup from './FilePopup.js';
+import Comment from './Comment.js';
+
 
 
 function VacationForm(){
@@ -17,13 +19,15 @@ function VacationForm(){
   const navigate = useNavigate();
   const documentCodeData = location.state?.documentCode;
   console.log(documentCodeData, 'documentCodeData');
-  const approvalLine = useSelector((state) => state.approvalLineReducer); // 겱재자
+  const approvalLine = useSelector((state) => state.approvalfinduserReducer); // 겱재자
   const approvalRf = useSelector((state) => state.approvalRfReducer); //참조자
-  const approvalDetail = useSelector((state) => state.approvalSubReducer);// 문서 상세 정보
+  const approvalDetail = useSelector((state) => state.approvalDetailReducer);// 문서 상세 정보
   const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
+  const proxyuser = useSelector((state) => state.approvalSubSubReducer); // 대리결재자 확인용
   console.log(approvalLine, 'approvalLine');
+  console.log(proxyuser, 'proxyuser');
   console.log(approvalRf, 'approvalRf');
-  console.log(approvalDetail, 'approvalDetail');
+  console.log(approvalDetail, 'approvalDetail213123123');
   console.log(userDetail, 'userDetail');
   const [isLoading, setIsLoading] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -96,6 +100,7 @@ function VacationForm(){
       await dispatch(callSelectTempDocumentDetailAPI(documentCodeData));
       await dispatch(callSelectRfUserAPI(documentCodeData));
       await dispatch(callSelectLineUserAPI(documentCodeData));
+      await dispatch(callSelectProxy2API());
       // 데이터 로딩이 완료되면 로딩 상태를 false로 설정합니다.
       setIsLoading(false);
     }
@@ -156,25 +161,29 @@ function VacationForm(){
       <strong>기안문서</strong>
           <div className="line">
           <div className="search_box">
-              <span>
-              {
-              approvalLine.filter((line) =>
-              line.user.userCode === userDetail?.userCode &&
-               line.approvalLineStatus === '미결'
-              ).length > 0 && (
-                <button onClick={testBtn}>승인</button>
-               )
-              }
-              </span>
-              <span>{
-              approvalLine.filter((line) =>
-              line.user.userCode === userDetail?.userCode &&
-              line.approvalLineStatus === '미결'
-              ).length > 0 && (            
-              <button onClick={testBtn1}>반려</button>   
-              )
-            }           
-              </span>
+          
+          <span>
+                {
+  approvalLine.filter((line) =>
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
+    line.approvalLineStatus === '미결'
+  ).length > 0 && (
+    <button onClick={testBtn}>승인</button>
+  )
+}
+</span>
+<span>
+{
+  approvalLine.filter((line) =>
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
+    line.approvalLineStatus === '미결'
+  ).length > 0 && (
+    <button onClick={testBtn}>반려</button>
+  )
+} 
+</span> 
               <span>
               <button onClick={() => printDocument('pdf-content')}>PDF</button>
               </span>
@@ -358,6 +367,7 @@ function VacationForm(){
       <ApprovalGroup2 onUserSelect={handleUserSelect} />
 
         </div>
+        <Comment documentCode={documentCodeData}/>
         <FilePopup isOpen={isPopupOpen} handleClose={() => setIsPopupOpen(false)} content={popupContent}/>
       </div>
     </div>

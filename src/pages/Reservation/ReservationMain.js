@@ -3,7 +3,10 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useDispatch, useSelector } from "react-redux";
-import { callReservationInsertAPI, callResevationTotalDetailAPI } from "./../../apis/ReservationAPICalls";
+import {
+  callReservationInsertAPI,
+  callResevationTotalDetailAPI,
+} from "./../../apis/ReservationAPICalls";
 import { useEffect, useState } from "react";
 import reservationTotalReducer from "./../../modules/ReservationTotalModules ";
 import { Link } from "react-router-dom";
@@ -19,6 +22,8 @@ function ReservationMain() {
     dispatch(callResevationTotalDetailAPI());
   }, [dispatch]);
 
+  
+
   function getColorForMeetCode(meetCode) {
     switch (meetCode) {
       case 1:
@@ -28,6 +33,41 @@ function ReservationMain() {
       case 3:
         return "#dcb2f9"; // 연한 보라색
     }
+  }
+
+  function convertMeetTimeToTimeString(meetTimeCode) {
+    const timeMappings = {
+      1: "08:00",
+      2: "08:30",
+      3: "09:00",
+      4: "09:30",
+      5: "10:00",
+      6: "10:30",
+      7: "11:00",
+      8: "11:30",
+      9: "12:00",
+      10: "12:30",
+      11: "13:00",
+      12: "13:30",
+      13: "14:00",
+      14: "14:30",
+      15: "15:00",
+      16: "15:30",
+      17: "16:00",
+      18: "16:30",
+      19: "17:00",
+      20: "17:30",
+      21: "18:00",
+      22: "18:30",
+      23: "19:00",
+      24: "19:30",
+      25: "20:00",
+      26: "20:30",
+      27: "21:00",
+      28: "21:30",
+      29: "22:00",
+    };
+    return timeMappings[meetTimeCode] || "00:00";
   }
 
   return (
@@ -124,20 +164,24 @@ function ReservationMain() {
               events={reservationTotal.map((event) => {
                 // reservationDate 배열을 날짜 문자열로 변환
                 const year = event.reservationDate[0];
-                const month = event.reservationDate[1]
-                  .toString()
-                  .padStart(2, "0"); // 월을 2자리 숫자로 만듦
-                const day = event.reservationDate[2]
-                  .toString()
-                  .padStart(2, "0"); // 일을 2자리 숫자로 만듦
+                const month = event.reservationDate[1].toString().padStart(2, "0"); // 월을 2자리 숫자로 만듦
+                const day = event.reservationDate[2].toString().padStart(2, "0"); // 일을 2자리 숫자로 만듦
                 const isoDate = `${year}-${month}-${day}`;
+              
+                // startTime과 endTime을 시간 문자열로 변환
+                const startTimeString = convertMeetTimeToTimeString(event.startTime);
+                const endTimeString = convertMeetTimeToTimeString(event.endTime);
+              
+                // start와 end 시간을 ISO 8601 날짜-시간 형식으로 결합
+                const startDateTime = `${isoDate}T${startTimeString}:00`;
+                const endDateTime = `${isoDate}T${endTimeString}:00`;
+                console.log(`MeetCode: ${event.meetCode}, Color: ${getColorForMeetCode(event.meetCode)}`);
 
                 return {
-                  title:
-                    event.userCode.userName + " - " + event.reservationContent,
-                  start: isoDate + "T08:00:00",
-                  end: isoDate + "T10:00:00",
-                  color: getColorForMeetCode(event.meetCode), // getColorForMeetCode 함수의 매개변수명 수정 필요
+                  title: event.userCode.userName + " - " + event.reservationContent,
+                  start: startDateTime,
+                  end: endDateTime,
+                  color: getColorForMeetCode(event.meet.meetCode),
                   textColor: "black",
                 };
               })}
