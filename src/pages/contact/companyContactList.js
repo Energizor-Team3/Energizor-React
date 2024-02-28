@@ -53,7 +53,7 @@ function CompanyContact() {
             </section>
 
             <main>
-                <div className="content">
+                <div className="content1">
                     <div className="subject1">
                         <strong>회사 주소록</strong>
                         <div className="line"></div>

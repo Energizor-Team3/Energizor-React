@@ -99,7 +99,7 @@ function PersonalContact() {
             </section>
 
             <main>
-                <div className="content">
+                <div className="content1">
                     <div className="subject1">
                         <strong>개인 주소록</strong>
                         <div className="line"></div>
