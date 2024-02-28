@@ -115,7 +115,7 @@ function ReservationApply() {
           <ul className="sub_list">
             <li>
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
+                <img src="/common/reservation.png" alt="" />
                 <a href="/reservationmain">
                   <span className="textcolor">예약현황</span>
                 </a>
@@ -123,7 +123,7 @@ function ReservationApply() {
             </li>
             <li className="sub_list_text">
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
+                <img src="/common/Mydocumentbox.png" alt="" />
                 <a href="/reservationdetails">
                   {" "}
                   <span>내예약내역</span>

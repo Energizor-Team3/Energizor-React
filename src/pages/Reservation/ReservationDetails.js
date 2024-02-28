@@ -101,7 +101,7 @@ function ReservationDetails() {
           <ul className="sub_list">
             <li>
               <div>
-                <img src="/common/Approval.png" alt="" />
+                <img src="/common/reservation.png" alt="" />
                 <a href="/reservationmain">
                   <span>예약현황</span>
                 </a>
@@ -109,7 +109,7 @@ function ReservationDetails() {
             </li>
             <li className="sub_list_text">
               <div>
-                <img src="/common/Approval.png" alt="" />
+                <img src="/common/Mydocumentbox.png" alt="" />
                 <span>내예약내역</span>
               </div>
             </li>
@@ -147,10 +147,8 @@ function ReservationDetails() {
                 <th>장소</th>
                 <th>신청사유</th>
                 <th>날짜</th>
-                <th>사용시작일시</th>
-                <th>사용종료일시</th>
+               
                 <th>참석자</th>
-                <th>상태</th>
               </tr>
             </thead>
             <tbody>
@@ -164,7 +162,6 @@ function ReservationDetails() {
                         <input
                           type="radio"
                           name="selectedReservations"
-
                           value={reservation?.reservationCode}
                           onChange={(e) =>
                             handleCheckboxChange(
@@ -174,11 +171,10 @@ function ReservationDetails() {
                           }
                         />
                       </td>
-                      <td>{reservation?.meetCode?.meetName}</td>
+                      <td>{reservation?.meet?.meetName}</td>
                       <td>{reservation?.reservationContent}</td>
                       <td>{reservation?.reservationDate}</td>
-                      <td>{reservation?.reservationDate}</td>
-                      <td>{reservation?.reservationDate}</td>
+                     
                       <td>
                         {/* 참석자 버튼: 클릭 시 해당 예약 코드를 인자로 전달하여 참석자 정보 호출 */}
                         <button

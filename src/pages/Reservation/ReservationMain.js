@@ -83,13 +83,13 @@ function ReservationMain() {
           <ul className="sub_list">
             <li>
               <div>
-                <img src="/common/Approval.png" alt="" />
+                <img src="/common/reservation.png" alt="" />
                 <span> 예약현황</span>
               </div>
             </li>
             <li className="sub_list_text">
               <div>
-                <img src="/common/Approval.png" alt="" />
+              <img src="/common/Mydocumentbox.png" alt="" />
                 <a href="/reservationdetails">
                   {" "}
                   <span>내예약내역</span>
@@ -108,7 +108,7 @@ function ReservationMain() {
           <div className="meeting-room-container">
             <div className="meeting-room-box">
               <img
-                src="/reservation/meetingRoom1.jpg"
+                src="/reservation/meetingRoom1.png"
                 alt="Meeting Room 1"
                 className="meeting-room-image"
               />
