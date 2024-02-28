@@ -529,7 +529,7 @@ function Group() {
     return (
         <div id="wrap">
             <section>
-                <article>
+                <article className='wrap_group'>
                     <h2>조직도</h2>
                     <div>
                         <button
@@ -543,8 +543,8 @@ function Group() {
                             새그룹
                         </button>
                     </div>
-                    <ul className="subList">
-                        <li>
+                    <ul className='subList'>
+                        <li className='subListText'>
                             <div>
                                 <img
                                     src="/common/organization.png"
@@ -558,20 +558,13 @@ function Group() {
                                 </a>
                             </div>
                         </li>
-                        <li className="subListText">
+                        <li className='subListText'>
                             <div>
                                 <img
                                     src="/common/group.png"
                                     alt=""
                                 />
-                                <button
-                                    style={{
-                                        border: 'none',
-                                        background: 'transparent',
-                                        fontSize: '17px',
-                                        cursor: 'pointer',
-                                    }}
-                                    type="button"
+                                <button type='button'
                                     onClick={(event) => {
                                         handleGroupAdminClick(event);
                                         setGroupShow(false);
@@ -603,7 +596,7 @@ function Group() {
                         <div className="group_wrap2">
                             {/* <!-- <div class="group">&lt;조직&gt;</div> --> */}
 
-                            <div className="group_content">
+                            <div className="group_contents">
                                 <div className="group_search">
                                     <input
                                         type="search"
