@@ -77,12 +77,12 @@ function Header() {
                             <span style={spanStyle}>조직도</span>
                         </a>
                     </div>
-                    <div>
+                    {/* <div>
                         <a href="/message">
                             <img src="/common/Mail.png" alt="" />
                             <span style={spanStyle}>쪽지</span>
                         </a>
-                    </div>
+                    </div> */}
                     {/* <div>
                     <a href="/group">
                         <img src="/common/Messanger.png" alt="" />

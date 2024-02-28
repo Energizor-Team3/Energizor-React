@@ -7,6 +7,7 @@ import { decodeJwt } from "../../utils/tokenUtils";
 import { callAttendancePOSTAPI, callAttendancePUTAPI, callAttendanceAPI } from "../../apis/AttendanceAPICalls";
 import AttendanceDetailModal from "./AttendanceDetailModal";
 import { Navigate } from "react-router-dom";
+import { callMyPageAPI } from "../../apis/UserAPICalls";
 
 import "./attendance.css";
 
@@ -17,9 +18,14 @@ function AttendanceCommute() {
     const attendance = useSelector((state) => state.attendanceReducer);
     const [isModalOpen, setIsModalOpen] = useState(false);  // 모달 상태를 관리하는 useState
 
+    /* 프로필 */
     const myInfo = useSelector((state) => state.userReducer);
     const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
     console.log('myInfo', myInfo);
+
+    useEffect(() => {
+        dispatch(callMyPageAPI());
+    }, []);
 
     useEffect(() => {
         const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
@@ -39,7 +45,7 @@ function AttendanceCommute() {
     const formatDate = (date) => {
         const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
         const formattedDate = date.toLocaleString('ko-KR', options);
-        return formattedDate.replace('.', '-');
+        return formattedDate.replace('-', '-');
     };
 
 

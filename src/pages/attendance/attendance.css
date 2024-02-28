@@ -225,7 +225,7 @@
 }
 .e233_1676 {
     color:rgba(0, 0, 0, 1);
-    width:82px;
+    /* width:82px; */
     height:16px;
     position:absolute;
     left:216px;
@@ -237,14 +237,14 @@
 }
 .e233_1677 {
     color:rgba(0, 0, 0, 1);
-    width:57px;
+    /* width:57px; */
     height:20px;
     position:absolute;
-    left:226px;
+    left:235px;
     top:53px;
     font-family:NanumGothic;
     text-align:left;
-    font-size:20px;
+    font-size:24px;
     letter-spacing:0;
 }
 .e233_1678 {

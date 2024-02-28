@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { callEmployeeAPI } from "../../apis/AttendanceAPICalls";
+import { callMyPageAPI } from "../../apis/UserAPICalls";
 import { decodeJwt } from "../../utils/tokenUtils";
 import { Navigate } from "react-router-dom";
 
@@ -17,11 +18,11 @@ function EmployeeCommute() {
     /* 프로필 */
     const myInfo = useSelector((state) => state.userReducer);
     const [profileImagePath, setProfileImagePath] = useState(myInfo.profilePath);
-    // console.log('myInfo', myInfo);
+    console.log('myInfo', myInfo);
 
-    // useEffect(() => {
-    //     dispatch(callMyPageAPI());
-    // }, []);
+    useEffect(() => {
+        dispatch(callMyPageAPI());
+    }, []);
 
     useEffect(() => {
         const newPath = `${myInfo.profilePath}?${new Date().getTime()}`;
@@ -56,7 +57,7 @@ function EmployeeCommute() {
     const formatDate = (date) => {
         const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
         const formattedDate = date.toLocaleString('ko-KR', options);
-        return formattedDate.replace('.', '-');
+        return formattedDate.replace('-', '-');
     };
 
     let formatdate;
