@@ -171,10 +171,10 @@ function GeneraldraftForm(){
               <div className="search_box">
                 <span>
                 <span>
-{
+                {
   approvalLine.filter((line) =>
-    (line.user.userCode === userDetail?.userCode ||
-    line.user.userCode === proxyuser?.originUser.userCode) &&
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
     line.approvalLineStatus === '미결'
   ).length > 0 && (
     <button onClick={testBtn}>승인</button>
@@ -184,13 +184,13 @@ function GeneraldraftForm(){
 <span>
 {
   approvalLine.filter((line) =>
-    (line.user.userCode === userDetail?.userCode ||
-    line.user.userCode === proxyuser?.originUser.userCode) &&
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
     line.approvalLineStatus === '미결'
-  ).length > 0 && (            
-    <button onClick={testBtn1}>반려</button>   
+  ).length > 0 && (
+    <button onClick={testBtn}>반려</button>
   )
-}     
+} 
 </span> 
               </span>
               <span>

@@ -7,6 +7,7 @@ import { printDocument } from './pdf.js';
 import ApprovalHeader from './approvalHeader'
 import ApprovalGroup2 from './ApprovalGroup2.js';
 import FilePopup from './FilePopup.js';
+import Comment from './Comment.js';
 
 function BusinesstripForm(){
     let formatdate,formatdate2,formatdate3;
@@ -163,10 +164,11 @@ function BusinesstripForm(){
           <div className="line">
             <div className="search_box">
             <span>
-{
+            
+                {
   approvalLine.filter((line) =>
-    (line.user.userCode === userDetail?.userCode ||
-    line.user.userCode === proxyuser?.originUser.userCode) &&
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
     line.approvalLineStatus === '미결'
   ).length > 0 && (
     <button onClick={testBtn}>승인</button>
@@ -176,13 +178,14 @@ function BusinesstripForm(){
 <span>
 {
   approvalLine.filter((line) =>
-    (line.user.userCode === userDetail?.userCode ||
-    line.user.userCode === proxyuser?.originUser.userCode) &&
+    ((line.user.userCode === userDetail?.userCode) ||
+    (proxyuser != "조회성공" && line.user.userCode === proxyuser.originUser.userCode)) &&
     line.approvalLineStatus === '미결'
-  ).length > 0 && (            
-    <button onClick={testBtn1}>반려</button>   
+  ).length > 0 && (
+    <button onClick={testBtn}>반려</button>
   )
-}     
+} 
+    
 </span>
               <span>
               <button onClick={() => printDocument('pdf-content')}>PDF</button>
@@ -390,6 +393,7 @@ function BusinesstripForm(){
                 <ApprovalGroup2 onUserSelect={handleUserSelect} />
               
               </div>
+              <Comment documentCode={documentCodeData}/>
               <FilePopup isOpen={isPopupOpen} handleClose={() => setIsPopupOpen(false)} content={popupContent}/>
               </div>
           </div>
