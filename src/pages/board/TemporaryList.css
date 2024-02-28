@@ -121,12 +121,12 @@ main {
 }
 
 .board_table thead th:nth-child(4) {
-  width: 300px; 
+  width: 320px; 
   text-align: center; 
 }
 
 .board_table thead th:nth-child(5) {
-  width: 200px; 
+  width: 180px; 
   text-align: center; 
 }
 

@@ -122,12 +122,12 @@ main {
 }
 
 .main_board_table thead th:nth-child(5) {
-  width: 300px; 
+  width: 320px; 
   text-align: center; 
 }
 
 .main_board_table thead th:nth-child(6) {
-  width: 200px; 
+  width: 180px; 
   text-align: center; 
 }
 
