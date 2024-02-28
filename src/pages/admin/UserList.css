@@ -125,7 +125,7 @@ label {
 
 .pagingArea {
   position: absolute;
-  right: 50%;
+  right: 42%;
   transform: translateX(50%);
   margin-top: 20px;
 }
