@@ -240,7 +240,7 @@ function EditSchedule(){
                       onChange={ onChangeHandler }/>
                     </td>
                     <td>
-                      <button id="find_map">찾기</button>
+                      {/* <button id="find_map">찾기</button> */}
                     </td>
                   </tr>
  

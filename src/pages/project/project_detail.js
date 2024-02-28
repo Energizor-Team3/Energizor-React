@@ -284,9 +284,9 @@ const handleDragOver = (e) => {
                                                 id="proTitle"
                                                 name='taskContent'
                                                 className='taskContent'
+                                                autoComplete='off'
                                                 value={form.taskContent}
                                                 onChange={  onChangeHandler }
-                                                
                                                 placeholder='task 내용을 입력하세요'>
 
                         </input>

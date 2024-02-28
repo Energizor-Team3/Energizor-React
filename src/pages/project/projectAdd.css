@@ -133,7 +133,7 @@
    /* border: 1px solid slateblue;  */
    padding: 10px; 
 }
-.input_tb input,.input_tb textarea,#sch_cal{
+.input_tb input,.input_tb textarea{
   width: 100%;
 }
 
@@ -149,7 +149,7 @@
   
 }
 
-.input_tb input,.input_tb textarea,#sch_cal{
+.input_tb input,.input_tb textarea{
   /* background-color: #fafafa; */
   border: 1px solid rgb(185, 185, 185);
   height: 20px;

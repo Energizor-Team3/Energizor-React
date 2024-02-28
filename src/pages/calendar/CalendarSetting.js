@@ -143,10 +143,25 @@ const deleteline = (userCode) => {
       alert('필수 정보를 다 입력해주세요.');
       return;
     }   
-    dispatch(callADDCalendarAPI({ form: form }));
-    alert('캘린더 등록이 완료 되었습니다');
-    navigate("/calendar/setting", { replace: true });        
+  
+    // 캘린더 등록 API 호출
+    dispatch(callADDCalendarAPI({ form: form }))
+      .then(() => {
+        alert('캘린더 등록이 완료되었습니다.');
+        const confirmation = window.confirm('새로운 캘린더에 일정을 등록하시겠습니까?');
+        if (confirmation) {
+          navigate("/schedule/add/detail", { replace: true });
+        } else {
+          navigate("/calendar/main", { replace: true });
+        }
+      })
+      .catch((error) => {
+        // 캘린더 등록 실패 시 처리
+        alert('캘린더 등록에 실패했습니다. 다시 시도해주세요.');
+        console.error('캘린더 등록 실패:', error);
+      });
   };
+  
 
   useEffect(() => {
     if (token !== null) {
@@ -155,7 +170,7 @@ const deleteline = (userCode) => {
   }, []);
 
   const handleDeleteButtonClick = async (calNo) => {
-    const isConfirmed = window.confirm('일정을 삭제하시겠습니까?');
+    const isConfirmed = window.confirm('캘린더를 삭제하시겠습니까?');
   
     if (isConfirmed) {
       try {
@@ -165,7 +180,7 @@ const deleteline = (userCode) => {
         // 다른 작업 수행 가능
         window.location.reload();
       } catch (error) {
-        console.error('일정 삭제 중 오류가 발생했습니다:', error);
+        console.error('캘린더 삭제 중 오류가 발생했습니다:', error);
       }
     } else {
       console.log('삭제가 취소되었습니다.');
