@@ -9,12 +9,14 @@ const initialState = [];
 
 export const GET_PROJECTS         ='projects/GET_PROJECTS';
 export const GET_PROJECT          ='project/GET_PROJECT';
-export const DELETE_PROJECT   ="calendar/DELETE_PROJECT";
+export const DELETE_PROJECT       ="project/DELETE_PROJECT";
+export const POST_PROJECT         ='project/GET_PROJECT';
 
 const actions = createActions ( {
     [GET_PROJECTS]:() => {},
     [GET_PROJECT]: () => {},
-    [DELETE_PROJECT]:() => {}
+    [DELETE_PROJECT]:() => {},
+    [POST_PROJECT]: ()  => {}
 });
 
 /*리듀서*/
@@ -33,6 +35,9 @@ const projectReducer = handleActions(
             
             return payload;
         },
+        [POST_PROJECT]: (state, { payload }) => {
+            return payload;
+        }
     },
     initialState
 );

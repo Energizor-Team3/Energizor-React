@@ -54,6 +54,8 @@ import BoardUpdate from "./pages/board/Update";
 import ProxyApprovalLine from "./pages/approval/ProxyApprovalLine";
 import FilePopup from "./pages/approval/FilePopup";
 import CalendarSettingedit from "./pages/calendar/CalendarSettingedit";
+import ProjectAdd from "./pages/project/projectAdd"
+
  
 
 const queryClient = new QueryClient();
@@ -136,7 +138,8 @@ function App() {
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
             <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
             <Route path="/project/:proNo" element={<ProjectDetail />} />
-            <Route path="/calendar/setting/edit" element={<CalendarSettingedit />}/> 
+            <Route path="/calendar/setting/edit" element={<CalendarSettingedit />}/>   
+            <Route path="/project/newproject" element={<ProjectAdd />}/> 
 
 
             {/*근태관리, 주소록 */}
