@@ -94,14 +94,12 @@ function Approvaling() {
     }
   };
 
-  // 선택된 문서를 토글하는 함수
   const toggleContent = (documentCode) => {
-    if (selectedDocumentCode === documentCode) {
-      setSelectedDocumentCode(null);
-    } else {
-      setSelectedDocumentCode(documentCode);
-    }
+    setSelectedDocumentCode(documentCode);
+    var contentBox = document.getElementById('contentBox');
+    contentBox.classList.toggle('active');
   };
+
 
   return (
     <div id="wrap">

@@ -23,6 +23,18 @@ main{
 }
 
 
+/* 컨텐츠 박스 스타일 */
+.contentBox {
+    display: none; /* 기본적으로 보이지 않음 */
+    border: 1px solid #94A9FF;
+    margin-top: 20px; /* 상단 여백 */
+    border-radius: 6px;
+    position: absolute;
+    background-color: white;
+}
+.active {
+    display: block; /* 보이도록 설정 */
+}
 
 .content .subject{
     display: flex;
