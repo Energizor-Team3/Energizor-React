@@ -22,7 +22,7 @@ const FilePopup = ({ isOpen, handleClose, content }) => {
     const imageContent = content ? (
       <img className='imgkkk' src={image.apFileNameChange} alt={image.apFileNameOrigin} />
     ) : (
-      <p>파일이 없습니다.</p>
+      <p className='filepop'>파일이 없습니다.</p>
     );
     
     console.log(image,'image1111111111111111')
