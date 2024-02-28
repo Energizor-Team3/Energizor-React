@@ -71,12 +71,12 @@ function ProjectMain(){
             <div className="container_1">
                 <button className="addpro_btn">
                 <h1>+</h1>
-                <h3>프로젝트 생성</h3>
+                <NavLink to='/project/newproject'><h3>프로젝트 생성</h3></NavLink>
                 </button>
             </div>
 
             <div className="container_2" id="projectContainer" >    
-            {projectList && projectList.sort(sortByStartDate).map((projects, index) => (
+            {Array.isArray(projectList) && projectList.sort(sortByStartDate).map((projects, index) => (
                 
                                 
                 <NavLink to={`/project/${projects.proNo}`} key={projects.proNo}>
