@@ -123,8 +123,8 @@ function EditSchedule(){
   
   
     return(
-     <div id="wrap">
-      <section>
+        <div id="wrap">
+                   <section>
         <article>
             <h2 className="menu_schedule">일정관리</h2>
             <div id="menu_1">
@@ -240,7 +240,7 @@ function EditSchedule(){
                       onChange={ onChangeHandler }/>
                     </td>
                     <td>
-                      <button id="find_map">찾기</button>
+                      {/* <button id="find_map">찾기</button> */}
                     </td>
                   </tr>
  
