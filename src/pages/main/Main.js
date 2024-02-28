@@ -29,20 +29,7 @@ function Main() {
                         <h1>근태</h1>
 
                         <AttendanceDetailModalMain/>
-
-                            {/* <div className={MainCSS.attendance}>
-                            <div className={MainCSS.info}>
-                                <p id="date-info">오늘 날짜: </p>
-                                <p id="time-info">현재 시각: </p>
-                                <p id="start-time-info">출근 시각: </p>
-                                <p id="end-time-info">퇴근 시각: </p>
-                            </div>
-                    
-                            <div className={MainCSS.button}>
-                                <button id="in-btn" onclick="recordTime('start')">출근</button>
-                                <button id="out-btn" onclick="recordTime('end')">퇴근</button>
-                            </div>
-                        </div> */}
+                        
 
                     
 

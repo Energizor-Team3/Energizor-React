@@ -39,7 +39,7 @@ function CompanyContact() {
                             <span>회사 주소록</span>
                         </div>
                     </a>
-                    <a href="/contact/personal-list/{userCode}">
+                    <a href="/contact/personal-list/1">
                         <div id="personal_contact">
                             <img src='/contact/address.png' alt=''/>
                             <span>개인 주소록</span>

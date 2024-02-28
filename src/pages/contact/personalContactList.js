@@ -14,6 +14,7 @@ function PersonalContact() {
     const navigate = useNavigate();
     const params = useParams();
     const contactList = useSelector((state) => state.contactReducer);
+    const [isOpeninsert, setIsOpeninsert] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [form, setForm] = useState({
         pcName: '',
@@ -27,14 +28,14 @@ function PersonalContact() {
 
     useEffect(() => {
         dispatch(callPersonalAPI({ userCode: params.userCode}));
-    }, []);
+    }, [isOpeninsert]);
 
     const openModalHandler = () => {
-        setIsOpen(true);
+        setIsOpeninsert(true);
     };
 
     const closeModalHandler = () => {
-        setIsOpen(false);
+        setIsOpeninsert(false);
     };
 
     const handleInputChange = (e) => {
@@ -66,11 +67,13 @@ function PersonalContact() {
     const editContactHandler = (editedContact) => {
         dispatch(callPersonalPUTAPI({ pcCode: editedContact.pcCode, form: editedContact }));
         setIsDetailOpen(false);
+        window.location.reload();
     };
 
     const deleteContactHandler = () => {
         dispatch(callPersonalDELETEAPI(selectedContact.pcCode));
         setIsDetailOpen(false);
+        window.location.reload();
     };
 
     return (
@@ -85,7 +88,7 @@ function PersonalContact() {
                         </div>
                     </a>
                     
-                    <a href="/contact/personal-list/{userCode}">
+                    <a href="/contact/personal-list/1">
                         <div id="personal_contact" style={{ color: "#415CBE" }}>
                             <img src='/contact/address.png' alt=''/>
                             <span>개인 주소록</span>
@@ -131,29 +134,43 @@ function PersonalContact() {
                         <button onClick={openModalHandler} className="contact_insert">연락처 추가</button>
                         
                         {/* 모달 */}
-                        {isOpen && (
-                            <div>
+                        {isOpeninsert && (
+                            <div className="e367_87">
                                 {/* 새로운 연락처를 추가하기 위한 입력 폼 */}
-                                <h3>연락처를 추가해주세요.</h3>
-                                <input type="text" name="pcName" value={form.pcName} onChange={handleInputChange} placeholder="이름" />
-                                <input type="text" name="pcCompany" value={form.pcCompany} onChange={handleInputChange} placeholder="회사" />
-                                <input type="text" name="pcRank" value={form.pcRank} onChange={handleInputChange} placeholder="직급" />
-                                <input type="text" name="pcDept" value={form.pcDept} onChange={handleInputChange} placeholder="부서" />
-                                <input type="text" name="pcPhone" value={form.pcPhone} onChange={handleInputChange} placeholder="전화번호" />
-                                <input type="email" name="pcEmail" value={form.pcEmail} onChange={handleInputChange} placeholder="이메일" />
-                                <button onClick={handleContactInsert}>추가</button>
-                                <button onClick={closeModalHandler}>취소</button>
+                                <span className="e367_89" onClick={closeModalHandler}></span>
+                                <h3 className="e367_88">연락처를 추가해주세요.</h3>
+                                <input className="e367_96" type="text" name="pcName" value={form.pcName} onChange={handleInputChange} placeholder="이름" />
+                                <input className="e367_97" type="text" name="pcCompany" value={form.pcCompany} onChange={handleInputChange} placeholder="회사" />
+                                <input className="e367_98" type="text" name="pcRank" value={form.pcRank} onChange={handleInputChange} placeholder="직급" />
+                                <input className="e367_99" type="text" name="pcDept" value={form.pcDept} onChange={handleInputChange} placeholder="부서" />
+                                <input className="e367_100" type="text" name="pcPhone" value={form.pcPhone} onChange={handleInputChange} placeholder="전화번호" />
+                                <input className="e367_101" type="email" name="pcEmail" value={form.pcEmail} onChange={handleInputChange} placeholder="이메일" />
+                                
+                                <button className="e367_90">
+                                    <div className="e367_91" />
+                                    <span className="e367_92" onClick={handleContactInsert}>추가</span>
+                                </button>
+                                
+                                <button className="e367_93">
+                                    <div className="e367_94" />
+                                    <span className="e367_95" onClick={closeModalHandler}>취소</span>
+                                </button>
                             </div>
                         )}
+                        
                     </div>
 
                     {/* 상세 정보 모달 */}
                     <ContactDetailModal
                         isOpen={isDetailOpen}
+                        setIsOpen={setIsDetailOpen}
+                        // setIsOpen={setIsOpen}
+                        setIsOpeninsert={setIsOpeninsert}
                         closeModal={closeDetailModalHandler}
                         contact={selectedContact}
                         handleEdit={editContactHandler}
                         handleDelete={deleteContactHandler}
+                        
                     />
                 </div>
             </main>
