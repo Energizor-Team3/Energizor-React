@@ -9,7 +9,7 @@ function ApprovalHeader(){
   
   const dispatch = useDispatch();
   const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer);
-  const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer);
+  const totaldocumentproceeding  = useSelector((state) => state.approvaltotaldocumentReducer);
   const [isLoading, setIsLoading] = useState(true);
   
   
@@ -19,7 +19,6 @@ function ApprovalHeader(){
   console.log('totaldocumentproceeding',  totaldocumentproceeding );
   
 
-  
   
   
   useEffect(() => {

@@ -47,8 +47,8 @@ import{
 } from'../modules/ApprovalHeaderModule';
 import{
     
-    GET_APPROVAL_PROGRESS1,
-    GET_APPROVAL_TOTALDOCUMENTPROCEEDING
+    GET_APPROVAL_PROGRESS1
+    
     
 } from'../modules/ApprovalHeaderSubModule';
 import{
@@ -59,13 +59,21 @@ import{
 } from'../modules/ApprovalSubSubModule';
 import{
     POST_APPROVAL_INSERTCOMMENT
+    
 } from'../modules/ApprovalCommentModule';
+import{
+    GET_APPROVAL_SELECTCOMMENT
+    
+} from'../modules/ApprovalComment2Module';
 import{
     GET_APPROVAL_FINDLINEUSER
 }from '../modules/ApprovalfinduserModule'
 import{
     GET_APPROVAL_SELECTEMPDOCUMENTDETAIL
 }from '../modules/ApprovalDetailModule'
+import{
+    GET_APPROVAL_TOTALDOCUMENTPROCEEDING
+}from '../modules/ApprovalTotalDocumentModule'
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {
@@ -764,12 +772,37 @@ export const callShareDocumentAPI = (documentCode,userCode) => {
     };
 }
 
+//댓글 조회
+export const callSelectCommentAPI = (documentCode) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComment1/${documentCode}`;
+
+    console.log('들옴?',documentCode);
+    return async (dispatch, getState) => {
+        
+        const result = await fetch(requestURL, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            }
+        })
+        .then(response => response.json());
+
+        console.log('[ApprovalAPICalls] callSelectCommentAPI RESULT 111: ', result);
+
+        dispatch({ type: GET_APPROVAL_SELECTCOMMENT,  payload: result.data });
+        
+    };
+}
+
 //댓글달기
-export const callInsetCommentAPI = (documentCode,userCode) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComment/${documentCode}/${userCode}`;
+export const callInsetCommentAPI = (form) => {
+
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/approval/approvalComment`;
 
     return async (dispatch, getState) => {
-        console.log('들옴?');
+        console.log('들옴?포포포폼',form);
         
         const result = await fetch(requestURL, {
             method: "POST",
@@ -777,7 +810,13 @@ export const callInsetCommentAPI = (documentCode,userCode) => {
                 "Content-Type": "application/json",
                 "Accept": "*/*",
                 "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
-            }
+            },
+            body: JSON.stringify({
+                acContent: form.acContent,
+                document: form.document, // formData.document는 { documentCode: documentCode } 형태임
+              }),
+                
+            
         })
         .then(response => response.json());
 

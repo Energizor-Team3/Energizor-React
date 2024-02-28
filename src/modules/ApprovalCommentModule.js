@@ -4,12 +4,14 @@ import { createActions, handleActions } from 'redux-actions';
 const initialState = [];
 
 /* 액션 */
-export const POST_APPROVAL_INSERTCOMMENT = 'approval/GET_APPROVAL_INSERTCOMMENT';
+export const POST_APPROVAL_INSERTCOMMENT = 'approval/POST_APPROVAL_INSERTCOMMENT';
+
 
 
 
 const actions = createActions({
     [POST_APPROVAL_INSERTCOMMENT]: () => {},
+  
     
     
 });
@@ -21,6 +23,7 @@ export const approvalCommentReducer = handleActions(
             
             return payload;
         },
+       
         
       
     },

@@ -10,7 +10,7 @@ import {
     
     const dispatch = useDispatch();
     const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer || []);
-    const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer || "");
+    const totaldocumentproceeding  = useSelector((state) => state.approvaltotaldocumentReducer);
     const totalInbox  = useSelector((state) => state.approvalLineReducer);
     const [isLoading, setIsLoading] = useState(true);
 
