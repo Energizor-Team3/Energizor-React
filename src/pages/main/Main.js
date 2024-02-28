@@ -87,6 +87,8 @@ function Main() {
 
                         <AttendanceDetailModalMain/>
 
+
+
                     </div>
 
                     {/* <div className={MainCSS.main_note}>
