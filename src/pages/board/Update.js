@@ -75,10 +75,6 @@ export const BoardUpdate = () => {
     console.log('id : ', id)
 
     if (id) {
-      // alert('수정 id :'+id);
-      // alert('수정 title :'+title);
-      // alert('수정 boardTypeCode :'+boardTypeCode);
-      // alert('수정 content :'+editorRef.current.getInstance().getMarkdown());
       putBoardMutate(
         {
           boardCode: id,

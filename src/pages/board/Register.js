@@ -64,9 +64,6 @@ export const BoardRegister = () => {
     } else {
 
       const formData = new FormData();
-      // alert("title :"+title);
-      // alert("boardTypeCode :"+boardTypeCode);
-      // alert("content :"+editorRef.current.getInstance().getMarkdown());
 
       formData.append("title", title);
       formData.append("boardTypeCode", boardTypeCode);
@@ -162,10 +159,6 @@ export const BoardRegister = () => {
         <div>
           <select
             className="select"
-            // value={
-            //   boardDetailData?.data?.boardTypeCode?.toString() ??
-            //   boardTypeCode.toString()
-            // }
             onChange={(e) => setBoardTypeCode(Number(e.target.value))}
           >
             {BOARD_LIST.map((item) => {
