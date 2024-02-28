@@ -20,12 +20,12 @@ function EmployeeCommute() {
 
 
     const formatDate = (date) => {
-        if(date != undefined){
+        
 
             const options = { year: '2-digit', month: '2-digit', day: '2-digit', weekday: 'short' };
             const formattedDate = date.toLocaleString('ko-KR', options);
             return formattedDate.replace('.', '-');
-        }
+        
     };
 
     let formatdate;

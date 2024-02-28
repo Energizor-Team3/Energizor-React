@@ -21,9 +21,9 @@ function GeneraldraftForm(){
   const navigate = useNavigate();
   const documentCodeData = location.state?.documentCode;
   console.log(documentCodeData, 'documentCodeData');
-  const approvalLine = useSelector((state) => state.approvalLineReducer); // 겱재자
+  const approvalLine = useSelector((state) => state.approvalfinduserReducer); // 겱재자
   const approvalRf = useSelector((state) => state.approvalRfReducer); //참조자
-  const approvalDetail = useSelector((state) => state.approvalSubReducer);// 문서 상세 정보
+  const approvalDetail = useSelector((state) => state.approvalDetailReducer);// 문서 상세 정보
   const userDetail = useSelector((state) => state.approvalReducer); // 로그인한 사용자 정보
   const proxyuser = useSelector((state) => state.approvalSubSubReducer); // 대리결재자 확인용
   

@@ -19,7 +19,7 @@ import {
     
 } from '../modules/ApprovalMainModule';
 import {
-    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL,
+    
     PUT_APPROVAL_APPROVEMENT,
     GET_APPROVAL_SELECTPROXY,
     PUT_APPROVAL_UPDATEPROXY,
@@ -63,6 +63,9 @@ import{
 import{
     GET_APPROVAL_FINDLINEUSER
 }from '../modules/ApprovalfinduserModule'
+import{
+    GET_APPROVAL_SELECTEMPDOCUMENTDETAIL
+}from '../modules/ApprovalDetailModule'
 
 // 결대 해야할 문서
 export const callInboxApprovalAPI = () => {

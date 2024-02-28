@@ -10,25 +10,28 @@ import ApprovalMainStatus from './ApprovalMainStatus';
 function Approvaling() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const approvalingstate = useSelector((state) => state.approvalReducer);
-  const rfdocument = useSelector((state) => state.approvalRfReducer);
-  const linedocument = useSelector((state) => state.approvalReducer);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDocumentCode, setSelectedDocumentCode] = useState(null);
   const [selected, setSelected] = useState('전체');
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
   const itemsPerPage = 10; // 페이지 당 아이템 수 설정
-
-  const onSelectChange = (e) => {
-    setSelected(e.target.value); // 선택된 값으로 상태를 업데이트합니다.
-    setCurrentPage(1); // 선택 시 페이지 초기화
-  };
-
+  const approvalingstate = useSelector((state) => state.approvalReducer);
+  const rfdocument = useSelector((state) => state.approvalRfReducer);
+  const linedocument = useSelector((state) => state.approvalLineReducer);
+  console.log(approvalingstate, 'approvalingstate');
+  console.log(rfdocument, 'rfdocument');
+  console.log(linedocument, 'linedocument');
+  
   const allDocuments = [
     ...(approvalingstate || []),
     ...(linedocument || []),
     ...(rfdocument || [])
   ];
+
+  const onSelectChange = (e) => {
+    setSelected(e.target.value); // 선택된 값으로 상태를 업데이트합니다.
+    setCurrentPage(1); // 선택 시 페이지 초기화
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -62,19 +65,11 @@ function Approvaling() {
     case '결재':
       filteredDocuments = linedocument;
       break;
-    default:
-      filteredDocuments = allDocuments;
   }
-
-  // 현재 페이지에 해당하는 아이템들을 가져옵니다.
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDocuments.slice(indexOfFirstItem, indexOfLastItem);
 
   // 페이지 변경 시 실행되는 함수
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    setSelectedDocumentCode(null); // 페이지 변경 시 선택된 문서 초기화
   };
 
   const onClickHandler = (documentCode, form) => {
@@ -101,9 +96,11 @@ function Approvaling() {
 
   // 선택된 문서를 토글하는 함수
   const toggleContent = (documentCode) => {
-    setSelectedDocumentCode(documentCode);
-    var contentBox = document.getElementById('contentBox');
-    contentBox.classList.toggle('active');
+    if (selectedDocumentCode === documentCode) {
+      setSelectedDocumentCode(null);
+    } else {
+      setSelectedDocumentCode(documentCode);
+    }
   };
 
   return (
@@ -144,52 +141,51 @@ function Approvaling() {
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((document) => (
-                  <React.Fragment key={document.documentCode}>
-                    <tr>
-                      <td>
-                        <input type="checkbox" value={document.documentCode} />
-                      </td>
-                      <td>{document.form}</td>
-                      <td>
-                        <a
-                          href="#"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            onClickHandler(document.documentCode, document.form);
-                          }}
-                        >
-                          {document.documentTitle}
-                        </a>
-                      </td>
-                      <td>{document.userDTO.userName}</td>
-                      <td>{document.draftDay}</td>
-                      <td>
-                      <button className="btnStatus" onClick={(e) =>{e.preventDefault(); toggleContent(document?.documentCode)}}>
-                              진행중
-                            </button>
-                      </td>
-                    </tr>
-                    
-                    
-                      <tr className="contentBox" id="contentBox">
-                        <td colSpan="6" className="cblist">
-                          <ApprovalMainStatus documentCode={selectedDocumentCode} />
-                        </td>
-                      </tr>
-                    
-                  </React.Fragment>
-                ))}
+              {filteredDocuments.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((document, index) => (
+  <React.Fragment key={index}>
+    <tr>
+      <td>
+        <input type="checkbox" value={document.documentCode} />
+      </td>
+      <td>{document.form}</td>
+      <td>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            onClickHandler(document.documentCode, document.form);
+          }}
+        >
+          {document.documentTitle}
+        </a>
+      </td>
+      <td>{document.userDTO.userName}</td>
+      <td>{document.draftDay}</td>
+      <td>
+        <button className="btnStatus" onClick={(e) => { e.preventDefault(); toggleContent(document.documentCode) }}>
+          진행중
+        </button>
+      </td>
+    </tr>
+    {selectedDocumentCode === document.documentCode && (
+      <tr key={index + "_content"} className="contentBox" id="contentBox">
+        <td colSpan="6" className="cblist">
+          <ApprovalMainStatus documentCode={selectedDocumentCode} />
+        </td>
+      </tr>
+    )}
+  </React.Fragment>
+))}
               </tbody>
             </table>
           </div>
           <div className="pagination-container">
-          <Pagination // Pagination 컴포넌트 추가
-            itemsPerPage={itemsPerPage}
-            totalItems={filteredDocuments.length}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
+            <Pagination // Pagination 컴포넌트 추가
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredDocuments.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </div>
         </div>
       </main>

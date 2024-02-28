@@ -28,6 +28,7 @@ import groupAdminReducer from "./GroupAdminModule";
 import taskReducer from "./TaskModule";
 import approvalCommentReducer from "./ApprovalCommentModule";
 import approvalfinduserReducer from "./ApprovalfinduserModule";
+import approvalDetailReducer from "./ApprovalDetailModule";
 
 import attendanceReducer from './AttendanceModule';
 
@@ -61,6 +62,7 @@ const rootReducer = combineReducers({
   approvalSubSubReducer,
   approvalCommentReducer,
   approvalfinduserReducer,
+  approvalDetailReducer,
 
 
   taskReducer,

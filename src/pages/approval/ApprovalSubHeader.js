@@ -59,8 +59,8 @@ import {
           <div className="stat-value"><a href="/approvaling">{totaldocumentproceeding}</a></div>
         </div>
         <div className="stat-item">
-          <div className="stat-label"><a href="/approvaling">내문서함</a></div>
-          <div className="stat-value"><a href="/approvaling">{totalInbox}</a></div>
+          <div className="stat-label"><a href="/inbox">내문서함</a></div>
+          <div className="stat-value"><a href="/inbox">{totalInbox}</a></div>
         </div>
       </div>
           
