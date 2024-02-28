@@ -11,7 +11,7 @@
   margin-top: 80px;
 }
 
-.main_group .group_content {
+.main_group .group_contents {
   border: 1px solid rgb(155, 155, 155);
   padding: 10px;
 }
@@ -42,8 +42,6 @@
 .main_group .group_list label {
   cursor: pointer;
 }
-
-
 
 /* 조직도 멤버 정보 */
 
@@ -195,11 +193,11 @@
   border-radius: 6px;
   border: 1px solid rgb(170, 170, 170);
   margin-right: 10px;
-  cursor: pointer !important;
   pointer-events: auto;
   box-shadow: 0 -3px 10px #335cff inset;
   background-color: #94a9ff;
   font-size: 15px;
+  cursor: pointer !important;
 }
 
 .main_group .admin_btn button:hover {
@@ -310,4 +308,12 @@
   height: 30px;
   border: 1px solid rgb(141, 141, 141);
   background-color: white;
+}
+
+article .subList .subListText div > button {
+  font-size: 16px;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-radius: 6px;
 }

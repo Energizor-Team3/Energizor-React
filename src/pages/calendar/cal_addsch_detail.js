@@ -6,7 +6,8 @@ import { decodeJwt } from '../../utils/tokenUtils';
 import { NavLink } from 'react-router-dom';
 
 import {
-    callCalendarListAPI, callAddScheduleAPI
+    callCalendarListAPI,
+     callAddScheduleAPI
 } from '../../apis/CalendarAPICalls'
 
 import calendarReducer from '../../modules/CalendarModule';
@@ -185,8 +186,7 @@ function AddDetailSchedule(){
                         </div>
                     </td>
                     <td className="cb_zone">
-                        <input type="checkbox" id="allday" />
-                        <label htmlFor="allday">종일</label>
+ 
                     </td>
                     </tr>
                     <tr>
@@ -199,7 +199,7 @@ function AddDetailSchedule(){
                             onChange={ onChangeHandler }/>
                     </td>
                     <td>
-                        <button id="find_map">찾기</button>
+                        {/* <button id="find_map">찾기</button> */}
                     </td>
                     </tr>
                     <tr>

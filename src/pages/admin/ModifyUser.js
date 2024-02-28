@@ -47,11 +47,11 @@ function ModifyUser() {
                 userName: userDetail.userName || '',
                 team: userDetail.team ? userDetail.team.teamCode : '',
                 userRank: userDetail.userRank || '',
-                entDate: moment(userDetail.entDate).format('YYYY-MM-DD') || '',
+                entDate: userDetail.entDate || '',
                 email: userDetail.email || '',
                 phone: userDetail.phone || '',
                 offUsed: userDetail.dayoff ? userDetail.dayoff.offUsed : '',
-                resignDate: moment(userDetail.resignDate).format('YYYY-MM-DD') || '',
+                resignDate: userDetail.resignDate || '',
                 adminRole: hasAdminRole,
             }));
         }
@@ -105,11 +105,13 @@ function ModifyUser() {
             userName: form.userName,
             team: selectedTeam ? selectedTeam : null, // teamDTO가 없는 경우 null 처리
             userRank: form.userRank,
-            entDate: moment(form.entDate).format('YYYY-MM-DD'),
+            // entDate: moment.utc(form.entDate).format('YYYY-MM-DD'),
+            entDate: form.entDate,
             email: form.email,
             phone: form.phone,
             offUsed: form.offUsed,
-            resignDate: moment(form.resignDate).format('YYYY-MM-DD'),
+            // resignDate: moment.utc(form.resignDate).format('YYYY-MM-DD'),
+            resignDate: form.resignDate,
             adminRole: form.isAdmin,
         };
 
@@ -174,8 +176,7 @@ function ModifyUser() {
                 <div className="content">
                     <div className="subject">
                         <strong>직원 정보 수정</strong>
-                        <div className="line">
-                        </div>
+                        <div className="line"></div>
                     </div>
 
                     <div className="modify_user_wrap">
@@ -222,13 +223,13 @@ function ModifyUser() {
                                         value={form.userRank}
                                         onChange={onChangeHandler}
                                     >
-                                        <option value="employee">사원</option>
-                                        <option value="manager">대리</option>
-                                        <option value="seniorManager">과장</option>
-                                        <option value="associateDirector">차장</option>
-                                        <option value="generalManager">부장</option>
-                                        <option value="director">이사</option>
-                                        <option value="president">사장</option>
+                                        <option value="사원">사원</option>
+                                        <option value="대리">대리</option>
+                                        <option value="과장">과장</option>
+                                        <option value="차장">차장</option>
+                                        <option value="부장">부장</option>
+                                        <option value="이사">이사</option>
+                                        <option value="사장">사장</option>
                                     </select>
                                 </div>
                                 <div className="regist_user">
@@ -236,7 +237,7 @@ function ModifyUser() {
                                     <input
                                         className="regist_user_input"
                                         name="entDate"
-                                        value={moment(form.entDate).format('YYYY-MM-DD')}
+                                        value={form.entDate}
                                         type="date"
                                         onChange={onChangeHandler}
                                     />
@@ -305,7 +306,7 @@ function ModifyUser() {
                                         <input
                                             className="regist_user_input"
                                             name="resignDate"
-                                            value={moment(form.resignDate).format('YYYY-MM-DD')}
+                                            value={form.resignDate}
                                             type="date"
                                             onChange={onChangeHandler}
                                         />

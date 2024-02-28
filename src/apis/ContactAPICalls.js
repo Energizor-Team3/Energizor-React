@@ -9,7 +9,7 @@ import {
 // 회사 연락처 조회
 export const callCompanyAPI = () => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/contact/company-list`;
-
+    
     return async (dispatch, getState) => {
         try {
             const result = await fetch ( requestURL, {
@@ -66,6 +66,7 @@ export const callPersonalPOSTAPI = ({ form }) => {
                     Accept: '*/*',
                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 }, 
+                
                 body: JSON.stringify({
                     pcName: form.pcName,
                     pcCompany: form.pcCompany,
@@ -77,6 +78,7 @@ export const callPersonalPOSTAPI = ({ form }) => {
                 })
             }).then((response) => response.json());
     
+            
             console.log('[ContactAPICalls] callPersonalPOSTAPI RESULT : ', result);
             dispatch({type: POST_PERSONAL_CONTACT, payload: result});
         } catch (error) {

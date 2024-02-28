@@ -172,13 +172,13 @@ function UserRegist() {
                                     onChange={onChangeHandler}
                                 >
                                     <option value="">직급을 선택하세요</option>
-                                    <option value="employee">사원</option>
-                                    <option value="manager">대리</option>
-                                    <option value="seniorManager">과장</option>
-                                    <option value="associateDirector">차장</option>
-                                    <option value="generalManager">부장</option>
-                                    <option value="director">이사</option>
-                                    <option value="president">사장</option>
+                                    <option value="사원">사원</option>
+                                    <option value="대리">대리</option>
+                                    <option value="과장">과장</option>
+                                    <option value="차장">차장</option>
+                                    <option value="부장">부장</option>
+                                    <option value="이사">이사</option>
+                                    <option value="사장">사장</option>
                                 </select>
                             </div>
                             <div className="regist_user">

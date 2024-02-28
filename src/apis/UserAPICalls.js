@@ -241,6 +241,7 @@ export const callModifyUserAPI = (userCode, requestData, navigate) => async (dis
             payload: data,
         });
         navigate('/userlist', { replace: true });
+        console.log('modifyuser requestData =======', requestData);
     } catch (error) {
         // 에러 처리 (예: 오류 메시지 표시)
         alert(error.message);

@@ -132,13 +132,13 @@
     text-overflow: ellipsis;
 }
 
-.table_at tbody tr td:nth-child(3){
+/* .table_at tbody tr td:nth-child(3){
     min-width: 80px;
     max-width: 80px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
+} */
 
 .table_at tbody tr{
     border-bottom: 1px solid rgb(156, 156, 156);
@@ -225,7 +225,7 @@
 }
 .e233_1676 {
     color:rgba(0, 0, 0, 1);
-    width:82px;
+    /* width:82px; */
     height:16px;
     position:absolute;
     left:216px;
@@ -237,14 +237,14 @@
 }
 .e233_1677 {
     color:rgba(0, 0, 0, 1);
-    width:57px;
+    /* width:57px; */
     height:20px;
     position:absolute;
-    left:226px;
+    left:235px;
     top:53px;
     font-family:NanumGothic;
     text-align:left;
-    font-size:20px;
+    font-size:24px;
     letter-spacing:0;
 }
 .e233_1678 {
@@ -477,8 +477,8 @@
 }
 .e233_2873 { 
 	color:rgba(65.0000037252903, 92.00000211596489, 190.0000038743019, 1);
-	width:31px;
-	height:16px;
+	/* width:31px;
+	height:16px; */
 	position:absolute;
 	left:60px;
 	top:17px;
@@ -508,8 +508,8 @@
 }
 .e233_2876 { 
 	color:rgba(255, 253.08757781982422, 253.08757781982422, 1);
-	width:31px;
-	height:16px;
+	/* width:31px;
+	height:16px; */
 	position:absolute;
 	left:59px;
 	top:17px;
@@ -549,4 +549,10 @@
     position: absolute;
     right: 10px;
     top: 10px;
+}
+
+.disabled {
+    pointer-events: none; /* 클릭 이벤트 비활성화 */
+    opacity: 0.5; /* 투명도 조절 */
+    color: dimgrey;
 }

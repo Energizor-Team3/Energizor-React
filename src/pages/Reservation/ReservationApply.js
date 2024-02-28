@@ -5,27 +5,25 @@ import { FaTimes } from "react-icons/fa";
 import { callReservationInsertAPI } from "./../../apis/ReservationAPICalls";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector, useDispatch } from "react-redux";
 
 function ReservationApply() {
-  const [room, setRoom] = useState("");
+  const dispatch = useDispatch();
+
   const [showOrgChart, setShowOrgChart] = useState(false);
-  const [attendees, setAttendees] = useState([]); // 선택된 참석자 목록
-  const [startTime, setStartTime] = useState("08:00");
-  const [endTime, setEndTime] = useState("08:30");
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [reason, setReason] = useState(""); // 신청 사유 상태 추가
 
   // form 상태 변수 추가
   const [form, setForm] = useState({
-    room: "",
-    reason: "", // 추가: 신청 사유
+    meetCode: "",
+    reservationContent: "", // 추가: 신청 사유
     startTime: "",
     endTime: "",
-    startDate: "",
-    endDate: "",
-    attendees: [], // 수정: 초기값을 빈 배열로 설정
+    member: [], // 수정: 초기값을 빈 배열로 설정
+    reservationDate: "" // 예약 날짜
+
   });
+
+  
 
   useEffect(() => {
     console.log(form);
@@ -35,8 +33,22 @@ function ReservationApply() {
     // form 상태 업데이트
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSaveReservation = () => {
+    // 예약 가능 여부 확인
+    if (isReservationAvailable()) {
+      dispatch(callReservationInsertAPI({ form }));
+      // 예약이 완료되었습니다 알림창
+      window.alert("예약이 완료되었습니다.");
+      // 확인을 누르면 reservationmain으로 이동
+      window.open("/reservationmain", "_self");
+    } else {
+      // 예약이 불가능한 경우 알림창 표시
+      window.alert("해당 시간에 이미 예약이 있습니다. 다른 시간을 선택해주세요.");
+    }
   };
 
   // generateAvailableTimes 함수 수정
@@ -52,28 +64,11 @@ function ReservationApply() {
     return times;
   };
 
-  // 예약 저장 함수 수정
-  const handleSaveReservation = async () => {
-    try {
-      // API 호출을 통해 예약 등록 요청
-      const response = await callReservationInsertAPI(form);
-
-      // 예약 등록 성공 시 처리
-      console.log("예약이 성공적으로 등록되었습니다.", response);
-
-      // 알림창 띄우기
-      window.alert("예약이 성공적으로 등록되었습니다.");
-
-      // 예약 등록 후 페이지 이동
-      window.location.href = "/reservationmain";
-
-    } catch (error) {
-      // 예약 등록 실패 시 처리
-      console.error("예약 등록 중 오류가 발생했습니다.", error);
-
-      // 오류 처리 방법에 따라 적절한 조치를 취함
-      // 예: 사용자에게 오류 메시지 표시, 재시도 요청 등
-    }
+  // 예약 가능 여부 확인하는 함수
+  const isReservationAvailable = () => {
+    // 같은 meetCode와 날짜, 시간이 겹치는 예약이 있는지 확인
+    // 여기에 해당 로직 구현
+    return true; // 일단은 항상 true로 반환하도록 임시 구현
   };
 
   // 참석자 목록 삭제 함수 수정
@@ -84,7 +79,7 @@ function ReservationApply() {
     );
     setForm({
       ...form,
-      attendees: updatedAttendees
+      member: updatedAttendees,
     });
   };
 
@@ -96,14 +91,16 @@ function ReservationApply() {
   // 사용자 선택 시 실행되는 함수 수정
   const handleUserSelect = ({ userCode, name }) => {
     // 이미 선택된 사용자인지 확인
-    if (!form.attendees.some((attendee) => attendee.userCode === userCode)) {
+    if (!form.member.some((attendee) => attendee.userCode === userCode)) {
       // 선택된 사용자가 중복되지 않으면 추가
       setForm({
         ...form,
-        attendees: [...form.attendees, { userCode, name }]
+        member: [...form.member, { userCode, name }],
       });
     }
   };
+
+  
 
   return (
     <div id="wrap">
@@ -118,7 +115,7 @@ function ReservationApply() {
           <ul className="sub_list">
             <li>
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
+                <img src="/common/reservation.png" alt="" />
                 <a href="/reservationmain">
                   <span className="textcolor">예약현황</span>
                 </a>
@@ -126,7 +123,7 @@ function ReservationApply() {
             </li>
             <li className="sub_list_text">
               <div>
-                <img src="/resources/images/Approval.png" alt="" />
+                <img src="/common/Mydocumentbox.png" alt="" />
                 <a href="/reservationdetails">
                   {" "}
                   <span>내예약내역</span>
@@ -145,8 +142,12 @@ function ReservationApply() {
 
           <div className="reservation-container">
             <form className="reservation-form">
-              <label htmlFor="place">장소:</label>
-              <select value={form.room} name="room" onChange={onChangeHandler}>
+              <label htmlFor="meetCode">장소:</label>
+              <select
+                value={form.meetCode}
+                name="meetCode"
+                onChange={onChangeHandler}
+              >
                 <option value="">장소를 선택하세요</option>
                 <option value="1">GREEN ROOM</option>
                 <option value="2">BLUE ROOM</option>
@@ -155,12 +156,18 @@ function ReservationApply() {
               <br />
               <label htmlFor="reason">신청사유:</label>
               {/* 추가: 신청 사유 입력란 */}
-              <input id="reason" name="reason" value={form.reason} onChange={onChangeHandler} required />
+              <input
+                id="reservationContent"
+                name="reservationContent"
+                value={form.reservationContent}
+                onChange={onChangeHandler}
+                required
+              />
               <br />
 
-              <label htmlFor="attendees">참석자:</label>
+              <label htmlFor="member">참석자:</label>
               <div id="attendeesList">
-                {form.attendees.map((attendee, index) => (
+                {form.member.map((attendee, index) => (
                   <span className="attendee-input" key={index}>
                     {attendee.name}
                     <FaTimes
@@ -186,20 +193,21 @@ function ReservationApply() {
                 </div>
               )}
 
-              <div>
-                <label htmlFor="startDate">시작 날짜:</label>
-                <DatePicker
-                  selected={form.startDate}
-                  onChange={(date) => setForm({ ...form, startDate: date || new Date() })}
-                  minDate={new Date()}
-                  maxDate={new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)} // 7 days ahead
-                  dateFormat="yyyy-MM-dd"
-                />
+<div>
+  <label htmlFor="reservationDate">예약 날짜:</label>
+  <DatePicker
+  selected={form.reservationDate}
+  onChange={(date) => setForm({ ...form, reservationDate: date })}
+  minDate={new Date()}
+  maxDate={new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)} // 7 days ahead
 
+/>
                 <label htmlFor="startTime">시작 시간:</label>
                 <select
                   value={form.startTime}
-                  onChange={(e) => setForm({ ...form, startTime: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, startTime: e.target.value })
+                  }
                 >
                   {generateAvailableTimes().map((time, index) => (
                     <option key={index} value={time}>
@@ -208,19 +216,14 @@ function ReservationApply() {
                   ))}
                 </select>
 
-                <label htmlFor="endDate">종료 날짜:</label>
-                <DatePicker
-                  selected={form.endDate}
-                  onChange={(date) => setForm({ ...form, endDate: date || new Date() })}
-                  minDate={form.startDate}
-                  maxDate={new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)} // 7 days ahead
-                  dateFormat="yyyy-MM-dd"
-                />
+               
 
                 <label htmlFor="endTime">종료 시간:</label>
                 <select
                   value={form.endTime}
-                  onChange={(e) => setForm({ ...form, endTime: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, endTime: e.target.value })
+                  }
                 >
                   {generateAvailableTimes().map((time, index) => (
                     <option key={index} value={time}>
