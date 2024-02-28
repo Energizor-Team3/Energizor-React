@@ -215,7 +215,7 @@ export const BoardDetail = () => {
             <div className="commentItem" key={comment.commentCode}>
               <div></div>
               <div className="commentContent">
-                <div>{comment.userName}</div>
+                <div>{comment.teamName}/{comment.userName}</div>
                 {editingCommentId === comment.commentCode ? (
                   <textarea
                     value={editingCommentContent}
