@@ -50,8 +50,12 @@ import PersonalContact from "./pages/contact/personalContactList";
 import CompanyContact from "./pages/contact/companyContactList";
 import EmployeeCommute from "./pages/attendance/employeeCommuteList";
 import AttendanceCommute from "./pages/attendance/attendanceCommuteList";
+import BoardUpdate from "./pages/board/Update";
 import ProxyApprovalLine from "./pages/approval/ProxyApprovalLine";
 import FilePopup from "./pages/approval/FilePopup";
+import CalendarSettingedit from "./pages/calendar/CalendarSettingedit";
+import ProjectAdd from "./pages/project/projectAdd"
+
  
 import SendMessage from "./pages/message/SendMessage";
 import RecMessage from "./pages/message/RecMessage";
@@ -79,13 +83,17 @@ function App() {
 	          {/* 게시판 */}
             <Route path="list/:boardTypeCode" element={<List />} />
             <Route path="/board" element={<BoardList />} />
-            <Route path="/board/edit" element={<BoardRegister />} />
-            <Route path="/board/edit/:id" element={<BoardRegister />} />
+            {/* <Route path="/board/:edit" element={<BoardUpdate />} /> */}
+            <Route path="/board/register" element={<BoardRegister />} />
+            <Route path="/board/edit/:id" element={<BoardUpdate />} />
             <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/board/temp/:id" element={<TempBoardRegister />} />
             <Route path="/board/temp_list" element={<TemporaryList />} />
             <Route path="/board/interest_list" element={<InterestList />} />
-            <Route path="list/:boardTypeCode/:type/:keyword" element={<SearchBoard />} />
+            <Route
+              path="list/:boardTypeCode/:type/:keyword"
+              element={<SearchBoard />}
+            />
 
             {/* 관리자, 마이페이지 */}
             <Route path="/userlist" element={<UserList />} />
@@ -149,7 +157,9 @@ function App() {
             <Route path="/schedule/add/detail" element={<AddDetailSchedule />} />
             <Route path="/schedule/edit/:schNo" element={<EditSchedule />} />
             <Route path="/project/:proNo" element={<ProjectDetail />} />
-            <Route path="/addDetailSchedule" element={<AddDetailSchedule />} />
+            <Route path="/calendar/setting/edit" element={<CalendarSettingedit />}/>   
+            <Route path="/project/newproject" element={<ProjectAdd />}/> 
+
 
             {/*근태관리, 주소록 */}
             <Route path="/contact/personal-list/:userCode" element={ <PersonalContact/> }/>

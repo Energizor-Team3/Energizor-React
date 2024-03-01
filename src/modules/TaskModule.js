@@ -9,11 +9,18 @@ const initialState = {
   };
 
   export const GET_TASKS     ="project/GET_TASKS";
+  export const DELETE_TASK   ="project/DELETE_TASK";
+  export const POST_TASK     ="project/POST_TASK";
+  export const PATCH_TASK    ="project/PATCH_TASK";
 
 
   const actions = createActions({
  
     [GET_TASKS]:() => {},
+    [DELETE_TASK]:() => {},
+    [POST_TASK]:()   => {},
+    [PATCH_TASK]:()   => {},
+    
  
 
 });
@@ -26,8 +33,24 @@ const taskReducer = handleActions(
 
         return payload;
     },
-       
+    [DELETE_TASK]: (state, { payload }) => {
+
+        return payload;
     },
+    [DELETE_TASK]: (state, { payload }) => {
+
+      return payload;
+  },
+    [POST_TASK]: (state, { payload }) => {
+
+      return payload;
+  },
+  [PATCH_TASK]: (state, { payload }) => {
+
+    return payload;
+},
+    },
+
  
     initialState
   );

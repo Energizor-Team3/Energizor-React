@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import userReducer from "./UserModule";
 import approvalReducer from "./ApprovalMainModule";
 import approvalSubReducer from "./ApprovalsubModule";
+import approvalSubSubReducer from "./ApprovalSubSubModule";
 
 import reservationReducer from "./ReservationModules";
 import reservationAttendeeReducer from "./ReservationAttendeeModule";
@@ -25,6 +26,11 @@ import groupTeamReducer from "./GroupTeamModule";
 import reservationInsertReducer from "./ReservationInsertModule";
 import groupAdminReducer from "./GroupAdminModule";
 import taskReducer from "./TaskModule";
+import approvalCommentReducer from "./ApprovalCommentModule";
+import approvalComment2Reducer from "./ApprovalComment2Module";
+import approvalfinduserReducer from "./ApprovalfinduserModule";
+import approvalDetailReducer from "./ApprovalDetailModule";
+import approvaltotaldocumentReducer from "./ApprovalTotalDocumentModule";
 
 import attendanceReducer from './AttendanceModule';
 
@@ -55,12 +61,19 @@ const rootReducer = combineReducers({
   approvalHeaderReducer,
   approvalHeaderSubReducer,
   approvalFileReducer,
+  approvalSubSubReducer,
+  approvalCommentReducer,
+  approvalfinduserReducer,
+  approvalDetailReducer,
+  approvaltotaldocumentReducer,
+  approvalComment2Reducer,
 
 
   taskReducer,
 
  
   contactReducer,
+  attendanceReducer,
 });
 
 export default rootReducer;

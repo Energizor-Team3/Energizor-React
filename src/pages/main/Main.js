@@ -7,11 +7,9 @@ import { callLogoutAPI, callMyPageAPI } from '../../apis/UserAPICalls';
 import { decodeJwt } from '../../utils/tokenUtils';
 import MainPageCalendar from './MainPageCalendar';
 import ApprovalSubHeader from '../approval/ApprovalSubHeader'
-
- 
-
-
+import MainNoticeCard from '../../components/main-cards/MainNoticeCard';
 import AttendanceDetailModalMain from "./AttendanceDetailModalMain";
+
 function Main() {
     // 리덕스를 이용하기 위한 디스패처, 셀렉터 선언
     const dispatch = useDispatch();
@@ -89,28 +87,13 @@ function Main() {
 
                         <AttendanceDetailModalMain/>
 
-                            {/* <div className={MainCSS.attendance}>
-                            <div className={MainCSS.info}>
-                                <p id="date-info">오늘 날짜: </p>
-                                <p id="time-info">현재 시각: </p>
-                                <p id="start-time-info">출근 시각: </p>
-                                <p id="end-time-info">퇴근 시각: </p>
-                            </div>
-                    
-                            <div className={MainCSS.button}>
-                                <button id="in-btn" onclick="recordTime('start')">출근</button>
-                                <button id="out-btn" onclick="recordTime('end')">퇴근</button>
-                            </div>
-                        </div> */}
-
-                    
 
 
                     </div>
 
-                    <div className={MainCSS.main_note}>
+                    {/* <div className={MainCSS.main_note}>
                         <h1>쪽지</h1>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={MainCSS.main_wrap}>
@@ -126,11 +109,9 @@ function Main() {
                         <h1>결재</h1>
                         <ApprovalSubHeader/>
                     </div>
-                    <div className={MainCSS.main_board}>
-                        <h1>내 게시판</h1>
-                    </div>
                     <div className={MainCSS.main_notice}>
                         <h1>공지사항</h1>
+                        <MainNoticeCard/>
                     </div>
                 </div>
             </main>

@@ -126,13 +126,14 @@ function ProxyApprovalLine(){
 
     function formatDate(dateArray) {
       if(dateArray != null){
-        const date = new Date(...dateArray);
-     
+        // 월 값 조정: 배열의 두 번째 요소(월)에서 1을 뺌
+        const adjustedDateArray = [dateArray[0], dateArray[1] - 1, dateArray[2]];
+        const date = new Date(...adjustedDateArray);
+    
         const year = date.getFullYear();
         const month = (`0${date.getMonth() + 1}`).slice(-2); 
         const day = (`0${date.getDate()}`).slice(-2);
-      
-        
+    
         console.log(dateArray, 'dateArray');
         return `${year}-${month}-${day}`;
       }

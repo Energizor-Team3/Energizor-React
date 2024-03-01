@@ -7,6 +7,7 @@ import { BoardLayout } from "../../layouts/BoardLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetTempBoardDetail } from "../../apis/board/useGetTempBoardDetail";
 import { postBoard } from "../../apis/board/usePostBoard";
+import { deleteTemporaryBoard } from "../../apis/board/useDeleteTemporaryBoard";
 import { usePutBoard } from "../../apis/board/usePutBoard";
 import "./Register.css";
 
@@ -27,17 +28,48 @@ export const TempBoardRegister = () => {
   const { mutate: postBoardMutate } = useMutation({
     mutationFn: postBoard,
   });
+  const { mutate: deleteTemporaryBoardMutaet } = useMutation({
+    mutationFn: deleteTemporaryBoard,
+  })
   const { mutate: putBoardMutate } = usePutBoard();
-  const [title, setTitle] = useState("");
-  const [boardTypeCode, setBoardTypeCode] = useState(1);
+  // const [title, setTitle] = useState("");
+  // const [boardTypeCode, setBoardTypeCode] = useState(1);
   const [fileList, setFileList] = useState([]);
+
+  const [title, setTitle] = useState(boardDetailData?.data?.title || "");
+  useEffect(() => console.log('title : ', title))
+
+  const chageTitle = (e) =>{
+    const inputValue = e.target.value;
+    // 입력값이 비어있는 경우에만 제목을 초기화합니다.
+    if (inputValue === "") {
+      setTitle("");
+    } else {
+      setTitle(inputValue);
+    }
+    
+  }
+
+  // const [boardTypeCode, setBoardTypeCode] = useState(1);
+  const [boardTypeCode, setBoardTypeCode] = useState(boardDetailData?.data?.boardTypeCode || "");
+  useEffect(() => console.log('boardTypeCode : ', boardTypeCode))
+
+  const chageBoardType = (e) =>{
+    const inputValue = e.target.value;
+    // 입력값이 비어있는 경우에만 제목을 초기화합니다.
+    if (inputValue === "") {
+      setBoardTypeCode("");
+    } else {
+      setBoardTypeCode(inputValue);
+    }
+    
+  }
 
   const ref = useRef(null);
   const editorRef = useRef(null);
 
   const onSaveBoard = () => {
-    if (!params.id) {
-      const formData = new FormData();
+    const formData = new FormData();
       formData.append("title", title);
       formData.append("boardTypeCode", boardTypeCode);
       fileList.forEach((file) => {
@@ -47,28 +79,20 @@ export const TempBoardRegister = () => {
       postBoardMutate(formData, {
         onSuccess: () => {
           alert("게시글이 작성되었습니다");
+          deleteTemporaryBoardMutaet( params.id, {
+            onSuccess: () => {
+              alert("임시 게시글 삭제되었습니다");
+            },
+            onError: (e) =>{
+              console.error(e);
+            }
+
+          });
         },
         onError: (e) => {
           console.error(e);
         },
       });
-    } else {
-      putBoardMutate(
-        {
-          boardCode: params.id,
-          title,
-          boardTypeCode,
-          // fileList,
-          content: editorRef.current.getInstance().getMarkdown(),
-        },
-        {
-          onSuccess: () => {
-            alert("게시글이 수정되었습니다");
-            navigate(`/board/${params.id}`);
-          },
-        }
-      );
-    }
   };
 
   const onSaveTemporaryBoard = () => {
@@ -120,7 +144,7 @@ export const TempBoardRegister = () => {
         <button className="button" onClick={onSaveTemporaryBoard}>
           임시저장
         </button>
-        <button className="button" onClick={() => navigate("/board")}>
+        <button className="button" onClick={() => navigate(-1)}>
           취소
         </button>
       </div>
@@ -130,8 +154,9 @@ export const TempBoardRegister = () => {
           <input
             type="text"
             placeholder="제목을 입력해주세요"
-            value={title || boardDetailData?.data?.title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            // onChange={(e) => setTitle(e.target.value)}
+            onChange={chageTitle}
           />
         </div>
       </div>
@@ -140,11 +165,14 @@ export const TempBoardRegister = () => {
         <div>
           <select
             className="select"
-            value={
-              boardDetailData?.data?.boardTypeCode?.toString() ??
-              boardTypeCode.toString()
-            }
-            onChange={(e) => setBoardTypeCode(Number(e.target.value))}
+            // value={
+            //   boardDetailData?.data?.boardTypeCode?.toString() ??
+            //   boardTypeCode.toString()
+            // }
+            value={boardTypeCode}
+            // onChange={(e) => setBoardTypeCode(Number(e.target.value))}
+            onChange={chageBoardType}
+            // onChange={(e) => setBoardTypeCode(Number(e.target.value))}
           >
             {BOARD_LIST.map((item) => {
               return (

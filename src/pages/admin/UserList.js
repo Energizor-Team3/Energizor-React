@@ -105,8 +105,6 @@ function UserList() {
                     <div className="subject">
                         <strong>전직원 목록</strong>
                         <div className="line">
-                            
-
                             <div className="search_box">
                                 <div className="retiredEmp">
                                     <input
@@ -152,7 +150,8 @@ function UserList() {
                                 userListContent
                                     .filter((user) => {
                                         return showRetired
-                                            ? moment.utc(user.resignDate).format('YYYY-MM-DD') !== '9999-12-31'
+                                            ? moment.utc(user.resignDate).format('YYYY-MM-DD') !==
+                                                  '9999-12-31'
                                             : true;
                                     })
                                     .map((user) => (
@@ -171,7 +170,8 @@ function UserList() {
                                             <td>{user?.dayoff?.offUsed}</td>
                                             <td>{user?.dayoff?.offCount - user?.dayoff?.offUsed}</td>
                                             <td>
-                                                {moment.utc(user.resignDate).format('YYYY-MM-DD') === '9999-12-31'
+                                                {moment.utc(user.resignDate).format('YYYY-MM-DD') ===
+                                                '9999-12-31'
                                                     ? '재직 중'
                                                     : moment(user.resignDate).format('YYYY-MM-DD')}
                                             </td>

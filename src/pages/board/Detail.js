@@ -215,7 +215,7 @@ export const BoardDetail = () => {
             <div className="commentItem" key={comment.commentCode}>
               <div></div>
               <div className="commentContent">
-                <div>{comment.userName}</div>
+                <div>{comment.teamName}/{comment.userName}</div>
                 {editingCommentId === comment.commentCode ? (
                   <textarea
                     value={editingCommentContent}
@@ -226,7 +226,7 @@ export const BoardDetail = () => {
                 )}
               </div>
               <div className="commentFooter">
-                <div>{`${comment.registerDate[0]}.${comment.registerDate[1]}.${comment.registerDate[2]}`}</div>
+                <div>{`${comment.updateDate[0]}.${comment.updateDate[1]}.${comment.updateDate[2]}`}</div>
                 <div>
                   {editingCommentId === comment.commentCode ? (
                     <>

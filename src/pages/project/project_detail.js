@@ -9,7 +9,11 @@ import DonutChart from './projectDonutChart';
 import'./project_detail.css';
 import { 
     callProjectDetailAPI,
-    callTasksAPI
+    callTasksAPI,
+    callDeleteProjectAPI,
+    callDeleteTaskAPI,
+    callAddTaskAPI,
+    callUpdateTaskAPI
 } from '../../apis/ProjectAPICalls'
 
 import projectReducer from '../../modules/ProjectModule';
@@ -30,11 +34,34 @@ function ProjectDetail(){
     const inProgressTasks = Array.isArray(tasks) ? tasks.filter(task => task.taskStatus === 'I') : [];
     const doneTasks = Array.isArray(tasks) ? tasks.filter(task => task.taskStatus === 'D') : [];
 
-    const renderTasks = (tasks) => tasks.map(task => (
-        <div key={task.taskNo} className="task_1">
+
+//여기서부터 드래그앤 드랍 
+const handleDrop = async (e, newStatus) => {
+    e.preventDefault();
+    const taskNo = e.dataTransfer.getData('taskNo');
+    try {
+        await dispatch(callUpdateTaskAPI({ taskNo, taskStatus: newStatus }));
+        dispatch(callTasksAPI({ proNo: params.proNo }));
+    } catch (error) {
+        console.error('Error updating task status:', error);
+    }
+};
+      
+const handleDragOver = (e) => {
+    e.preventDefault();
+};
+
+      const renderTasks = (tasks, taskStatus) => 
+      tasks.map(task => (
+        <div key={task.taskNo} className="task_1"
+            draggable    
+            onDragStart={(e) => e.dataTransfer.setData('taskNo', task.taskNo)}   
+            onDrop={(e) => handleDrop(e, taskStatus)}  
+            onDragOver={(e) => handleDragOver(e)}>
             <div className="task_top">
-                <div className="task_title">{task.taskContent}</div>
-                <div className="task_delete">X</div>
+                <div className="task_title" style={{marginBottom:'10px'}}>{task.taskContent}</div>
+                <div className="task_delete"
+                 onClick={() => handleDeleteButtonClick(task.taskNo)}>X</div>
             </div>
             <div className="task_att">
                 <span>담당자 : </span>
@@ -42,6 +69,7 @@ function ProjectDetail(){
             </div>
         </div>
     ));
+
 
     console.log("Tasks:", tasks);
     console.log("TODO Tasks:", todoTasks);
@@ -74,7 +102,101 @@ function ProjectDetail(){
         return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
     };
 
+    const handleDeleteButtonClick = async (taskNo) => {
+        const isConfirmed = window.confirm('task를 삭제하시겠습니까?');
+      
+        if (isConfirmed) {
+          try {
+            await dispatch(callDeleteTaskAPI({ taskNo }));
+            window.location.reload(); 
+          } catch (error) {
+            console.error('task 삭제 중 오류가 발생했습니다:', error);
+          }
+        } else {
+          console.log('삭제가 취소되었습니다.');
+        }
+      };
+      const handleDeletePJButtonClick = async (proNo) => {
+        const isConfirmed = window.confirm('project를 삭제하시겠습니까?');
+    
+        if (isConfirmed) {
+          try {
+            await dispatch(callDeleteProjectAPI({ proNo }));
+            // 페이지 리로드 대신 navigate를 사용하여 특정 페이지로 이동
+            navigate('/project/main');
+          } catch (error) {
+            console.error('project 삭제 중 오류가 발생했습니다:', error);
+          }
+        } else {
+          console.log('삭제가 취소되었습니다.');
+        }
+      };
 
+      const onCancelAddTask = () => {
+        setShowAddTask(false);  
+    };
+
+
+    // addTask 버튼 클릭 이벤트 핸들러
+    const [showAddTask, setShowAddTask] = useState(false); // 새로운 task 추가 UI 표시 여부
+    const [selectedProParNo, setSelectedProParNo] = useState('');
+    const onSelectParticipant = (event) => {
+        const newSelectedProParNo = event.target.value;
+        setSelectedProParNo(newSelectedProParNo);
+
+        const selectedUser = project.participants.find(participant => participant.proParNo.toString() === newSelectedProParNo);
+        console.log("선택된 task 담당자", selectedUser.proParNo);
+        if (selectedUser) {
+            setform(prevForm => ({
+                ...prevForm,
+                proParNo: selectedUser.proParNo
+            }));
+        }
+    };
+
+
+
+    const [form, setform] = useState({ // 새로운 task 내용 및 선택된 담당자
+      taskContent: '',
+      proParNo: ''
+    });
+    const handleAddTaskClick = () => {
+        setShowAddTask(!showAddTask);
+      };
+    
+      const onChangeHandler = (e) => {
+        setform({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const onClickPurchaseHandler = () => {
+        console.log('[Task] Task event Started!!');
+        console.log('form', form);
+
+    dispatch(callAddTaskAPI({	
+            form: form
+        }))
+        .then(() => {
+            // 태스크 추가 후 태스크 목록을 다시 불러오는 로직
+            dispatch(callTasksAPI({
+                proNo: params.proNo
+            }));    
+            setShowAddTask(false);
+            alert('Task등록이 완료 되었습니다');
+        })
+        .catch(error => {
+            console.error('Task 추가 중 오류 발생:', error);
+        });
+
+    };
+
+ 
+
+    
+  
+   
      
     return(
       
@@ -105,7 +227,7 @@ function ProjectDetail(){
         
         <main className="projectmain">
             <div className="project_detail_box">
-                <h1 className="back_btn"> &lt; </h1>
+            <NavLink to='/project/main'>   <h1 className="back_btn"> &lt; </h1> </NavLink>
                 <div className="pro_detail">
                 <div className="pro_info">
                     <div className="detail_top">
@@ -114,7 +236,8 @@ function ProjectDetail(){
                         <button className="edit_btn">
                             <img src="/calendar/editcon.png" alt="수정" />
                         </button>
-                        <button className="delete_btn">
+                        <button className="delete_btn"
+                        onClick={() => handleDeletePJButtonClick(project.proNo)}>
                         <img src="/calendar/caltrash.png"  alt='삭제'/>
                         </button>
                     </div>
@@ -149,17 +272,49 @@ function ProjectDetail(){
                     /></div>
                 </div>
                 <div className="pro_task">
-                <div className="todo">
+                <div className="todo"
+                     onDrop={(e) => handleDrop(e, "T")}  
+                     onDragOver={(e) => handleDragOver(e)}>
                     <h4>TO DO</h4>
-                    {renderTasks(todoTasks)}
+                    <button className='addTask'  onClick={handleAddTaskClick}> + </button>
+                    {showAddTask && (
+                    <div className='newtask'>
+                        <input
+                                                type='text'
+                                                id="proTitle"
+                                                name='taskContent'
+                                                className='taskContent'
+                                                autoComplete='off'
+                                                value={form.taskContent}
+                                                onChange={  onChangeHandler }
+                                                placeholder='task 내용을 입력하세요'>
+
+                        </input>
+                        <select className='taskuser'
+                                onChange={onSelectParticipant}>
+                            <option disabled selected value="">----------Task 담당자----------</option>
+                            {project && project.participants && project.participants.map((participant) => (
+                                <option key={participant.proParNo} value={participant.proParNo}>
+                                    {participant.userName}
+                                </option>
+                            ))}
+                        </select>
+                        <button className='submittask' onClick={onClickPurchaseHandler}> 추가 </button>
+                        <button className='cancletask' onClick={onCancelAddTask}>취소</button>
+                    </div>)}
+                    {renderTasks(todoTasks,"T")}
                 </div>
-                <div className="inprogress">
+                <div className="inprogress"
+                     onDrop={(e) => handleDrop(e, "I")}  
+                     onDragOver={(e) => handleDragOver(e)}>
                     <h4>IN PROGRESS</h4>
-                    {renderTasks(inProgressTasks)}
-                </div>
-                <div className="done">
+                    {renderTasks(inProgressTasks,"I")}
+                </div>  
+                <div className="done"
+                     onDrop={(e) => handleDrop(e, "D")}  
+                     onDragOver={(e) => handleDragOver(e)}>
                     <h4>DONE</h4>
-                    {renderTasks(doneTasks)}
+                    {renderTasks(doneTasks,"D")}
                 </div>
                 </div>
             </div>

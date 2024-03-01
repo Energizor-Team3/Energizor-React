@@ -64,7 +64,7 @@ export function BoardLayout({ children }) {
 
   useEffect(()=>{
     if (Object.keys(mapPathToTitle).includes(location.pathname + location.search)) setCurrentBoardTitle(mapPathToTitle[location.pathname + location.search])
-    else if (location.pathname === '/board/edit') setCurrentBoardTitle('게시글 작성')
+    else if (location.pathname === '/board/register') setCurrentBoardTitle('게시글 작성')
     else if (location.pathname.startsWith('/board/edit')) setCurrentBoardTitle('수정하기')
     else if (location.pathname.startsWith('/board/temp')) setCurrentBoardTitle('수정하기')
     else setCurrentBoardTitle('게시글 상세')
@@ -80,7 +80,7 @@ export function BoardLayout({ children }) {
             <h2>게시판</h2>
             <div>
               <button className={"writeButton"}>
-                <Link to="/board/edit" className={"writeButton"}>글쓰기</Link>
+                <Link to="/board/register" className={"writeButton"}>글쓰기</Link>
               </button>
             </div>
             <ul className="sub_list">

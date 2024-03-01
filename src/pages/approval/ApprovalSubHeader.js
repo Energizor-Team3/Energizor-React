@@ -10,8 +10,9 @@ import {
     
     const dispatch = useDispatch();
     const inboxDocumentHeader  = useSelector((state) => state.approvalHeaderReducer || []);
-    const totaldocumentproceeding  = useSelector((state) => state.approvalHeaderSubReducer || "");
+    const totaldocumentproceeding  = useSelector((state) => state.approvaltotaldocumentReducer);
     const totalInbox  = useSelector((state) => state.approvalLineReducer);
+    const [isLoading, setIsLoading] = useState(true);
 
     
   
@@ -25,13 +26,23 @@ import {
     
     
     
-    useEffect(()=>{
-      dispatch(callInboxApprovalHeaderAPI());
+    
+
+    useEffect(() => {
+      async function fetchData() {
+        dispatch(callInboxApprovalHeaderAPI());
       
-      dispatch(callTotalDocumentAPI())
-      dispatch(callTotalDocumentProceedingAPI())
-      
+        dispatch(callTotalDocumentAPI())
+        dispatch(callTotalDocumentProceedingAPI())
+      setIsLoading(false);
+    }
+    fetchData();
     },[dispatch])
+  
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
   
     
     
@@ -48,8 +59,8 @@ import {
           <div className="stat-value"><a href="/approvaling">{totaldocumentproceeding}</a></div>
         </div>
         <div className="stat-item">
-          <div className="stat-label"><a href="/approvaling">내문서함</a></div>
-          <div className="stat-value"><a href="/approvaling">{totalInbox}</a></div>
+          <div className="stat-label"><a href="/inbox">내문서함</a></div>
+          <div className="stat-value"><a href="/inbox">{totalInbox}</a></div>
         </div>
       </div>
           

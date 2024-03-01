@@ -121,17 +121,21 @@ main {
 }
 
 .board_table thead th:nth-child(4) {
-  width: 300px; 
+  width: 320px; 
   text-align: center; 
 }
 
 .board_table thead th:nth-child(5) {
-  width: 200px; 
+  width: 180px; 
   text-align: center; 
 }
 
 .board_table tbody tr {
   border-bottom: 1px solid rgb(156, 156, 156);
+}
+
+.board_table tbody tr td:nth-child(3) {
+  cursor: pointer;
 }
 
 #page_number_choice {
@@ -168,4 +172,25 @@ main {
   color:#fff;
   background-color: #94A9FF;
   cursor: pointer;
+}
+
+.pageContainer{
+  display: flex;
+  justify-content: center; /* 수평 중앙 배치 */
+  align-items: center; /* 수직 중앙 배치 */
+  height: 100vh; /* 전체 화면 높이 */
+}
+
+.page {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  align-items: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.pageSelector {
+  position: fixed;
+  bottom: 0;
 }

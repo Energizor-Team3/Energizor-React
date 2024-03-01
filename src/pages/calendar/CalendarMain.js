@@ -258,11 +258,11 @@ function CalendarMainPage(){
                     `${selectedDate.getFullYear()}년 ${selectedDate.getMonth() + 1}월 ${selectedDate.getDate()}일`  : ''}
                     </span>
                     <span className="schedule_count">{filteredSchedules.length}</span>    {/* 일정개수 */}
-                   
+                    <button className="allopen" style={ {float:"right", cursor:"pointer", border:"none", backgroundColor:"white", fontSize:"16px"}}  onClick={toggleExpand}> 전체보기</button>
                     
                     {filteredSchedules.map(schedule => (
                     <div  key={schedule.schNo} className={`schedule_box ${isExpanded ? 'expanded' : ''}`}>
-                    <div className="schbox_top" onClick={toggleExpand}>
+                    <div className="schbox_top">
                         <div className="sch_time">
                         <div className="sch_start_date">{formatDateTime(schedule.schStartDate)}</div>
                             {schedule.schEndDate && <span>~</span>}

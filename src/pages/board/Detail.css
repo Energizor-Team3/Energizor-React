@@ -149,6 +149,7 @@
   background-color: #94A9FF;
   color:#fff;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 .commentButton2 {
@@ -158,4 +159,5 @@
   background-color: #F2F6FF;
   color:#6d6d6d;
   border-radius: 6px;
+  cursor: pointer;
 }

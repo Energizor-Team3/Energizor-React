@@ -124,7 +124,7 @@ main {
 
 .boradItem {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .subBoradItem {
@@ -133,6 +133,7 @@ main {
 
 .board_type {
   margin-top:30px;
+  color:#3d3d3d;
 }
 
 .board_type .boradItem {

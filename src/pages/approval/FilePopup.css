@@ -30,7 +30,7 @@
 }
 
 /* 이미지 스타일 유지 */
-img {
+.imgkkk {
   max-width: 100%;
   height: auto;
   display: block;
@@ -70,7 +70,7 @@ img {
 }
 
 /* 파일이 없을 때 텍스트 스타일 */
-p {
+.filepop {
   color: #333;
   text-align: center;
 }

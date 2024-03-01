@@ -56,6 +56,9 @@ export const callAttendancePOSTAPI = ({ form }) => {
     const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/attendance/start-register`;
 
     return async (dispatch, getstate) => {
+        // const requestData = {
+        //     cStartTime: form.cStartTime
+        // };
 
         try {
             const result = await fetch ( requestURL, {
@@ -66,16 +69,16 @@ export const callAttendancePOSTAPI = ({ form }) => {
                     Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
                 },
                 body: JSON.stringify({
+                    // requestData
                     cCode: form.cCode,
                     cStartTime: form.cStartTime,
                     cEndTime: form.cEndTime,
                     cState: form.cState,
-                    cDate: form.cDate,
                     userCode: form.userCode
                 })
             }).then((response) => response.json());
 
-            console.log('[AttendanceAPICalls] callAttendancePOSTAPI RESULT : ', result);
+            console.log('[AttendanceAPICalls] callAttendancePOSTAPI RESULT : 왜안돼 ', result);
             dispatch({type: POST_ATTENDANCE_COMMUTE, payload: result});
         } catch (error) {
             console.error('Error adding attendance commutes:', error);
@@ -84,8 +87,8 @@ export const callAttendancePOSTAPI = ({ form }) => {
 };
 
 // 퇴근 도장
-export const callAttendancePUTAPI = ({cCode, form}) => {
-    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/attendance/end-register`;
+export const callAttendancePUTAPI = ({ cCode, form }) => {
+    const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/attendance/end-register/${cCode}`;
 
     return async (dispatch, getState) => {
         try {
