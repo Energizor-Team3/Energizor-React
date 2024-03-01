@@ -314,27 +314,27 @@ export const callTeamDeletetAPI = (teamCode) => {
 };
 
 // 로그인 유저 정보
-// export const callLoginUserAPI = () => {
-//   const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
+export const callLoginUserAPI = () => {
+  const requestURL = `http://${process.env.REACT_APP_RESTAPI_IP}/users/users-management`;
 
-//   return async (dispatch, getState) => {
-//       console.log('확인!!!!!');
+  return async (dispatch, getState) => {
+      console.log('확인!!!!!');
 
-//       const result = await fetch(requestURL, {
-//           method: 'GET',
-//           headers: {
-//               'Content-Type': 'application/json',
-//               Accept: '*/*',
-//               Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
-//           },
-//       }).then((response) => response.json());
+      const result = await fetch(requestURL, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              Accept: '*/*',
+              Authorization: 'Bearer ' + window.localStorage.getItem('accessToken'),
+          },
+      }).then((response) => response.json());
 
-//       console.log('[UserAPICalls] callUserListAPI RESULT : ', result);
+      console.log('[UserAPICalls] callUserListAPI RESULT : ', result);
 
-//       if (result.status === 403) {
-//         alert('관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.');
-//     }
+    //   if (result.status === 403) {
+    //     alert('관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.');
+    // }
 
-//       dispatch({ type: GET_LOGIN_USER, payload: result.data });
-//   };
-// };
+      dispatch({ type: GET_LOGIN_USER, payload: result.data });
+  };
+};

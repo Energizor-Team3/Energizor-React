@@ -18,7 +18,7 @@ import TemporaryList from "./pages/board/TemporaryList";
 import SearchBoard from "./pages/board/List";
 import TempBoardRegister from "./pages/board/TempRegister";
 import Group from "./pages/group/Group";
-import Message from "./pages/message/Message";
+import Message from "./pages/message/SendMessage";
 import ApprovalMain from "./pages/approval/ApprovalMain";
 import BusinessTrip from "./pages/approval/BusinessTrip";
 import Education from "./pages/approval/Education";
@@ -57,6 +57,12 @@ import CalendarSettingedit from "./pages/calendar/CalendarSettingedit";
 import ProjectAdd from "./pages/project/projectAdd"
 
  
+import SendMessage from "./pages/message/SendMessage";
+import RecMessage from "./pages/message/RecMessage";
+import RecMessageStorage from "./pages/message/RecMessageStorage";
+import SendMessageStorage from "./pages/message/SendMessageStorage";
+import MessageTrash from "./pages/message/MessageTrash";
+import WriteMessage from "./pages/message/WriteMessage";
 
 const queryClient = new QueryClient();
 
@@ -103,8 +109,21 @@ function App() {
             {/* 쪽지 */}
             <Route path="/message" element={<Message />} />
 
+            <Route path="/send-message" element={<SendMessage />} />
+            <Route path="/rec-message" element={<RecMessage />} />
+            <Route
+              path="/rec-message-storage"
+              element={<RecMessageStorage />}
+            />
+            <Route
+              path="/send-message-storage"
+              element={<SendMessageStorage />}
+            />
+            <Route path="/message-trash" element={<MessageTrash />} />
+            <Route path="/write-message" element={<WriteMessage />} />
 
             {/* 결재 */}
+            
             <Route path="/generaldraft" element={<GeneralDraft />} />
             <Route path="/education" element={<Education />} />
             <Route path="/businesstrip" element={<BusinessTrip />} />
