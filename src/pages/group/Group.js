@@ -12,10 +12,9 @@ import {
   callTeamUpdateAPI,
   callDeptDeletetAPI,
   callTeamDeletetAPI,
-  callLoginUserAPI,
 } from "../../apis/GroupAPICalls";
 
-// import { callLoginAPI } from "../../apis/UserAPICalls";
+import { callMyPageAPI } from "../../apis/UserAPICalls";
 
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -103,9 +102,7 @@ function Group() {
   const team = useSelector((state) => state.groupTeamReducer);
   const dept = useSelector((state) => state.groupDeptReducer);
   const deptInset = useSelector((state) => state.groupAdminReducer);
-  const loginUser = useSelector((state) => state.groupAdminReducer);
-  
-
+  const userState = useSelector((state) => state.userReducer);
 
   const [showTeamInfo, setShowTeamInfo] = useState(false);
   const [showUserInfo, setShowUserInfo] = useState(false);
@@ -117,32 +114,18 @@ function Group() {
   console.log("클릭한부서코드=============", dept);
   console.log("부서 인설트===", deptInset);
 
+  console.log("유저권한확인!!!===", userState);
+  console.log("유저권한확인2222===", userState.authorities);
+
   // 관리자가 클릭했을때만 보이는 그룹관리 버튼  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const [showAdminButtons, setShowAdminButtons] = useState(false);
 
   const handleGroupAdminClick = async () => {
-      setShowAdminButtons(true);
-      setGroupShow(false);
+
+    setShowAdminButtons(true);
 
   };
-
-  // const handleGroupAdminClick = async () => {
-
-  //     const result = await dispatch(callLoginUserAPI());
-
-  //     console.log("로그인 유저 권한확인222==============", result.status);
-
-
-  //     if (result && result.status === 200) {
-  //       setShowAdminButtons(true);
-  //     }
-
-  //     if (result && result.status === 403) {
-  //       alert("관리자 권한이 필요합니다. 인사관리 담당자에게 문의하세요.");
-  //       setShowAdminButtons(false);
-  //     }
-  // };
 
   // 그룹삭제버튼 클릭시 보이는 삭제화면
 
@@ -501,12 +484,15 @@ function Group() {
   const createUserListStructure = (userList) => {
     console.log("유저코드확인===", userList);
 
-    return userList.map((user, index) => ({
-      key: index,
-      name: user.userName,
-      userCode: user.userCode,
-      children: [],
-    }));
+    return userList
+      .filter((user) => user.userStatus === "Y")
+      .map((user, index) => ({
+        key: index,
+        name: user.userName,
+        userCode: user.userCode,
+        userStatus: user.userStatus,
+        children: [],
+      }));
   };
 
   const createTeamListStructure = (teamList) => {
@@ -520,39 +506,57 @@ function Group() {
     }));
   };
 
-  const data = Array.isArray(groupAndTeam)
-    ? [
-        {
-          name: "EveryWare",
-          children: groupAndTeam.map((group, index) => ({
-            key: index,
-            name: group.deptName,
-            deptCode: group.deptCode,
-            children: group.teamList
-              ? createTeamListStructure(group.teamList)
-              : [],
-          })),
-        },
-        console.log("부서코드확인===", groupAndTeam),
-      ]
-    : [];
+  const filteredGroupAndTeam = groupAndTeam
+    .map((group) => ({
+      ...group,
+      teamList: group.teamList
+        .map((team) => ({
+          ...team,
+          userList: team.userList.filter((user) => user.userStatus === "Y"),
+        }))
+        .filter((team) => team.userList.length > 0),
+    }))
+    .filter((group) => group.teamList.length > 0);
+
+  const data =
+    filteredGroupAndTeam.length > 0
+      ? [
+          {
+            name: "EveryWare",
+            children: groupAndTeam.map((group, index) => ({
+              key: index,
+              name: group.deptName,
+              deptCode: group.deptCode,
+              children: group.teamList
+                ? createTeamListStructure(group.teamList)
+                : [],
+            })),
+          },
+          console.log("부서코드확인===", groupAndTeam),
+        ]
+      : [];
+
+  console.log("대이타안의값확인=====", data);
 
   return (
     <div id="wrap">
       <section>
-        <article>
+        <article className="wrap_group">
           <h2>조직도</h2>
           <div>
             <button
               href="writingNote.html"
               className="btn"
-              onClick={handleGroupAdminClick}
+              onClick={(event) => {
+                handleGroupAdminClick(event);
+                setGroupShow(false);
+              }}
             >
               새그룹
             </button>
           </div>
           <ul className="subList">
-            <li>
+            <li className="subListText">
               <div>
                 <img src="/common/organization.png" alt="" />
                 <a href="/group" onClick={() => setGroupShow(true)}>
@@ -564,14 +568,11 @@ function Group() {
               <div>
                 <img src="/common/group.png" alt="" />
                 <button
-                  style={{
-                    border: "none",
-                    background: "transparent",
-                    fontSize: "17px",
-                    cursor: "pointer",
-                  }}
                   type="button"
-                  onClick={handleGroupAdminClick}
+                  onClick={(event) => {
+                    handleGroupAdminClick(event);
+                    setGroupShow(false);
+                  }}
                 >
                   그룹관리
                 </button>
@@ -586,12 +587,12 @@ function Group() {
           <div className="subject">
             <strong>조직도</strong>
             <div className="line">
-              <div className="search_box">
+              {/* <div className="search_box">
                 <input
                   type="search"
                   placeholder="보낸사람, 제목을 입력하세요."
                 />
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -599,7 +600,7 @@ function Group() {
             <div className="group_wrap2">
               {/* <!-- <div class="group">&lt;조직&gt;</div> --> */}
 
-              <div className="group_content">
+              <div className="group_contents">
                 <div className="group_search">
                   <input
                     type="search"
@@ -864,8 +865,12 @@ function Group() {
                             <strong>이메일</strong>
                             <span>{GroupUser?.email}</span>
                           </li>
+                          {/* <li>
+                                                        <strong>퇴사</strong>
+                                                        <span>{GroupUser?.userst}</span>
+                                                    </li> */}
                         </ul>
-                        <img src="/common/personSample.png" alt="" />
+                        <img src={GroupUser?.imgName} alt="" />
                       </div>
                     </div>
                   )}
@@ -879,11 +884,11 @@ function Group() {
                         <li>
                           <strong>사원리스트</strong>
                           <div>
-                            {team?.userList?.map((userList) => (
-                              <span key={userList.userCode}>
-                                {userList?.userName}
-                              </span>
-                            ))}
+                            {team?.userList
+                              ?.filter((user) => user.userStatus === "Y")
+                              .map((user) => (
+                                <span key={user.userCode}>{user.userName}</span>
+                              ))}
                           </div>
                         </li>
                       </ul>
