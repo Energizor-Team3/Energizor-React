@@ -18,6 +18,9 @@ import TemporaryList from "./pages/board/TemporaryList";
 import SearchBoard from "./pages/board/List";
 import TempBoardRegister from "./pages/board/TempRegister";
 import Group from "./pages/group/Group";
+import GroupAdmin from "./pages/group/GroupAdmin";
+import GroupDetail from './pages/group/GroupDetail';
+
 import Message from "./pages/message/SendMessage";
 import ApprovalMain from "./pages/approval/ApprovalMain";
 import BusinessTrip from "./pages/approval/BusinessTrip";
@@ -56,7 +59,7 @@ import FilePopup from "./pages/approval/FilePopup";
 import CalendarSettingedit from "./pages/calendar/CalendarSettingedit";
 import ProjectAdd from "./pages/project/projectAdd"
 
- 
+
 import SendMessage from "./pages/message/SendMessage";
 import RecMessage from "./pages/message/RecMessage";
 import RecMessageStorage from "./pages/message/RecMessageStorage";
@@ -105,6 +108,8 @@ function App() {
 
             {/* 조직도 */}
             <Route path="/group" element={<Group />} />
+            <Route path='/group-admin' element={<GroupAdmin />} />
+            <Route path='/group-detail' element={<GroupDetail />} />
 
             {/* 쪽지 */}
             <Route path="/message" element={<Message />} />

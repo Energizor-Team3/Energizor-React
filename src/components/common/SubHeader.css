@@ -87,12 +87,6 @@ header h1 img {
 
 /* 서브헤더부분 */
 
-
-/* 서브헤더부분 */
-
-
-
-
 #root {
   width: 100%;
 }
@@ -195,8 +189,6 @@ article .subList .subListText > a:hover {
   font-size: 24px;
   border: 1px solid black;
   border-bottom: transparent;
-  /* padding: 20px 30px; */
-  /* text-align: center; */
   line-height: 58px;
   width: 220px;
   text-align: center;

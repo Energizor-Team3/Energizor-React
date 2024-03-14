@@ -10,7 +10,8 @@ export const GET_GROUP_Organization = 'group/GET_GROUP_Organization';
 
 // 액션생성자 생성
 const actions = createActions( {
-  [GET_GROUP_Organization]: () => {}
+  [GET_GROUP_Organization]: () => {},
+
 });
 
 
@@ -19,8 +20,6 @@ const actions = createActions( {
 const groupReducer = handleActions(
   {
     [GET_GROUP_Organization]: (state, { payload }) => {
-
-
       return payload;
     }
   },

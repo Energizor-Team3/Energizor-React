@@ -1,0 +1,130 @@
+.group_insert {
+  margin-top: 50px;
+  display: flex;
+}
+
+.group_insert hr {
+  margin: 0 100px;
+}
+
+.group_insert .group_dept {
+  margin-top: 46px;
+}
+
+.group_insert label {
+  width: 50px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.group_insert input {
+  margin-left: 10px;
+  width: 260px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid rgb(100, 100, 100);
+  text-indent: 10px;
+}
+.dept_team_view {
+  width: 320px;
+  height: 360px;
+  border: 1px solid rgb(116, 116, 116);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.remove_btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  background-color: #2cabff;
+  margin-left: 5px;
+}
+
+.remove_btn:hover {
+  color: rgb(255, 0, 0);
+}
+
+
+
+.dept_team_view > li {
+  margin: 6px;
+  display: flex;
+  height: 26px;
+  align-items: center;
+}
+
+.dept_team_btn {
+  background: #94a9ff;
+  border: none;
+  width: 100px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid rgb(89, 128, 255);
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 200ms;
+}
+.dept_team_btn:hover {
+  color: white;
+}
+
+/* 그룹수정 */
+
+.group_update,
+.group_delete {
+  margin-top: 40px;
+}
+
+.group_update p,
+.group_delete p {
+  margin-bottom: 20px;
+  border: 1px dotted black;
+  padding: 8px 5px;
+  text-align: center;
+  border-radius: 6px;
+  color: rgb(94, 94, 94);
+}
+
+.group_update label,
+.group_delete label {
+  width: 80px;
+  display: inline-block;
+}
+
+.group_update li strong,
+.group_delete li strong {
+  width: 80px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.group_update ul,
+.group_delete ul{
+  height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.group_update hr,
+.group_delete hr{
+  margin: 8px 0;
+}
+
+.group_update li input {
+  margin-left: 10px;
+  width: 200px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid rgb(95, 95, 95);
+  text-indent: 10px;
+  font-size: 14px;
+}
