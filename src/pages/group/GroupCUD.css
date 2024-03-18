@@ -72,6 +72,8 @@
   cursor: pointer;
   transition: 200ms;
 }
+
+
 .dept_team_btn:hover {
   color: white;
 }
