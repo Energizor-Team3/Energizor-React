@@ -17,6 +17,8 @@
   margin-bottom: 20px;
 }
 
+
+
 .group_insert input {
   margin-left: 10px;
   width: 260px;
@@ -72,6 +74,8 @@
   cursor: pointer;
   transition: 200ms;
 }
+
+
 .dept_team_btn:hover {
   color: white;
 }

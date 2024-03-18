@@ -36,15 +36,13 @@ function GroupInsert({ allGroup , setUpdateCount, setSearchOpen}) {
     setDepts(depts.filter((_, index) => index !== indexToRemove));
   };
 
-  console.log("올크룹2222===", allGroup);
-
   // 부서추가버튼 클릭시 insert 코드
   const insertDept = (deptNames) => {
   
     deptNames.forEach(inputdeptName => {
       console.log(`Inserting department: ${inputdeptName}`);
       dispatch(callDeptInsertAPI(inputdeptName));
-      console.log("로운 부서!!", inputdeptName); 
+      console.log("새로운 부서!!", inputdeptName); 
     });
   
   // 모든 부서 이름을 하나의 문자열로 결합
@@ -195,7 +193,7 @@ function GroupInsert({ allGroup , setUpdateCount, setSearchOpen}) {
           {teams.map((team, index) => (
             <li key={index}>
               {team}
-              <button onClick={() => removeTeam(index)}>X</button>
+              <button className='remove_btn' onClick={() => removeTeam(index)}>X</button>
             </li>
           ))}
         </ul>
